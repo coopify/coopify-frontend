@@ -1,9 +1,10 @@
+
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie';
 import Authenticator from './fake-authenticator';
-import { attemptLoginAction } from '../actions/user';
+import { attemptSignUpAction } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -13,7 +14,7 @@ export default @connect(state => ({
   loggedUser: _.get(state.userReducer, 'user', {}),
 }))
 
-class Login extends React.Component {
+class Signup extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
@@ -42,42 +43,65 @@ class Login extends React.Component {
       e.preventDefault();
     }
     const { dispatch } = this.props;
-    const loginData = new FormData(e.target);
-    const username = loginData.get('username');
-    const password = loginData.get('password');
+    const signUpData = new FormData(e.target);
 
-    const userLoginData = 
+    const name = signUpData.get('name');
+    const email = signUpData.get('email');
+    const password = signUpData.get('password');
+    const repeatedPassword = signUpData.get('repeatPassword');
+
+    const userSignUpData = 
     {
-      email: username,
-      password: password
+      name: name,
+      email: email,
+      password: password,
+      repeatedPassword: repeatedPassword
     };
 
-    dispatch(attemptLoginAction(userLoginData));
+    dispatch(attemptSignUpAction(userSignUpData));
   }
 
   render() {
     const {loading} = this.props
     return (
-      <GuestLayout>
-        <div className="columns is-centered p-t-xl p-r-md p-l-md">
+        <GuestLayout>
+                   <div className="columns is-centered p-t-xl p-r-md p-l-md">
           <div className="column is-half">
             <div className="box">
-              <h1 className="title">Login</h1>
+              <h1 className="title">Sign Up</h1>
               <form onSubmit={e => this.handleSubmit(e)}>
-                <div className="field">
+
+
+                 <div className="field">
                   <label className="label" htmlFor="username">
-                    username
+                    Name
                     <div className="control">
                       <input
-                        id="username"
-                        name="username"
+                        id="name"
+                        name="name"
                         className={`input`}
                         type="text"
-                        placeholder="Username input"
+                        placeholder="Name..."
                       />
                     </div>
                   </label>
                 </div>
+
+                <div className="field">
+                  <label className="label" htmlFor="username">
+                    Email
+                    <div className="control">
+                      <input
+                        id="email"
+                        name="email"
+                        className={`input`}
+                        type="text"
+                        placeholder="Email..."
+                      />
+                    </div>
+                  </label>
+                </div>
+
                 <div className="field">
                   <label className="label" htmlFor="password">
                     Password
@@ -87,7 +111,22 @@ class Login extends React.Component {
                         name="password"
                         className={`input`}
                         type="password"
-                        placeholder="********"
+                        placeholder="Password..."
+                      />
+                    </div>
+                  </label>
+                </div>
+
+                 <div className="field">
+                  <label className="label" htmlFor="username">
+                    Repeat Password
+                    <div className="control">
+                      <input
+                        id="repeatPassword"
+                        name="repeatPassword"
+                        className={`input`}
+                        type="password"
+                        placeholder="Repeat Password..."
                       />
                     </div>
                   </label>
@@ -96,16 +135,17 @@ class Login extends React.Component {
                   <div className="control">
                   {loading ?
                   <Loader type="Puff" color="#00BFFF" height="100" width="100"/> :  
-                    <button type="submit" className="button is-link">Login</button>}
+                    <button type="submit" className="button is-link">Sign Up</button>}
                   </div>
                 </div>
               </form>
             </div>
           </div>
         </div>
-      </GuestLayout>
+        </GuestLayout>
+
     );
   }
 }
 
-export { Login }
+export { Signup }

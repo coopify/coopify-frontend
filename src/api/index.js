@@ -14,3 +14,19 @@ export function logInAPICall(payload) {
             data: e.response
         }));
 }
+
+export function signUpAPICall(payload) {
+  return axios.post(
+      'http://localhost:3001/api/users/signup', //GET THE ROUTE FROM A STATIC VAR OR SIMILAR
+      payload).
+      then((response) => {
+        console.log(response);
+        return {       
+          status: response.status,
+          data: response.data,
+        }
+      }).catch((e) => ({
+          status: e.response.status,
+          data: e.response
+      }));
+}

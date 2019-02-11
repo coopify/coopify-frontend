@@ -12,32 +12,34 @@ export const user = (state = initialUserState, action) => {
 
     case LOGIN_SUCCESS:
       return _.assignIn({}, state, {
-        loading: false,
-        user: action.data.user,
+        loading: true,
+        user: action.data.user.email,
+        error: ''
       });
     case LOGIN_ATTEMPT:
       return _.assignIn({}, state, {
-        loading: true,
+        loading: true
     });
     case LOGIN_FAILURE:
       return _.assignIn({}, state, {
         loading: false,
-        error: action.data.message
+        error: action.data.data.message
       });
 
       case SIGNUP_SUCCESS:
       return _.assignIn({}, state, {
         loading: false,
-        user: action.data.user,
+        user: action.data.user.email,
+        error: ''
       });
     case SIGNUP_ATTEMPT:
       return _.assignIn({}, state, {
-        loading: true,
+        loading: true
     });
     case SIGNUP_FAILURE:
       return _.assignIn({}, state, {
         loading: false,
-        error: action.data.message
+        error: action.data.data.message
       });
 
     default:

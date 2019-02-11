@@ -8,24 +8,29 @@ import { attemptSignUpAction } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import Loader from 'react-loader-spinner'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default @connect(state => ({
-  loggedUser: _.get(state.userReducer, 'user', {}),
+  loggedUser: state.user,
+  error: state.error,
+  loading: state.loading
 }))
 
 class Signup extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    error: PropTypes.string
   };
 
   static defaultProps = {
     dispatch: () => {
     },
     loggedUser: {},
-    loading: false
+    loading: false,
+    error: ''
   };
 
   onLoginRedirectUrl = '/dashboard';
@@ -34,8 +39,18 @@ class Signup extends React.Component {
     super(props);
     this.state = {
       loggedUser: {},
-      loading: false
+      loading: false,
+      error: ''
     };
+  }
+
+  notify(message, isError){
+    if(isError){
+      toast.error(message);
+    }
+    else{
+      toast.success(message)
+    }
   }
 
   handleSubmit(e) {
@@ -62,12 +77,16 @@ class Signup extends React.Component {
   }
 
   render() {
-    const {loading} = this.props
+    const {error, loggedUser} = this.props
+    if(error.length > 0) this.notify(error, true)
+    if(loggedUser.length > 0) this.notify("El usuario se ha registrado exitosamente, se enviara un mail de confirmacion en breve.", false)
+
     return (
         <GuestLayout>
                    <div className="columns is-centered p-t-xl p-r-md p-l-md">
           <div className="column is-half">
             <div className="box">
+
               <h1 className="title">Sign Up</h1>
               <form onSubmit={e => this.handleSubmit(e)}>
 
@@ -133,13 +152,12 @@ class Signup extends React.Component {
                 </div>
                 <div className="field is-grouped">
                   <div className="control">
-                  {loading ?
-                  <Loader type="Puff" color="#00BFFF" height="100" width="100"/> :  
-                    <button type="submit" className="button is-link">Sign Up</button>}
+                    <button type="submit" className="button is-link">Sign Up</button>
                   </div>
                 </div>
               </form>
             </div>
+            <ToastContainer autoClose={3000}/>
           </div>
         </div>
         </GuestLayout>

@@ -9,8 +9,11 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import LoadingScreen from 'react-loading-screen'
-
+import 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/style.css'
+import '../css/form-elements.css'
+import {Link} from 'react-router-dom'
 
 export default @connect(state => ({
   loggedUser: state.user, //el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
@@ -83,13 +86,6 @@ class Login extends React.Component {
           <div className="column is-half">
             <div className="box">
 
-            <LoadingScreen
-              loading={loading}
-              bgColor='#f1f1f1'
-              spinnerColor='#9ee5f8'
-              textColor='#676767'
-              logoSrc='/logo.png'
-              text= {"El usuario " + loggedUser + " se ha logueado correctamente, aguarde un momento"}> 
 
               <h1 className="title">Login</h1>
               <form onSubmit={e => this.handleSubmit(e)}>
@@ -127,7 +123,27 @@ class Login extends React.Component {
                   </div>
                 </div>
               </form>
-              </LoadingScreen>
+
+                <div className="social-login">
+
+                      <div className="d-flex">
+                          <hr className="my-auto flex-grow-1"/>
+                          <div className="px-4">or login with:</div>
+                          <hr className="my-auto flex-grow-1"/>
+                      </div>
+
+                <div className="social-login-buttons">
+                  <a className="btn btn-link-1 btn-link-1-facebook" href="#">
+                    <i className="fa fa-facebook"></i> Facebook
+                  </a>
+                  <a className="btn btn-link-1 btn-link-1-google-plus" href="#">
+                    <i className="fa fa-google-plus"></i> Google
+                  </a>
+                </div>
+              </div>
+              <div>
+                Don't have an account? <Link to='/signup'>Register here</Link>
+                </div>
             </div>
             <ToastContainer autoClose={3000}/>
           </div>

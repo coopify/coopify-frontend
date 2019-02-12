@@ -7,7 +7,7 @@ export function logInAPICall(payload) {
         then((response) => {
           return {
             status: response.status,
-            data: response.data.data,
+            data: response.data,
           }
         }).catch((e) => ({
             status: e.response.status,

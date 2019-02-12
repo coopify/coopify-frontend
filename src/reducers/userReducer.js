@@ -9,16 +9,17 @@ export const SIGNUP_FAILURE = 'SIGNUP_FAILURE'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
-
+    
     case LOGIN_SUCCESS:
       return _.assignIn({}, state, {
-        loading: true,
+        loading: false,
         user: action.data.user.email,
         error: ''
       });
     case LOGIN_ATTEMPT:
       return _.assignIn({}, state, {
-        loading: true
+        loading: true,
+        error: ''
     });
     case LOGIN_FAILURE:
       return _.assignIn({}, state, {
@@ -34,7 +35,8 @@ export const user = (state = initialUserState, action) => {
       });
     case SIGNUP_ATTEMPT:
       return _.assignIn({}, state, {
-        loading: true
+        loading: true,
+        error: ''
     });
     case SIGNUP_FAILURE:
       return _.assignIn({}, state, {

@@ -9,6 +9,8 @@ import './resources/css/global.css';
 
 const appInitialState = {};
 
+global.API_URL = 'http://localhost:3001' //TODO: CHANGE WHEN DEPLOYING TO DEV OR STAGE MAYBE A SWITCH AND HAVING MULTIPLE CONFIGS?
+
 export default class Client {
   constructor({ addPlugin }) {
     const reduxClient = new ReduxClient({ addPlugin });

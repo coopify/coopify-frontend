@@ -1,29 +1,23 @@
+
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie';
 import Authenticator from './fake-authenticator';
-import { attemptLoginAction } from '../actions/user';
+import { attemptSignUpAction } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/style.css'
-import '../css/form-elements.css'
-import {Link} from 'react-router-dom'
-import 'font-awesome/css/font-awesome.min.css';
 
 export default @connect(state => ({
-  loggedUser: state.user, //el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
+  loggedUser: state.user,
   error: state.error,
   loading: state.loading
 }))
 
-class Login extends React.Component {
-
+class Signup extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
@@ -64,46 +58,69 @@ class Login extends React.Component {
       e.preventDefault();
     }
     const { dispatch } = this.props;
-    const loginData = new FormData(e.target);
-    const username = loginData.get('username');
-    const password = loginData.get('password');
+    const signUpData = new FormData(e.target);
 
-    const userLoginData = 
+    const name = signUpData.get('name');
+    const email = signUpData.get('email');
+    const password = signUpData.get('password');
+    const repeatedPassword = signUpData.get('repeatPassword');
+
+    const userSignUpData = 
     {
-      email: username,
-      password: password
+      name: name,
+      email: email,
+      password: password,
+      repeatedPassword: repeatedPassword
     };
 
-    dispatch(attemptLoginAction(userLoginData));
+    dispatch(attemptSignUpAction(userSignUpData));
   }
 
   render() {
-    const { loading, error, loggedUser } = this.props
+    const {error, loggedUser} = this.props
     if(error.length > 0) this.notify(error, true)
+    if(loggedUser.length > 0) this.notify("El usuario se ha registrado exitosamente, se enviara un mail de confirmacion en breve.", false)
 
     return (
-      <GuestLayout>
-        <div className="columns is-centered p-t-xl p-r-md p-l-md">
+        <GuestLayout>
+                   <div className="columns is-centered p-t-xl p-r-md p-l-md">
           <div className="column is-half">
             <div className="box">
 
-
-              <h1 className="title">Login</h1>
+              <h1 className="title">Sign Up</h1>
               <form onSubmit={e => this.handleSubmit(e)}>
+
+
+                 <div className="field">
+                  <label className="label" htmlFor="username">
+                    Name
+                    <div className="control">
+                      <input
+                        id="name"
+                        name="name"
+                        className={`input`}
+                        type="text"
+                        placeholder="Name..."
+                      />
+                    </div>
+                  </label>
+                </div>
+
                 <div className="field">
                   <label className="label" htmlFor="username">
                     Email
                     <div className="control">
                       <input
-                        id="username"
-                        name="username"
+                        id="email"
+                        name="email"
                         className={`input`}
                         type="text"
-                        placeholder="Username input"
+                        placeholder="Email..."
                       />
                     </div>
                   </label>
                 </div>
+
                 <div className="field">
                   <label className="label" htmlFor="password">
                     Password
@@ -113,45 +130,40 @@ class Login extends React.Component {
                         name="password"
                         className={`input`}
                         type="password"
-                        placeholder="********"
+                        placeholder="Password..."
+                      />
+                    </div>
+                  </label>
+                </div>
+
+                 <div className="field">
+                  <label className="label" htmlFor="username">
+                    Repeat Password
+                    <div className="control">
+                      <input
+                        id="repeatPassword"
+                        name="repeatPassword"
+                        className={`input`}
+                        type="password"
+                        placeholder="Repeat Password..."
                       />
                     </div>
                   </label>
                 </div>
                 <div className="field is-grouped">
-                  <div className="control"> 
-                    <button type="submit" className="button is-link">Login</button>
+                  <div className="control">
+                    <button type="submit" className="button is-link">Sign Up</button>
                   </div>
                 </div>
               </form>
-
-                <div className="social-login">
-
-                      <div className="d-flex">
-                          <hr className="my-auto flex-grow-1"/>
-                          <div className="px-4">or login with:</div>
-                          <hr className="my-auto flex-grow-1"/>
-                      </div>
-
-                <div className="social-login-buttons">
-                  <button className="btn btn-link-1 btn-link-1-facebook">
-                    <i className="fa fa-facebook"></i> Facebook
-                  </button>
-                  <button className="btn btn-link-1 btn-link-1-google-plus">
-                    <i className="fa fa-google-plus"></i> Google
-                  </button>
-                </div>
-              </div>
-              <div>
-                Don't have an account? <Link to='/signup'>Register here</Link>
-                </div>
             </div>
             <ToastContainer autoClose={3000}/>
           </div>
         </div>
-      </GuestLayout>
+        </GuestLayout>
+
     );
   }
 }
 
-export { Login }
+export { Signup }

@@ -65,7 +65,7 @@ export default class Header extends PureComponent {
                 Image Optimization
               </Link>
               <Link className="navbar-item" to="/login" onClick={() => this.closeMenuBar()}>
-                Auth
+                LogIn
               </Link>
               <Link className="navbar-item" to="/contribute" onClick={() => this.closeMenuBar()}>
                 Contribute

@@ -43,10 +43,10 @@ export default () => (
       <div className="hero-body">
         <div className="container">
           <h1 className="title">
-            Features
+            Coopify
           </h1>
           <h2 className="subtitle">
-            There are no limits for creativity
+          Service exchange platform
           </h2>
         </div>
       </div>
@@ -54,12 +54,10 @@ export default () => (
     <section className="m-t-lg">
       <div className="container p-l-md p-r-md">
         <h4 className="title is-4">
-          ReactPWA is configurable to the core.
-          You can add plugins as you like to extend the features or
-          you can use a bare minimum to start from scratch.
+          Soon you will have access to the functionalities of the Coopify platform.
         </h4>
         <div className="columns">
-          <Column
+          {/* <Column
             title="Babel 7"
             description="Already packed with the latest babel to achieve great performance and lower bundle size."
             link="https://babeljs.io/blog/2018/08/27/7.0.0"
@@ -113,7 +111,7 @@ export default () => (
             title="Zero Configuration"
             description="You can also start minimal with react-pwa. You just need one file: `src/routes.js` and nothing more."
             link=""
-          />
+          /> */}
         </div>
       </div>
     </section>

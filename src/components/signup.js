@@ -10,6 +10,14 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/style.css'
+import '../css/form-elements.css'
+import { Link } from 'react-router-dom'
+import 'font-awesome/css/font-awesome.min.css';
+import { FACEBOOK, GOOGLE } from '../constants/constants';
+import { getUrlSocialAPICall } from '../api';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -74,6 +82,23 @@ class Signup extends React.Component {
     };
 
     dispatch(attemptSignUpAction(userSignUpData));
+  }
+
+   async handleSocialSignUp(e) {
+    const socialSelected = e.target.value;
+    const response = await getUrlSocialAPICall(socialSelected);
+    const url = response.data;
+    console.log(url);
+    switch (socialSelected) {
+      case FACEBOOK:
+        //dispatch(attemptSocialSignUpAction(FACEBOOK));
+        
+        break;
+
+        case GOOGLE:
+        //dispatch(attemptSocialSignUpAction(GOOGLE));
+        break;
+    }
   }
 
   render() {
@@ -156,6 +181,27 @@ class Signup extends React.Component {
                   </div>
                 </div>
               </form>
+              <div className="social-login">
+
+                <div className="d-flex">
+                    <hr className="my-auto flex-grow-1"/>
+                    <div className="px-4">or register an account with:</div>
+                    <hr className="my-auto flex-grow-1"/>
+                </div>
+
+                <div className="social-login-buttons">
+                <button className="btn btn-link-1 btn-link-1-facebook" value="facebook" onClick={e => this.handleSocialSignUp(e)}>
+                <i className="fa fa-facebook"></i> Facebook
+                </button>
+                <button className="btn btn-link-1 btn-link-1-google-plus" value="google" onClick={e => this.handleSocialSignUp(e)}>
+                <i className="fa fa-google-plus"></i> Google
+                </button>
+                </div>
+                </div>
+                <div>
+                Already have an account? <Link to='/login'>Login here</Link>
+                </div>
+
             </div>
             <ToastContainer autoClose={3000}/>
           </div>

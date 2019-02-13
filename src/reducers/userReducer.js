@@ -6,6 +6,7 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 export const SIGNUP_ATTEMPT = 'SIGNUP_ATTEMPT'
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS'
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE'
+export const SOCIAL_SIGNUP_ATTEMPT = 'SOCIAL_SIGNUP_ATTEMPT'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {

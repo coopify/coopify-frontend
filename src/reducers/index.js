@@ -1,4 +1,4 @@
-import { user, initialUserState, LOGIN_SUCCESS, LOGIN_FAILURE, LOGIN_ATTEMPT, SIGNUP_ATTEMPT, SIGNUP_SUCCESS, SIGNUP_FAILURE } from './userReducer';
+import { user, initialUserState, LOGIN_SUCCESS, LOGIN_FAILURE, LOGIN_ATTEMPT, SIGNUP_ATTEMPT, SIGNUP_SUCCESS, SIGNUP_FAILURE, SOCIAL_SIGNUP_ATTEMPT } from './userReducer';
 //import { serviceReducers, initialServiceState } from './serviceReducer';
 
 const AppReducers = {
@@ -17,7 +17,8 @@ const Actions = {
     LOGIN_FAILURE,
     SIGNUP_ATTEMPT,
     SIGNUP_SUCCESS,
-    SIGNUP_FAILURE
+    SIGNUP_FAILURE,
+    SOCIAL_SIGNUP_ATTEMPT
 }
 
 export {
@@ -30,5 +31,6 @@ export {
     LOGIN_FAILURE,
     SIGNUP_ATTEMPT,
     SIGNUP_SUCCESS,
-    SIGNUP_FAILURE
+    SIGNUP_FAILURE,
+    SOCIAL_SIGNUP_ATTEMPT
 }

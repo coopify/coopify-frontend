@@ -9,3 +9,8 @@ export const attemptSignUpAction = (payload) => ({
     type: Actions.SIGNUP_ATTEMPT,
     payload
 });
+
+export const attemptSocialSignUpAction = (payload) => ({
+    type: Actions.SOCIAL_SIGNUP_ATTEMPT,
+    payload
+});

@@ -1,5 +1,5 @@
 import { takeEvery, all } from 'redux-saga/effects';
-import { loginAsync, signUpAsync } from './user'
+import { loginAsync, signUpAsync, socialSignUp } from './user'
 
 export default function* rootSaga() {
   yield all(

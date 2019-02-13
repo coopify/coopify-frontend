@@ -29,3 +29,17 @@ export function signUpAPICall(payload) {
           data: e.response
       }));
 }
+
+export function getUrlSocialAPICall(payload) {
+  return axios.get(
+      `${global.API_URL}/api/users/${payload}URL`).
+      then((response) => {
+        return {       
+          status: response.status,
+          data: response.data.url
+        }
+      }).catch((e) => ({
+        status: response.status,
+        data: response.data.data.message
+      }));
+}

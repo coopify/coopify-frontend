@@ -39,6 +39,11 @@ export const user = (state = initialUserState, action) => {
         loading: true,
         error: ''
     });
+    case SOCIAL_SIGNUP_ATTEMPT:
+    return _.assignIn({}, state, {
+      loading: true,
+      error: ''
+  });
     case SIGNUP_FAILURE:
       return _.assignIn({}, state, {
         loading: false,

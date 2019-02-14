@@ -88,17 +88,7 @@ class Signup extends React.Component {
     const socialSelected = e.target.value;
     const response = await getUrlSocialAPICall(socialSelected);
     const url = response.data;
-    console.log(url);
-    switch (socialSelected) {
-      case FACEBOOK:
-        //dispatch(attemptSocialSignUpAction(FACEBOOK));
-        
-        break;
-
-        case GOOGLE:
-        //dispatch(attemptSocialSignUpAction(GOOGLE));
-        break;
-    }
+    window.location = url;
   }
 
   render() {

@@ -43,3 +43,22 @@ export function getUrlSocialAPICall(payload) {
         data: response.data.data.message
       }));
 }
+
+
+export function socialSignUpAPICall(payload) { //TODO ver el endpoint en el backend exchange...
+  
+  const code = payload;
+  
+  return axios.post(
+      `${global.API_URL}/api/users/${payload.provider}/signup`,
+    code).
+      then((response) => {
+        return {       
+          status: response.status,
+          data: response.data
+        }
+      }).catch((e) => ({
+        status: e.status,
+        data: e.data
+      }));
+}

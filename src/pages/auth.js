@@ -1,6 +1,7 @@
 import LoginImage from '../resources/img/seo/login.png';
 import { Login } from '../components/login'
 import { Signup } from '../components/signup'
+import{ FacebookSignUp } from '../components/facebookSignUp';
 
 export default [
   {
@@ -17,6 +18,16 @@ export default [
     path: '/signup',
     exact: true,
     component: Signup,
+    seo: {
+      title: 'Auth | ReactPWA Demo',
+      description: 'Implementing Auth with ReactPWA is simple. Check out this fake auth example for more details',
+      image: LoginImage,
+    },
+  },
+  {
+    path: '/facebook/signup',
+    exact: true,
+    component: FacebookSignUp,
     seo: {
       title: 'Auth | ReactPWA Demo',
       description: 'Implementing Auth with ReactPWA is simple. Check out this fake auth example for more details',

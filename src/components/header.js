@@ -30,7 +30,8 @@ export default class Header extends PureComponent {
         <nav className="navbar" role="navigation" aria-label="main navigation">
           <div className="container">
             <div className="navbar-brand">
-              <Link to="/" className=" navbar-item"><strong>ReactPWA</strong></Link>
+              {/* <Link to="/" className=" navbar-item"><strong>ReactPWA</strong></Link> */}
+              <Link to="/" className=" navbar-item"><strong>Coopify</strong></Link>
               <button
                 type="button"
                 onClick={e => this.toggleMenuBar(e)}
@@ -52,7 +53,10 @@ export default class Header extends PureComponent {
               <Link className="navbar-item" to="/home" onClick={() => this.closeMenuBar()}>
                 Home
               </Link>
-              <Link className="navbar-item" to="/global-local-css" onClick={() => this.closeMenuBar()}>
+              <Link className="navbar-item" to="/login" onClick={() => this.closeMenuBar()}>
+                LogIn
+              </Link>
+              {/* <Link className="navbar-item" to="/global-local-css" onClick={() => this.closeMenuBar()}>
                 Global & Local CSS
               </Link>
               <Link className="navbar-item" to="/typescript-counter" onClick={() => this.closeMenuBar()}>
@@ -63,20 +67,17 @@ export default class Header extends PureComponent {
               </Link>
               <Link className="navbar-item" to="/image-optimization" onClick={() => this.closeMenuBar()}>
                 Image Optimization
-              </Link>
-              <Link className="navbar-item" to="/login" onClick={() => this.closeMenuBar()}>
-                LogIn
-              </Link>
-              <Link className="navbar-item" to="/contribute" onClick={() => this.closeMenuBar()}>
+              </Link> */}
+              {/* <Link className="navbar-item" to="/contribute" onClick={() => this.closeMenuBar()}>
                 Contribute
-              </Link>
-              <a
+              </Link> */}
+              {/* <a
                 className="navbar-item has-text-danger"
                 href="https://www.reactpwa.com"
                 onClick={() => this.closeMenuBar()}
               >
                 Visit ReactPWA.com
-              </a>
+              </a> */}
             </div>
           </div>
         </nav>

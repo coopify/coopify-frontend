@@ -24,7 +24,7 @@ export default @connect(state => ({
   loading: state.loading
 }))
 
-class FacebookSignUp extends React.Component {
+class GoogleSignUp extends React.Component {
 
     componentDidMount(){
         this.verifyAuthCode();
@@ -44,8 +44,6 @@ class FacebookSignUp extends React.Component {
     loading: true,
     error: ''
   };
-
-  onLoginRedirectUrl = '/dashboard';
 
   constructor(props) {
     super(props);
@@ -93,4 +91,4 @@ class FacebookSignUp extends React.Component {
   }
 }
 
-export { FacebookSignUp }
+export { GoogleSignUp }

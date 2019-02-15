@@ -10,11 +10,20 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/style.css'
+import '../css/form-elements.css'
+import { Link } from 'react-router-dom'
+import 'font-awesome/css/font-awesome.min.css';
+import { FACEBOOK, GOOGLE } from '../constants/constants';
+import { getUrlSocialAPICall } from '../api';
 
 export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
-  loading: state.loading
+  loading: state.loading,
+  userDidLog: state.userDidLog
 }))
 
 class Signup extends React.Component {
@@ -22,7 +31,8 @@ class Signup extends React.Component {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
-    error: PropTypes.string
+    error: PropTypes.string,
+    userDidLog: PropTypes.bool
   };
 
   static defaultProps = {
@@ -30,7 +40,8 @@ class Signup extends React.Component {
     },
     loggedUser: {},
     loading: false,
-    error: ''
+    error: '',
+    userDidLog: false
   };
 
   onLoginRedirectUrl = '/dashboard';
@@ -40,7 +51,8 @@ class Signup extends React.Component {
     this.state = {
       loggedUser: {},
       loading: false,
-      error: ''
+      error: '',
+      userDidLog: false
     };
   }
 
@@ -76,10 +88,17 @@ class Signup extends React.Component {
     dispatch(attemptSignUpAction(userSignUpData));
   }
 
+   async handleSocialSignUp(e) {
+    const socialSelected = e.target.value;
+    const response = await getUrlSocialAPICall(socialSelected);
+    const url = response.data;
+    window.location = url;
+  }
+
   render() {
-    const {error, loggedUser} = this.props
+    const {error, userDidLog} = this.props
     if(error.length > 0) this.notify(error, true)
-    if(loggedUser.length > 0) this.notify("El usuario se ha registrado exitosamente, se enviara un mail de confirmacion en breve.", false)
+    if(userDidLog) this.notify("El usuario se ha registrado exitosamente, se enviara un mail de confirmacion en breve.", false)
 
     return (
         <GuestLayout>
@@ -156,6 +175,27 @@ class Signup extends React.Component {
                   </div>
                 </div>
               </form>
+              <div className="social-login">
+
+                <div className="d-flex">
+                    <hr className="my-auto flex-grow-1"/>
+                    <div className="px-4">or register an account with:</div>
+                    <hr className="my-auto flex-grow-1"/>
+                </div>
+
+                <div className="social-login-buttons">
+                <button className="btn btn-link-1 btn-link-1-facebook" value="facebook" onClick={e => this.handleSocialSignUp(e)}>
+                <i className="fa fa-facebook"></i> Facebook
+                </button>
+                <button className="btn btn-link-1 btn-link-1-google-plus" value="google" onClick={e => this.handleSocialSignUp(e)}>
+                <i className="fa fa-google-plus"></i> Google
+                </button>
+                </div>
+                </div>
+                <div>
+                Already have an account? <Link to='/login'>Login here</Link>
+                </div>
+
             </div>
             <ToastContainer autoClose={3000}/>
           </div>

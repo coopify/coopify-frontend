@@ -22,12 +22,14 @@ export function signUpAPICall(payload) {
       then((response) => {
         return {       
           status: response.status,
-          data: response.data.data,
+          user: response.data.user
         }
-      }).catch((e) => ({
+      }).catch((e) => { 
+        console.log("signUpAPICall Error: " + JSON.stringify(e) + "  " + e);
+        return {
           status: e.response.status,
           data: e.response
-      }));
+      }});
 }
 
 export function getUrlSocialAPICall(payload) {
@@ -55,10 +57,13 @@ export function socialSignUpAPICall(payload) { //TODO ver el endpoint en el back
       then((response) => {
         return {       
           status: response.status,
-          data: response.data
+          data: response.data.user
         }
-      }).catch((e) => ({
-        status: e.status,
-        data: e.data
-      }));
+      }).catch((e) => {
+        console.log("SocialSignUpAPICall Error" + JSON.stringify(e));
+        return {
+          status: e.response.status,
+          data: e.response.data
+        }
+      });
 }

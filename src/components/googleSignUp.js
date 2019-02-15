@@ -61,7 +61,7 @@ class GoogleSignUp extends React.Component {
     const codeFromUrl = urlParams.get('code');
     const payload = {
         code: codeFromUrl,
-        provider: 'facebook'
+        provider: 'google'
     };
 
     dispatch(attemptSocialSignUpAction(payload));
@@ -70,10 +70,10 @@ class GoogleSignUp extends React.Component {
   render() {
     const { loading, error } = this.props
     if(loading && error.length > 0){
-        return <Redirect to='/signup'/>
+       // return <Redirect to='/signup'/>
     }
     else if(loading && error.length == 0){
-        return <Redirect to='/login'/>
+       // return <Redirect to='/login'/>
     }
 
     return (

@@ -1,13 +1,37 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-export default class Header extends PureComponent {
+export default @connect(state => ({
+  loggedUser: state.user,
+  userDidLog: state.userDidLog
+}))
+
+
+class Header extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
+      loggedUser: {},
+      userDidLog: false,
     };
   }
+
+  static propTypes = {
+    dispatch: PropTypes.func,
+    loggedUser: PropTypes.object,
+    userDidLog: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    dispatch: () => {
+    },
+    loggedUser: {},
+    userDidLog: false
+  };
+  
 
   toggleMenuBar(e) {
     const { open } = this.state;
@@ -25,6 +49,7 @@ export default class Header extends PureComponent {
 
   render() {
     const { open } = this.state;
+    const { userDidLog, loggedUser } = this.props
     return (
       <div>
         <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -54,7 +79,8 @@ export default class Header extends PureComponent {
                 Home
               </Link>
               <Link className="navbar-item" to="/login" onClick={() => this.closeMenuBar()}>
-                LogIn
+                { userDidLog ? 'LogOut' : 'LogIn' }                
+                
               </Link>
               {/* <Link className="navbar-item" to="/global-local-css" onClick={() => this.closeMenuBar()}>
                 Global & Local CSS
@@ -88,3 +114,6 @@ export default class Header extends PureComponent {
     );
   }
 }
+
+
+export { Header }

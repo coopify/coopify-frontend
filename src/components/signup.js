@@ -23,7 +23,7 @@ export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
   loading: state.loading,
-  userDidLog: state.userDidLog
+  userDidSignUp: state.userDidSignUp
 }))
 
 class Signup extends React.Component {
@@ -32,7 +32,7 @@ class Signup extends React.Component {
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
     error: PropTypes.string,
-    userDidLog: PropTypes.bool
+    userDidSignUp: PropTypes.bool
   };
 
   static defaultProps = {
@@ -41,7 +41,7 @@ class Signup extends React.Component {
     loggedUser: {},
     loading: false,
     error: '',
-    userDidLog: false
+    userDidSignUp: false
   };
 
   onLoginRedirectUrl = '/dashboard';
@@ -52,7 +52,7 @@ class Signup extends React.Component {
       loggedUser: {},
       loading: false,
       error: '',
-      userDidLog: false
+      userDidSignUp: false
     };
   }
 
@@ -96,9 +96,9 @@ class Signup extends React.Component {
   }
 
   render() {
-    const {error, userDidLog} = this.props
+    const {error, userDidSignUp} = this.props
     if(error.length > 0) this.notify(error, true)
-    if(userDidLog) this.notify("El usuario se ha registrado exitosamente, se enviara un mail de confirmacion en breve.", false)
+    if(userDidSignUp) this.notify("El usuario se ha registrado exitosamente, se enviara un mail de confirmacion en breve.", false)
 
     return (
         <GuestLayout>

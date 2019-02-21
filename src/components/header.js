@@ -2,6 +2,9 @@ import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import '../css/header.css';
+import '../css/material_icons.css';
+
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -15,7 +18,7 @@ class Header extends PureComponent {
     this.state = {
       open: false,
       loggedUser: {},
-      userDidLog: false,
+      userDidLog: false, //hacer un componentdidmount como en el componente protected
     };
   }
 
@@ -50,66 +53,59 @@ class Header extends PureComponent {
   render() {
     const { open } = this.state;
     const { userDidLog, loggedUser } = this.props
+    console.log('User: ' + JSON.stringify(loggedUser));
     return (
       <div>
-        <nav className="navbar" role="navigation" aria-label="main navigation">
-          <div className="container">
-            <div className="navbar-brand">
-              {/* <Link to="/" className=" navbar-item"><strong>ReactPWA</strong></Link> */}
-              <Link to="/" className=" navbar-item"><strong>Coopify</strong></Link>
-              <button
-                type="button"
-                onClick={e => this.toggleMenuBar(e)}
-                className={`navbar-burger ${open ? 'is-active' : ''}`}
-                aria-label="menu"
-                aria-expanded="false"
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  outline: 'none',
-                }}
-              >
-                <span aria-hidden="true" />
-                <span aria-hidden="true" />
-                <span aria-hidden="true" />
-              </button>
-            </div>
-            <div className={`navbar-menu ${open ? 'is-active' : ''}`}>
-              <Link className="navbar-item" to="/home" onClick={() => this.closeMenuBar()}>
-                Home
-              </Link>
-              <Link className="navbar-item" to="/login" onClick={() => this.closeMenuBar()}>
-                { userDidLog ? 'LogOut' : 'LogIn' }                
-                
-              </Link>
-              {/* <Link className="navbar-item" to="/global-local-css" onClick={() => this.closeMenuBar()}>
-                Global & Local CSS
-              </Link>
-              <Link className="navbar-item" to="/typescript-counter" onClick={() => this.closeMenuBar()}>
-                TypeScript Counter
-              </Link>
-              <Link className="navbar-item" to="/skeleton-loading" onClick={() => this.closeMenuBar()}>
-                Skeleton Loading
-              </Link>
-              <Link className="navbar-item" to="/image-optimization" onClick={() => this.closeMenuBar()}>
-                Image Optimization
-              </Link>
-              <Link className="navbar-item" to="/login" onClick={() => this.closeMenuBar()}>
-                LogIn
-              </Link>
-              <Link className="navbar-item" to="/contribute" onClick={() => this.closeMenuBar()}>
-                Contribute
-              </Link> */}
-              {/* <a
-                className="navbar-item has-text-danger"
-                href="https://www.reactpwa.com"
-                onClick={() => this.closeMenuBar()}
-              >
-                Visit ReactPWA.com
-              </a> */}
-            </div>
-          </div>
-        </nav>
+<nav className="navbar navbar-default navbar-expand-xl navbar-light">
+	<div className="navbar-header d-flex col">
+		<a className="navbar-brand" href="#"><i className="fa fa-cube"></i>Coopify</a>  		
+		<button type="button" data-target="#navbarCollapse" data-toggle="collapse" className="navbar-toggle navbar-toggler ml-auto">
+			<span className="navbar-toggler-icon"></span>
+			<span className="icon-bar"></span>
+			<span className="icon-bar"></span>
+			<span className="icon-bar"></span>
+		</button>
+	</div>
+
+	<div id="navbarCollapse" className="collapse navbar-collapse justify-content-start">
+		<ul className="nav navbar-nav">
+			<li className="nav-item active"><a href="#" className="nav-link">Home</a></li>
+			<li className="nav-item"><a href="#" className="nav-link">About</a></li>
+			<li className="nav-item dropdown">
+				<a data-toggle="dropdown" className="nav-link dropdown-toggle" href="#">Services <b className="caret"></b></a>
+				<ul className="dropdown-menu">					
+					<li><a href="#" className="dropdown-item">Web Design</a></li>
+					<li><a href="#" className="dropdown-item">Web Development</a></li>
+					<li><a href="#" className="dropdown-item">Graphic Design</a></li>
+					<li><a href="#" className="dropdown-item">Digital Marketing</a></li>
+				</ul>
+			</li>
+		</ul>
+		<form className="navbar-form form-inline">
+			<div className="input-group search-box">								
+				<input type="text" id="search" className="form-control" placeholder="Search by Name"/>
+				<span className="input-group-addon"><i className="material-icons"></i></span>
+			</div>
+		</form>
+
+    {userDidLog ? (
+		<ul className="nav navbar-nav navbar-right ml-auto">
+			<li className="nav-item"><a href="#" className="nav-link notifications"><i className="fa fa-bell-o"></i><span className="badge">1</span></a></li>
+			<li className="nav-item"><a href="#" className="nav-link messages"><i className="fa fa-envelope-o"></i><span className="badge">10</span></a></li>
+			<li className="nav-item dropdown">
+				<a href="#" data-toggle="dropdown" className="nav-link dropdown-toggle user-action" aria-expanded="false"><img src='https://www.tutorialrepublic.com/examples/images/avatar/2.jpg' className="avatar" alt="Avatar"/> {loggedUser.email} <b className="caret"></b></a>
+				<ul className="dropdown-menu">
+					<li><a href="#" className="dropdown-item"><i className="fa fa-user-o"></i> Profile</a></li>
+					<li><a href="#" className="dropdown-item"><i className="fa fa-calendar-o"></i> Calendar</a></li>
+					<li><a href="#" className="dropdown-item"><i className="fa fa-sliders"></i> Settings</a></li>
+					<li className="divider dropdown-divider"></li>
+					<li><a href="#" className="dropdown-item"><i className="material-icons"></i> Logout</a></li>
+				</ul> 
+			</li>
+    </ul>)
+    : "" }
+	</div>
+</nav>
       </div>
     );
   }

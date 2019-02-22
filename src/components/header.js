@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-//import '../css/header.css';
+import logo from '../assets/logo.png';
 
 
 export default @connect(state => ({
@@ -18,6 +18,7 @@ class Header extends PureComponent {
       open: false,
       loggedUser: {},
       userDidLog: false, //hacer un componentdidmount como en el componente protected
+      isActive: false,
     };
   }
 
@@ -49,26 +50,32 @@ class Header extends PureComponent {
     this.setState({ open: false });
   }
 
+  handleBurgerClick(e){
+    this.setState(prevState => ({
+      isActive: !prevState.isActive
+    }))
+  }
+
   render() {
     const { open } = this.state;
     const { userDidLog, loggedUser } = this.props
-    console.log('User: ' + JSON.stringify(loggedUser));
+
     return (
       <div>
 <nav className="navbar" role="navigation" aria-label="main navigation">
   <div className="navbar-brand">
     <Link className="navbar-item" to="/">
-      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"/>
+      <img src={logo} width="112" height="28"/>
     </Link>
 
-    <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+    <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" onClick={e => this.handleBurgerClick(e)}>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
     </a>
   </div>
 
-  <div id="navbarBasicExample" className="navbar-menu">
+  <div id="navbarBasicExample" className={ this.state.isActive ? 'navbar-menu is-active' : 'navbar-menu'}>
     <div className="navbar-start">
     <Link className="navbar-item" to="/home">Home</Link>
 
@@ -112,9 +119,9 @@ class Header extends PureComponent {
 <div className="navbar-end">
 			<div className="navbar-item has-dropdown is-hoverable">
 				<a href="#" data-toggle="dropdown" className="navbar-link" aria-expanded="false">
-        
-           <img className="" src='https://www.tutorialrepublic.com/examples/images/avatar/2.jpg' alt="Avatar"/> 
-
+        <figure className="image is-64x64">
+           <img className="is-rounded" src='https://www.tutorialrepublic.com/examples/images/avatar/2.jpg' style={{maxHeight: "100%"}}/> 
+        </figure>
           {loggedUser.email} <b className="caret"></b>
         </a>
           

@@ -15,6 +15,8 @@ import '../css/style.css'
 import '../css/form-elements.css'
 import {Link} from 'react-router-dom'
 import 'font-awesome/css/font-awesome.min.css';
+import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
 
 export default @connect(state => ({
   loggedUser: state.user, //el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
@@ -57,6 +59,14 @@ class Login extends React.Component {
     else{
       toast.success(message)
     }
+  }
+
+  responseFacebook = (response) => {
+    console.log(response);
+  }
+
+  responseGoogle = (response) => {
+    console.log(response);
   }
 
   handleSubmit(e) {
@@ -134,12 +144,8 @@ class Login extends React.Component {
                       </div>
 
                 <div className="social-login-buttons">
-                  <button className="btn btn-link-1 btn-link-1-facebook">
-                    <i className="fa fa-facebook"></i> Facebook
-                  </button>
-                  <button className="btn btn-link-1 btn-link-1-google-plus">
-                    <i className="fa fa-google-plus"></i> Google
-                  </button>
+                <FacebookLogin appId={global.FB_APP_ID} autoLoad={true} fields="name,email,picture"  callback={this.responseFacebook} />
+                <GoogleLogin clientId={global.GOOGLE_APP_ID} buttonText="Login" onSuccess={this.responseGoogle} onFailure={this.responseGoogle} />
                 </div>
               </div>
               <div>

@@ -52,6 +52,7 @@
     "react-bootstrap": "^1.0.0-beta.5",
     "react-facebook-auth": "^1.4.0",
     "react-facebook-login": "^4.1.1",
+    "react-google-login": "^5.0.2",
     "react-loader-spinner": "^2.3.0",
     "react-loading-screen": "^0.0.17",
     "react-router-config": "^4.4.0-beta.6",

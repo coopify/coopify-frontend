@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GuestLayout from './guest-layout';
+import Protected from './protected';
 
 const Column = (props) => {
   const { title, description, link } = props;
@@ -38,6 +39,7 @@ Column.propTypes = {
 };
 
 export default () => (
+  <Protected>
   <GuestLayout>
     <section className="hero is-medium is-info is-bold">
       <div className="hero-body">
@@ -116,4 +118,5 @@ export default () => (
       </div>
     </section>
   </GuestLayout>
+  </Protected>
 );

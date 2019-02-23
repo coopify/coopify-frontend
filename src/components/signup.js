@@ -102,7 +102,7 @@ class Signup extends React.Component {
 
     return (
         <GuestLayout>
-                   <div className="columns is-centered p-t-xl p-r-md p-l-md">
+          <div className="columns is-centered p-t-xl p-r-md p-l-md">
           <div className="column is-half">
             <div className="box">
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import logo from '../assets/logo.png';
+import {attemptLogoutAction} from '../actions/user';
 
 
 export default @connect(state => ({
@@ -54,6 +55,11 @@ class Header extends PureComponent {
     this.setState(prevState => ({
       isActive: !prevState.isActive
     }))
+  }
+
+  handleLogout(e){
+    const { dispatch } = this.props;  
+    dispatch(attemptLogoutAction());
   }
 
   render() {
@@ -129,7 +135,7 @@ class Header extends PureComponent {
 					<a href="#" className="navbar-item"><i className="fa fa-user-o"></i> Profile</a>
 					<a href="#" className="navbar-item"><i className="fa fa-sliders"></i> Settings</a>
 					<hr className="navbar-divider"/>
-					<a href="#" className="navbar-item"><i className="material-icons"></i> Logout</a>
+					<a href="#" onClick={e => this.handleLogout(e)} className="navbar-item"><i className="material-icons"></i> Logout</a>
 				</div> 
 			</div>
 </div>

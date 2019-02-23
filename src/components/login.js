@@ -17,11 +17,13 @@ import {Link} from 'react-router-dom'
 import 'font-awesome/css/font-awesome.min.css';
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
+import Protected from './protected';
 
 export default @connect(state => ({
   loggedUser: state.user, //el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
   error: state.error,
-  loading: state.loading
+  loading: state.loading,
+  userDidLog: state.userDidLog
 }))
 
 class Login extends React.Component {
@@ -30,7 +32,8 @@ class Login extends React.Component {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
-    error: PropTypes.string
+    error: PropTypes.string,
+    userDidLog: PropTypes.bool
   };
 
   static defaultProps = {
@@ -38,7 +41,8 @@ class Login extends React.Component {
     },
     loggedUser: {},
     loading: false,
-    error: ''
+    error: '',
+    userDidLog: false
   };
 
   onLoginRedirectUrl = '/dashboard';
@@ -48,7 +52,8 @@ class Login extends React.Component {
     this.state = {
       loggedUser: {},
       loading: false,
-      error: ''
+      error: '',
+      userDidLog: false
     };
   }
 

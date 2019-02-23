@@ -67,6 +67,7 @@ class Profile extends React.Component {
     const dateBorn = data.get('dateBorn');
     const biography = data.get('biography');
     const interests = data.get('interests');
+    const token = localStorage.getItem("token");
 
     const userProfileData = 
     {
@@ -76,12 +77,12 @@ class Profile extends React.Component {
       phone : tel,
       birthdate : dateBorn,
       bio : biography,
-      interests : interests //[{ name: string, selected: boolean  }]
+      interests : [] //interests //[{ name: string, selected: boolean  }]
     };
 
     const reqAttributes = {
       userId: loggedUser.id,
-      userToken: loggedUser.access_token,
+      userToken: token,
       attributes: userProfileData
     }
 

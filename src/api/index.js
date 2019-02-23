@@ -69,19 +69,20 @@ export function socialSignUpAPICall(payload) { //TODO ver el endpoint en el back
 }
 
 export function profileAPICall(payload){
-
-  const userId = payload.userId;
   const token = payload.userToken;
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  const userId = payload.userId;
+  
   const header = {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + token
+    'Authorization': `Bearer ${token}`
   };
-  const profileData =  { attributes: payload.attributes };
+  const attributes =  payload.attributes;
 
   return axios.put(
     `${global.API_URL}/api/users/${userId}`, {
         headers: header,
-        profileData
+        attributes
     }).  
     then((response) => {
       return {       

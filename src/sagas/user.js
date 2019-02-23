@@ -5,6 +5,10 @@ import { logInAPICall, signUpAPICall, socialSignUpAPICall, profileAPICall } from
 export function* loginAsync(payload) {
     const result = yield logInAPICall(payload.payload);
     if (result.status == 200) {
+
+      localStorage.setItem("loggedUser", JSON.stringify(result.data.user));
+      localStorage.setItem("token", result.data.accessToken);
+
       yield put({ type: LOGIN_SUCCESS, data: result.data })
     } else {
       yield put({ type: LOGIN_FAILURE, data: result.data })

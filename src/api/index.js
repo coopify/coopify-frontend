@@ -67,3 +67,32 @@ export function socialSignUpAPICall(payload) { //TODO ver el endpoint en el back
         }
       });
 }
+
+export function profileAPICall(payload){
+
+  const userId = payload.userId;
+  const token = payload.userToken;
+  const header = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + token
+  };
+  const profileData =  { attributes: payload.attributes };
+
+  return axios.put(
+    `${global.API_URL}/api/users/${userId}`, {
+        headers: header,
+        profileData
+    }).  
+    then((response) => {
+      return {       
+        status: response.status,
+        user: response.data.user
+      }
+    }).catch((e) => { 
+      console.log("signUpAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        data: e.response
+    }});
+
+}

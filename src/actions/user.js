@@ -18,3 +18,8 @@ export const attemptSocialSignUpAction = (payload) => ({
 export const attemptLogoutAction = () => ({
     type: Actions.LOGOUT_ATTEMPT
 });
+
+export const attemptProfileAction = (payload) => ({
+    type: Actions.PROFILE_ATTEMPT,
+    payload
+});

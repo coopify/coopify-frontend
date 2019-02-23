@@ -1,7 +1,6 @@
 import { put } from 'redux-saga/effects';
-import { LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_FAILURE, SIGNUP_SUCCESS, SOCIAL_SIGNUP_FAILURE, LOGOUT_SUCCESS } from '../reducers';
-import { logInAPICall, signUpAPICall, socialSignUpAPICall } from '../api';
-import { json } from 'body-parser';
+import { LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_FAILURE, SIGNUP_SUCCESS, SOCIAL_SIGNUP_FAILURE, LOGOUT_SUCCESS, PROFILE_SUCCESS, PROFILE_FAILURE } from '../reducers';
+import { logInAPICall, signUpAPICall, socialSignUpAPICall, profileAPICall } from '../api';
 
 export function* loginAsync(payload) {
     const result = yield logInAPICall(payload.payload);
@@ -33,4 +32,13 @@ export function* socialSignUpAsync(payload) {
 
 export function* logoutAsync(){
   yield put({ type: LOGOUT_SUCCESS })
+}
+
+export function* profileAsync(payload) {
+  const result = yield profileAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: PROFILE_SUCCESS, user: result })
+  } else {
+    yield put({ type: PROFILE_FAILURE, data: result.data })
+  }
 }

@@ -10,6 +10,9 @@ export const SOCIAL_SIGNUP_ATTEMPT = 'SOCIAL_SIGNUP_ATTEMPT'
 export const SOCIAL_SIGNUP_FAILURE = 'SOCIAL_SIGNUP_FAILURE'
 export const LOGOUT_ATTEMPT = 'LOGOUT_ATTEMPT'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+export const PROFILE_ATTEMPT = 'PROFILE_ATTEMPT'
+export const PROFILE_SUCCESS = 'PROFILE_SUCCESS'
+export const PROFILE_FAILURE = 'PROFILE_FAILURE'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -78,6 +81,22 @@ export const user = (state = initialUserState, action) => {
         loading: false,
         userDidSignUp: false,
         userDidLog: false
+      });
+      case PROFILE_ATTEMPT:
+      return _.assignIn({}, state, {
+        loading: true,
+        error: '',
+      });
+      case PROFILE_SUCCESS:
+      return _.assignIn({}, state, {
+        loading: false,
+        error: '',
+        user: action.user
+      });
+      case PROFILE_FAILURE:
+      return _.assignIn({}, state, {
+        loading: false,
+        error: action.data.message,
       });
 
     default:

@@ -1,9 +1,27 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import cookie from '../libs/cookie';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-export default class Protected extends React.Component {
+
+export default @connect(state => ({
+  allow: state.userDidLog
+}))
+
+class Protected extends React.Component {
   redirectUrl = '/login';
+
+  static propTypes = {
+    dispatch: PropTypes.func,
+    allow: PropTypes.bool
+  };
+
+  static defaultProps = {
+    dispatch: () => {
+    },
+    allow: false
+  };
 
   constructor(props) {
     super(props);
@@ -13,30 +31,12 @@ export default class Protected extends React.Component {
     };
   }
 
-  componentDidMount() {
-    // Add your custom validation
-    const isLoggedIn = cookie.getItem('secretKey') === 'allowmein';
-
-    if (!isLoggedIn) {
-      this.setState({
-        initialized: true,
-        allow: false,
-      });
-    } else {
-      this.setState({
-        initialized: true,
-        allow: true,
-      });
-    }
-  }
 
   render() {
-    const { initialized, allow } = this.state;
+    const { allow } = this.props;
     // eslint-disable-next-line
     const { children } = this.props;
-    if (!initialized) {
-      return null;
-    }
+
     if (allow) {
       return children;
     }
@@ -50,3 +50,5 @@ export default class Protected extends React.Component {
     );
   }
 }
+
+export { Protected }

@@ -6,6 +6,9 @@ import { user } from './reducers';
 import 'bulma/css/bulma.min.css';
 import './resources/css/util.scss';
 import './resources/css/global.css'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min';
+import 'font-awesome/css/font-awesome.min.css';
 
 const appInitialState = {};
 

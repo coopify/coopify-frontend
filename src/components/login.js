@@ -75,7 +75,7 @@ class Login extends React.Component {
   }
 
   handleSubmit(e) {
-    if (e && e.preventDefault) { //Evita refresh al pepe
+    if (e && e.preventDefault) {
       e.preventDefault();
     }
     const { dispatch } = this.props;
@@ -93,8 +93,12 @@ class Login extends React.Component {
   }
 
   render() {
-    const { loading, error, loggedUser } = this.props
+    const { loading, error, loggedUser, userDidLog } = this.props
     if(error.length > 0) this.notify(error, true)
+
+    if(userDidLog){
+      return <Redirect to='/home'/>
+    }
 
     return (
       <GuestLayout>

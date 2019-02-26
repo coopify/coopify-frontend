@@ -104,6 +104,7 @@ class Profile extends React.Component {
     if(error.length > 0) this.notify(error, true)
     const genders = ['Male', 'Female', 'Other', 'Unespecified'];
     const edition = !this.state.checked;
+    const focusable = !this.state.checked ? 'disabled' : '';
 
     return (
       <GuestLayout>
@@ -162,14 +163,14 @@ class Profile extends React.Component {
 
           <Row style={{marginTop: '2%'}}>
             <Col sm={2} style={{marginLeft: '10%'}}>
-              <img className={styles.picture} src='https://cdn0.iconfinder.com/data/icons/user-collection-4/512/selected_user-512.png' />
+              <img className={styles.picture} src={loggedUser.pictureURL} />
             </Col>
             <Col sm={3}>
 
               <div className="field">
                 <label className="label" htmlFor="name">Name</label>
                 <div className="control">
-                  <input name="name" value={loggedUser.name} placeholder="Name" className="form-control" readOnly={edition}></input>  
+                  <input name="name" value={loggedUser.name} placeholder="Name" className="form-control" readOnly={edition} disabled={focusable}></input>  
                 </div> 
               </div> 
 
@@ -177,21 +178,21 @@ class Profile extends React.Component {
               <div className="field">
                 <label className="label" htmlFor="lastname">Last name</label>
                 <div className="control">
-              <input name="lastname" value={loggedUser.lastname} placeholder="Last name" className="form-control" readOnly={edition}></input>    
+              <input name="lastname" value={loggedUser.lastname} placeholder="Last name" className="form-control" readOnly={edition} disabled={focusable}></input>    
               </div> 
               </div> 
 
               <div className="field">
                 <label className="label" htmlFor="direction">Direction</label>
                 <div className="control">
-              <input name="direction" value={loggedUser.direction} placeholder="Direction" className="form-control" readOnly={edition}></input>    
+              <input name="direction" value={loggedUser.address} placeholder="Direction" className="form-control" readOnly={edition} disabled={focusable}></input>    
               </div> 
               </div> 
 
               <div className="field">
                 <label className="label" htmlFor="tel">Tel</label>
                 <div className="control">
-              <input type="number" name="tel" value={loggedUser.tel} placeholder="Tel" className="form-control" readOnly={edition}></input>    
+              <input type="number" name="tel" value={loggedUser.phone} placeholder="Tel" className="form-control" readOnly={edition} disabled={focusable}></input>    
               </div> 
               </div>
 
@@ -202,7 +203,7 @@ class Profile extends React.Component {
                 <div className="field">
                     <label className="label" htmlFor="dateBorn">Date born</label>
                   <div className="control">
-              <input name="dateBorn" type="date" className="form-control" value={loggedUser.dateBorn} readOnly={edition}></input>  
+              <input name="dateBorn" type="date" className="form-control" value={loggedUser.birthdate} readOnly={edition} disabled={focusable}></input>  
               </div> 
               </div> 
 
@@ -211,14 +212,14 @@ class Profile extends React.Component {
               <div className="field">
                 <label className="label" htmlFor="biography">Biography</label>
                 <div className="control">
-              <input name="biography" type="textarea" value={loggedUser.biography} placeholder="Biography" className="form-control" readOnly={edition}></input> 
+              <input name="biography" type="textarea" value={loggedUser.bio} placeholder="Biography" className="form-control" readOnly={edition} disabled={focusable}></input> 
                 </div> 
               </div> 
 
               <div className="field">
                 <label className="label" htmlFor="interests">Interests</label>
                 <div className="control">
-                <input name="interests" type="textarea" value={loggedUser.interests} placeholder="Interests" className="form-control" readOnly={edition}></input> 
+                <input name="interests" type="textarea" value={loggedUser.interests} placeholder="Interests" className="form-control" readOnly={edition} disabled={focusable}></input> 
                 </div> 
               </div> 
 

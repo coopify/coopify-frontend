@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie';
 import Authenticator from './fake-authenticator';
-import { attemptProfileAction } from '../actions/user';
+import { attemptProfileAction, onChangeProfileInputAction } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -72,7 +72,7 @@ class Profile extends React.Component {
     const userProfileData = 
     {
       name : name,
-      lastname : lastname,
+      lastName : lastname,
       address : direction,
       phone : tel,
       birthdate : dateBorn,
@@ -92,7 +92,31 @@ class Profile extends React.Component {
   handleSwitchChange(e) {
     this.setState(prevState => ({
       checked: !prevState.checked
-}))
+  }))
+  }
+
+  handleOnChange(e){
+    const { dispatch } = this.props;
+    const data = new FormData(e.target);
+    const name = data.get('name');
+    const lastname = data.get('lastname');
+    const direction = data.get('direction');
+    const tel = data.get('tel');
+    const dateBorn = data.get('dateBorn');
+    const biography = data.get('biography');
+    const interests = data.get('interests');
+
+    const user =  //utilizar ... para no perder los otros attibutos
+    {
+      name : name,
+      lastName : lastname,
+      address : direction,
+      phone : tel,
+      birthdate : dateBorn,
+      bio : biography,
+      interests : interests
+    };
+    dispatch(onChangeProfileInputAction(user));
   }
 
   handleCancelClick(e){
@@ -170,7 +194,7 @@ class Profile extends React.Component {
               <div className="field">
                 <label className="label" htmlFor="name">Name</label>
                 <div className="control">
-                  <input name="name" value={loggedUser.name} placeholder="Name" className="form-control" readOnly={edition} disabled={focusable}></input>  
+                  <input name="name" value={loggedUser.name} onChange={e => this.handleOnChange(e)} placeholder="Name" className="form-control" readOnly={edition} disabled={focusable}></input>  
                 </div> 
               </div> 
 
@@ -178,21 +202,21 @@ class Profile extends React.Component {
               <div className="field">
                 <label className="label" htmlFor="lastname">Last name</label>
                 <div className="control">
-              <input name="lastname" value={loggedUser.lastname} placeholder="Last name" className="form-control" readOnly={edition} disabled={focusable}></input>    
+              <input name="lastname" value={loggedUser.lastName} onChange={e => this.handleOnChange(e)} placeholder="Last name" className="form-control" readOnly={edition} disabled={focusable}></input>    
               </div> 
               </div> 
 
               <div className="field">
                 <label className="label" htmlFor="direction">Direction</label>
                 <div className="control">
-              <input name="direction" value={loggedUser.address} placeholder="Direction" className="form-control" readOnly={edition} disabled={focusable}></input>    
+              <input name="direction" value={loggedUser.address} onChange={e => this.handleOnChange(e)} placeholder="Direction" className="form-control" readOnly={edition} disabled={focusable}></input>    
               </div> 
               </div> 
 
               <div className="field">
                 <label className="label" htmlFor="tel">Tel</label>
                 <div className="control">
-              <input type="number" name="tel" value={loggedUser.phone} placeholder="Tel" className="form-control" readOnly={edition} disabled={focusable}></input>    
+              <input type="number" name="tel" value={loggedUser.phone} onChange={e => this.handleOnChange(e)} placeholder="Tel" className="form-control" readOnly={edition} disabled={focusable}></input>    
               </div> 
               </div>
 
@@ -203,7 +227,7 @@ class Profile extends React.Component {
                 <div className="field">
                     <label className="label" htmlFor="dateBorn">Date born</label>
                   <div className="control">
-              <input name="dateBorn" type="date" className="form-control" value={loggedUser.birthdate} readOnly={edition} disabled={focusable}></input>  
+              <input name="dateBorn" type="date" onChange={e => this.handleOnChange(e)} className="form-control" value={loggedUser.birthdate} readOnly={edition} disabled={focusable}></input>  
               </div> 
               </div> 
 
@@ -212,14 +236,14 @@ class Profile extends React.Component {
               <div className="field">
                 <label className="label" htmlFor="biography">Biography</label>
                 <div className="control">
-              <input name="biography" type="textarea" value={loggedUser.bio} placeholder="Biography" className="form-control" readOnly={edition} disabled={focusable}></input> 
+              <input name="biography" type="textarea" onChange={e => this.handleOnChange(e)} value={loggedUser.bio} placeholder="Biography" className="form-control" readOnly={edition} disabled={focusable}></input> 
                 </div> 
               </div> 
 
               <div className="field">
                 <label className="label" htmlFor="interests">Interests</label>
                 <div className="control">
-                <input name="interests" type="textarea" value={loggedUser.interests} placeholder="Interests" className="form-control" readOnly={edition} disabled={focusable}></input> 
+                <input name="interests" type="textarea" onChange={e => this.handleOnChange(e)} value={loggedUser.interests} placeholder="Interests" className="form-control" readOnly={edition} disabled={focusable}></input> 
                 </div> 
               </div> 
 

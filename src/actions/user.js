@@ -27,3 +27,8 @@ export const attemptProfileAction = (payload) => ({
 export const loadState = () => ({
     type: Actions.LOAD_STATE_ATTEMPT
 });
+
+export const onChangeProfileInputAction = (payload) => ({
+    type: Actions.CHANGE_ATTEMPT,
+    payload
+});

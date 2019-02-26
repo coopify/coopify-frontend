@@ -134,9 +134,9 @@ class Header extends PureComponent {
 <div className="navbar-end">
 			<div className="navbar-item has-dropdown is-hoverable">
 				<a href="#" data-toggle="dropdown" className="navbar-link" aria-expanded="false">
-        <figure className="image is-64x64">
-           <img className="is-rounded" src={loggedUser.pictureURL} style={{maxHeight: "100%"}}/> 
-        </figure>
+
+           <img src={loggedUser.pictureURL}/> 
+
           {loggedUser.name} <b className="caret"></b>
         </a>
           

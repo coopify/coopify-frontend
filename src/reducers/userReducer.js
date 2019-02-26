@@ -15,6 +15,7 @@ export const PROFILE_SUCCESS = 'PROFILE_SUCCESS'
 export const PROFILE_FAILURE = 'PROFILE_FAILURE'
 export const LOAD_STATE_ATTEMPT = 'LOAD_STATE_ATTEMPT'
 export const LOAD_SUCCESS = 'LOAD_SUCCESS'
+export const CHANGE_ATTEMPT = "CHANGE_ATTEMPT"
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -114,6 +115,14 @@ export const user = (state = initialUserState, action) => {
         userDidSignUp: false,
         user: action.cookieData.user,
         userDidLog: action.cookieData.isLogged
+      });
+
+      case CHANGE_ATTEMPT:
+      return _.assignIn({}, state, {
+        loading: false,
+        userDidSignUp: false,
+        user: action.user,
+        userDidLog: true
       });
 
     default:

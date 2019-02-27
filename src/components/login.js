@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie';
 import Authenticator from './fake-authenticator';
-import { attemptLoginAction } from '../actions/user';
+import { attemptLoginAction, attemptSocialLoginAction } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -20,6 +20,7 @@ import GoogleLogin from 'react-google-login';
 import Protected from './protected';
 
 export default @connect(state => ({
+  userDidLog: state.userDidLog,
   loggedUser: state.user, //el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
   error: state.error,
   loading: state.loading,
@@ -45,7 +46,7 @@ class Login extends React.Component {
     userDidLog: false
   };
 
-  onLoginRedirectUrl = '/dashboard';
+  onLoginRedirectUrl = '/home';
 
   constructor(props) {
     super(props);
@@ -67,11 +68,13 @@ class Login extends React.Component {
   }
 
   responseFacebook = (response) => {
-    console.log(response);
+    const { dispatch } = this.props;
+    dispatch(attemptSocialLoginAction({provider: 'facebook', facebookId: response.id }));
   }
 
   responseGoogle = (response) => {
-    console.log(response);
+    const { dispatch } = this.props;
+    dispatch(attemptSocialLoginAction({provider: 'google', googleId: response.googleId }));
   }
 
   handleSubmit(e) {
@@ -95,6 +98,14 @@ class Login extends React.Component {
   render() {
     const { loading, error, loggedUser, userDidLog } = this.props
     if(error.length > 0) this.notify(error, true)
+    if (loading) {
+      //show spinner
+    } else {
+      //hide spinner
+    }
+    if (userDidLog) {
+      return <Redirect push={false} to={this.onLoginRedirectUrl} />;
+    }
 
     if(userDidLog){
       return <Redirect to='/home'/>
@@ -153,7 +164,7 @@ class Login extends React.Component {
                       </div>
 
                 <div className="social-login-buttons">
-                <FacebookLogin appId={global.FB_APP_ID} autoLoad={true} fields="name,email,picture"  callback={this.responseFacebook} />
+                <FacebookLogin appId={global.FB_APP_ID} autoLoad={false} ccsClass="btn btn-link-1 btn-link-1-facebook" callback={this.responseFacebook} />
                 <GoogleLogin clientId={global.GOOGLE_APP_ID} buttonText="Login" onSuccess={this.responseGoogle} onFailure={this.responseGoogle} />
                 </div>
               </div>

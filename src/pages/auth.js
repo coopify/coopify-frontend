@@ -11,8 +11,7 @@ export default [
     exact: true,
     component: Login,
     seo: {
-      title: 'Auth | ReactPWA Demo',
-      description: 'Implementing Auth with ReactPWA is simple. Check out this fake auth example for more details',
+      title: 'User login',
       image: LoginImage,
     },
   },
@@ -21,8 +20,7 @@ export default [
     exact: true,
     component: Signup,
     seo: {
-      title: 'Auth | ReactPWA Demo',
-      description: 'Implementing Auth with ReactPWA is simple. Check out this fake auth example for more details',
+      title: 'Traditional signup',
       image: LoginImage,
     },
   },
@@ -31,8 +29,7 @@ export default [
     exact: true,
     component: FacebookSignUp,
     seo: {
-      title: 'Auth | ReactPWA Demo',
-      description: 'Implementing Auth with ReactPWA is simple. Check out this fake auth example for more details',
+      title: 'Facebook signup',
       image: LoginImage,
     },
   },
@@ -41,8 +38,7 @@ export default [
     exact: true,
     component: GoogleSignUp,
     seo: {
-      title: 'Auth | ReactPWA Demo',
-      description: 'Implementing Auth with ReactPWA is simple. Check out this fake auth example for more details',
+      title: 'Google signup',
       image: LoginImage,
     },
   },
@@ -65,11 +61,11 @@ export default [
     },
   },
   {
-    path: '/dashboard',
+    path: '/home',
     exact: true,
-    component: import('../components/dashboard'),
+    component: import('../components/home'),
     seo: {
-      title: 'User dashboard | ReactPWA Demo',
+      title: 'User homerpage',
     },
   },
 ];

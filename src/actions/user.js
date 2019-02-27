@@ -5,6 +5,11 @@ export const attemptLoginAction = (payload) => ({
     payload
 });
 
+export const attemptSocialLoginAction = (payload) => ({
+    type: Actions.SOCIAL_LOGIN_ATTEMPT,
+    payload
+});
+
 export const attemptSignUpAction = (payload) => ({
     type: Actions.SIGNUP_ATTEMPT,
     payload

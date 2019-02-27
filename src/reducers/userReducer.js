@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+export const SOCIAL_LOGIN_ATTEMPT = 'SOCIAL_LOGIN_ATTEMPT'
 export const LOGIN_ATTEMPT = 'LOGIN_ATTEMPT'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAILURE = 'LOGIN_FAILURE'
@@ -26,8 +27,14 @@ export const user = (state = initialUserState, action) => {
         user: action.data.user,
         error: '',
         userDidLog: true
-      });
+    });
     case LOGIN_ATTEMPT:
+      return _.assignIn({}, state, {
+        loading: true,
+        error: '',
+        userDidLog: false
+    });
+    case SOCIAL_LOGIN_ATTEMPT:
       return _.assignIn({}, state, {
         loading: true,
         error: '',

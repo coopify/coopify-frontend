@@ -52,8 +52,11 @@ class Header extends PureComponent {
   }
 
   loadStateFromCookies(){
-    const {dispatch} = this.props;
-    dispatch(loadState());
+    const {dispatch, userDidLog} = this.props;
+    if(!userDidLog){
+      dispatch(loadState());
+    }
+
   }
 
   closeMenuBar() {

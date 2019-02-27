@@ -97,7 +97,7 @@ class Profile extends React.Component {
 
   handleOnChange(e){
     const { dispatch } = this.props;
-    const data = new FormData(e.target);
+    const data = new FormData(e.target.form);
     const name = data.get('name');
     const lastname = data.get('lastname');
     const direction = data.get('direction');
@@ -106,7 +106,7 @@ class Profile extends React.Component {
     const biography = data.get('biography');
     const interests = data.get('interests');
 
-    const user =  //utilizar ... para no perder los otros attibutos
+    const user =
     {
       name : name,
       lastName : lastname,
@@ -116,6 +116,8 @@ class Profile extends React.Component {
       bio : biography,
       interests : interests
     };
+
+    console.log(JSON.stringify(user));
     dispatch(onChangeProfileInputAction(user));
   }
 

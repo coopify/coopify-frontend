@@ -121,7 +121,16 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         loading: false,
         userDidSignUp: false,
-        user: action.user,
+        user: {...state.user, 
+          name: action.payload.name,
+          lastName: action.payload.lastName,
+          address : action.payload.address,
+          phone : action.payload.phone,
+          birthdate : action.payload.birthdate,
+          bio : action.payload.bio,
+          interests : action.payload.interests
+        },
+
         userDidLog: true
       });
 

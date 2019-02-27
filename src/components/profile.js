@@ -18,6 +18,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import styles from '../css/profile.scss';
 import { Button, Input, Row, Col } from 'react-bootstrap';
 import Switch from "react-switch";
+import Protected from './protected';
 //import DropDown from './dropdown';
 
 export default @connect(state => ({
@@ -133,6 +134,7 @@ class Profile extends React.Component {
     const focusable = !this.state.checked ? 'disabled' : '';
 
     return (
+      <Protected>
       <GuestLayout>
         <div className={styles.container}>
         <form onSubmit={e => this.handleSubmit(e)}>
@@ -270,6 +272,7 @@ class Profile extends React.Component {
         </form>
         </div>
       </GuestLayout>
+      </Protected>
     );
   }
 }

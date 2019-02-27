@@ -19,6 +19,7 @@ import styles from '../css/profile.scss';
 import { Button, Input, Row, Col } from 'react-bootstrap';
 import Switch from "react-switch";
 import Protected from './protected';
+import { Link } from 'react-router-dom';
 //import DropDown from './dropdown';
 
 export default @connect(state => ({
@@ -117,13 +118,7 @@ class Profile extends React.Component {
       bio : biography,
       interests : interests
     };
-
-    console.log(JSON.stringify(user));
     dispatch(onChangeProfileInputAction(user));
-  }
-
-  handleCancelClick(e){
-    <Redirect to='/home'/>
   }
 
   render() {
@@ -231,7 +226,7 @@ class Profile extends React.Component {
                 <div className="field">
                     <label className="label" htmlFor="dateBorn">Date born</label>
                   <div className="control">
-              <input name="dateBorn" type="date" onChange={e => this.handleOnChange(e)} className="form-control" value={loggedUser.birthdate} readOnly={edition} disabled={focusable}></input>  
+              <input name="dateBorn" type="date" onChange={e => this.handleOnChange(e)} className="form-control" value={loggedUser.birthdate.substring(0,10)} readOnly={edition} disabled={focusable}></input>  
               </div> 
               </div> 
 
@@ -262,11 +257,7 @@ class Profile extends React.Component {
             </Button> : ""
             }
             &nbsp;
-              <Button
-                bsstyle="default"
-                onClick={e => this.handleCancelClick(e)}
-              > Cancel
-              </Button>
+              <Link className="button is-light" to="/home">Cancel</Link>
             </Col>
           </Row>
         </form>

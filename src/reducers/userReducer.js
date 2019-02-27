@@ -10,6 +10,12 @@ export const SOCIAL_SIGNUP_ATTEMPT = 'SOCIAL_SIGNUP_ATTEMPT'
 export const SOCIAL_SIGNUP_FAILURE = 'SOCIAL_SIGNUP_FAILURE'
 export const LOGOUT_ATTEMPT = 'LOGOUT_ATTEMPT'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+export const PROFILE_ATTEMPT = 'PROFILE_ATTEMPT'
+export const PROFILE_SUCCESS = 'PROFILE_SUCCESS'
+export const PROFILE_FAILURE = 'PROFILE_FAILURE'
+export const LOAD_STATE_ATTEMPT = 'LOAD_STATE_ATTEMPT'
+export const LOAD_SUCCESS = 'LOAD_SUCCESS'
+export const CHANGE_ATTEMPT = "CHANGE_ATTEMPT"
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -78,6 +84,54 @@ export const user = (state = initialUserState, action) => {
         loading: false,
         userDidSignUp: false,
         userDidLog: false
+      });
+      case PROFILE_ATTEMPT:
+      return _.assignIn({}, state, {
+        loading: true,
+        error: '',
+      });
+      case PROFILE_SUCCESS:
+      return _.assignIn({}, state, {
+        loading: false,
+        error: '',
+        user: action.user.user
+      });
+      case PROFILE_FAILURE:
+      return _.assignIn({}, state, {
+        loading: false,
+        error: action.data.message,
+      });
+
+      case LOAD_STATE_ATTEMPT:
+      return _.assignIn({}, state, {
+        loading: true,
+        userDidSignUp: false,
+        userDidLog: false
+      });
+
+      case LOAD_SUCCESS:
+      return _.assignIn({}, state, {
+        loading: false,
+        userDidSignUp: false,
+        user: action.cookieData.user,
+        userDidLog: action.cookieData.isLogged
+      });
+
+      case CHANGE_ATTEMPT:
+      return _.assignIn({}, state, {
+        loading: false,
+        userDidSignUp: false,
+        user: {...state.user, 
+          name: action.payload.name,
+          lastName: action.payload.lastName,
+          address : action.payload.address,
+          phone : action.payload.phone,
+          birthdate : action.payload.birthdate,
+          bio : action.payload.bio,
+          interests : action.payload.interests
+        },
+
+        userDidLog: true
       });
 
     default:

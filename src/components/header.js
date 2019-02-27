@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import logo from '../assets/logo.png';
-import {attemptLogoutAction} from '../actions/user';
+import {attemptLogoutAction, loadState} from '../actions/user';
 
 
 export default @connect(state => ({
@@ -18,7 +18,7 @@ class Header extends PureComponent {
     this.state = {
       open: false,
       loggedUser: {},
-      userDidLog: false, //hacer un componentdidmount como en el componente protected
+      userDidLog: false,
       isActive: false,
     };
   }
@@ -45,6 +45,18 @@ class Header extends PureComponent {
     this.setState({
       open: !open,
     });
+  }
+
+  componentDidMount(){
+    this.loadStateFromCookies();
+  }
+
+  loadStateFromCookies(){
+    const {dispatch, userDidLog} = this.props;
+    if(!userDidLog){
+      dispatch(loadState());
+    }
+
   }
 
   closeMenuBar() {
@@ -125,14 +137,14 @@ class Header extends PureComponent {
 <div className="navbar-end">
 			<div className="navbar-item has-dropdown is-hoverable">
 				<a href="#" data-toggle="dropdown" className="navbar-link" aria-expanded="false">
-        <figure className="image is-64x64">
-           <img className="is-rounded" src='https://www.tutorialrepublic.com/examples/images/avatar/2.jpg' style={{maxHeight: "100%"}}/> 
-        </figure>
-          {loggedUser.email} <b className="caret"></b>
+
+           <img src={loggedUser.pictureURL}/> 
+
+          {loggedUser.name} <b className="caret"></b>
         </a>
           
 				<div className="navbar-dropdown">
-					<a href="#" className="navbar-item"><i className="fa fa-user-o"></i> Profile</a>
+					<Link to="/user/profile" className="navbar-item"><i className="fa fa-user-o"></i> Profile</Link>
 					<a href="#" className="navbar-item"><i className="fa fa-sliders"></i> Settings</a>
 					<hr className="navbar-divider"/>
 					<a href="#" onClick={e => this.handleLogout(e)} className="navbar-item"><i className="material-icons"></i> Logout</a>

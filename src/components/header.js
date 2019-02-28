@@ -80,54 +80,52 @@ class Header extends PureComponent {
 
     return (
       <div>
-<nav className="navbar" role="navigation" aria-label="main navigation">
-  <div className="navbar-brand">
-    <Link className="navbar-item" to="/">
-      <img src={logo} width="112" height="28"/>
-    </Link>
+        <nav className="navbar" role="navigation" aria-label="main navigation">
+          <div className="navbar-brand">
+            <Link className="navbar-item" to="/">
+              <img src={logo} width="112" height="28"/>
+            </Link>
 
-    <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" onClick={e => this.handleBurgerClick(e)}>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
+            <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" onClick={e => this.handleBurgerClick(e)}>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
 
-  <div id="navbarBasicExample" className={ this.state.isActive ? 'navbar-menu is-active' : 'navbar-menu'}>
-    <div className="navbar-start">
-    <Link className="navbar-item" to="/home">Home</Link>
-    </div>
-    { !userDidLog ? (
-    <div className="navbar-end">
-      <div className="navbar-item">
-        <div className="buttons">
-        <Link className="button is-primary" to='/signup'><strong>Sign up</strong></Link>
-        <Link className="button is-light" to="/login">Log in </Link>
-        </div>
-      </div>
-    </div>)
-    : 
-    (
-<div className="navbar-end">
-			<div className="navbar-item has-dropdown is-hoverable">
-				<a href="#" data-toggle="dropdown" className="navbar-link" aria-expanded="false">
+          <div id="navbarBasicExample" className={ this.state.isActive ? 'navbar-menu is-active' : 'navbar-menu'}>
+            <div className="navbar-start">
+            <Link className="navbar-item" to="/home">Home</Link>
+            </div>
+            { !userDidLog ? (
+            <div className="navbar-end">
+              <div className="navbar-item">
+                <div className="buttons">
+                <Link className="button is-primary" to='/signup'><strong>Sign up</strong></Link>
+                <Link className="button is-light" to="/login">Log in </Link>
+                </div>
+              </div>
+            </div>)
+            : 
+            (<div className="navbar-end">
+              <div className="navbar-item has-dropdown is-hoverable">
+                <a href="#" data-toggle="dropdown" className="navbar-link" aria-expanded="false">
 
-           <img src={loggedUser.pictureURL} style={{paddingRight: '5%'}}/> 
+                  <img src={loggedUser.pictureURL} style={{paddingRight: '5%'}}/> 
 
-          {loggedUser.name} <b className="caret"></b>
-        </a>
-          
-				<div className="navbar-dropdown">
-					<Link to="/user/profile" className="navbar-item"><i className="fa fa-user-o"></i> Profile</Link>
-					<hr className="navbar-divider"/>
-					<a href="#" onClick={e => this.handleLogout(e)} className="navbar-item"><i className="material-icons"></i> Logout</a>
-				</div> 
-			</div>
-</div>
-    )
-    }
-  </div>
-</nav>
+                  {loggedUser.name} <b className="caret"></b>
+                </a>
+                  
+                <div className="navbar-dropdown">
+                  <Link to="/user/profile" className="navbar-item"><i className="fa fa-user-o"></i> Profile</Link>
+                  <hr className="navbar-divider"/>
+                  <a href="#" onClick={e => this.handleLogout(e)} className="navbar-item"><i className="material-icons"></i> Logout</a>
+                </div> 
+              </div>
+            </div>)
+            }
+          </div>
+        </nav>
       </div>
     );
   }

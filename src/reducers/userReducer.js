@@ -8,6 +8,7 @@ export const SIGNUP_ATTEMPT = 'SIGNUP_ATTEMPT'
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS'
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE'
 export const SOCIAL_SIGNUP_ATTEMPT = 'SOCIAL_SIGNUP_ATTEMPT'
+export const SOCIAL_SIGNUP_SUCCESS = 'SOCIAL_SIGNUP_SUCCESS'
 export const SOCIAL_SIGNUP_FAILURE = 'SOCIAL_SIGNUP_FAILURE'
 export const LOGOUT_ATTEMPT = 'LOGOUT_ATTEMPT'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
@@ -78,6 +79,14 @@ export const user = (state = initialUserState, action) => {
         loading: false,
         error: action.data.message,
         userDidSignUp: false
+      });
+      case SOCIAL_SIGNUP_SUCCESS:
+      return _.assignIn({}, state, {
+        loading: false,
+        user: action.user.data,
+        error: '',
+        socialUserDidSignUp: true,
+        userDidLog: true
       });
 
       case LOGOUT_ATTEMPT:

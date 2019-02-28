@@ -77,6 +77,10 @@ class Login extends React.Component {
     dispatch(attemptSocialLoginAction({provider: 'google', googleId: response.googleId }));
   }
 
+  errorGoogle = (response) => {
+    console.log(response)
+  }
+
   handleSubmit(e) {
     if (e && e.preventDefault) {
       e.preventDefault();
@@ -165,7 +169,7 @@ class Login extends React.Component {
 
                 <div className="social-login-buttons">
                 <FacebookLogin appId={global.FB_APP_ID} autoLoad={false} ccsClass="btn btn-link-1 btn-link-1-facebook" callback={this.responseFacebook} />
-                <GoogleLogin clientId={global.GOOGLE_APP_ID} buttonText="Login" onSuccess={this.responseGoogle} onFailure={this.responseGoogle} />
+                <GoogleLogin clientId={global.GOOGLE_APP_ID} autoLoad={false} buttonText="Login" onSuccess={this.responseGoogle} onFailure={this.errorGoogle} />
                 </div>
               </div>
               <div>

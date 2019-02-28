@@ -98,7 +98,10 @@ class Signup extends React.Component {
   render() {
     const {error, userDidSignUp} = this.props
     if(error.length > 0) this.notify(error, true)
-    if(userDidSignUp) this.notify("El usuario se ha registrado exitosamente, se enviara un mail de confirmacion en breve.", false)
+    if(userDidSignUp) {
+      this.notify("El usuario se ha registrado exitosamente, se enviara un mail de confirmacion en breve.", false)
+      return <Redirect to='/home'/>
+    }
 
     return (
         <GuestLayout>

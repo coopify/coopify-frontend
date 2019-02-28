@@ -21,7 +21,8 @@ import LoadingScreen from 'react-loading-screen';
 export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
-  loading: state.loading
+  loading: state.loading,
+  socialUserDidSignUp: state.socialUserDidSignUp,
 }))
 
 class FacebookSignUp extends React.Component {
@@ -34,7 +35,8 @@ class FacebookSignUp extends React.Component {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
-    error: PropTypes.string
+    error: PropTypes.string,
+    gotCode: PropTypes.bool
   };
 
   static defaultProps = {
@@ -42,6 +44,7 @@ class FacebookSignUp extends React.Component {
     },
     loggedUser: {},
     loading: true,
+    gotCode: false,
     error: ''
   };
 
@@ -59,22 +62,27 @@ class FacebookSignUp extends React.Component {
   verifyAuthCode() {
 
     const { dispatch } = this.props;
+    let { gotCode } = this.props;
     const urlParams = new URLSearchParams(window.location.search);
     const codeFromUrl = urlParams.get('code');
-    const payload = {
+    
+    if (!gotCode && codeFromUrl) {
+      gotCode = true
+      const payload = {
         code: codeFromUrl,
         provider: 'facebook'
-    };
-
-    dispatch(attemptSocialSignUpAction(payload));
+      };
+      dispatch(attemptSocialSignUpAction(payload));
+    }
+   
   }
 
   render() {
-    const { loading, error } = this.props
-    if(loading && error.length > 0){
+    const { error, socialUserDidSignUp, loading } = this.props
+    if(socialUserDidSignUp && error.length > 0){
         return <Redirect to='/signup'/>
     }
-    else if(loading && error.length == 0){
+    else if(socialUserDidSignUp && error.length == 0){
         return <Redirect to='/home'/>
     }
 

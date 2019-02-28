@@ -1,6 +1,6 @@
 import { put } from 'redux-saga/effects';
 import { LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_FAILURE, SIGNUP_SUCCESS, SOCIAL_SIGNUP_FAILURE, LOGOUT_SUCCESS, PROFILE_SUCCESS, PROFILE_FAILURE, LOAD_SUCCESS } from '../reducers';
-import { logInAPICall, signUpAPICall, socialSignUpAPICall, profileAPICall } from '../api';
+import { logInAPICall, signUpAPICall, socialSignUpAPICall, profileAPICall, socialLogInAPICall } from '../api';
 
 export function* loginAsync(payload) {
     const result = yield logInAPICall(payload.payload);
@@ -60,4 +60,13 @@ export function* loadStateFromCookies(){
     isLogged: userIsLogged
   }
   yield put({type: LOAD_SUCCESS, cookieData});
+}
+
+export function* socialLoginAsync(payload) {
+  const result = yield socialLogInAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: LOGIN_SUCCESS, data: result.data })
+  } else {
+    yield put({ type: LOGIN_FAILURE, data: result.data })
+  }
 }

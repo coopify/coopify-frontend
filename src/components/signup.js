@@ -44,7 +44,7 @@ class Signup extends React.Component {
     userDidSignUp: false
   };
 
-  onLoginRedirectUrl = '/dashboard';
+  onLoginRedirectUrl = '/home';
 
   constructor(props) {
     super(props);

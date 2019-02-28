@@ -16,6 +16,7 @@ import { user, initialUserState,
     LOAD_SUCCESS,
     CHANGE_ATTEMPT,
     SOCIAL_LOGIN_ATTEMPT,
+    CHANGE_IMAGE_ATTEMPT,
  } from './userReducer';
 //import { serviceReducers, initialServiceState } from './serviceReducer';
 
@@ -46,7 +47,8 @@ const Actions = {
     PROFILE_FAILURE,
     LOAD_STATE_ATTEMPT,
     LOAD_SUCCESS,
-    CHANGE_ATTEMPT
+    CHANGE_ATTEMPT,
+    CHANGE_IMAGE_ATTEMPT,
 }
 
 export {
@@ -70,5 +72,6 @@ export {
     PROFILE_FAILURE,
     LOAD_STATE_ATTEMPT,
     LOAD_SUCCESS,
-    CHANGE_ATTEMPT
+    CHANGE_ATTEMPT,
+    CHANGE_IMAGE_ATTEMPT,
 }

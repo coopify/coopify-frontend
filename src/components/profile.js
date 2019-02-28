@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie';
 import Authenticator from './fake-authenticator';
-import { attemptProfileAction, onChangeProfileInputAction } from '../actions/user';
+import { attemptProfileAction, onChangeProfileInputAction, changeProfileImage } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -20,7 +20,7 @@ import { Button, Input, Row, Col } from 'react-bootstrap';
 import Switch from "react-switch";
 import Protected from './protected';
 import { Link } from 'react-router-dom';
-//import DropDown from './dropdown';
+import {loadScript} from "@pawjs/pawjs/src/utils/utils";
 
 export default @connect(state => ({
   loggedUser: state.user, //el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
@@ -68,11 +68,14 @@ class Profile extends React.Component {
     const tel = data.get('tel');
     const dateBorn = data.get('dateBorn');
     const biography = data.get('biography');
+    const picture = loggedUser.pictureURL;
+
     const interests = data.get('interests');
     const token = localStorage.getItem("token");
 
     const userProfileData = 
     {
+      pictureURL: picture,
       name : name,
       lastName : lastname,
       address : direction,
@@ -89,6 +92,10 @@ class Profile extends React.Component {
     }
 
     dispatch(attemptProfileAction(reqAttributes));
+  }
+
+  componentDidMount(){
+    loadScript("//widget.cloudinary.com/global/all.js").then((res) => {} ).catch(err => {});
   }
 
   handleSwitchChange(e) {
@@ -121,6 +128,34 @@ class Profile extends React.Component {
     dispatch(onChangeProfileInputAction(user));
   }
 
+  changeImage(e) {
+    const {dispatch} = this.props;
+    const edition = this.state.checked;
+
+    if(edition){
+
+          let options = {
+            cloud_name: "coopify-media",
+            upload_preset: "coopify-media",
+            multiple: true,
+            returnJustUrl: true
+        };
+
+        cloudinary.openUploadWidget({
+          cloud_name: "coopify-media", upload_preset: "coopify-media" }, (error, result) =>
+          { 
+              if(result && result.length > 0){
+                const img = {
+                  url: result[0].secure_url
+                };
+
+                dispatch(changeProfileImage(img));
+              }
+          }
+        );
+  }
+  }
+
   render() {
     const { loading, error, loggedUser } = this.props
     if(error.length > 0) this.notify(error, true)
@@ -135,7 +170,10 @@ class Profile extends React.Component {
         <form onSubmit={e => this.handleSubmit(e)}>
         <Row>
             <Col sm={12}>
-                <Switch
+
+              <h2 style={{textAlign: 'center'}}> Profile </h2>
+                
+                Edit Mode <Switch
                   checked={this.state.checked}
                   onChange={e => this.handleSwitchChange(e)}
                   onColor="#86d3ff"
@@ -169,7 +207,7 @@ class Profile extends React.Component {
                         paddingLeft: 10
                       }}
                     >
-                      Edit
+                      On
                     </div>
 
                   }
@@ -186,12 +224,12 @@ class Profile extends React.Component {
 
           <Row style={{marginTop: '2%'}}>
             <Col sm={2} style={{marginLeft: '10%'}}>
-              <img className={styles.picture} src={loggedUser.pictureURL} />
+              <img className={styles.picture} name="picture" src={loggedUser.pictureURL} onClick={e => this.changeImage(e)} />
             </Col>
             <Col sm={3}>
 
               <div className="field">
-                <label className="label" htmlFor="name">Name</label>
+                <label className="label" htmlFor="name">First name</label>
                 <div className="control">
                   <input name="name" value={loggedUser.name} onChange={e => this.handleOnChange(e)} placeholder="Name" className="form-control" readOnly={edition} disabled={focusable}></input>  
                 </div> 
@@ -206,14 +244,14 @@ class Profile extends React.Component {
               </div> 
 
               <div className="field">
-                <label className="label" htmlFor="direction">Direction</label>
+                <label className="label" htmlFor="direction">Address</label>
                 <div className="control">
               <input name="direction" value={loggedUser.address} onChange={e => this.handleOnChange(e)} placeholder="Direction" className="form-control" readOnly={edition} disabled={focusable}></input>    
               </div> 
               </div> 
 
               <div className="field">
-                <label className="label" htmlFor="tel">Tel</label>
+                <label className="label" htmlFor="tel">Phone</label>
                 <div className="control">
               <input type="number" name="tel" value={loggedUser.phone} onChange={e => this.handleOnChange(e)} placeholder="Tel" className="form-control" readOnly={edition} disabled={focusable}></input>    
               </div> 
@@ -224,7 +262,7 @@ class Profile extends React.Component {
               <Col sm={3}>
 
                 <div className="field">
-                    <label className="label" htmlFor="dateBorn">Date born</label>
+                    <label className="label" htmlFor="dateBorn">Birthdate</label>
                   <div className="control">
               <input name="dateBorn" type="date" onChange={e => this.handleOnChange(e)} className="form-control" value={loggedUser.birthdate.substring(0,10)} readOnly={edition} disabled={focusable}></input>  
               </div> 
@@ -256,8 +294,12 @@ class Profile extends React.Component {
             > Accept
             </Button> : ""
             }
+
             &nbsp;
-              <Link className="button is-light" to="/home">Cancel</Link>
+
+            { !edition ?  <Link className="button is-light" to="/home">Cancel</Link> : "" }
+
+              
             </Col>
           </Row>
         </form>

@@ -37,3 +37,8 @@ export const onChangeProfileInputAction = (payload) => ({
     type: Actions.CHANGE_ATTEMPT,
     payload
 });
+
+export const changeProfileImage = (payload) => ({
+    type: Actions.CHANGE_IMAGE_ATTEMPT,
+    payload
+});

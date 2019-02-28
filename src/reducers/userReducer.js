@@ -17,6 +17,7 @@ export const PROFILE_FAILURE = 'PROFILE_FAILURE'
 export const LOAD_STATE_ATTEMPT = 'LOAD_STATE_ATTEMPT'
 export const LOAD_SUCCESS = 'LOAD_SUCCESS'
 export const CHANGE_ATTEMPT = "CHANGE_ATTEMPT"
+export const CHANGE_IMAGE_ATTEMPT = "CHANGE_IMAGE_ATTEMPT"
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -138,6 +139,17 @@ export const user = (state = initialUserState, action) => {
           interests : action.payload.interests
         },
 
+        userDidLog: true
+      });
+
+      case CHANGE_IMAGE_ATTEMPT:
+      return _.assignIn({}, state, {
+        loading: false,
+        userDidSignUp: false,
+        user: {...state.user, 
+          pictureURL: action.payload.url,
+        },
+        
         userDidLog: true
       });
 

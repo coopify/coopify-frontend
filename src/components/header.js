@@ -96,32 +96,6 @@ class Header extends PureComponent {
   <div id="navbarBasicExample" className={ this.state.isActive ? 'navbar-menu is-active' : 'navbar-menu'}>
     <div className="navbar-start">
     <Link className="navbar-item" to="/home">Home</Link>
-
-      <a className="navbar-item">
-        Documentation
-      </a>
-
-      <div className="navbar-item has-dropdown is-hoverable">
-        <a className="navbar-link">
-          More
-        </a>
-
-        <div className="navbar-dropdown">
-          <a className="navbar-item">
-            About
-          </a>
-          <a className="navbar-item">
-            Jobs
-          </a>
-          <a className="navbar-item">
-            Contact
-          </a>
-          <hr className="navbar-divider"/>
-          <a className="navbar-item">
-            Report an issue
-          </a>
-        </div>
-      </div>
     </div>
     { !userDidLog ? (
     <div className="navbar-end">
@@ -138,14 +112,13 @@ class Header extends PureComponent {
 			<div className="navbar-item has-dropdown is-hoverable">
 				<a href="#" data-toggle="dropdown" className="navbar-link" aria-expanded="false">
 
-           <img src={loggedUser.pictureURL}/> 
+           <img src={loggedUser.pictureURL} style={{paddingRight: '5%'}}/> 
 
           {loggedUser.name} <b className="caret"></b>
         </a>
           
 				<div className="navbar-dropdown">
 					<Link to="/user/profile" className="navbar-item"><i className="fa fa-user-o"></i> Profile</Link>
-					<a href="#" className="navbar-item"><i className="fa fa-sliders"></i> Settings</a>
 					<hr className="navbar-divider"/>
 					<a href="#" onClick={e => this.handleLogout(e)} className="navbar-item"><i className="material-icons"></i> Logout</a>
 				</div> 

@@ -42,3 +42,7 @@ export const changeProfileImage = (payload) => ({
     type: Actions.CHANGE_IMAGE_ATTEMPT,
     payload
 });
+
+export const resetError = () => ({
+    type: Actions.RESET_ERROR
+});

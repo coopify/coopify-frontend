@@ -18,18 +18,24 @@ export function* loginAsync(payload) {
 export function* signUpAsync(payload) {
   const result = yield signUpAPICall(payload.payload);
   if (result.status == 200) {
-    yield put({ type: SIGNUP_SUCCESS, user: result.user })
+
+    localStorage.setItem("loggedUser", JSON.stringify(result.body.user));
+    localStorage.setItem("token", result.body.accessToken);
+
+    yield put({ type: SIGNUP_SUCCESS, user: result.body.user })//estaba .user
   } else {
-    yield put({ type: SIGNUP_FAILURE, data: result.data })
+    yield put({ type: SIGNUP_FAILURE, data: result.body })
   }
 }
 
 export function* socialSignUpAsync(payload) {
   const result = yield socialSignUpAPICall(payload.payload);
   if (result.status == 200) {
-    yield put({ type: SOCIAL_SIGNUP_SUCCESS, user: result })
+    localStorage.setItem("loggedUser", JSON.stringify(result.body.user));
+    localStorage.setItem("token", result.body.accessToken);
+    yield put({ type: SOCIAL_SIGNUP_SUCCESS, user: result.body.user })
   } else {
-    yield put({ type: SOCIAL_SIGNUP_FAILURE, data: result.data })
+    yield put({ type: SOCIAL_SIGNUP_FAILURE, data: result.body })
   }
 }
 
@@ -45,7 +51,7 @@ export function* profileAsync(payload) {
   if (result.status == 200) {
     yield put({ type: PROFILE_SUCCESS, user: result })
   } else {
-    yield put({ type: PROFILE_FAILURE, data: result.data })
+    yield put({ type: PROFILE_FAILURE, errorMessage: result.errorMessage })
   }
 }
 
@@ -65,6 +71,10 @@ export function* loadStateFromCookies(){
 export function* socialLoginAsync(payload) {
   const result = yield socialLogInAPICall(payload.payload);
   if (result.status == 200) {
+
+    localStorage.setItem("loggedUser", JSON.stringify(result.data.user));
+    localStorage.setItem("token", result.data.accessToken);
+
     yield put({ type: LOGIN_SUCCESS, data: result.data })
   } else {
     yield put({ type: LOGIN_FAILURE, data: result.data })

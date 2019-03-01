@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie';
 import Authenticator from './fake-authenticator';
-import { attemptProfileAction, onChangeProfileInputAction, changeProfileImage } from '../actions/user';
+import { attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetError } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -94,6 +94,17 @@ class Profile extends React.Component {
     dispatch(attemptProfileAction(reqAttributes));
   }
 
+  notify(message, isError){
+    const {dispatch} = this.props;
+    if(isError){
+      toast.error(message);
+      dispatch(resetError());
+    }
+    else{
+      toast.success(message)
+    }
+  }
+
   componentDidMount(){
     loadScript("//widget.cloudinary.com/global/all.js").then((res) => {} ).catch(err => {});
   }
@@ -162,6 +173,7 @@ class Profile extends React.Component {
     const genders = ['Male', 'Female', 'Other', 'Unespecified'];
     const edition = !this.state.checked;
     const focusable = !this.state.checked ? 'disabled' : '';
+    const dateBirth = loggedUser.birthdate ? loggedUser.birthdate.substring(0,10) : new Date(Date.now()).toISOString().substring(0,10);
 
     return (
       <Protected>
@@ -224,7 +236,9 @@ class Profile extends React.Component {
 
           <Row style={{marginTop: '2%'}}>
             <Col sm={2} style={{marginLeft: '10%'}}>
-              <img className={styles.picture} name="picture" src={loggedUser.pictureURL} onClick={e => this.changeImage(e)} />
+            <div style={{borderColor: 'red'}} onClick={e => this.changeImage(e)}>
+              <img className={styles.picture} name="picture" src={loggedUser.pictureURL} />
+              </div>
             </Col>
             <Col sm={3}>
 
@@ -264,7 +278,7 @@ class Profile extends React.Component {
                 <div className="field">
                     <label className="label" htmlFor="dateBorn">Birthdate</label>
                   <div className="control">
-              <input name="dateBorn" type="date" onChange={e => this.handleOnChange(e)} className="form-control" value={loggedUser.birthdate.substring(0,10)} readOnly={edition} disabled={focusable}></input>  
+              <input name="dateBorn" type="date" onChange={e => this.handleOnChange(e)} className="form-control" value={dateBirth} readOnly={edition} disabled={focusable}></input>  
               </div> 
               </div> 
 
@@ -304,6 +318,7 @@ class Profile extends React.Component {
           </Row>
         </form>
         </div>
+        <ToastContainer autoClose={3000}/>
       </GuestLayout>
       </Protected>
     );

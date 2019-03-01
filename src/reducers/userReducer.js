@@ -19,6 +19,7 @@ export const LOAD_STATE_ATTEMPT = 'LOAD_STATE_ATTEMPT'
 export const LOAD_SUCCESS = 'LOAD_SUCCESS'
 export const CHANGE_ATTEMPT = "CHANGE_ATTEMPT"
 export const CHANGE_IMAGE_ATTEMPT = "CHANGE_IMAGE_ATTEMPT"
+export const RESET_ERROR = 'RESET_ERROR'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -52,7 +53,7 @@ export const user = (state = initialUserState, action) => {
       case SIGNUP_SUCCESS:
       return _.assignIn({}, state, {
         loading: false,
-        user: action.data.user,
+        user: action.user,
         error: '',
         userDidSignUp: true
       });
@@ -83,7 +84,7 @@ export const user = (state = initialUserState, action) => {
       case SOCIAL_SIGNUP_SUCCESS:
       return _.assignIn({}, state, {
         loading: false,
-        user: action.user.data,
+        user: action.user,
         error: '',
         socialUserDidSignUp: true,
         userDidLog: true
@@ -116,7 +117,7 @@ export const user = (state = initialUserState, action) => {
       case PROFILE_FAILURE:
       return _.assignIn({}, state, {
         loading: false,
-        error: action.data.message,
+        error: action.errorMessage,
       });
 
       case LOAD_STATE_ATTEMPT:
@@ -160,6 +161,11 @@ export const user = (state = initialUserState, action) => {
         },
         
         userDidLog: true
+      });
+
+      case RESET_ERROR:
+      return _.assignIn({}, state, {
+        error: ''
       });
 
     default:

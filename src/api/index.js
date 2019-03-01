@@ -37,7 +37,7 @@ export function signUpAPICall(payload) {
       then((response) => {
         return {       
           status: response.status,
-          user: response.data.user
+          body: response.data
         }
       }).catch((e) => { 
         console.log("signUpAPICall Error: " + JSON.stringify(e) + "  " + e);
@@ -72,7 +72,7 @@ export function socialSignUpAPICall(payload) { //TODO ver el endpoint en el back
       then((response) => {
         return {       
           status: response.status,
-          data: response.data.user
+          body: response.data
         }
       }).catch((e) => {
         console.log("SocialSignUpAPICall Error" + JSON.stringify(e));
@@ -108,7 +108,7 @@ export function profileAPICall(payload){
       console.log("signUpAPICall Error: " + JSON.stringify(e) + "  " + e);
       return {
         status: e.response.status,
-        data: e.response
+        errorMessage: e.response.data.message
     }});
 
 }

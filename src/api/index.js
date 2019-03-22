@@ -112,3 +112,35 @@ export function profileAPICall(payload){
     }});
 
 }
+
+//Agus
+export function checkBalanceAPICall(payload){
+  const token = payload.userToken;
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  const userId = payload.userId;
+  
+  const header = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  };
+  const attributes =  payload.attributes;
+
+  return axios.get(
+    `${global.API_URL}/api/users/${userId}/balance`, {
+        headers: header,
+        attributes
+    }).  
+    then((response) => {
+      return {       
+        status: response.status,
+        user: response.data.user
+      }
+    }).catch((e) => { 
+      console.log("checkBalance Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+
+}
+//Agus

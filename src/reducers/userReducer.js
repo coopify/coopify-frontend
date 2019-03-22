@@ -20,6 +20,9 @@ export const LOAD_SUCCESS = 'LOAD_SUCCESS'
 export const CHANGE_ATTEMPT = "CHANGE_ATTEMPT"
 export const CHANGE_IMAGE_ATTEMPT = "CHANGE_IMAGE_ATTEMPT"
 export const RESET_ERROR = 'RESET_ERROR'
+export const CHECKBALANCE_ATTEMPT = 'CHECKBALANCE_ATTEMPT'
+export const CHECKBALANCE_SUCCESS = 'CHECKBALANCE_SUCCESS'
+export const CHECKBALANCE_FAILURE = 'CHECKBALANCE_FAILURE'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -119,7 +122,24 @@ export const user = (state = initialUserState, action) => {
         loading: false,
         error: action.errorMessage,
       });
-
+//Agus
+      case CHECKBALANCE_ATTEMPT:
+      return _.assignIn({}, state, {
+        loading: true,
+        error: '',
+      });
+      case CHECKBALANCE_SUCCESS:
+      return _.assignIn({}, state, {
+        loading: false,
+        error: '',
+        user: action.user.user
+      });
+      case CHECKBALANCE_FAILURE:
+      return _.assignIn({}, state, {
+        loading: false,
+        error: action.errorMessage,
+      });
+//Agus
       case LOAD_STATE_ATTEMPT:
       return _.assignIn({}, state, {
         loading: true,

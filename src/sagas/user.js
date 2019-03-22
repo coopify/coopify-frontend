@@ -1,6 +1,24 @@
 import { put } from 'redux-saga/effects';
-import { LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_FAILURE, SIGNUP_SUCCESS, SOCIAL_SIGNUP_FAILURE, LOGOUT_SUCCESS, PROFILE_SUCCESS, PROFILE_FAILURE, LOAD_SUCCESS, SOCIAL_SIGNUP_SUCCESS } from '../reducers';
-import { logInAPICall, signUpAPICall, socialSignUpAPICall, profileAPICall, socialLogInAPICall } from '../api';
+import { LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  SIGNUP_FAILURE, 
+  SIGNUP_SUCCESS, 
+  SOCIAL_SIGNUP_FAILURE, 
+  LOGOUT_SUCCESS, 
+  PROFILE_SUCCESS, 
+  PROFILE_FAILURE, 
+  LOAD_SUCCESS, 
+  SOCIAL_SIGNUP_SUCCESS,
+  CHECKBALANCE_SUCCESS,
+  CHECKBALANCE_FAILURE
+} from '../reducers';
+
+import { logInAPICall, 
+  signUpAPICall, 
+  socialSignUpAPICall, 
+  profileAPICall, 
+  socialLogInAPICall
+} from '../api';
 
 export function* loginAsync(payload) {
     const result = yield logInAPICall(payload.payload);
@@ -80,3 +98,13 @@ export function* socialLoginAsync(payload) {
     yield put({ type: LOGIN_FAILURE, data: result.data })
   }
 }
+//Agus
+export function* chaeckBalanceAsync(payload) {
+  const result = yield checkBalanceAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: CHECKBALANCE_SUCCESS, balance: result })
+  } else {
+    yield put({ type: CHECKBALANCE_FAILURE, errorMessage: result.errorMessage })
+  }
+}
+//Agus

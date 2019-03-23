@@ -10,7 +10,9 @@ import { LOGIN_SUCCESS,
   LOAD_SUCCESS, 
   SOCIAL_SIGNUP_SUCCESS,
   CHECKBALANCE_SUCCESS,
-  CHECKBALANCE_FAILURE
+  CHECKBALANCE_FAILURE,
+  CHECKTRANSACTIONS_SUCCESS,
+  CHECKTRANSACTIONS_FAILURE
 } from '../reducers';
 
 import { logInAPICall, 
@@ -18,7 +20,8 @@ import { logInAPICall,
   socialSignUpAPICall, 
   profileAPICall, 
   socialLogInAPICall,
-  checkBalanceAPICall
+  checkBalanceAPICall,
+  checkTransactionsAPICall
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -105,5 +108,13 @@ export function* checkBalanceAsync(payload) {
     yield put({ type: CHECKBALANCE_SUCCESS, balance: result.balance })
   } else {
     yield put({ type: CHECKBALANCE_FAILURE, errorMessage: result.errorMessage })
+  }
+}
+export function* checkTransactionsAsync(payload) {
+  const result = yield checkTransactionsAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: CHECKTRANSACTIONS_SUCCESS, transactions: result.transactions })
+  } else {
+    yield put({ type: CHECKTRANSACTIONS_FAILURE, errorMessage: result.errorMessage })
   }
 }

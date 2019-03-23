@@ -1,10 +1,7 @@
 
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
-import cookie from '../libs/cookie/server';
-import Authenticator from './fake-authenticator';
-import { resetError, attemptCheckBalanceAction } from '../actions/user';
+import { resetError, attemptCheckBalanceAction, attemptCheckTransactionsAction } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -16,15 +13,14 @@ import '../css/style.css'
 import '../css/form-elements.css'
 import 'font-awesome/css/font-awesome.min.css';
 import styles from '../css/profile.scss';
-import { Button, Input, Row, Col } from 'react-bootstrap';
-import Switch from "react-switch";
 import Protected from './protected';
-import { Link } from 'react-router-dom';
-import {loadScript} from "@pawjs/pawjs/src/utils/utils";
+import ReactTable from "react-table";
+import 'react-table/react-table.css'
 
 export default @connect(state => ({
   loggedUser: state.user, //el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
   balance: state.balance,
+  transactions: state.transactions,
   error: state.error,
   loading: state.loading,
 }))
@@ -36,7 +32,8 @@ class CoopiesAccount extends React.Component {
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
     error: PropTypes.string,
-    balance: PropTypes.string
+    balance: PropTypes.string,
+    transactions: PropTypes.array
   };
 
   static defaultProps = {
@@ -45,6 +42,7 @@ class CoopiesAccount extends React.Component {
     loggedUser: {},
     loading: false,
     balance: "-",
+    transactions: [],
     error: ''
   };
 
@@ -54,6 +52,7 @@ class CoopiesAccount extends React.Component {
       loggedUser: {},
       loading: false,
       balance: "-",
+      transactions: [],
       error: ''
     };
   }
@@ -79,11 +78,32 @@ class CoopiesAccount extends React.Component {
     }
 
     dispatch(attemptCheckBalanceAction(reqAttributes));
+    dispatch(attemptCheckTransactionsAction(reqAttributes));
   }
 
 
   render() {
-    const { loading, error, loggedUser, balance } = this.props
+    const { loading, error, loggedUser, balance, transactions } = this.props
+    const data = transactions
+    const columns = [{
+      Header: 'Date',
+      accessor: 'date'
+    },{
+      Header: 'Description',
+      accessor: 'description',
+    },{
+      Header: 'Coopies',
+      accessor: 'coopies',
+    },{
+      Header: 'From',
+      accessor: 'from',
+    },{
+      Header: 'In-Out',
+      accessor: 'inOut',
+    },{
+      Header: 'To',
+      accessor: 'to',
+    },]
     if(error.length > 0) this.notify(error, true)
 
     return (
@@ -91,23 +111,19 @@ class CoopiesAccount extends React.Component {
       <GuestLayout>
         <div className={styles.container}>
         <form >
-        <Row>
-            <Col sm={12}>
 
-              <h2 style={{textAlign: 'center'}}> Coopies Account </h2>
-                
-            </Col>
-        </Row>
+              <h2 style={{textAlign: 'center'}}> Transactions </h2>
 
-          <Row style={{marginTop: '2%'}}>
-            <Col sm={3}>
-
-              <div className="field">
+              <div className="field" >
                 <label className="label" htmlFor="name">Available Coopies (CPI): {balance}</label>
               </div> 
 
-            </Col>
-          </Row>
+          <ReactTable
+            defaultPageSize={10}
+            data={data}
+            columns={columns}
+          />
+
         </form>
         </div>
         <ToastContainer autoClose={3000}/>

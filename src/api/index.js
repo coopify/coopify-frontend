@@ -146,3 +146,52 @@ export function checkBalanceAPICall(payload){
         balance: "22"
       }
 }
+
+export function checkTransactionsAPICall(payload){
+  const token = payload.userToken;
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  const userId = payload.userId;
+  
+  const header = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  };
+  const attributes =  payload.attributes;
+
+  // return axios.get(
+  //   `${global.API_URL}/api/users/${userId}/transactions`, {
+  //       headers: header,
+  //       attributes
+  //   }).  
+  //   then((response) => {
+  //     return {       
+  //       status: response.status,
+  //       transactions: response.transactions
+  //     }
+  //   }).catch((e) => { 
+  //     console.log("checkTransactions Error: " + JSON.stringify(e) + "  " + e);
+  //     return {
+  //       status: e.response.status,
+  //       errorMessage: e.response.data.message
+  //   }});
+      const myObjTransactions =
+        [{date: "10/3/2019", 
+        description: "guitar lessons", 
+        coopies: "5", 
+        from: "Pepe", 
+        inOut: "in", 
+        to: "Nacho"
+        },
+        {date: "12/3/2019", 
+        description: "English lessons", 
+        coopies: "6", 
+        from: "Nacho", 
+        inOut: "out", 
+        to: "Pepe"}]
+      
+
+      return {       
+        status: 200,
+        transactions : myObjTransactions
+      }
+}

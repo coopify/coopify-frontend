@@ -124,23 +124,27 @@ export function checkBalanceAPICall(payload){
     'Authorization': `Bearer ${token}`
   };
   const attributes =  payload.attributes;
+//Agus: Cuando este funcionando la API descomentar
+  // return axios.get(
+  //   `${global.API_URL}/api/users/${userId}/balance`, {
+  //       headers: header,
+  //       attributes
+  //   }).  
+  //   then((response) => {
+  //     return {       
+  //       status: response.status,
+  //       balance: response.balance
+  //     }
+  //   }).catch((e) => { 
+  //     console.log("checkBalance Error: " + JSON.stringify(e) + "  " + e);
+  //     return {
+  //       status: e.response.status,
+  //       errorMessage: e.response.data.message
+  //   }});
 
-  return axios.get(
-    `${global.API_URL}/api/users/${userId}/balance`, {
-        headers: header,
-        attributes
-    }).  
-    then((response) => {
       return {       
-        status: response.status,
-        user: response.data.user
+        status: 200,
+        balance: "22"
       }
-    }).catch((e) => { 
-      console.log("checkBalance Error: " + JSON.stringify(e) + "  " + e);
-      return {
-        status: e.response.status,
-        errorMessage: e.response.data.message
-    }});
-
 }
 //Agus

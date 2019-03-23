@@ -17,7 +17,8 @@ import { logInAPICall,
   signUpAPICall, 
   socialSignUpAPICall, 
   profileAPICall, 
-  socialLogInAPICall
+  socialLogInAPICall,
+  checkBalanceAPICall
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -99,10 +100,10 @@ export function* socialLoginAsync(payload) {
   }
 }
 //Agus
-export function* chaeckBalanceAsync(payload) {
+export function* checkBalanceAsync(payload) {
   const result = yield checkBalanceAPICall(payload.payload);
   if (result.status == 200) {
-    yield put({ type: CHECKBALANCE_SUCCESS, balance: result })
+    yield put({ type: CHECKBALANCE_SUCCESS, balance: result.balance })
   } else {
     yield put({ type: CHECKBALANCE_FAILURE, errorMessage: result.errorMessage })
   }

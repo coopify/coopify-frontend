@@ -132,7 +132,7 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         loading: false,
         error: '',
-        user: action.user.user
+        balance: action.balance
       });
       case CHECKBALANCE_FAILURE:
       return _.assignIn({}, state, {

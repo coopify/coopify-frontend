@@ -4,6 +4,7 @@ import { Signup } from '../components/signup'
 import{ FacebookSignUp } from '../components/facebookSignUp';
 import { GoogleSignUp } from '../components/googleSignUp';
 import {Profile} from '../components/profile';
+import {CoopiesAccount} from '../components/coopiesAccount';
 
 export default [
   {
@@ -52,6 +53,18 @@ export default [
       image: LoginImage,
     },
   },
+  //Agus
+  {
+    path: '/user/coopiesAccount',
+    exact: true,
+    component: CoopiesAccount,
+    seo: {
+      title: 'Auth | ReactPWA Demo',
+      description: 'User coopies',
+      image: LoginImage,
+    },
+  },
+  //Agus
   {
     path: '/logout',
     exact: true,

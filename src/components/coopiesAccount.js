@@ -24,8 +24,9 @@ import {loadScript} from "@pawjs/pawjs/src/utils/utils";
 
 export default @connect(state => ({
   loggedUser: state.user, //el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
+  balance: state.balance, //Agus
   error: state.error,
-  loading: state.loading
+  loading: state.loading,
 }))
 
 class CoopiesAccount extends React.Component {
@@ -34,7 +35,8 @@ class CoopiesAccount extends React.Component {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
-    error: PropTypes.string
+    error: PropTypes.string,
+    balance: PropTypes.string
   };
 
   static defaultProps = {
@@ -42,6 +44,7 @@ class CoopiesAccount extends React.Component {
     },
     loggedUser: {},
     loading: false,
+    balance: "-",
     error: ''
   };
 
@@ -50,8 +53,8 @@ class CoopiesAccount extends React.Component {
     this.state = {
       loggedUser: {},
       loading: false,
-      error: '',
-      checked: false
+      balance: "-",
+      error: ''
     };
   }
 
@@ -74,7 +77,6 @@ class CoopiesAccount extends React.Component {
     const reqAttributes = {
       userId: loggedUser.id,
       userToken: token,
-      attributes: userAccountData
     }
 
     dispatch(attemptCheckBalanceAction(reqAttributes));
@@ -82,7 +84,7 @@ class CoopiesAccount extends React.Component {
 
 
   render() {
-    const { loading, error, loggedUser } = this.props
+    const { loading, error, loggedUser, balance } = this.props
     if(error.length > 0) this.notify(error, true)
 
     return (
@@ -102,7 +104,7 @@ class CoopiesAccount extends React.Component {
             <Col sm={3}>
 
               <div className="field">
-                <label className="label" htmlFor="name">Available Coopies: {loggedUser.balance}</label>
+                <label className="label" htmlFor="name">Available Coopies (CPI): {balance}</label>
               </div> 
 
             </Col>
@@ -111,9 +113,9 @@ class CoopiesAccount extends React.Component {
         </div>
         <ToastContainer autoClose={3000}/>
       </GuestLayout>
-      </Protected>
+     </Protected>
     );
   }
 }
 
-export { Profile }
+export { CoopiesAccount }

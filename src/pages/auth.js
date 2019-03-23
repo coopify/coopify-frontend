@@ -6,6 +6,7 @@ import { GoogleSignUp } from '../components/googleSignUp';
 import {Profile} from '../components/profile';
 import {CoopiesAccount} from '../components/coopiesAccount';
 import {Offers} from '../components/offers';
+import { OfferCreation } from '../components/offerCreation';
 
 export default [
   {
@@ -71,6 +72,16 @@ export default [
     seo: {
       title: 'Auth | ReactPWA Demo',
       description: 'Offers',
+      image: LoginImage,
+    },
+  },
+  {
+    path: '/offer/create',
+    exact: true,
+    component: OfferCreation,
+    seo: {
+      title: 'Auth | ReactPWA Demo',
+      description: 'User coopies',
       image: LoginImage,
     },
   },

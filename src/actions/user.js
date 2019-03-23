@@ -29,6 +29,11 @@ export const attemptProfileAction = (payload) => ({
     payload
 });
 
+export const attemptCheckBalanceAction = (payload) => ({
+    type: Actions.CHECKBALANCE_ATTEMPT,
+    payload
+});
+
 export const loadState = () => ({
     type: Actions.LOAD_STATE_ATTEMPT
 });

@@ -19,6 +19,9 @@ import { user, initialUserState,
     SOCIAL_LOGIN_ATTEMPT,
     CHANGE_IMAGE_ATTEMPT,
     RESET_ERROR,
+    CHECKBALANCE_ATTEMPT,
+    CHECKBALANCE_SUCCESS,
+    CHECKBALANCE_FAILURE
  } from './userReducer';
 //import { serviceReducers, initialServiceState } from './serviceReducer';
 
@@ -53,6 +56,9 @@ const Actions = {
     CHANGE_ATTEMPT,
     CHANGE_IMAGE_ATTEMPT,
     RESET_ERROR,
+    CHECKBALANCE_ATTEMPT,
+    CHECKBALANCE_SUCCESS,
+    CHECKBALANCE_FAILURE
 }
 
 export {
@@ -80,4 +86,7 @@ export {
     CHANGE_ATTEMPT,
     CHANGE_IMAGE_ATTEMPT,
     RESET_ERROR,
+    CHECKBALANCE_ATTEMPT,
+    CHECKBALANCE_SUCCESS,
+    CHECKBALANCE_FAILURE
 }

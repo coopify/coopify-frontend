@@ -112,3 +112,37 @@ export function profileAPICall(payload){
     }});
 
 }
+
+export function checkBalanceAPICall(payload){
+  const token = payload.userToken;
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  const userId = payload.userId;
+  
+  const header = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  };
+  const attributes =  payload.attributes;
+//Cuando este funcionando la API descomentar
+  // return axios.get(
+  //   `${global.API_URL}/api/users/${userId}/balance`, {
+  //       headers: header,
+  //       attributes
+  //   }).  
+  //   then((response) => {
+  //     return {       
+  //       status: response.status,
+  //       balance: response.balance
+  //     }
+  //   }).catch((e) => { 
+  //     console.log("checkBalance Error: " + JSON.stringify(e) + "  " + e);
+  //     return {
+  //       status: e.response.status,
+  //       errorMessage: e.response.data.message
+  //   }});
+
+      return {       
+        status: 200,
+        balance: "22"
+      }
+}

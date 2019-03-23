@@ -29,12 +29,10 @@ export const attemptProfileAction = (payload) => ({
     payload
 });
 
-//Agus
 export const attemptCheckBalanceAction = (payload) => ({
     type: Actions.CHECKBALANCE_ATTEMPT,
     payload
 });
-//Agus
 
 export const loadState = () => ({
     type: Actions.LOAD_STATE_ATTEMPT

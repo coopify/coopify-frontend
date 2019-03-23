@@ -99,7 +99,6 @@ export function* socialLoginAsync(payload) {
     yield put({ type: LOGIN_FAILURE, data: result.data })
   }
 }
-//Agus
 export function* checkBalanceAsync(payload) {
   const result = yield checkBalanceAPICall(payload.payload);
   if (result.status == 200) {
@@ -108,4 +107,3 @@ export function* checkBalanceAsync(payload) {
     yield put({ type: CHECKBALANCE_FAILURE, errorMessage: result.errorMessage })
   }
 }
-//Agus

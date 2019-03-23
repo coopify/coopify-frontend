@@ -122,7 +122,6 @@ export const user = (state = initialUserState, action) => {
         loading: false,
         error: action.errorMessage,
       });
-//Agus
       case CHECKBALANCE_ATTEMPT:
       return _.assignIn({}, state, {
         loading: true,
@@ -139,7 +138,6 @@ export const user = (state = initialUserState, action) => {
         loading: false,
         error: action.errorMessage,
       });
-//Agus
       case LOAD_STATE_ATTEMPT:
       return _.assignIn({}, state, {
         loading: true,

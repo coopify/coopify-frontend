@@ -113,7 +113,6 @@ export function profileAPICall(payload){
 
 }
 
-//Agus
 export function checkBalanceAPICall(payload){
   const token = payload.userToken;
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -124,7 +123,7 @@ export function checkBalanceAPICall(payload){
     'Authorization': `Bearer ${token}`
   };
   const attributes =  payload.attributes;
-//Agus: Cuando este funcionando la API descomentar
+//Cuando este funcionando la API descomentar
   // return axios.get(
   //   `${global.API_URL}/api/users/${userId}/balance`, {
   //       headers: header,
@@ -147,4 +146,3 @@ export function checkBalanceAPICall(payload){
         balance: "22"
       }
 }
-//Agus

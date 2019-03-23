@@ -53,7 +53,6 @@ export default [
       image: LoginImage,
     },
   },
-  //Agus
   {
     path: '/user/coopiesAccount',
     exact: true,
@@ -64,7 +63,6 @@ export default [
       image: LoginImage,
     },
   },
-  //Agus
   {
     path: '/logout',
     exact: true,

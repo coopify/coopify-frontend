@@ -24,7 +24,7 @@ import {loadScript} from "@pawjs/pawjs/src/utils/utils";
 
 export default @connect(state => ({
   loggedUser: state.user, //el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
-  balance: state.balance, //Agus
+  balance: state.balance,
   error: state.error,
   loading: state.loading,
 }))
@@ -70,7 +70,6 @@ class CoopiesAccount extends React.Component {
   }
 
   componentDidMount(){
-    //Agus: Ver con Isma si esta bien esto
     const { dispatch, loggedUser } = this.props;
     const token = localStorage.getItem("token");
 

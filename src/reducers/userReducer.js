@@ -23,6 +23,9 @@ export const RESET_ERROR = 'RESET_ERROR'
 export const CHECKBALANCE_ATTEMPT = 'CHECKBALANCE_ATTEMPT'
 export const CHECKBALANCE_SUCCESS = 'CHECKBALANCE_SUCCESS'
 export const CHECKBALANCE_FAILURE = 'CHECKBALANCE_FAILURE'
+export const CHECKTRANSACTIONS_ATTEMPT = 'CHECKTRANSACTIONS_ATTEMPT'
+export const CHECKTRANSACTIONS_SUCCESS = 'CHECKTRANSACTIONS_SUCCESS'
+export const CHECKTRANSACTIONS_FAILURE = 'CHECKTRANSACTIONS_FAILURE'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -134,6 +137,22 @@ export const user = (state = initialUserState, action) => {
         balance: action.balance
       });
       case CHECKBALANCE_FAILURE:
+      return _.assignIn({}, state, {
+        loading: false,
+        error: action.errorMessage,
+      });
+      case CHECKTRANSACTIONS_ATTEMPT:
+      return _.assignIn({}, state, {
+        loading: true,
+        error: '',
+      });
+      case CHECKTRANSACTIONS_SUCCESS:
+      return _.assignIn({}, state, {
+        loading: false,
+        error: '',
+        transactions: action.transactions
+      });
+      case CHECKTRANSACTIONS_FAILURE:
       return _.assignIn({}, state, {
         loading: false,
         error: action.errorMessage,

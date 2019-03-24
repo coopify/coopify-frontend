@@ -58,6 +58,10 @@ class OfferCreation extends React.Component {
       error: '',
       offer: {}
     };
+    this.handleChangeStep1 = this.handleChangeStep1.bind(this);
+    this.handleImageChange = this.handleImageChange.bind(this);
+    this.handleChangeStep2 = this.handleChangeStep2.bind(this);
+    this.handleFinalSubmit = this.handleFinalSubmit.bind(this);
   }
 
   notify(message, isError){
@@ -75,14 +79,66 @@ class OfferCreation extends React.Component {
     //loadStyle("../css/stepZilla.css").then((res) => {console.log('cargo css')} ).catch(err => {console.log('fallo carga css: ' + err)});
   }
 
+  handleChangeStep1(e){
+
+    const offer = {...this.state.offer }
+    offer.title = e.title;
+    offer.description = e.description;
+    offer.category = e.category;
+    this.setState({offer});
+
+  }
+
+  handleImageChange(e){
+
+    const offer = {...this.state.offer }
+    offer.pictureURL = e;
+    this.setState({offer});
+
+  }
+
+  handleChangeStep2(e){
+
+    const offer = {...this.state.offer }
+    offer.paymentMethod = e.paymentMethod;
+    offer.exchangeMethod = e.exchangeMethod;
+    offer.startDate = e.startDate;
+    offer.endDate = e.endDate;
+
+    this.setState({offer});
+
+  }
+
+  handleFinalSubmit(e){
+    const a = this.state.offer;
+    const { dispatch } = this.props;
+
+    //TODO axios, api, redux, sagas, etc.
+
+  }
+
 
   render() {
     const { loading, error, loggedUser, balance } = this.props
-
+    const { offer } = this.state
     const steps =
     [
-      {name: 'Datos básicos', component: <BasicData />},
-      {name: 'Medio de intercambio', component: <ExchangeMethod />}
+      { 
+        name: 'Datos básicos', 
+        component: 
+          <BasicData offer={offer} 
+          onOfferInputChangeStep1={this.handleChangeStep1}
+          onOfferImageChange={this.handleImageChange}>
+          </BasicData>
+      },
+      {
+        name: 'Medio de intercambio', 
+        component: 
+          <ExchangeMethod offer={offer}
+          onOfferInputChangeStep2={this.handleChangeStep2}
+          onFinalStepSubmit={this.handleFinalSubmit}>
+          </ExchangeMethod>
+      }
     ]
 
     return (

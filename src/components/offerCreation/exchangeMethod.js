@@ -9,6 +9,7 @@ import {Form, Row, Col, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom'
 import 'font-awesome/css/font-awesome.min.css';
+import _ from 'lodash';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -43,43 +44,77 @@ class ExchangeMethod extends React.Component {
       loggedUser: {},
       loading: false,
       error: '',
-      userDidSignUp: false
+      userDidSignUp: false,
+      showEI: false,
+      showHours: false,
+      showSessions: false,
+      showFinalProduct: false,
     };
   }
 
+  handleInputChange(e){
 
-  handleSubmit(e) {
-    if (e && e.preventDefault) { //Evita refresh al pepe
-      e.preventDefault();
-    }
-    const { dispatch } = this.props;
-    const signUpData = new FormData(e.target);
+    const isRadioButton = e.target.type == "radio";
+    const isCheckbox = e.target.type == "checkbox";
 
-    const name = signUpData.get('name');
-    const email = signUpData.get('email');
-    const password = signUpData.get('password');
-    const repeatedPassword = signUpData.get('repeatPassword');
+      if(isRadioButton){
+        const canShow = e.target.id.toUpperCase() == "COOPI";
+        this.setState({showEI : canShow});
+      }
+      if(isCheckbox){
 
-    const userSignUpData = 
+          if(e.target.name.toUpperCase() == "HOURS"){
+            this.setState({showHours: e.target.checked })
+          }
+
+          else if(e.target.name.toUpperCase() == "SESSIONS"){
+            this.setState({showSessions: e.target.checked })
+          }
+
+          else if(e.target.name.toUpperCase() == "FINALPRODUCT"){
+              this.setState({showFinalProduct: e.target.checked })
+        }
+      }
+
+    const data = new FormData(e.target.form);
+    const { showHours, showSessions, showFinalProduct, showEI } = this.state;
+    const hoursCoopi = data.get('hoursCoopi');
+    const sessionsCoopi = data.get('sessionsCoopi');
+    const productCoopi = data.get('productCoopi');
+
+    const paymentMethod = showEI ? "COOPI" : "BARTER";
+
+    const exchangeMethod =
+     [
+         {selected: showHours ,type: 'HOUR', value: hoursCoopi},
+         {selected: showSessions ,type: 'SESSION', value: sessionsCoopi},
+         {selected: showFinalProduct ,type: 'FINALPRODUCT', value: productCoopi}
+     ];
+    const startDate = data.get('startDate');
+    const endDate = data.get('endDate');
+
+    const newOffer =
     {
-      name: name,
-      email: email,
-      password: password,
-      repeatedPassword: repeatedPassword
+        paymentMethod: paymentMethod,
+        exchangeMethod: exchangeMethod,
+        startDate: startDate,
+        endDate: endDate
     };
 
-    dispatch(attemptSignUpAction(userSignUpData));
+    this.props.onOfferInputChangeStep2(newOffer);
   }
 
-   async handleSocialSignUp(e) {
-    const socialSelected = e.target.value;
-    const response = await getUrlSocialAPICall(socialSelected);
-    const url = response.data;
-    window.location = url;
+  handleFinalSubmit(e){
+    this.props.onFinalStepSubmit(e);
   }
 
   render() {
     const {error, userDidSignUp} = this.props
+    const showEI = this.state.showEI ? 'block' : 'none';
+    const showHours = this.state.showHours ? 'block' : 'none';
+    const showSessions = this.state.showSessions ? 'block' : 'none';
+    const showFinalProduct = this.state.showFinalProduct ? 'block' : 'none';
+
     const placeHolderDate = new Date(Date.now()).toISOString().substring(0,10);
     if(error.length > 0) this.notify(error, true)
 
@@ -88,7 +123,7 @@ class ExchangeMethod extends React.Component {
         <div className="column is-half">
           <h1 className="title">Exchange Method</h1>
           
-          <Form>
+          <Form onSubmit={e => this.handleFinalSubmit(e)}>
 
   <fieldset>
 
@@ -104,19 +139,21 @@ class ExchangeMethod extends React.Component {
           type="radio"
           label="Barter"
           name="formHorizontalRadios"
-          id="formHorizontalRadios1"
+          id="barter"
+          onChange={e => this.handleInputChange(e)}
         />
         <Form.Check
           type="radio"
           label="Coopi"
           name="formHorizontalRadios"
-          id="formHorizontalRadios2"
+          id="coopi"
+          onChange={e => this.handleInputChange(e)}
         />
       </Col>
     </Form.Group>
   </fieldset>
 
-    <fieldset>
+    <fieldset style={{display: showEI}}>
     <Form.Group as={Row}>
     <Form.Label as="legend" column sm={6} style={{textAlign:"left"}}>
         Exchange instance
@@ -127,37 +164,38 @@ class ExchangeMethod extends React.Component {
       <Col sm={4}>
         <Form.Check
           type="checkbox"
-        />
+          name="hours"
+          onChange={e => this.handleInputChange(e)}
+        /> Hour
       </Col>
-      <Form.Label as="legend" column sm={4}>
-        Hour
-      </Form.Label>
-      <Col sm={4}>
-      <Form.Control type="number" placeholder="0" />
+      <Col sm={4} style={{display: showHours}}>
+      <Form.Control type="number" placeholder="0" name="hoursCoopi" onChange={e => this.handleInputChange(e)}/>
     </Col>
+    </Form.Group>
 
+     <Form.Group as={Row}>
       <Col sm={4}>
         <Form.Check
           type="checkbox"
-        />
+          name="sessions"
+          onChange={e => this.handleInputChange(e)}
+        /> Session
       </Col>
-      <Form.Label as="legend" column sm={4}>
-        Session
-      </Form.Label>
-      <Col sm={4}>
-      <Form.Control type="number" placeholder="0" />
+      <Col sm={4} style={{display: showSessions}}>
+      <Form.Control type="number" placeholder="0" name="sessionsCoopi" onChange={e => this.handleInputChange(e)}/>
     </Col>
+    </Form.Group>
 
+ <Form.Group as={Row}>
       <Col sm={4}>
         <Form.Check
           type="checkbox"
-        />
+          name="finalProduct"
+          onChange={e => this.handleInputChange(e)}
+        /> Final Product
       </Col>
-      <Form.Label as="legend" column sm={4}>
-        Final product
-      </Form.Label>
-      <Col sm={4}>
-      <Form.Control type="number" placeholder="0" />
+      <Col sm={4} style={{display: showFinalProduct}}>
+      <Form.Control type="number" placeholder="0" name="productCoopi" onChange={e => this.handleInputChange(e)}/>
     </Col>
     </Form.Group>
     </fieldset>
@@ -167,7 +205,7 @@ class ExchangeMethod extends React.Component {
       Start Date
     </Form.Label>
     <Col sm={10}>
-      <Form.Control type="date" value={placeHolderDate}/>
+      <Form.Control type="date" name="startDate" onChange={e => this.handleInputChange(e)}/>
     </Col>
   </Form.Group>
 
@@ -176,7 +214,7 @@ class ExchangeMethod extends React.Component {
       End Date
     </Form.Label>
     <Col sm={10}>
-      <Form.Control type="date" value={placeHolderDate} />
+      <Form.Control type="date" name="endDate" onChange={e => this.handleInputChange(e)}/>
     </Col>
   </Form.Group>
 

@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 import 'font-awesome/css/font-awesome.min.css';
 import {loadScript} from "@pawjs/pawjs/src/utils/utils";
 import {loadStyle} from "@pawjs/pawjs/src/utils/utils";
+import _ from 'lodash';
 import '../../css/stepZilla.css';
 
 export default @connect(state => ({
@@ -25,7 +26,7 @@ class BasicData extends React.Component {
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
     error: PropTypes.string,
-    userDidSignUp: PropTypes.bool
+    userDidSignUp: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -70,46 +71,38 @@ class BasicData extends React.Component {
                 const img = {
                   url: result[0].secure_url
                 };
-
-                //dispatch(changeProfileImage(img));
+            
+                const newState = _.assignIn({}, this.state, {
+                    offer: {...this.state.offer, 
+                      pictureURL: img.url
+                    }
+                });
+                //this.setState(newState);
+                this.props.onOfferImageChange(img.url);
               }
           }
         );
   }
 
+  handleOnChange(e){
+    const data = new FormData(e.target.form);
+    const title = data.get('title');
+    const description = data.get('description');
+    const category = data.get('category');
 
-  handleSubmit(e) {
-    if (e && e.preventDefault) { //Evita refresh al pepe
-      e.preventDefault();
-    }
-    const { dispatch } = this.props;
-    const signUpData = new FormData(e.target);
-
-    const name = signUpData.get('name');
-    const email = signUpData.get('email');
-    const password = signUpData.get('password');
-    const repeatedPassword = signUpData.get('repeatPassword');
-
-    const userSignUpData = 
+    const newOffer =
     {
-      name: name,
-      email: email,
-      password: password,
-      repeatedPassword: repeatedPassword
+        title: title,
+        description: description,
+        category: category
     };
 
-    dispatch(attemptSignUpAction(userSignUpData));
-  }
-
-   async handleSocialSignUp(e) {
-    const socialSelected = e.target.value;
-    const response = await getUrlSocialAPICall(socialSelected);
-    const url = response.data;
-    window.location = url;
+    this.props.onOfferInputChangeStep1(newOffer);
+    
   }
 
   render() {
-    const {error, userDidSignUp} = this.props
+    const { error } = this.props
     if(error.length > 0) this.notify(error, true)
 
     return (
@@ -123,7 +116,7 @@ class BasicData extends React.Component {
                 Title
                 </Form.Label>
                 <Col sm="10">
-                <Form.Control type="textarea" />
+                <Form.Control type="textarea" name="title" onChange={e => this.handleOnChange(e)} />
                 </Col>
             </Form.Group>
 
@@ -132,7 +125,7 @@ class BasicData extends React.Component {
                 Description
                 </Form.Label>
                 <Col sm="10">
-                <Form.Control as="textarea" rows="8" />
+                <Form.Control as="textarea" name="description" rows="8" onChange={e => this.handleOnChange(e)}/>
                 </Col>
             </Form.Group>
 
@@ -153,7 +146,7 @@ class BasicData extends React.Component {
                 Category
                 </Form.Label>
                 <Col sm="10">
-                <Form.Control as="select">
+                <Form.Control as="select" name="category" onChange={e => this.handleOnChange(e)}>
                     <option>Musica</option>
                     <option>Tecnologia</option>
                     <option>Fontaneria</option>

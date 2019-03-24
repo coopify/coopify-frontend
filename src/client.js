@@ -9,6 +9,7 @@ import './resources/css/global.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min';
 import 'font-awesome/css/font-awesome.min.css';
+import './resources/css/stepZilla.css';
 
 const appInitialState = {};
 

@@ -25,6 +25,7 @@ import {loadStyle} from "@pawjs/pawjs/src/utils/utils";
 import BasicData from './offerCreation/basicData.js';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 
+
 export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,

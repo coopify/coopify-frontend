@@ -16,6 +16,7 @@ import styles from '../css/profile.scss';
 import Protected from './protected';
 import ReactTable from "react-table";
 import 'react-table/react-table.css'
+import StarRatingComponent from 'react-star-rating-component';
 
 export default @connect(state => ({
   error: state.error,
@@ -46,18 +47,18 @@ class Offers extends React.Component {
     };
   }
 
-  notify(message, isError){
-    const {dispatch} = this.props;
-    if(isError){
+  notify(message, isError) {
+    const { dispatch } = this.props;
+    if (isError) {
       toast.error(message);
       dispatch(resetError());
     }
-    else{
+    else {
       toast.success(message)
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const { dispatch } = this.props;
 
 
@@ -74,53 +75,62 @@ class Offers extends React.Component {
     const columns = [{
       accessor: 'image',
       Cell: props => (
-        <div>
+        <div style={{ textAlign: 'right' }}>
           <img src={props.value} alt="offer image" height="200" width="200"></img>
         </div>
-      )
-    },{
+      ),
+      maxWidth: 200
+    }, {
       accessor: 'description',
       Cell: props => (
-      <div>
-        <div class = "container">
-        <div class="row">
-          <div class="col-sm-4"><h2>{props.original.title}</h2></div>
-          <div class="col-sm-4"><h4>By {props.original.by}</h4></div>
-          <div class="col-sm-4"><h4>Stars {props.original.stars}</h4></div>
-        </div>
-        <div class="row">
-          <div class="col-sm-12 parent-bodytext">
-          <p>{props.original.description}</p>
-        </div>
-          <div class="row">
-          <div class="col-sm-12"><h4>Coopies {props.original.coopies}</h4></div>
+        <div>
+          <div className="container" style={{ textAlign: 'left' }}>
+            <div className="row">
+              <div className="col-sm-4"><h2>{props.original.title}</h2></div>
+              <div className="col-sm-4"><h4>By {props.original.by}</h4></div>
+              <div className="col-sm-4">
+                <StarRatingComponent
+                  name="rate2"
+                  editing={false}
+                  renderStarIcon={() => <span>&#9733;</span>}
+                  starCount={5}
+                  value={props.original.stars}
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-sm-12">
+                <p style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>{props.original.description}</p>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-sm-12"><h4>Coopies {props.original.coopies}</h4></div>
+            </div>
           </div>
         </div>
-      </div>
-      </div>
       )
     }]
-    if(error.length > 0) this.notify(error, true)
+    if (error.length > 0) this.notify(error, true)
 
     return (
       <Protected>
-      <GuestLayout>
-        <div className={styles.container}>
-        <form >
+        <GuestLayout>
+          <div className={styles.container}>
+            <form >
 
-              <h2 style={{textAlign: 'center'}}> Offers </h2>
+              <h2 style={{ textAlign: 'center' }}> Offers </h2>
 
-          <ReactTable
-            defaultPageSize={10}
-            data={data}
-            columns={columns}
-          />
+              <ReactTable
+                defaultPageSize={10}
+                data={data}
+                columns={columns}
+              />
 
-        </form>
-        </div>
-        <ToastContainer autoClose={3000}/>
-      </GuestLayout>
-     </Protected>
+            </form>
+          </div>
+          <ToastContainer autoClose={3000} />
+        </GuestLayout>
+      </Protected>
     );
   }
 }

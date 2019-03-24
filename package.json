@@ -65,6 +65,7 @@
     "react-router-config": "^4.4.0-beta.6",
     "react-router-dom": "^4.3.1",
     "react-social-login": "^3.4.4",
+    "react-star-rating-component": "^1.4.1",
     "react-switch": "^4.1.0",
     "react-table": "^6.9.2",
     "react-toastify": "^4.5.2",

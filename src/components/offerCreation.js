@@ -132,7 +132,7 @@ class OfferCreation extends React.Component {
     const steps =
     [
       { 
-        name: 'Datos básicos', 
+        name: 'Basic data', 
         component: 
           <BasicData offer={offer} 
           onOfferInputChangeStep1={this.handleChangeStep1}
@@ -140,7 +140,7 @@ class OfferCreation extends React.Component {
           </BasicData>
       },
       {
-        name: 'Medio de intercambio', 
+        name: 'Exchange method', 
         component: 
           <ExchangeMethod offer={offer}
           onOfferInputChangeStep2={this.handleChangeStep2}

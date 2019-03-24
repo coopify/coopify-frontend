@@ -197,25 +197,20 @@ export function createOfferAPICall(payload){
   };
   const offer =  payload.offer;
 
-  // return axios.post(
-  //   `${global.API_URL}/api/users/${userId}/offers`, {
-  //       headers: header,
-  //       offer
-  //   }).  
-  //   then((response) => {
-  //     return {       
-  //       status: response.status,
-  //       message: response.message
-  //     }
-  //   }).catch((e) => { 
-  //     console.log("createOfficeAPICall Error: " + JSON.stringify(e) + "  " + e);
-  //     return {
-  //       status: e.response.status,
-  //       errorMessage: e.response.data.message
-  //   }});
-
+  return axios.post(
+    `${global.API_URL}/api/users/${userId}/offers`, {
+        headers: header,
+        offer
+    }).  
+    then((response) => {
       return {       
-        status: 200,
-        message: "Se creo correctamente"
+        status: response.status,
+        message: response.status
       }
+    }).catch((e) => { 
+      console.log("createOfficeAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
 }

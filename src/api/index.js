@@ -198,7 +198,7 @@ export function createOfferAPICall(payload){
   const offer =  payload.offer;
 
   return axios.post(
-    `${global.API_URL}/api/users/${userId}/offers`, {
+    `${global.API_URL}/api/offers/`, {
         headers: header,
         offer
     }).  

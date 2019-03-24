@@ -21,6 +21,7 @@ class Header extends PureComponent {
       userDidLog: false,
       isActive: false,
     };
+      this.loadStateFromCookies();
   }
 
   static propTypes = {
@@ -45,10 +46,6 @@ class Header extends PureComponent {
     this.setState({
       open: !open,
     });
-  }
-
-  componentDidMount(){
-    this.loadStateFromCookies();
   }
 
   loadStateFromCookies(){

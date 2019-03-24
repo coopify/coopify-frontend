@@ -77,7 +77,7 @@ class Offers extends React.Component {
       accessor: 'image',
       Cell: props => (
         <div style={{ textAlign: 'right' }}>
-          <img src={props.value} alt="offer image" height="200" width="200"></img>
+          <img src={props.original.images[0]} alt="offer image" height="200" width="200"></img>
         </div>
       ),
       maxWidth: 200

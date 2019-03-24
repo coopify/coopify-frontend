@@ -29,6 +29,9 @@ export const CHECKTRANSACTIONS_FAILURE = 'CHECKTRANSACTIONS_FAILURE'
 export const OFFERS_ATTEMPT = 'OFFERS_ATTEMPT'
 export const OFFERS_SUCCESS = 'OFFERS_SUCCESS'
 export const OFFERS_FAILURE = 'OFFERS_FAILURE'
+export const CREATE_OFFER_ATTEMPT = 'CREATE_OFFER_ATTEMPT'
+export const CREATE_OFFER_FAILURE = 'CREATE_OFFER_FAILURE'
+export const CREATE_OFFER_SUCCESS = 'CREATE_OFFER_SUCCESS'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -219,6 +222,22 @@ export const user = (state = initialUserState, action) => {
       case RESET_ERROR:
       return _.assignIn({}, state, {
         error: ''
+      });
+
+      case CREATE_OFFER_ATTEMPT:
+      return _.assignIn({}, state, {
+        error: ''
+      });
+
+      case CREATE_OFFER_FAILURE:
+      return _.assignIn({}, state, {
+        error: action.errorMessage
+      });
+
+      case CREATE_OFFER_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        message: action.message
       });
 
     default:

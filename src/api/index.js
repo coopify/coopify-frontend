@@ -186,3 +186,31 @@ export function checkOffersAPICall(){
         errorMessage: e.response.data.message
     }});
 }
+
+export function createOfferAPICall(payload){
+  const token = payload.userToken;
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  
+  const header = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  };
+  const offer =  payload.offer;
+
+  return axios.post(
+    `${global.API_URL}/api/offers/`, {
+        headers: header,
+        offer
+    }).  
+    then((response) => {
+      return {       
+        status: response.status,
+        message: response.status
+      }
+    }).catch((e) => { 
+      console.log("createOfficeAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+}

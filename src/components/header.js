@@ -93,6 +93,7 @@ class Header extends PureComponent {
           <div id="navbarBasicExample" className={ this.state.isActive ? 'navbar-menu is-active' : 'navbar-menu'}>
             <div className="navbar-start">
             <Link className="navbar-item" to="/home">Home</Link>
+            <Link to="/offer/create" className="navbar-item"><i className="fa"></i>New Offer</Link>
             </div>
             { !userDidLog ? (
             <div className="navbar-end">

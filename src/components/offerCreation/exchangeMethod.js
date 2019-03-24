@@ -78,7 +78,9 @@ class ExchangeMethod extends React.Component {
       }
 
     const data = new FormData(e.target.form);
+    
     const { showHours, showSessions, showFinalProduct, showEI } = this.state;
+
     const hoursCoopi = data.get('hoursCoopi');
     const sessionsCoopi = data.get('sessionsCoopi');
     const productCoopi = data.get('productCoopi');
@@ -106,17 +108,23 @@ class ExchangeMethod extends React.Component {
   }
 
   handleFinalSubmit(e){
+    if (e && e.preventDefault) {
+        e.preventDefault();
+      }
     this.props.onFinalStepSubmit(e);
   }
 
   render() {
-    const {error, userDidSignUp} = this.props
+    const {error, offer} = this.props
     const showEI = this.state.showEI ? 'block' : 'none';
-    const showHours = this.state.showHours ? 'block' : 'none';
-    const showSessions = this.state.showSessions ? 'block' : 'none';
-    const showFinalProduct = this.state.showFinalProduct ? 'block' : 'none';
+    const showHours =this.state.showHours ? 'block' : 'none';
+    const showSessions = this.state.showSessions  ? 'block' : 'none';
+    const showFinalProduct = this.state.showFinalProduct  ? 'block' : 'none';
 
-    const placeHolderDate = new Date(Date.now()).toISOString().substring(0,10);
+    const placeHolderStartDate = offer.startDate ? offer.startDate.substring(0,10) : new Date(Date.now()).toISOString().substring(0,10);
+    const placeHolderEndDate = offer.endDate ? offer.endDate.substring(0,10) : new Date(Date.now()).toISOString().substring(0,10);
+
+
     if(error.length > 0) this.notify(error, true)
 
     return (
@@ -170,7 +178,7 @@ class ExchangeMethod extends React.Component {
         /> Hour
       </Col>
       <Col sm={4} style={{display: showHours}}>
-      <Form.Control type="number" placeholder="0" name="hoursCoopi" onChange={e => this.handleInputChange(e)}/>
+      <Form.Control type="number" value={offer.exchangeMethod != undefined ? offer.exchangeMethod[0].value : 0} name="hoursCoopi" onChange={e => this.handleInputChange(e)}/>
     </Col>
     </Form.Group>
 
@@ -183,7 +191,7 @@ class ExchangeMethod extends React.Component {
         /> Session
       </Col>
       <Col sm={4} style={{display: showSessions}}>
-      <Form.Control type="number" placeholder="0" name="sessionsCoopi" onChange={e => this.handleInputChange(e)}/>
+      <Form.Control type="number" value={offer.exchangeMethod !=undefined ? offer.exchangeMethod[1].value : 0} name="sessionsCoopi" onChange={e => this.handleInputChange(e)}/>
     </Col>
     </Form.Group>
 
@@ -196,7 +204,7 @@ class ExchangeMethod extends React.Component {
         /> Final Product
       </Col>
       <Col sm={4} style={{display: showFinalProduct}}>
-      <Form.Control type="number" placeholder="0" name="productCoopi" onChange={e => this.handleInputChange(e)}/>
+      <Form.Control type="number" value={offer.exchangeMethod != undefined ? offer.exchangeMethod[2].value : 0} name="productCoopi" onChange={e => this.handleInputChange(e)}/>
     </Col>
     </Form.Group>
     </fieldset>
@@ -206,7 +214,7 @@ class ExchangeMethod extends React.Component {
       Start Date
     </Form.Label>
     <Col sm={10}>
-      <Form.Control type="date" name="startDate" onChange={e => this.handleInputChange(e)}/>
+      <Form.Control type="date" name="startDate" value={placeHolderStartDate} onChange={e => this.handleInputChange(e)}/>
     </Col>
   </Form.Group>
 
@@ -215,7 +223,7 @@ class ExchangeMethod extends React.Component {
       End Date
     </Form.Label>
     <Col sm={10}>
-      <Form.Control type="date" name="endDate" onChange={e => this.handleInputChange(e)}/>
+      <Form.Control type="date" name="endDate" value={placeHolderEndDate} onChange={e => this.handleInputChange(e)}/>
     </Col>
   </Form.Group>
 

@@ -186,3 +186,37 @@ export function checkOffersAPICall(){
         errorMessage: e.response.data.message
     }});
 }
+
+export function createOfferAPICall(payload){
+  const token = payload.userToken;
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  const userId = payload.userId;
+  
+  const header = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  };
+  const offer =  payload.offer;
+
+  // return axios.post(
+  //   `${global.API_URL}/api/users/${userId}/offers`, {
+  //       headers: header,
+  //       offer
+  //   }).  
+  //   then((response) => {
+  //     return {       
+  //       status: response.status,
+  //       message: response.message
+  //     }
+  //   }).catch((e) => { 
+  //     console.log("createOfficeAPICall Error: " + JSON.stringify(e) + "  " + e);
+  //     return {
+  //       status: e.response.status,
+  //       errorMessage: e.response.data.message
+  //   }});
+
+      return {       
+        status: 200,
+        message: "Se creo correctamente"
+      }
+}

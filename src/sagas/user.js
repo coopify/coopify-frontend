@@ -15,6 +15,8 @@ import { LOGIN_SUCCESS,
   CHECKTRANSACTIONS_FAILURE,
   OFFERS_SUCCESS,
   OFFERS_FAILURE,
+  CREATE_OFFER_FAILURE,
+  CREATE_OFFER_SUCCESS,
 } from '../reducers';
 
 import { logInAPICall, 
@@ -25,6 +27,7 @@ import { logInAPICall,
   checkBalanceAPICall,
   checkTransactionsAPICall,
   checkOffersAPICall,
+  createOfferAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -127,5 +130,14 @@ export function* checkOffersAsync() {
     yield put({ type: OFFERS_SUCCESS, offers: result.offers })
   } else {
     yield put({ type: OFFERS_FAILURE, errorMessage: result.errorMessage })
+  }
+}
+
+export function* createOfferAsync(payload) {
+  const result = yield createOfferAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: CREATE_OFFER_SUCCESS, message: result.message })
+  } else {
+    yield put({ type: CREATE_OFFER_FAILURE, errorMessage: result.errorMessage })
   }
 }

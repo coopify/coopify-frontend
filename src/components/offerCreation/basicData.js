@@ -102,7 +102,7 @@ class BasicData extends React.Component {
   }
 
   render() {
-    const { error } = this.props
+    const { error, offer } = this.props
     if(error.length > 0) this.notify(error, true)
 
     return (
@@ -116,7 +116,7 @@ class BasicData extends React.Component {
                 Title
                 </Form.Label>
                 <Col sm="10">
-                <Form.Control type="textarea" name="title" onChange={e => this.handleOnChange(e)} />
+                <Form.Control type="textarea" name="title" onChange={e => this.handleOnChange(e)} value={offer.title}/>
                 </Col>
             </Form.Group>
 
@@ -125,7 +125,7 @@ class BasicData extends React.Component {
                 Description
                 </Form.Label>
                 <Col sm="10">
-                <Form.Control as="textarea" name="description" rows="8" onChange={e => this.handleOnChange(e)}/>
+                <Form.Control as="textarea" name="description" rows="8" onChange={e => this.handleOnChange(e)} value={offer.description}/>
                 </Col>
             </Form.Group>
 
@@ -135,8 +135,12 @@ class BasicData extends React.Component {
                 </Form.Label>
                 <Col sm="10">
                     <div onClick={e => this.changeImage(e)}>
-                        Upload Image
-                        <img name="picture"/>
+                        {
+                            offer.pictureURL ?  <img name="picture" src={offer.pictureURL}/>
+                            :
+                            "Upload Image"
+                        }
+                       
                     </div>
                 </Col>
             </Form.Group>
@@ -146,7 +150,7 @@ class BasicData extends React.Component {
                 Category
                 </Form.Label>
                 <Col sm="10">
-                <Form.Control as="select" name="category" onChange={e => this.handleOnChange(e)}>
+                <Form.Control value={offer.category} as="select" name="category" onChange={e => this.handleOnChange(e)}>
                     <option>Musica</option>
                     <option>Tecnologia</option>
                     <option>Fontaneria</option>

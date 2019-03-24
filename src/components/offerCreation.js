@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie/server';
 import Authenticator from './fake-authenticator';
-import { resetError, attemptCheckBalanceAction } from '../actions/user';
+import { resetError, attemptPublishOffer } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -110,11 +110,18 @@ class OfferCreation extends React.Component {
   }
 
   handleFinalSubmit(e){
-    const a = this.state.offer;
-    const { dispatch } = this.props;
+    const offer = this.state.offer;
+    const { dispatch, loggedUser } = this.props;
 
-    //TODO axios, api, redux, sagas, etc.
+    const token = localStorage.getItem("token");
 
+    const payload = {
+      userId: loggedUser.id,
+      userToken: token,
+      offer: offer
+    }
+
+    dispatch(attemptPublishOffer(payload));
   }
 
 

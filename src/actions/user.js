@@ -60,3 +60,8 @@ export const changeProfileImage = (payload) => ({
 export const resetError = () => ({
     type: Actions.RESET_ERROR
 });
+
+export const attemptPublishOffer = (payload) => ({
+    type: Actions.CREATE_OFFER_ATTEMPT,
+    payload
+});

@@ -93,7 +93,14 @@ class OfferCreation extends React.Component {
   handleImageChange(e){
 
     const offer = {...this.state.offer }
-    offer.pictureURL = e;
+    const imgs = 
+    [
+      {
+        url: e,
+        default: true
+      }
+    ]
+    offer.images = imgs;
     this.setState({offer});
 
   }
@@ -102,10 +109,10 @@ class OfferCreation extends React.Component {
 
     const offer = {...this.state.offer }
     offer.paymentMethod = e.paymentMethod;
-    offer.exchangeMethod = e.exchangeMethod;
+    offer.prices = e.exchangeMethod;
     offer.startDate = e.startDate;
-    offer.endDate = e.endDate;
-
+    offer.finishDate = e.endDate;
+    offer.status = 'Started';
     this.setState({offer});
 
   }
@@ -115,9 +122,10 @@ class OfferCreation extends React.Component {
     const { dispatch, loggedUser } = this.props;
 
     const token = localStorage.getItem("token");
-
+    offer.userId = loggedUser.id;
+    this.setState({offer});
+    
     const payload = {
-      userId: loggedUser.id,
       userToken: token,
       offer: offer
     }

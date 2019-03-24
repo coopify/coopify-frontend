@@ -190,7 +190,6 @@ export function checkOffersAPICall(){
 export function createOfferAPICall(payload){
   const token = payload.userToken;
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  const userId = payload.userId;
   
   const header = {
     'Content-Type': 'application/json',

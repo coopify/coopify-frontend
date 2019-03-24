@@ -59,20 +59,20 @@ class ExchangeMethod extends React.Component {
     const isCheckbox = e.target.type == "checkbox";
 
       if(isRadioButton){
-        const canShow = e.target.id.toUpperCase() == COOPI_PAYMENT;
+        const canShow = e.target.id == COOPI_PAYMENT;
         this.setState({showEI : canShow});
       }
       if(isCheckbox){
 
-          if(e.target.name.toUpperCase() == HOUR_EXCHANGE){
+          if(e.target.name == HOUR_EXCHANGE){
             this.setState({showHours: e.target.checked })
           }
 
-          else if(e.target.name.toUpperCase() == SESSION_EXCHANGE){
+          else if(e.target.name == SESSION_EXCHANGE){
             this.setState({showSessions: e.target.checked })
           }
 
-          else if(e.target.name.toUpperCase() == PRODUCT_EXCHANGE){
+          else if(e.target.name == PRODUCT_EXCHANGE){
               this.setState({showFinalProduct: e.target.checked })
         }
       }
@@ -89,9 +89,9 @@ class ExchangeMethod extends React.Component {
 
     const exchangeMethod =
      [
-         {selected: showHours ,type: HOUR_EXCHANGE, value: hoursCoopi},
-         {selected: showSessions ,type: SESSION_EXCHANGE, value: sessionsCoopi},
-         {selected: showFinalProduct ,type: PRODUCT_EXCHANGE, value: productCoopi}
+         {selected: showHours ,frequency: HOUR_EXCHANGE, price: hoursCoopi},
+         {selected: showSessions ,frequency: SESSION_EXCHANGE, price: sessionsCoopi},
+         {selected: showFinalProduct ,frequency: PRODUCT_EXCHANGE, price: productCoopi}
      ];
     const startDate = data.get('startDate');
     const endDate = data.get('endDate');
@@ -122,7 +122,7 @@ class ExchangeMethod extends React.Component {
     const showFinalProduct = this.state.showFinalProduct  ? 'block' : 'none';
 
     const placeHolderStartDate = offer.startDate ? offer.startDate.substring(0,10) : new Date(Date.now()).toISOString().substring(0,10);
-    const placeHolderEndDate = offer.endDate ? offer.endDate.substring(0,10) : new Date(Date.now()).toISOString().substring(0,10);
+    const placeHolderEndDate = offer.finishDate ? offer.finishDate.substring(0,10) : new Date(Date.now()).toISOString().substring(0,10);
 
 
     if(error.length > 0) this.notify(error, true)
@@ -178,7 +178,7 @@ class ExchangeMethod extends React.Component {
         /> Hour
       </Col>
       <Col sm={4} style={{display: showHours}}>
-      <Form.Control type="number" value={offer.exchangeMethod != undefined ? offer.exchangeMethod[0].value : 0} name="hoursCoopi" onChange={e => this.handleInputChange(e)}/>
+      <Form.Control type="number" value={offer.prices != undefined ? offer.prices[0].price : 0} name="hoursCoopi" onChange={e => this.handleInputChange(e)}/>
     </Col>
     </Form.Group>
 
@@ -191,7 +191,7 @@ class ExchangeMethod extends React.Component {
         /> Session
       </Col>
       <Col sm={4} style={{display: showSessions}}>
-      <Form.Control type="number" value={offer.exchangeMethod !=undefined ? offer.exchangeMethod[1].value : 0} name="sessionsCoopi" onChange={e => this.handleInputChange(e)}/>
+      <Form.Control type="number" value={offer.prices !=undefined ? offer.prices[1].price : 0} name="sessionsCoopi" onChange={e => this.handleInputChange(e)}/>
     </Col>
     </Form.Group>
 
@@ -204,7 +204,7 @@ class ExchangeMethod extends React.Component {
         /> Final Product
       </Col>
       <Col sm={4} style={{display: showFinalProduct}}>
-      <Form.Control type="number" value={offer.exchangeMethod != undefined ? offer.exchangeMethod[2].value : 0} name="productCoopi" onChange={e => this.handleInputChange(e)}/>
+      <Form.Control type="number" value={offer.prices != undefined ? offer.prices[2].price : 0} name="productCoopi" onChange={e => this.handleInputChange(e)}/>
     </Col>
     </Form.Group>
     </fieldset>

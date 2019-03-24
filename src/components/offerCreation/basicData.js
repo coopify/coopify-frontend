@@ -136,7 +136,7 @@ class BasicData extends React.Component {
                             <Col sm="10">
                                 <div onClick={e => this.changeImage(e)}>
                                     {
-                                        offer.pictureURL ? <img name="picture" src={offer.pictureURL} />
+                                        offer.images ? <img name="picture" src={offer.images[0].url} />
                                             :
                                             "Upload Image"
                                     }

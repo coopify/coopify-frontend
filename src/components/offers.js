@@ -70,6 +70,7 @@ class Offers extends React.Component {
 
 
   render() {
+    const TheadComponent = props => null; // a component returning null (to hide) or you could write as per your requirement
     const { error, offers } = this.props
     const data = offers
     const columns = [{
@@ -124,6 +125,7 @@ class Offers extends React.Component {
                 defaultPageSize={10}
                 data={data}
                 columns={columns}
+                TheadComponent={TheadComponent}
               />
 
             </form>

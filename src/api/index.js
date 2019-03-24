@@ -195,3 +195,48 @@ export function checkTransactionsAPICall(payload){
         transactions : myObjTransactions
       }
 }
+
+export function checkOffersAPICall(payload){
+
+  const attributes =  payload.attributes;
+
+  // return axios.get(
+  //   `${global.API_URL}/api/offers`, {
+  //       attributes
+  //   }).  
+  //   then((response) => {
+  //     return {       
+  //       status: response.status,
+  //       offers: response.offers
+  //     }
+  //   }).catch((e) => { 
+  //     console.log("checkOffers Error: " + JSON.stringify(e) + "  " + e);
+  //     return {
+  //       status: e.response.status,
+  //       errorMessage: e.response.data.message
+  //   }});
+
+      const myObjOffers =
+        [{image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlFfJSqzhbjibr8dBOr2l5l7aj1oVyAJQeDkl8_pITjGc6hEVT-Q",
+        title: "Guitar lessons", 
+        description: "guitar lessons",
+        stars: "4",
+        by: "Pepe",
+        userId: "",
+        coopies: "5",
+        },
+        {image: "https://pbs.twimg.com/profile_images/3073688423/a4fb9c57d6176a2dee8aac21878d5100.png",
+        title: "English lessons", 
+        description: "English lessons for beginner and advanced, good time layout and good location",
+        stars: "4",
+        by: "Juan",
+        userId: "",
+        coopies: "4",
+        }]
+      
+
+      return {       
+        status: 200,
+        offers : myObjOffers
+      }
+}

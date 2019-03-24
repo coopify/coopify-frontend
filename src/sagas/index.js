@@ -1,5 +1,15 @@
 import { takeEvery, all } from 'redux-saga/effects';
-import { loginAsync, signUpAsync, socialSignUpAsync, logoutAsync, profileAsync, checkBalanceAsync, checkTransactionsAsync, loadStateFromCookies, socialLoginAsync } from './user'
+import { loginAsync, 
+  signUpAsync, 
+  socialSignUpAsync, 
+  logoutAsync, 
+  profileAsync, 
+  checkBalanceAsync, 
+  checkTransactionsAsync,
+  checkOffersAsync, 
+  loadStateFromCookies, 
+  socialLoginAsync,
+} from './user'
 
 export default function* rootSaga() {
   yield all(
@@ -12,6 +22,7 @@ export default function* rootSaga() {
     takeEvery('PROFILE_ATTEMPT', profileAsync),
     takeEvery('CHECKBALANCE_ATTEMPT', checkBalanceAsync),
     takeEvery('CHECKTRANSACTIONS_ATTEMPT', checkTransactionsAsync),
-    takeEvery('LOAD_STATE_ATTEMPT', loadStateFromCookies)
+    takeEvery('OFFERS_ATTEMPT', checkOffersAsync),
+    takeEvery('LOAD_STATE_ATTEMPT', loadStateFromCookies),
   ]);
 }

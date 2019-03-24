@@ -12,7 +12,9 @@ import { LOGIN_SUCCESS,
   CHECKBALANCE_SUCCESS,
   CHECKBALANCE_FAILURE,
   CHECKTRANSACTIONS_SUCCESS,
-  CHECKTRANSACTIONS_FAILURE
+  CHECKTRANSACTIONS_FAILURE,
+  OFFERS_SUCCESS,
+  OFFERS_FAILURE,
 } from '../reducers';
 
 import { logInAPICall, 
@@ -21,7 +23,8 @@ import { logInAPICall,
   profileAPICall, 
   socialLogInAPICall,
   checkBalanceAPICall,
-  checkTransactionsAPICall
+  checkTransactionsAPICall,
+  checkOffersAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -116,5 +119,13 @@ export function* checkTransactionsAsync(payload) {
     yield put({ type: CHECKTRANSACTIONS_SUCCESS, transactions: result.transactions })
   } else {
     yield put({ type: CHECKTRANSACTIONS_FAILURE, errorMessage: result.errorMessage })
+  }
+}
+export function* checkOffersAsync(payload) {
+  const result = yield checkOffersAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: OFFERS_SUCCESS, offers: result.offers })
+  } else {
+    yield put({ type: OFFERS_FAILURE, errorMessage: result.errorMessage })
   }
 }

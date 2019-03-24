@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link } from 'react-router-dom'
 import 'font-awesome/css/font-awesome.min.css';
 import _ from 'lodash';
+import { BARTER_PAYMENT, COOPI_PAYMENT, HOUR_EXCHANGE, SESSION_EXCHANGE, PRODUCT_EXCHANGE } from './offerEnums';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -58,20 +59,20 @@ class ExchangeMethod extends React.Component {
     const isCheckbox = e.target.type == "checkbox";
 
       if(isRadioButton){
-        const canShow = e.target.id.toUpperCase() == "COOPI";
+        const canShow = e.target.id.toUpperCase() == COOPI_PAYMENT;
         this.setState({showEI : canShow});
       }
       if(isCheckbox){
 
-          if(e.target.name.toUpperCase() == "HOURS"){
+          if(e.target.name.toUpperCase() == HOUR_EXCHANGE){
             this.setState({showHours: e.target.checked })
           }
 
-          else if(e.target.name.toUpperCase() == "SESSIONS"){
+          else if(e.target.name.toUpperCase() == SESSION_EXCHANGE){
             this.setState({showSessions: e.target.checked })
           }
 
-          else if(e.target.name.toUpperCase() == "FINALPRODUCT"){
+          else if(e.target.name.toUpperCase() == PRODUCT_EXCHANGE){
               this.setState({showFinalProduct: e.target.checked })
         }
       }
@@ -82,13 +83,13 @@ class ExchangeMethod extends React.Component {
     const sessionsCoopi = data.get('sessionsCoopi');
     const productCoopi = data.get('productCoopi');
 
-    const paymentMethod = showEI ? "COOPI" : "BARTER";
+    const paymentMethod = showEI ? COOPI_PAYMENT : BARTER_PAYMENT;
 
     const exchangeMethod =
      [
-         {selected: showHours ,type: 'HOUR', value: hoursCoopi},
-         {selected: showSessions ,type: 'SESSION', value: sessionsCoopi},
-         {selected: showFinalProduct ,type: 'FINALPRODUCT', value: productCoopi}
+         {selected: showHours ,type: HOUR_EXCHANGE, value: hoursCoopi},
+         {selected: showSessions ,type: SESSION_EXCHANGE, value: sessionsCoopi},
+         {selected: showFinalProduct ,type: PRODUCT_EXCHANGE, value: productCoopi}
      ];
     const startDate = data.get('startDate');
     const endDate = data.get('endDate');
@@ -139,14 +140,14 @@ class ExchangeMethod extends React.Component {
           type="radio"
           label="Barter"
           name="formHorizontalRadios"
-          id="barter"
+          id={BARTER_PAYMENT}
           onChange={e => this.handleInputChange(e)}
         />
         <Form.Check
           type="radio"
           label="Coopi"
           name="formHorizontalRadios"
-          id="coopi"
+          id={COOPI_PAYMENT}
           onChange={e => this.handleInputChange(e)}
         />
       </Col>
@@ -164,7 +165,7 @@ class ExchangeMethod extends React.Component {
       <Col sm={4}>
         <Form.Check
           type="checkbox"
-          name="hours"
+          name={HOUR_EXCHANGE}
           onChange={e => this.handleInputChange(e)}
         /> Hour
       </Col>
@@ -177,7 +178,7 @@ class ExchangeMethod extends React.Component {
       <Col sm={4}>
         <Form.Check
           type="checkbox"
-          name="sessions"
+          name={SESSION_EXCHANGE}
           onChange={e => this.handleInputChange(e)}
         /> Session
       </Col>
@@ -190,7 +191,7 @@ class ExchangeMethod extends React.Component {
       <Col sm={4}>
         <Form.Check
           type="checkbox"
-          name="finalProduct"
+          name={PRODUCT_EXCHANGE}
           onChange={e => this.handleInputChange(e)}
         /> Final Product
       </Col>

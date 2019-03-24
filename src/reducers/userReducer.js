@@ -26,6 +26,9 @@ export const CHECKBALANCE_FAILURE = 'CHECKBALANCE_FAILURE'
 export const CHECKTRANSACTIONS_ATTEMPT = 'CHECKTRANSACTIONS_ATTEMPT'
 export const CHECKTRANSACTIONS_SUCCESS = 'CHECKTRANSACTIONS_SUCCESS'
 export const CHECKTRANSACTIONS_FAILURE = 'CHECKTRANSACTIONS_FAILURE'
+export const OFFERS_ATTEMPT = 'OFFERS_ATTEMPT'
+export const OFFERS_SUCCESS = 'OFFERS_SUCCESS'
+export const OFFERS_FAILURE = 'OFFERS_FAILURE'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -155,6 +158,19 @@ export const user = (state = initialUserState, action) => {
       case CHECKTRANSACTIONS_FAILURE:
       return _.assignIn({}, state, {
         loading: false,
+        error: action.errorMessage,
+      });
+      case OFFERS_ATTEMPT:
+      return _.assignIn({}, state, {
+        error: '',
+      });
+      case OFFERS_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        offers: action.offers
+      });
+      case OFFERS_FAILURE:
+      return _.assignIn({}, state, {
         error: action.errorMessage,
       });
       case LOAD_STATE_ATTEMPT:

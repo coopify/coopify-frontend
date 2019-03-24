@@ -122,29 +122,23 @@ export function checkBalanceAPICall(payload){
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${token}`
   };
-  const attributes =  payload.attributes;
-//Cuando este funcionando la API descomentar
-  // return axios.get(
-  //   `${global.API_URL}/api/users/${userId}/balance`, {
-  //       headers: header,
-  //       attributes
-  //   }).  
-  //   then((response) => {
-  //     return {       
-  //       status: response.status,
-  //       balance: response.balance
-  //     }
-  //   }).catch((e) => { 
-  //     console.log("checkBalance Error: " + JSON.stringify(e) + "  " + e);
-  //     return {
-  //       status: e.response.status,
-  //       errorMessage: e.response.data.message
-  //   }});
 
+  return axios.get(
+    `${global.API_URL}/api/users/${userId}/balance`, {
+        headers: header,
+
+    }).  
+    then((response) => {
       return {       
-        status: 200,
-        balance: "22"
+        status: response.status,
+        balance: response.data.balance
       }
+    }).catch((e) => { 
+      console.log("checkBalance Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
 }
 
 export function checkTransactionsAPICall(payload){
@@ -158,40 +152,37 @@ export function checkTransactionsAPICall(payload){
   };
   const attributes =  payload.attributes;
 
-  // return axios.get(
-  //   `${global.API_URL}/api/users/${userId}/transactions`, {
-  //       headers: header,
-  //       attributes
-  //   }).  
-  //   then((response) => {
-  //     return {       
-  //       status: response.status,
-  //       transactions: response.transactions
-  //     }
-  //   }).catch((e) => { 
-  //     console.log("checkTransactions Error: " + JSON.stringify(e) + "  " + e);
-  //     return {
-  //       status: e.response.status,
-  //       errorMessage: e.response.data.message
-  //   }});
-      const myObjTransactions =
-        [{date: "10/3/2019", 
-        description: "guitar lessons", 
-        coopies: "5", 
-        from: "Pepe", 
-        inOut: "in", 
-        to: "Nacho"
-        },
-        {date: "12/3/2019", 
-        description: "English lessons", 
-        coopies: "6", 
-        from: "Nacho", 
-        inOut: "out", 
-        to: "Pepe"}]
-      
-
+  return axios.get(
+    `${global.API_URL}/api/users/${userId}/transactions`, {
+        headers: header,
+        attributes
+    }).  
+    then((response) => {
       return {       
-        status: 200,
-        transactions : myObjTransactions
+        status: response.status,
+        transactions: response.data.transactions
       }
+    }).catch((e) => { 
+      console.log("checkTransactions Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+}
+
+export function checkOffersAPICall(){
+
+  return axios.get(
+    `${global.API_URL}/api/offers/`).  
+    then((response) => {
+      return {       
+        status: response.status,
+        offers: response.data.offers
+      }
+    }).catch((e) => { 
+      console.log("checkOffers Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
 }

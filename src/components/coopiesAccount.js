@@ -76,9 +76,11 @@ class CoopiesAccount extends React.Component {
       userId: loggedUser.id,
       userToken: token,
     }
+    if(loggedUser.id){
+      dispatch(attemptCheckBalanceAction(reqAttributes));
+      //dispatch(attemptCheckTransactionsAction(reqAttributes));
+    }
 
-    dispatch(attemptCheckBalanceAction(reqAttributes));
-    dispatch(attemptCheckTransactionsAction(reqAttributes));
   }
 
 

@@ -61,11 +61,7 @@ class Offers extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
 
-
-    const reqAttributes = {
-    }
-
-    dispatch(attemptOffersAction(reqAttributes));
+    dispatch(attemptOffersAction());
   }
 
 

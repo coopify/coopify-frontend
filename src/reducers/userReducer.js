@@ -160,7 +160,6 @@ export const user = (state = initialUserState, action) => {
         loading: false,
         error: action.errorMessage,
       });
-      //Agus
       case OFFERS_ATTEMPT:
       return _.assignIn({}, state, {
         error: '',
@@ -174,7 +173,6 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         error: action.errorMessage,
       });
-      //Agus
       case LOAD_STATE_ATTEMPT:
       return _.assignIn({}, state, {
         loading: true,

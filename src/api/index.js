@@ -139,11 +139,6 @@ export function checkBalanceAPICall(payload){
         status: e.response.status,
         errorMessage: e.response.data.message
     }});
-
-      // return {       
-      //   status: 200,
-      //   balance: "22"
-      // }
 }
 
 export function checkTransactionsAPICall(payload){
@@ -165,7 +160,7 @@ export function checkTransactionsAPICall(payload){
     then((response) => {
       return {       
         status: response.status,
-        transactions: response.transactions
+        transactions: response.data.transactions
       }
     }).catch((e) => { 
       console.log("checkTransactions Error: " + JSON.stringify(e) + "  " + e);
@@ -173,41 +168,16 @@ export function checkTransactionsAPICall(payload){
         status: e.response.status,
         errorMessage: e.response.data.message
     }});
-
-      // const myObjTransactions =
-      //   [{date: "10/3/2019", 
-      //   description: "guitar lessons", 
-      //   coopies: "5", 
-      //   from: "Pepe", 
-      //   inOut: "in", 
-      //   to: "Nacho"
-      //   },
-      //   {date: "12/3/2019", 
-      //   description: "English lessons", 
-      //   coopies: "6", 
-      //   from: "Nacho", 
-      //   inOut: "out", 
-      //   to: "Pepe"}]
-      
-
-      // return {       
-      //   status: 200,
-      //   transactions : myObjTransactions
-      // }
 }
 
-export function checkOffersAPICall(payload){
-
-  const attributes =  payload.attributes;
+export function checkOffersAPICall(){
 
   return axios.get(
-    `${global.API_URL}/api/offers`, {
-        attributes
-    }).  
+    `${global.API_URL}/api/offers/`).  
     then((response) => {
       return {       
         status: response.status,
-        offers: response.offers
+        offers: response.data.offers
       }
     }).catch((e) => { 
       console.log("checkOffers Error: " + JSON.stringify(e) + "  " + e);
@@ -215,28 +185,4 @@ export function checkOffersAPICall(payload){
         status: e.response.status,
         errorMessage: e.response.data.message
     }});
-
-      // const myObjOffers =
-      //   [{images: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlFfJSqzhbjibr8dBOr2l5l7aj1oVyAJQeDkl8_pITjGc6hEVT-Q"],
-      //   title: "Guitar lessons", 
-      //   description: "guitar lessons",
-      //   stars: "4",
-      //   by: "Pepe",
-      //   userId: "",
-      //   coopies: "5",
-      //   },
-      //   {images: ["https://pbs.twimg.com/profile_images/3073688423/a4fb9c57d6176a2dee8aac21878d5100.png"],
-      //   title: "English lessons", 
-      //   description: "English lessons for beginner and advanced, good time layout and good location rgewrgewrgewrgoiuwheoighwoeigjfoqwimefvpqwpeognmbpowindebvokiqwmevoqpebsnvouwnerpobmprsbpwinrovinwqeiojfqwoekjgokw[rohmpwrnbpowivoqnmdvonaodiunvopadsmpbomswrinbosidbnvopianmdpbvwer",
-      //   stars: "2",
-      //   by: "Juan",
-      //   userId: "",
-      //   coopies: "4",
-      //   }]
-      
-
-      // return {       
-      //   status: 200,
-      //   offers : myObjOffers
-      // }
 }

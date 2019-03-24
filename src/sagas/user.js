@@ -121,8 +121,8 @@ export function* checkTransactionsAsync(payload) {
     yield put({ type: CHECKTRANSACTIONS_FAILURE, errorMessage: result.errorMessage })
   }
 }
-export function* checkOffersAsync(payload) {
-  const result = yield checkOffersAPICall(payload.payload);
+export function* checkOffersAsync() {
+  const result = yield checkOffersAPICall();
   if (result.status == 200) {
     yield put({ type: OFFERS_SUCCESS, offers: result.offers })
   } else {

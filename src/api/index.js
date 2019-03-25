@@ -96,7 +96,6 @@ export function profileAPICall(payload){
 
   return axios.put(
     `${global.API_URL}/api/users/${userId}`, {
-        headers: header,
         attributes
     }).  
     then((response) => {
@@ -125,7 +124,6 @@ export function checkBalanceAPICall(payload){
 
   return axios.get(
     `${global.API_URL}/api/users/${userId}/balance`, {
-        headers: header,
 
     }).  
     then((response) => {
@@ -154,7 +152,6 @@ export function checkTransactionsAPICall(payload){
 
   return axios.get(
     `${global.API_URL}/api/users/${userId}/transactions`, {
-        headers: header,
         attributes
     }).  
     then((response) => {
@@ -190,18 +187,10 @@ export function checkOffersAPICall(){
 export function createOfferAPICall(payload){
   const token = payload.userToken;
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  
-  const header = {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-  };
   const offer =  payload.offer;
 
   return axios.post(
-    `${global.API_URL}/api/offers/`, {
-        headers: header,
-        offer
-    }).  
+    `${global.API_URL}/api/offers/`, offer).  
     then((response) => {
       return {       
         status: response.status,

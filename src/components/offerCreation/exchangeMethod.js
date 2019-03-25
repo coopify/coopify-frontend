@@ -124,9 +124,6 @@ class ExchangeMethod extends React.Component {
     const placeHolderStartDate = offer.startDate ? offer.startDate.substring(0,10) : new Date(Date.now()).toISOString().substring(0,10);
     const placeHolderEndDate = offer.finishDate ? offer.finishDate.substring(0,10) : new Date(Date.now()).toISOString().substring(0,10);
 
-
-    if(error.length > 0) this.notify(error, true)
-
     return (
         <div className="columns is-centered p-t-xl p-r-md p-l-md">   
         <div className="column is-half">

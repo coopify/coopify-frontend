@@ -88,10 +88,6 @@ export function profileAPICall(payload){
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   const userId = payload.userId;
   
-  const header = {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-  };
   const attributes =  payload.attributes;
 
   return axios.put(
@@ -116,11 +112,6 @@ export function checkBalanceAPICall(payload){
   const token = payload.userToken;
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   const userId = payload.userId;
-  
-  const header = {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-  };
 
   return axios.get(
     `${global.API_URL}/api/users/${userId}/balance`, {
@@ -144,10 +135,6 @@ export function checkTransactionsAPICall(payload){
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   const userId = payload.userId;
   
-  const header = {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-  };
   const attributes =  payload.attributes;
 
   return axios.get(

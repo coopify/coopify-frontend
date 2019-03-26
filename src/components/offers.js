@@ -17,6 +17,7 @@ import Protected from './protected';
 import ReactTable from "react-table";
 import 'react-table/react-table.css'
 import StarRatingComponent from 'react-star-rating-component';
+import { Link } from 'react-router-dom';
 
 export default @connect(state => ({
   error: state.error,
@@ -98,6 +99,7 @@ class Offers extends React.Component {
             <div className="row">
               <div className="col-sm-12">
                 <p style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>{props.original.description}</p>
+                <Link to="/offers/6" className="navbar-item"><i className="fa"></i> View</Link>
               </div>
             </div>
             <div className="row">

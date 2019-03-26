@@ -32,7 +32,7 @@ export default @connect(state => ({
   loading: state.loading,
 }))
 
-class OfferCreation extends React.Component {
+class IndividualOffer extends React.Component {
 
   static propTypes = {
     dispatch: PropTypes.func,
@@ -143,9 +143,9 @@ class OfferCreation extends React.Component {
         name: 'Basic data', 
         component: 
           <BasicData offer={offer} 
-          onOfferInputChangeStep1={this.handleChangeStep1}
+          onOfferInputChangeStep1={this.handleChangeStep1} //nothign, asociar evento onMount y que tomen de las props
           onOfferImageChange={this.handleImageChange}
-          isReadOnly = "false">
+          isReadOnly = "true">
           </BasicData>
       },
       {
@@ -154,7 +154,7 @@ class OfferCreation extends React.Component {
           <ExchangeMethod offer={offer}
           onOfferInputChangeStep2={this.handleChangeStep2}
           onFinalStepSubmit={this.handleFinalSubmit}
-          isReadOnly = "false">
+          isReadOnly = "true">
           </ExchangeMethod>
       }
     ]
@@ -177,4 +177,4 @@ class OfferCreation extends React.Component {
   }
 }
 
-export { OfferCreation }
+export { IndividualOffer }

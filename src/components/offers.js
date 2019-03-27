@@ -84,7 +84,7 @@ class Offers extends React.Component {
           <div className="container" style={{ textAlign: 'left' }}>
             <div className="row">
               <div className="col-sm-4"><h2>{props.original.title}</h2></div>
-              <div className="col-sm-4"><h4>By {props.original.by}</h4></div>
+              <div className="col-sm-4"><span>By {props.original.by}</span></div>
               <div className="col-sm-4">
                 <StarRatingComponent
                   name="rate2"
@@ -101,7 +101,17 @@ class Offers extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-sm-12"><h4>Coopies {props.original.coopies}</h4></div>
+
+            {props.original.paymentMethod == "Coopy" ?
+            <div>
+            {props.original.prices[0].price != "0" ? <div className="col-sm-12"><span>{props.original.prices[0].price} Coopies x hour</span></div> : ''}
+            {props.original.prices[1].price != "0" ? <div className="col-sm-12"><span>{props.original.prices[1].price} Coopies x Session</span></div> : ''}
+            {props.original.prices[2].price != "0" ? <div className="col-sm-12"><span>{props.original.prices[2].price} Coopies x final product</span></div> : ''}
+            </div>
+            :
+            <div className="col-sm-12"><span>Barter</span></div>
+            }
+              
             </div>
           </div>
         </div>
@@ -125,8 +135,8 @@ class Offers extends React.Component {
               />
 
             </form>
+            <ToastContainer autoClose={3000} />
           </div>
-          <ToastContainer autoClose={3000} />
         </GuestLayout>
       </Protected>
     );

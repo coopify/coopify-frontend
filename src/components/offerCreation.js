@@ -113,6 +113,7 @@ class OfferCreation extends React.Component {
     offer.startDate = e.startDate;
     offer.finishDate = e.endDate;
     offer.status = 'Started';
+    offer.images = offer.images ? offer.images : [];
     this.setState({offer});
 
   }
@@ -145,7 +146,7 @@ class OfferCreation extends React.Component {
           <BasicData offer={offer} 
           onOfferInputChangeStep1={this.handleChangeStep1}
           onOfferImageChange={this.handleImageChange}
-          isReadOnly = "false">
+          isReadOnly = {false}>
           </BasicData>
       },
       {
@@ -154,7 +155,7 @@ class OfferCreation extends React.Component {
           <ExchangeMethod offer={offer}
           onOfferInputChangeStep2={this.handleChangeStep2}
           onFinalStepSubmit={this.handleFinalSubmit}
-          isReadOnly = "false">
+          isReadOnly = {false}>
           </ExchangeMethod>
       }
     ]

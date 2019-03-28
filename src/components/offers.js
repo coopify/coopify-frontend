@@ -84,8 +84,9 @@ class Offers extends React.Component {
         <div>
           <div className="container" style={{ textAlign: 'left' }}>
             <div className="row">
-              <div className="col-sm-4"><h2>{props.original.title}</h2></div>
-              <div className="col-sm-4"><span>By {props.original.by}</span></div>
+              
+              <div className="col-sm-4"><h2><Link to={`/offers/${props.original.id}`} className="navbar-item"><i className="fa"></i>{props.original.title}</Link></h2></div>
+              <div className="col-sm-4"><h4>By {props.original.by}</h4></div>
               <div className="col-sm-4">
                 <StarRatingComponent
                   name="rate2"
@@ -98,8 +99,7 @@ class Offers extends React.Component {
             </div>
             <div className="row">
               <div className="col-sm-12">
-                <p style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>{props.original.description}</p>
-                <Link to="/offers/6" className="navbar-item"><i className="fa"></i> View</Link>
+                <p style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>{props.original.description}</p>              
               </div>
             </div>
             <div className="row">

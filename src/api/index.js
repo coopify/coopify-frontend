@@ -190,3 +190,40 @@ export function createOfferAPICall(payload){
         errorMessage: e.response.data.message
     }});
 }
+
+export function getOfferAPICall(payload){
+  const token = payload.userToken;
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  
+  const offerId =  payload.offerId;
+
+  return axios.get(
+    `${global.API_URL}/api/offers/${offerId}`).
+    then((response) => {
+      return {       
+        status: response.status,
+        offer: response.data.offer
+      }
+    }).catch((e) => { 
+      console.log("getOfferAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+  // const o = 
+  //  {
+  //    status: 200,
+  //    offer: 
+  //    {
+  //       title: 'Title custom',
+  //       description: 'Descripcion cutsom',
+  //       images: [{url : 'https://cdn-images-1.medium.com/max/1200/1*5JuL_usjZx4xqlYpFIzKMw.png'}],
+  //       category: 'Tapizado',
+  //       paymentMethod: 'Coopi',
+  //       prices: [{frequency: 'HOUR', price: 5},{frequency: 'SESSION', price: 8}],
+  //       startDate : '20190327',
+  //       endDate: '20190330',
+  //    }
+  //  }
+  //  return o;
+}

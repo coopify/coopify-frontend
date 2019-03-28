@@ -11,6 +11,8 @@ import 'font-awesome/css/font-awesome.min.css';
 import { loadScript } from "@pawjs/pawjs/src/utils/utils";
 import { loadStyle } from "@pawjs/pawjs/src/utils/utils";
 import _ from 'lodash';
+import { withStyles } from '@material-ui/core/styles';
+import Chip from '@material-ui/core/Chip';
 
 export default @connect(state => ({
     loggedUser: state.user,
@@ -102,10 +104,22 @@ class BasicData extends React.Component {
     }
 
     render() {
-        const { error, offer } = this.props
-        if (error.length > 0) this.notify(error, true)
+        const { error, offer, isReadOnly, readOnlyOffer, classes } = this.props
+
+        const title = isReadOnly ? readOnlyOffer.title : offer.title
+        const description = isReadOnly ? readOnlyOffer.description : offer.description
+
+        const pictureURL = isReadOnly ?
+            (readOnlyOffer && readOnlyOffer.images && readOnlyOffer.images[0] ? readOnlyOffer.images[0].url : '')
+            :
+            (offer && offer.images && offer.images[0] ? offer.images[0].url : '');
+
+        //const pictureURL = 'fe.jpg'
+        const category = isReadOnly ? readOnlyOffer.category : offer.category
 
         return (
+            !isReadOnly ? 
+            (
             <div className="columns is-centered p-t-xl p-r-md p-l-md">
                 <div className="column is-half">
                     <h1 className="title">Basic Data</h1>
@@ -116,7 +130,7 @@ class BasicData extends React.Component {
                                 Title
                 </Form.Label>
                             <Col sm="10">
-                                <Form.Control type="textarea" name="title" onChange={e => this.handleOnChange(e)} value={offer.title} />
+                                <Form.Control type="textarea" name="title" onChange={e => this.handleOnChange(e)} value={title} />
                             </Col>
                         </Form.Group>
 
@@ -125,7 +139,7 @@ class BasicData extends React.Component {
                                 Description
                 </Form.Label>
                             <Col sm="10">
-                                <Form.Control as="textarea" name="description" rows="8" onChange={e => this.handleOnChange(e)} value={offer.description} />
+                                <Form.Control as="textarea" name="description" rows="8" onChange={e => this.handleOnChange(e)} value={description} />
                             </Col>
                         </Form.Group>
 
@@ -136,7 +150,7 @@ class BasicData extends React.Component {
                             <Col sm="10">
                                 <div onClick={e => this.changeImage(e)}>
                                     {
-                                        offer.images ? <img name="picture" src={offer.images[0].url} />
+                                        pictureURL ? <img name="picture" src={pictureURL} />
                                             :
                                             "Upload Image"
                                     }
@@ -150,7 +164,7 @@ class BasicData extends React.Component {
                                 Category
                 </Form.Label>
                             <Col sm="10">
-                                <Form.Control value={offer.category} as="select" name="category" onChange={e => this.handleOnChange(e)}>
+                                <Form.Control value={category} as="select" name="category" onChange={e => this.handleOnChange(e)}>
                                     <option>Musica</option>
                                     <option>Tecnologia</option>
                                     <option>Fontaneria</option>
@@ -162,8 +176,24 @@ class BasicData extends React.Component {
                     </Form>
 
                 </div>
-            </div>
+        </div> ) :
 
+        (
+            <div className="columns is-centered p-t-xl p-r-md p-l-md">
+            <div className="column is-half">
+                <h1 className="title">{title}</h1>
+
+                <p style={{width:"40%"}}>{description}</p>
+
+                <Col sm="10">
+                    <img name="picture" src={pictureURL} />
+                </Col>
+                
+                <Chip label={category} />
+
+                </div>
+             </div>
+        )
         );
     }
 }

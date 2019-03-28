@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie/server';
 import Authenticator from './fake-authenticator';
-import { resetError, attemptPublishOffer } from '../actions/user';
+import { resetError, attemptShowOffer } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -30,6 +30,7 @@ export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
   loading: state.loading,
+  readOnlyOffer: state.offer
 }))
 
 class IndividualOffer extends React.Component {
@@ -39,7 +40,8 @@ class IndividualOffer extends React.Component {
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
     error: PropTypes.string,
-    offer: PropTypes.object
+    offer: PropTypes.object,
+    readOnlyOffer: PropTypes.object,
   };
 
   static defaultProps = {
@@ -48,7 +50,8 @@ class IndividualOffer extends React.Component {
     loggedUser: {},
     loading: false,
     error: '',
-    offer: {}
+    offer: {},
+    readOnlyOffer: {},
   };
 
   constructor(props) {
@@ -57,7 +60,8 @@ class IndividualOffer extends React.Component {
       loggedUser: {},
       loading: false,
       error: '',
-      offer: {}
+      offer: {},
+      readOnlyOffer: {},
     };
     this.handleChangeStep1 = this.handleChangeStep1.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
@@ -77,84 +81,63 @@ class IndividualOffer extends React.Component {
   }
 
   componentDidMount(){
-    //loadStyle("../css/stepZilla.css").then((res) => {console.log('cargo css')} ).catch(err => {console.log('fallo carga css: ' + err)});
+
+    const { dispatch } = this.props;
+
+    const token = localStorage.getItem("token");
+    const offerId = this.props.match.params.id;
+    
+    const payload = {
+      userToken: token,
+      offerId: offerId
+    }
+
+    dispatch(attemptShowOffer(payload));
   }
 
   handleChangeStep1(e){
-
-    const offer = {...this.state.offer }
-    offer.title = e.title;
-    offer.description = e.description;
-    offer.category = e.category;
-    this.setState({offer});
 
   }
 
   handleImageChange(e){
 
-    const offer = {...this.state.offer }
-    const imgs = 
-    [
-      {
-        url: e,
-        default: true
-      }
-    ]
-    offer.images = imgs;
-    this.setState({offer});
-
   }
 
   handleChangeStep2(e){
 
-    const offer = {...this.state.offer }
-    offer.paymentMethod = e.paymentMethod;
-    offer.prices = e.exchangeMethod;
-    offer.startDate = e.startDate;
-    offer.finishDate = e.endDate;
-    offer.status = 'Started';
-    this.setState({offer});
-
   }
 
   handleFinalSubmit(e){
-    const offer = this.state.offer;
-    const { dispatch, loggedUser } = this.props;
 
-    const token = localStorage.getItem("token");
-    offer.userId = loggedUser.id;
-    this.setState({offer});
-    
-    const payload = {
-      userToken: token,
-      offer: offer
-    }
-
-    dispatch(attemptPublishOffer(payload));
   }
 
 
   render() {
-    const { loading, error, loggedUser, balance } = this.props
+    const { loading, error, loggedUser, balance, readOnlyOffer } = this.props
     const { offer } = this.state
+
     const steps =
     [
       { 
         name: 'Basic data', 
         component: 
-          <BasicData offer={offer} 
-          onOfferInputChangeStep1={this.handleChangeStep1} //nothign, asociar evento onMount y que tomen de las props
+          <BasicData
+          offer = {offer}
+          onOfferInputChangeStep1={this.handleChangeStep1}
           onOfferImageChange={this.handleImageChange}
-          isReadOnly = "true">
+          isReadOnly = {true}
+          readOnlyOffer = {readOnlyOffer}>
           </BasicData>
       },
       {
         name: 'Exchange method', 
         component: 
-          <ExchangeMethod offer={offer}
+          <ExchangeMethod
+          offer = {offer}
           onOfferInputChangeStep2={this.handleChangeStep2}
           onFinalStepSubmit={this.handleFinalSubmit}
-          isReadOnly = "true">
+          isReadOnly = {true}
+          readOnlyOffer = {readOnlyOffer}>
           </ExchangeMethod>
       }
     ]

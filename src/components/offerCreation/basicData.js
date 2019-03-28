@@ -79,7 +79,6 @@ class BasicData extends React.Component {
                         pictureURL: img.url
                     }
                 });
-                //this.setState(newState);
                 this.props.onOfferImageChange(img.url);
             }
         }
@@ -104,22 +103,17 @@ class BasicData extends React.Component {
     }
 
     render() {
-        const { error, offer, isReadOnly, readOnlyOffer, classes } = this.props
+        const { error, offer } = this.props
 
-        const title = isReadOnly ? readOnlyOffer.title : offer.title
-        const description = isReadOnly ? readOnlyOffer.description : offer.description
+        const title = offer.title
+        const description = offer.description
 
-        const pictureURL = isReadOnly ?
-            (readOnlyOffer && readOnlyOffer.images && readOnlyOffer.images[0] ? readOnlyOffer.images[0].url : '')
-            :
-            (offer && offer.images && offer.images[0] ? offer.images[0].url : '');
+        const pictureURL = offer && offer.images && offer.images[0] ? offer.images[0].url : '';
 
-        //const pictureURL = 'fe.jpg'
-        const category = isReadOnly ? readOnlyOffer.category : offer.category
+        const category = offer.category
 
         return (
-            !isReadOnly ? 
-            (
+ 
             <div className="columns is-centered p-t-xl p-r-md p-l-md">
                 <div className="column is-half">
                     <h1 className="title">Basic Data</h1>
@@ -176,24 +170,7 @@ class BasicData extends React.Component {
                     </Form>
 
                 </div>
-        </div> ) :
-
-        (
-            <div className="columns is-centered p-t-xl p-r-md p-l-md">
-            <div className="column is-half">
-                <h1 className="title">{title}</h1>
-
-                <p style={{width:"40%"}}>{description}</p>
-
-                <Col sm="10">
-                    <img name="picture" src={pictureURL} />
-                </Col>
-                
-                <Chip label={category} />
-
-                </div>
-             </div>
-        )
+        </div>
         );
     }
 }

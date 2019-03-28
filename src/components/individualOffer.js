@@ -18,12 +18,13 @@ import { Button, Input, Row, Col } from 'react-bootstrap';
 import Switch from "react-switch";
 import Protected from './protected';
 import { Link } from 'react-router-dom';
-import {loadScript} from "@pawjs/pawjs/src/utils/utils";
+import { loadScript } from "@pawjs/pawjs/src/utils/utils";
 
-import StepZilla from "react-stepzilla";
-import {loadStyle} from "@pawjs/pawjs/src/utils/utils";
-import BasicData from './offerCreation/basicData.js';
-import ExchangeMethod from './offerCreation/exchangeMethod.js';
+import { loadStyle } from "@pawjs/pawjs/src/utils/utils";
+import { withStyles } from '@material-ui/core/styles';
+import Chip from '@material-ui/core/Chip';
+import TextField from '@material-ui/core/TextField';
+import * as moment from 'moment';
 
 
 export default @connect(state => ({
@@ -63,30 +64,26 @@ class IndividualOffer extends React.Component {
       offer: {},
       readOnlyOffer: {},
     };
-    this.handleChangeStep1 = this.handleChangeStep1.bind(this);
-    this.handleImageChange = this.handleImageChange.bind(this);
-    this.handleChangeStep2 = this.handleChangeStep2.bind(this);
-    this.handleFinalSubmit = this.handleFinalSubmit.bind(this);
   }
 
-  notify(message, isError){
-    const {dispatch} = this.props;
-    if(isError){
+  notify(message, isError) {
+    const { dispatch } = this.props;
+    if (isError) {
       toast.error(message);
       dispatch(resetError());
     }
-    else{
+    else {
       toast.success(message)
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
 
     const { dispatch } = this.props;
 
     const token = localStorage.getItem("token");
     const offerId = this.props.match.params.id;
-    
+
     const payload = {
       userToken: token,
       offerId: offerId
@@ -95,67 +92,77 @@ class IndividualOffer extends React.Component {
     dispatch(attemptShowOffer(payload));
   }
 
-  handleChangeStep1(e){
-
-  }
-
-  handleImageChange(e){
-
-  }
-
-  handleChangeStep2(e){
-
-  }
-
-  handleFinalSubmit(e){
-
-  }
-
 
   render() {
     const { loading, error, loggedUser, balance, readOnlyOffer } = this.props
     const { offer } = this.state
-
-    const steps =
-    [
-      { 
-        name: 'Basic data', 
-        component: 
-          <BasicData
-          offer = {offer}
-          onOfferInputChangeStep1={this.handleChangeStep1}
-          onOfferImageChange={this.handleImageChange}
-          isReadOnly = {true}
-          readOnlyOffer = {readOnlyOffer}>
-          </BasicData>
-      },
-      {
-        name: 'Exchange method', 
-        component: 
-          <ExchangeMethod
-          offer = {offer}
-          onOfferInputChangeStep2={this.handleChangeStep2}
-          onFinalStepSubmit={this.handleFinalSubmit}
-          isReadOnly = {true}
-          readOnlyOffer = {readOnlyOffer}>
-          </ExchangeMethod>
-      }
-    ]
+    const pictureUrl = readOnlyOffer && readOnlyOffer.images && readOnlyOffer.images.length > 0 ? readOnlyOffer.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
 
     return (
       <Protected>
-      <GuestLayout>
+        <GuestLayout>
 
-      <div className='step-progress'>
-        <StepZilla
-              steps={steps}
-              preventEnterSubmission={true}
-              nextTextOnFinalActionStep={"Next"}
-          />
-      </div>
+          <div className="columns is-centered p-t-xl p-r-md p-l-md">
+            <div className="column is-half">
+              <h1 className="title">{readOnlyOffer.title}</h1>
 
-      </GuestLayout>
-     </Protected>
+              <p style={{ width: "40%" }}>{readOnlyOffer.description}</p>
+
+              <Col sm="10">
+                <img name="picture" src={pictureUrl} />
+              </Col>
+
+              <div>
+                <h4>Category: </h4>
+                <Chip label={readOnlyOffer.category} />
+              </div>
+
+              <div>
+              <h4>Payment Method: </h4>
+                <Chip label={readOnlyOffer.paymentMethod} />
+              </div>
+
+              {readOnlyOffer.prices ?
+                (
+                  readOnlyOffer.prices.map(data => {
+                    return (
+                      data.selected ? (
+                        <div>
+                          <Row>
+                            <Col sm={4} style={{ textAlign: 'left' }}> <h4>{data.frequency}</h4> </Col>
+                            <Col sm={4} style={{ textAlign: 'left' }}> <h4>{data.price}</h4> </Col>
+                          </Row>
+                        </div>
+                      ) : ''
+                    );
+                  }))
+                :
+                ('')}
+
+              <TextField
+                label="Start Date"
+                type="date"
+                disabled
+                defaultValue={moment(readOnlyOffer.startDate).format('YYYY-MM-DD')}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+
+              <TextField
+                label="Finish Date"
+                type="date"
+                disabled
+                defaultValue={moment(readOnlyOffer.endDate).format('YYYY-MM-DD')}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </div>
+          </div>
+
+        </GuestLayout>
+      </Protected>
     );
   }
 }

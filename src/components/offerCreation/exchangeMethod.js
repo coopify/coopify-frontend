@@ -119,7 +119,7 @@ class ExchangeMethod extends React.Component {
   }
 
   render() {
-    const {error, offer, isReadOnly, readOnlyOffer } = this.props
+    const {error, offer } = this.props
     const showEI = this.state.showEI ? 'block' : 'none';
     const showHours =this.state.showHours ? 'block' : 'none';
     const showSessions = this.state.showSessions  ? 'block' : 'none';
@@ -130,8 +130,6 @@ class ExchangeMethod extends React.Component {
 
     return (
 
-      !isReadOnly ?
-      (
         <div className="columns is-centered p-t-xl p-r-md p-l-md">   
         <div className="column is-half">
           <h1 className="title">Exchange Method</h1>
@@ -238,51 +236,7 @@ class ExchangeMethod extends React.Component {
   </Form.Group>
 </Form>;
 </div>
-      </div> ) 
-      :
-      (
-        <div className="columns is-centered p-t-xl p-r-md p-l-md">   
-        <div className="column is-half">
-          <Chip label={readOnlyOffer.paymentMethod}/>
-          
-          {readOnlyOffer.prices ?
-          (
-          readOnlyOffer.prices.map(data => {
-
-          return (
-            <div>
-              <Row>
-            <Col sm={4} style={{textAlign:'left'}}> <h4>{data.frequency}</h4> </Col>
-            <Col sm={4} style={{textAlign:'left'}}> <h4>{data.price}</h4> </Col>
-            </Row>
-            </div>
-          );
-          }) )
-          :
-          ('')}
-
- <TextField
-        label="Start Date"
-        type="date"
-        defaultValue= {moment(readOnlyOffer.startDate).format('YYYY-MM-DD')}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-
-       <TextField
-        label="Finish Date"
-        type="date"
-        readOnly= {true}
-        defaultValue={moment(readOnlyOffer.endDate).format('YYYY-MM-DD')}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-
-        </div>
-        </div>
-      )
+      </div>
     );
   }
 }

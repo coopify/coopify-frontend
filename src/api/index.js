@@ -210,20 +210,4 @@ export function getOfferAPICall(payload){
         status: e.response.status,
         errorMessage: e.response.data.message
     }});
-  // const o = 
-  //  {
-  //    status: 200,
-  //    offer: 
-  //    {
-  //       title: 'Title custom',
-  //       description: 'Descripcion cutsom',
-  //       images: [{url : 'https://cdn-images-1.medium.com/max/1200/1*5JuL_usjZx4xqlYpFIzKMw.png'}],
-  //       category: 'Tapizado',
-  //       paymentMethod: 'Coopi',
-  //       prices: [{frequency: 'HOUR', price: 5},{frequency: 'SESSION', price: 8}],
-  //       startDate : '20190327',
-  //       endDate: '20190330',
-  //    }
-  //  }
-  //  return o;
 }

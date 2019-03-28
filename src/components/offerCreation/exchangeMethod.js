@@ -11,6 +11,10 @@ import { Link } from 'react-router-dom'
 import 'font-awesome/css/font-awesome.min.css';
 import _ from 'lodash';
 import { BARTER_PAYMENT, COOPI_PAYMENT, HOUR_EXCHANGE, SESSION_EXCHANGE, PRODUCT_EXCHANGE } from './offerEnums';
+import { withStyles } from '@material-ui/core/styles';
+import Chip from '@material-ui/core/Chip';
+import TextField from '@material-ui/core/TextField';
+import * as moment  from 'moment';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -115,7 +119,7 @@ class ExchangeMethod extends React.Component {
   }
 
   render() {
-    const {error, offer} = this.props
+    const {error, offer } = this.props
     const showEI = this.state.showEI ? 'block' : 'none';
     const showHours =this.state.showHours ? 'block' : 'none';
     const showSessions = this.state.showSessions  ? 'block' : 'none';
@@ -125,6 +129,7 @@ class ExchangeMethod extends React.Component {
     const placeHolderEndDate = offer.finishDate ? offer.finishDate.substring(0,10) : new Date(Date.now()).toISOString().substring(0,10);
 
     return (
+
         <div className="columns is-centered p-t-xl p-r-md p-l-md">   
         <div className="column is-half">
           <h1 className="title">Exchange Method</h1>
@@ -232,7 +237,6 @@ class ExchangeMethod extends React.Component {
 </Form>;
 </div>
       </div>
-
     );
   }
 }

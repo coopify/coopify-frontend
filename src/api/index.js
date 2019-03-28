@@ -190,3 +190,24 @@ export function createOfferAPICall(payload){
         errorMessage: e.response.data.message
     }});
 }
+
+export function getOfferAPICall(payload){
+  const token = payload.userToken;
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  
+  const offerId =  payload.offerId;
+
+  return axios.get(
+    `${global.API_URL}/api/offers/${offerId}`).
+    then((response) => {
+      return {       
+        status: response.status,
+        offer: response.data.offer
+      }
+    }).catch((e) => { 
+      console.log("getOfferAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+}

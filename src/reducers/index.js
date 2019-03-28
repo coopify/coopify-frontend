@@ -31,6 +31,9 @@ import { user, initialUserState,
     CREATE_OFFER_ATTEMPT,
     CREATE_OFFER_FAILURE,
     CREATE_OFFER_SUCCESS,
+    SHOW_OFFER_ATTEMPT,
+    SHOW_OFFER_FAILURE,
+    SHOW_OFFER_SUCCESS,
  } from './userReducer';
 //import { serviceReducers, initialServiceState } from './serviceReducer';
 
@@ -77,6 +80,9 @@ const Actions = {
     CREATE_OFFER_ATTEMPT,
     CREATE_OFFER_FAILURE,
     CREATE_OFFER_SUCCESS,
+    SHOW_OFFER_ATTEMPT,
+    SHOW_OFFER_FAILURE,
+    SHOW_OFFER_SUCCESS,
 }
 
 export {
@@ -116,4 +122,7 @@ export {
     CREATE_OFFER_ATTEMPT,
     CREATE_OFFER_FAILURE,
     CREATE_OFFER_SUCCESS,
+    SHOW_OFFER_ATTEMPT,
+    SHOW_OFFER_FAILURE,
+    SHOW_OFFER_SUCCESS,
 }

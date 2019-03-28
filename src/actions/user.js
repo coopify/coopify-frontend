@@ -65,3 +65,8 @@ export const attemptPublishOffer = (payload) => ({
     type: Actions.CREATE_OFFER_ATTEMPT,
     payload
 });
+
+export const attemptShowOffer = (payload) => ({
+    type: Actions.SHOW_OFFER_ATTEMPT,
+    payload
+});

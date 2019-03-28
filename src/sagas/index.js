@@ -10,6 +10,7 @@ import { loginAsync,
   loadStateFromCookies, 
   socialLoginAsync,
   createOfferAsync,
+  getOfferAsync,
 } from './user'
 
 export default function* rootSaga() {
@@ -25,6 +26,7 @@ export default function* rootSaga() {
     takeEvery('CHECKTRANSACTIONS_ATTEMPT', checkTransactionsAsync),
     takeEvery('OFFERS_ATTEMPT', checkOffersAsync),
     takeEvery('LOAD_STATE_ATTEMPT', loadStateFromCookies),
-    takeEvery('CREATE_OFFER_ATTEMPT', createOfferAsync)
+    takeEvery('CREATE_OFFER_ATTEMPT', createOfferAsync),
+    takeEvery('SHOW_OFFER_ATTEMPT', getOfferAsync),
   ]);
 }

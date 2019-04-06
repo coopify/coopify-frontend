@@ -171,6 +171,25 @@ export function checkOffersAPICall(){
     }});
 }
 
+export function checkOffersPagedAPICall(payload){
+  const limit = payload.limit;
+  const page = payload.page;
+
+  return axios.get(
+    `${global.API_URL}/api/offers?limit=${limit}&page=${page}`).  
+    then((response) => {
+      return {       
+        status: response.status,
+        offers: response.data.offers
+      }
+    }).catch((e) => { 
+      console.log("checkOffers Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+}
+
 export function createOfferAPICall(payload){
   const token = payload.userToken;
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;

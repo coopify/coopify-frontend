@@ -1,7 +1,7 @@
 
 import React from 'react';
 import GuestLayout from './guest-layout';
-import { resetError, attemptOffersAction } from '../actions/user';
+import { resetError, attemptOffersAction, attemptShowOffer } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -44,7 +44,8 @@ class Offers extends React.Component {
     super(props);
     this.state = {
       offers: [],
-      error: ''
+      error: '',
+      limit: 1
     };
   }
 
@@ -61,10 +62,29 @@ class Offers extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
+    const reqAttributes = {
+      limit: this.state.limit,
+      page: 0
+    }
 
     dispatch(attemptOffersAction());
   }
 
+  changePage(pageIndex){
+    //alert(pageIndex +' '+ this.state.limit);
+    const reqAttributes = {
+      limit: this.state.limit,
+      page: pageIndex
+    }
+
+    dispatch(attemptOffersAction(reqAttributes));
+  }
+
+  changeSize(pageSize){
+    this.setState((state) => {
+      return {...state, limit: pageSize}
+    }) 
+  }
 
   render() {
     const TheadComponent = props => null; // a component returning null (to hide) or you could write as per your requirement
@@ -130,10 +150,12 @@ class Offers extends React.Component {
               <h2 style={{ textAlign: 'center' }}> Offers </h2>
 
               <ReactTable
-                defaultPageSize={10}
+                defaultPageSize={this.state.limit}
                 data={data}
                 columns={columns}
                 TheadComponent={TheadComponent}
+                onPageChange={e => this.changePage(e)}
+                onPageSizeChange={e => this.changeSize(e)}
               />
 
             </form>

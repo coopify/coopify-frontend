@@ -106,9 +106,9 @@ class Offers extends React.Component {
 
             {props.original.paymentMethod == "Coopy" ?
             <div>
-            {props.original.prices.length > 0 && props.original.prices[0].price != "0" ? <div className="col-sm-12"><span>{props.original.prices[0].price} Coopies x hour</span></div> : ''}
-            {props.original.prices.length > 1 && props.original.prices[1].price != "0" ? <div className="col-sm-12"><span>{props.original.prices[1].price} Coopies x Session</span></div> : ''}
-            {props.original.prices.length > 2 && props.original.prices[2].price != "0" ? <div className="col-sm-12"><span>{props.original.prices[2].price} Coopies x final product</span></div> : ''}
+            {props.original.prices.length > 0 && props.original.prices[0].price != "0" ? <div className="col-sm-12"><span>{props.original.prices[0].price} Coopies x {props.original.prices[0].frequency}</span></div> : ''}
+            {props.original.prices.length > 1 && props.original.prices[1].price != "0" ? <div className="col-sm-12"><span>{props.original.prices[1].price} Coopies x {props.original.prices[1].frequency}</span></div> : ''}
+            {props.original.prices.length > 2 && props.original.prices[2].price != "0" ? <div className="col-sm-12"><span>{props.original.prices[2].price} Coopies x {props.original.prices[2].frequency}</span></div> : ''}
             </div>
             :
             <div className="col-sm-12"><span>Barter</span></div>

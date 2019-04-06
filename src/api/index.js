@@ -176,7 +176,7 @@ export function checkOffersPagedAPICall(payload){
   const page = payload.page;
 
   return axios.get(
-    `${global.API_URL}/api/offers?limit=${limit}&page=${page}`).  
+    `${global.API_URL}/api/offers?limit=${limit}&skip=${page}`).  
     then((response) => {
       return {       
         status: response.status,

@@ -67,7 +67,7 @@ class Offers extends React.Component {
       page: 0
     }
 
-    dispatch(attemptOffersAction());
+    dispatch(attemptOffersAction(reqAttributes));
   }
 
   changePage(pageIndex){

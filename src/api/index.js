@@ -234,3 +234,20 @@ export function getOfferAPICall(payload){
         errorMessage: e.response.data.message
     }});
 }
+
+export function getCategoriesAPICall(){
+
+  return axios.get(
+    `${global.API_URL}/api/categories/`).
+    then((response) => {
+      return {       
+        status: response.status,
+        categories: response.data.categories
+      }
+    }).catch((e) => { 
+      console.log("getCategoriesAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+}

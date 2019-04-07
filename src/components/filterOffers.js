@@ -1,6 +1,6 @@
 import React from 'react';
 import GuestLayout from './guest-layout';
-import { resetError, attemptCategoriesAction } from '../actions/user';
+import { resetError, attemptChangeFilters, attemptCategoriesAction } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -34,7 +34,7 @@ export default @connect(state => ({
     error: state.error,
     loading: state.loading,
     offers: state.offers,
-    categories: ['musica','tecnologia','otros']//TODO cambiar por state.categories y obtenerlos del backend
+    categories: state.categories
 }))
 
 class FilterOffers extends React.Component {
@@ -50,7 +50,8 @@ class FilterOffers extends React.Component {
         dispatch: () => {
         },
         offers: [],
-        error: ''
+        error: '',
+        categories: []
     };
 
     constructor(props) {
@@ -60,12 +61,14 @@ class FilterOffers extends React.Component {
             error: '',
             page: 0,
             limit: 10,
+            filterChanged: false,
             filters: {},
             searchName: '',
             paymentMethods: [],
             exchangeMethods: [],
             prices: [1, 50],
-            categories: []
+            categories: [],
+            sortBy: 'Date'
         };
     }
 
@@ -82,7 +85,7 @@ class FilterOffers extends React.Component {
 
     componentDidMount() {
         const { dispatch } = this.props;
-        //dispatch(attemptCategoriesAction());
+        dispatch(attemptCategoriesAction());
     }
 
     handleSearchNameChange(e){
@@ -141,20 +144,28 @@ class FilterOffers extends React.Component {
         });
     }
 
+    handleSortByChange(e){
+        const newSortBy = e.target.value;
+        this.setState({
+            ...this.state, sortBy: newSortBy
+        });
+    }
 
     handleApplyFilter(e){
-        this.setState({
-            ...this.state, 
-            filters:
-             { 
-                 name: this.state.searchName,
-                 paymentMethods: this.state.paymentMethods, 
-                 exchangeMethods: this.state.exchangeMethods, 
-                 lowerPrice: this.state.prices[0],
-                 upperPrice: this.state.prices[1],
-                 categories: this.state.categories
-            }
-        });
+        const { dispatch } = this.props;
+
+        const filters = 
+        {
+            name: this.state.searchName,
+            paymentMethods: this.state.paymentMethods, 
+            exchangeMethods: this.state.exchangeMethods, 
+            lowerPrice: this.state.prices[0],
+            upperPrice: this.state.prices[1],
+            categories: this.state.categories,
+            orderBy: this.state.sortBy.toLowerCase()
+        };
+
+        dispatch(attemptChangeFilters(filters));
     }
 
 
@@ -163,6 +174,7 @@ class FilterOffers extends React.Component {
         const createSliderWithTooltip = Slider.createSliderWithTooltip;
         const Range = createSliderWithTooltip(Slider.Range);
         const { classes } = this.props;
+        const sortOptions = ['Price','Date','Rate'];
 
         if (error.length > 0) this.notify(error, true)
 
@@ -254,11 +266,27 @@ class FilterOffers extends React.Component {
           </Select>
         </FormControl>
 
-    <Button style={{marginTop: "15%"}} onClick={e => this.handleApplyFilter(e)}>Apply Filters</Button>
+<h4 style={{color: "black", marginTop: "10%"}}>Sort By</h4>
+
+            <FormControl style={{display: "block"}}>
+          <Select
+            value={this.state.sortBy}
+            onChange={e => this.handleSortByChange(e)}
+            >
+            {sortOptions.map(name => (
+            <MenuItem key={name} value={name}>
+            {name}
+            </MenuItem>
+            ))}
+
+          </Select>
+        </FormControl>
+
+    <Button style={{marginTop: "10%"}} onClick={e => this.handleApplyFilter(e)}>Apply Filters</Button>
 
                             </Col>
                         <Col sm={9}>
-                            <Offers filters={this.state.filters}/>
+                            <Offers/>
                         </Col>
 
                         </Form.Group>

@@ -96,7 +96,7 @@ class Offers extends React.Component {
       }
 
       dispatch(attemptOffersAction(reqAttributes));
-    }
+      }
   }
 
   changeSize(pageSize) {

@@ -8,6 +8,7 @@ import {CoopiesAccount} from '../components/coopiesAccount';
 import {Offers} from '../components/offers';
 import { OfferCreation } from '../components/offerCreation';
 import { IndividualOffer } from '../components/individualOffer';
+import { FilterOffers } from '../components/filterOffers';
 
 export default [
   {
@@ -80,6 +81,16 @@ export default [
     path: '/offers/:id',
     exact: true,
     component: IndividualOffer,
+    seo: {
+      title: 'Auth | ReactPWA Demo',
+      description: 'Offers',
+      image: LoginImage,
+    },
+  },
+  {
+    path: '/seeOffers',
+    exact: true,
+    component: FilterOffers,
     seo: {
       title: 'Auth | ReactPWA Demo',
       description: 'Offers',

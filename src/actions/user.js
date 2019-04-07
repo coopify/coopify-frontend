@@ -71,3 +71,12 @@ export const attemptShowOffer = (payload) => ({
     type: Actions.SHOW_OFFER_ATTEMPT,
     payload
 });
+
+export const attemptChangeFilters = (payload) => ({
+    type: Actions.CHANGE_FILTERS_ATTEMPT,
+    payload
+});
+
+export const attemptCategoriesAction = () => ({
+    type: Actions.GET_CATEGORIES_ATTEMPT
+});

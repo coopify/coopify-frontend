@@ -35,6 +35,10 @@ export const CREATE_OFFER_SUCCESS = 'CREATE_OFFER_SUCCESS'
 export const SHOW_OFFER_ATTEMPT = 'SHOW_OFFER_ATTEMPT'
 export const SHOW_OFFER_FAILURE = 'SHOW_OFFER_FAILURE'
 export const SHOW_OFFER_SUCCESS = 'SHOW_OFFER_SUCCESS'
+export const CHANGE_FILTERS_ATTEMPT = 'CHANGE_FILTERS_ATTEMPT'
+export const GET_CATEGORIES_ATTEMPT = 'GET_CATEGORIES_ATTEMPT'
+export const GET_CATEGORIES_SUCCESS = 'GET_CATEGORIES_SUCCESS'
+export const GET_CATEGORIES_FAILURE = 'GET_CATEGORIES_FAILURE'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -179,6 +183,9 @@ export const user = (state = initialUserState, action) => {
       case OFFERS_FAILURE:
       return _.assignIn({}, state, {
         error: action.errorMessage,
+        offers: [],
+        countOffers: 0,
+        filters: {}
       });
       case LOAD_STATE_ATTEMPT:
       return _.assignIn({}, state, {
@@ -258,6 +265,28 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         error: '',
         offer: action.offer
+      });
+
+      case CHANGE_FILTERS_ATTEMPT:
+      return _.assignIn({}, state, {
+        error: '',
+        filters: action.payload
+      });
+
+      case GET_CATEGORIES_ATTEMPT:
+      return _.assignIn({}, state, {
+        error: ''
+      });
+
+      case GET_CATEGORIES_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        categories: action.categories.map(c => (c.name))
+      });
+
+      case GET_CATEGORIES_FAILURE:
+      return _.assignIn({}, state, {
+        error: action.errorMessage
       });
 
     default:

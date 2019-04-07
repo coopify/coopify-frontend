@@ -21,15 +21,20 @@ import { Form, Row, Col, Button } from 'react-bootstrap';
 import { Offers } from './offers';
 import { BARTER_PAYMENT, COOPI_PAYMENT, HOUR_EXCHANGE, SESSION_EXCHANGE, PRODUCT_EXCHANGE } from './offerCreation/offerEnums';
 import Slider from 'rc-slider';
-import Select from 'react-select';
 import makeAnimated from 'react-select/lib/animated';
+import SearchField from 'react-search-field';
+import Input from '@material-ui/core/Input';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Chip from '@material-ui/core/Chip';
 
 
 export default @connect(state => ({
     error: state.error,
     loading: state.loading,
     offers: state.offers,
-    categories: state.categories
+    categories: ['musica','tecnologia','otros']//TODO cambiar por state.categories y obtenerlos del backend
 }))
 
 class FilterOffers extends React.Component {
@@ -56,7 +61,6 @@ class FilterOffers extends React.Component {
             page: 0,
             limit: 10,
             filters: {},
-
             searchName: '',
             paymentMethods: [],
             exchangeMethods: [],
@@ -82,7 +86,7 @@ class FilterOffers extends React.Component {
     }
 
     handleSearchNameChange(e){
-        const newName = e.target.value;
+        const newName = e;
         this.setState({
             ...this.state, searchName: newName
         });
@@ -102,7 +106,6 @@ class FilterOffers extends React.Component {
                 ...this.state, paymentMethods: this.state.paymentMethods.filter(item => item !== paymentMethod)
             });
         }
-        var p = this.state.paymentMethods;
     }
 
     handleExchangeChange(e){
@@ -119,14 +122,38 @@ class FilterOffers extends React.Component {
                 ...this.state, exchangeMethods: this.state.exchangeMethods.filter(item => item !== exchangeMethod)
             });
         }
+    }
 
+    handlePricesChange(prices){
+        const lowerPrice = prices[0];
+        const upperPrice = prices[1];
+        const newPrices = [lowerPrice, upperPrice];
+
+        this.setState({
+            ...this.state, prices: newPrices
+        });
+    }
+
+    handleCategoriesChange(e){
+        const newCategories = e.target.value;
+        this.setState({
+            ...this.state, categories: newCategories
+        });
     }
 
 
     handleApplyFilter(e){
         this.setState({
             ...this.state, 
-            filters: { paymentMethods: this.state.paymentMethods, exchangeMethods: this.state.exchangeMethods }
+            filters:
+             { 
+                 name: this.state.searchName,
+                 paymentMethods: this.state.paymentMethods, 
+                 exchangeMethods: this.state.exchangeMethods, 
+                 lowerPrice: this.state.prices[0],
+                 upperPrice: this.state.prices[1],
+                 categories: this.state.categories
+            }
         });
     }
 
@@ -135,6 +162,7 @@ class FilterOffers extends React.Component {
         const { error, offers, categories } = this.props
         const createSliderWithTooltip = Slider.createSliderWithTooltip;
         const Range = createSliderWithTooltip(Slider.Range);
+        const { classes } = this.props;
 
         if (error.length > 0) this.notify(error, true)
 
@@ -149,7 +177,14 @@ class FilterOffers extends React.Component {
                         <Col sm={3} style={{marginTop: "5%"}}>
 
 
-<h4 style={{color: "black"}}>Payment instance</h4>
+<SearchField 
+  placeholder='Search offer...'
+  onChange={e => this.handleSearchNameChange(e)}
+  value = {this.state.searchName}
+  onSearchClick = {e => this.handleApplyFilter(e)}
+/>
+
+<h4 style={{color: "black", marginTop: "10%"}}>Payment instance</h4>
 
 <Form.Group check style={{textAlign: "left", marginLeft:"20%"}}>
           <Form.Label check>
@@ -193,18 +228,33 @@ class FilterOffers extends React.Component {
 <h4 style={{color: "black"}}>Price range</h4>
 
 
-      <Range min={0} max={50} defaultValue={[1, 50]} tipFormatter={value => `${value} Coopi`} allowCross={false} style={{marginBottom: "10%"}}/>
+      <Range min={0} max={50} defaultValue={[1, 50]} tipFormatter={value => `${value} Coopi`} allowCross={false} style={{marginBottom: "10%"}} onChange={e => this.handlePricesChange(e)}/>
 
 <h4 style={{color: "black"}}>Categories</h4>
 
-<Select
-      closeMenuOnSelect={false}
-      components={makeAnimated()}
-      isMulti
-      options={categories}
-    />
+    <FormControl style={{display: "block"}}>
+          <Select
+            multiple
+            value={this.state.categories}
+            onChange={e => this.handleCategoriesChange(e)}
+            input={<Input id="select-multiple-chip" />}
+            renderValue={selected => (
+              <div>
+                {selected.map(value => (
+                  <Chip key={value} label={value} />
+                ))}
+              </div>
+            )}
+          >
+            {this.props.categories.map(name => (
+              <MenuItem key={name} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-    <Button onClick={e => this.handleApplyFilter(e)}>Apply Filter</Button>
+    <Button style={{marginTop: "15%"}} onClick={e => this.handleApplyFilter(e)}>Apply Filters</Button>
 
                             </Col>
                         <Col sm={9}>

@@ -39,17 +39,11 @@ Column.propTypes = {
   link: PropTypes.string.isRequired,
 };
 
-// handleChangePageIndex(index){
-// }
-
-// handleChangePageSize(limit){
-// }
-
 export default () => (
   <Protected>
   <GuestLayout>
   
-  <Offers onChangePageIndex={e => this.handleChangePageIndex(e)} onChangePageSize={e => this.handleChangePageSize(e)}></Offers>
+  <Offers filters={{}}></Offers>
 
   </GuestLayout>
   </Protected>

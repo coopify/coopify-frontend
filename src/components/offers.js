@@ -75,7 +75,6 @@ class Offers extends React.Component {
   }
 
   changePage(pageIndex){
-    //alert(pageIndex +' '+ this.state.limit);
     const { dispatch } = this.props;
     const reqAttributes = {
       limit: this.state.limit,
@@ -84,6 +83,19 @@ class Offers extends React.Component {
     }
 
     dispatch(attemptOffersAction(reqAttributes));
+  }
+
+  componentDidUpdate(prevProps){
+    if(prevProps.filters != this.props.filters){
+      const { dispatch } = this.props;
+      const reqAttributes = {
+        limit: this.state.limit,
+        page: pageIndex,
+        filters: this.props.filters
+      }
+  
+      dispatch(attemptOffersAction(reqAttributes));
+    }
   }
 
   changeSize(pageSize){

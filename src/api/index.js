@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { stringify } from 'query-string';
 
 export function logInAPICall(payload) {
     return axios.post(
@@ -173,12 +174,13 @@ export function checkTransactionsAPICall(payload){
 
 export function checkOffersPagedAPICall(payload){
   const limit = payload.limit;
-  const page = payload.page;
+  const skip = payload.page;
   const filters = payload.filters;
+  const queryParams = stringify({...filters,limit,skip})
 
   return axios.get(
     //`${global.API_URL}/api/offers/`)
-    `${global.API_URL}/api/offers?filters=${filters}&limit=${limit}&skip=${page}`)
+    `${global.API_URL}/api/offers?${queryParams}`)
     .then((response) => {
       return {       
         status: response.status,

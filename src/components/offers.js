@@ -175,7 +175,7 @@ class Offers extends React.Component {
                 TheadComponent={TheadComponent}
                 onPageChange={e => this.changePage(e)}
                 onPageSizeChange={e => this.changeSize(e)}
-                pages={ this.state.limit != 0 ? Math.ceil(countOffers / this.state.limit) : conutOffers }
+                pages={ this.state.limit != 0 ? Math.ceil(countOffers / this.state.limit) : countOffers }
                 manual
               />
 

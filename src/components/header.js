@@ -94,6 +94,7 @@ class Header extends PureComponent {
             <div className="navbar-start">
             <Link className="navbar-item" to="/home">Home</Link>
             <Link to="/offer/create" className="navbar-item"><i className="fa"></i>New Offer</Link>
+            <Link to="/seeOffers" className="navbar-item"><i className="fa"></i>Offers</Link>
             </div>
             { !userDidLog ? (
             <div className="navbar-end">

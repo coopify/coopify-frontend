@@ -161,8 +161,6 @@ class Offers extends React.Component {
     if (error.length > 0) this.notify(error, true)
 
     return (
-      <Protected>
-        <GuestLayout>
           <div className={styles.container}>
             <form >
 
@@ -182,8 +180,6 @@ class Offers extends React.Component {
             </form>
             <ToastContainer autoClose={3000} />
           </div>
-        </GuestLayout>
-      </Protected>
     );
   }
 }

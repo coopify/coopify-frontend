@@ -173,7 +173,8 @@ export const user = (state = initialUserState, action) => {
       case OFFERS_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
-        offers: action.offers
+        offers: action.responseOffers.offers,
+        countOffers: action.responseOffers.countOffers 
       });
       case OFFERS_FAILURE:
       return _.assignIn({}, state, {

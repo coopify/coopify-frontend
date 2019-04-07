@@ -39,8 +39,9 @@ export const attemptCheckTransactionsAction = (payload) => ({
     payload
 });
 
-export const attemptOffersAction = () => ({
-    type: Actions.OFFERS_ATTEMPT
+export const attemptOffersAction = (payload) => ({
+    type: Actions.OFFERS_ATTEMPT,
+    payload
 });
 
 export const loadState = () => ({

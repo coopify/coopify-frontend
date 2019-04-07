@@ -154,33 +154,35 @@ export function checkTransactionsAPICall(payload){
     }});
 }
 
-export function checkOffersAPICall(){
+// export function checkOffersAPICall(){
 
-  return axios.get(
-    `${global.API_URL}/api/offers/`).  
-    then((response) => {
-      return {       
-        status: response.status,
-        offers: response.data.offers
-      }
-    }).catch((e) => { 
-      console.log("checkOffers Error: " + JSON.stringify(e) + "  " + e);
-      return {
-        status: e.response.status,
-        errorMessage: e.response.data.message
-    }});
-}
+//   return axios.get(
+//     `${global.API_URL}/api/offers/`).  
+//     then((response) => {
+//       return {       
+//         status: response.status,
+//         offers: response.data.offers
+//       }
+//     }).catch((e) => { 
+//       console.log("checkOffers Error: " + JSON.stringify(e) + "  " + e);
+//       return {
+//         status: e.response.status,
+//         errorMessage: e.response.data.message
+//     }});
+// }
 
 export function checkOffersPagedAPICall(payload){
   const limit = payload.limit;
   const page = payload.page;
+  const filters = payload.filters;
 
   return axios.get(
-    `${global.API_URL}/api/offers?limit=${limit}&skip=${page}`).  
-    then((response) => {
+    //`${global.API_URL}/api/offers/`)
+    `${global.API_URL}/api/offers?filters=${filters}&limit=${limit}&skip=${page}`)
+    .then((response) => {
       return {       
         status: response.status,
-        offers: response.data.offers
+        responseOffers: {offers: response.data.offers, countOffers: response.data.count},
       }
     }).catch((e) => { 
       console.log("checkOffers Error: " + JSON.stringify(e) + "  " + e);

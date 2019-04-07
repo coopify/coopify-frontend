@@ -22,7 +22,9 @@ import { Link } from 'react-router-dom';
 export default @connect(state => ({
   error: state.error,
   loading: state.loading,
-  offers: state.offers
+  offers: state.offers,
+  countOffers: state.countOffers,
+  filters: state.filters 
 }))
 
 class Offers extends React.Component {
@@ -30,7 +32,8 @@ class Offers extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
     error: PropTypes.string,
-    offers: PropTypes.array
+    offers: PropTypes.array,
+    countOffers: PropTypes.number
   };
 
   static defaultProps = {
@@ -45,7 +48,7 @@ class Offers extends React.Component {
     this.state = {
       offers: [],
       error: '',
-      limit: 1
+      limit: 10
     };
   }
 
@@ -64,7 +67,8 @@ class Offers extends React.Component {
     const { dispatch } = this.props;
     const reqAttributes = {
       limit: this.state.limit,
-      page: 0
+      page: 0,
+      filters: this.props.filters
     }
 
     dispatch(attemptOffersAction(reqAttributes));
@@ -72,9 +76,11 @@ class Offers extends React.Component {
 
   changePage(pageIndex){
     //alert(pageIndex +' '+ this.state.limit);
+    const { dispatch } = this.props;
     const reqAttributes = {
       limit: this.state.limit,
-      page: pageIndex
+      page: pageIndex,
+      filters: this.props.filters
     }
 
     dispatch(attemptOffersAction(reqAttributes));
@@ -83,12 +89,12 @@ class Offers extends React.Component {
   changeSize(pageSize){
     this.setState((state) => {
       return {...state, limit: pageSize}
-    }) 
+    })
   }
 
   render() {
     const TheadComponent = props => null; // a component returning null (to hide) or you could write as per your requirement
-    const { error, offers } = this.props
+    const { error, offers, countOffers } = this.props
     const data = offers
     const columns = [{
       accessor: 'image',
@@ -156,6 +162,8 @@ class Offers extends React.Component {
                 TheadComponent={TheadComponent}
                 onPageChange={e => this.changePage(e)}
                 onPageSizeChange={e => this.changeSize(e)}
+                pages={Math.ceil(countOffers/this.state.limit)}
+                manual
               />
 
             </form>

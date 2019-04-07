@@ -29,6 +29,7 @@ import { logInAPICall,
   checkBalanceAPICall,
   checkTransactionsAPICall,
   checkOffersAPICall,
+  checkOffersPagedAPICall,
   createOfferAPICall,
   getOfferAPICall,
 } from '../api';
@@ -130,7 +131,7 @@ export function* checkTransactionsAsync(payload) {
 export function* checkOffersAsync(payload) {
   const result = yield checkOffersPagedAPICall(payload.payload);
   if (result.status == 200) {
-    yield put({ type: OFFERS_SUCCESS, offers: result.offers })
+    yield put({ type: OFFERS_SUCCESS, responseOffers: result.responseOffers})
   } else {
     yield put({ type: OFFERS_FAILURE, errorMessage: result.errorMessage })
   }

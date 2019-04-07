@@ -91,7 +91,7 @@ class Offers extends React.Component {
       const { dispatch } = this.props;
       const reqAttributes = {
         limit: this.state.limit,
-        page: pageIndex,
+        page: 0,
         filters: this.props.filters
       }
 

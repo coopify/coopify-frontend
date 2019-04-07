@@ -183,6 +183,9 @@ export const user = (state = initialUserState, action) => {
       case OFFERS_FAILURE:
       return _.assignIn({}, state, {
         error: action.errorMessage,
+        offers: [],
+        countOffers: 0,
+        filters: {}
       });
       case LOAD_STATE_ATTEMPT:
       return _.assignIn({}, state, {

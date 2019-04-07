@@ -64,7 +64,7 @@ class FilterOffers extends React.Component {
             searchName: '',
             paymentMethods: [],
             exchangeMethods: [],
-            prices: [],
+            prices: [1, 50],
             categories: []
         };
     }
@@ -228,7 +228,7 @@ class FilterOffers extends React.Component {
 <h4 style={{color: "black"}}>Price range</h4>
 
 
-      <Range min={0} max={50} defaultValue={[1, 50]} tipFormatter={value => `${value} Coopi`} allowCross={false} style={{marginBottom: "10%"}} onChange={e => this.handlePricesChange(e)}/>
+      <Range min={1} max={50} defaultValue={this.state.prices} tipFormatter={value => `${value} Coopi`} allowCross={false} style={{marginBottom: "10%"}} onAfterChange={e => this.handlePricesChange(e)}/>
 
 <h4 style={{color: "black"}}>Categories</h4>
 

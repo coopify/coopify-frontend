@@ -173,6 +173,7 @@ class Offers extends React.Component {
                 onPageChange={e => this.changePage(e)}
                 onPageSizeChange={e => this.changeSize(e)}
                 pages={ this.state.limit != 0 ? Math.ceil(countOffers / this.state.limit) : countOffers }
+                noDataText = 'No offers for the selected filters'
                 manual
               />
 

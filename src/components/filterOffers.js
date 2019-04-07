@@ -66,9 +66,10 @@ class FilterOffers extends React.Component {
             searchName: '',
             paymentMethods: [],
             exchangeMethods: [],
-            prices: [1, 50],
+            prices: [1, 100],
             categories: [],
-            sortBy: 'Date'
+            sortBy: 'Date',
+            showEI: false
         };
     }
 
@@ -98,15 +99,20 @@ class FilterOffers extends React.Component {
     handlePaymentChange(e){
         const paymentMethod = e.target.name;
         var isChecked = e.target.checked;
+        var showExchangeInstance = (paymentMethod != COOPI_PAYMENT) || (paymentMethod == COOPI_PAYMENT) 
 
         if(isChecked){
             this.setState({
-                ...this.state, paymentMethods: [...this.state.paymentMethods, paymentMethod]
+                ...this.state,
+                paymentMethods: [...this.state.paymentMethods, paymentMethod],
+                showEI: paymentMethod == COOPI_PAYMENT ? isChecked : this.state.showEI
             });
         }
         else{
             this.setState({
-                ...this.state, paymentMethods: this.state.paymentMethods.filter(item => item !== paymentMethod)
+                ...this.state, 
+                paymentMethods: this.state.paymentMethods.filter(item => item !== paymentMethod),
+                showEI: paymentMethod == COOPI_PAYMENT ? isChecked : this.state.showEI
             });
         }
     }
@@ -175,6 +181,7 @@ class FilterOffers extends React.Component {
         const Range = createSliderWithTooltip(Slider.Range);
         const { classes } = this.props;
         const sortOptions = ['Price','Date','Rate'];
+        const showEI = this.state.showEI ? 'block' : 'none';
 
         if (error.length > 0) this.notify(error, true)
 
@@ -200,36 +207,36 @@ class FilterOffers extends React.Component {
 
 <Form.Group check style={{textAlign: "left", marginLeft:"20%"}}>
           <Form.Label check>
-            <input type="checkbox" name={COOPI_PAYMENT} onChange={e => this.handlePaymentChange(e)}/>
-            {COOPI_PAYMENT}
-          </Form.Label>
-</Form.Group>
-
-<Form.Group check style={{textAlign: "left", marginLeft:"20%"}}>
-          <Form.Label check>
             <input type="checkbox" name={BARTER_PAYMENT} onChange={e => this.handlePaymentChange(e)}/>
             {BARTER_PAYMENT}
           </Form.Label>
 </Form.Group>
 
-
-<h4 style={{color: "black"}}>Exchange instance</h4>
-
 <Form.Group check style={{textAlign: "left", marginLeft:"20%"}}>
+          <Form.Label check>
+            <input type="checkbox" name={COOPI_PAYMENT} onChange={e => this.handlePaymentChange(e)}/>
+            {COOPI_PAYMENT}
+          </Form.Label>
+</Form.Group>
+
+
+<h4 style={{color: "black", display: showEI}}>Exchange instance</h4>
+
+<Form.Group check style={{textAlign: "left", marginLeft:"20%", display: showEI}}>
           <Form.Label check>
             <input type="checkbox" name={HOUR_EXCHANGE} onChange={e => this.handleExchangeChange(e)}/>
             {HOUR_EXCHANGE}
           </Form.Label>
 </Form.Group>
 
-<Form.Group check style={{textAlign: "left", marginLeft:"20%"}}>
+<Form.Group check style={{textAlign: "left", marginLeft:"20%", display: showEI}}>
           <Form.Label check>
             <input type="checkbox" name={SESSION_EXCHANGE} onChange={e => this.handleExchangeChange(e)}/>
             {SESSION_EXCHANGE}
           </Form.Label>
 </Form.Group>
 
-<Form.Group check style={{textAlign: "left", marginLeft:"20%"}}>
+<Form.Group check style={{textAlign: "left", marginLeft:"20%", display: showEI}}>
           <Form.Label check>
             <input type="checkbox" name={PRODUCT_EXCHANGE} onChange={e => this.handleExchangeChange(e)}/>
             {PRODUCT_EXCHANGE}
@@ -237,10 +244,10 @@ class FilterOffers extends React.Component {
 </Form.Group>
 
 
-<h4 style={{color: "black"}}>Price range</h4>
+<h4 style={{color: "black", display: showEI}}>Price range</h4>
 
 
-      <Range min={1} max={50} defaultValue={this.state.prices} tipFormatter={value => `${value} Coopi`} allowCross={false} style={{marginBottom: "10%"}} onAfterChange={e => this.handlePricesChange(e)}/>
+      <Range min={0} max={100} defaultValue={this.state.prices} tipFormatter={value => `${value} Coopi`} allowCross={false} style={{marginBottom: "10%", display: showEI}} onAfterChange={e => this.handlePricesChange(e)}/>
 
 <h4 style={{color: "black"}}>Categories</h4>
 

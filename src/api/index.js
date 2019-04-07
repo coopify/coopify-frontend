@@ -179,7 +179,6 @@ export function checkOffersPagedAPICall(payload){
   const queryParams = stringify({...filters,limit,skip})
 
   return axios.get(
-    //`${global.API_URL}/api/offers/`)
     `${global.API_URL}/api/offers?${queryParams}`)
     .then((response) => {
       return {       

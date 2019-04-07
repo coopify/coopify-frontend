@@ -69,7 +69,7 @@ class Offers extends React.Component {
     const reqAttributes = {
       limit: this.state.limit,
       page: 0,
-      filters: this.props.filters
+      filters: this.props.isHome ? {} : this.props.filters
     }
 
     dispatch(attemptOffersAction(reqAttributes));
@@ -158,7 +158,6 @@ class Offers extends React.Component {
         </div>
       )
     }]
-    if (error.length > 0) this.notify(error, true)
 
     return (
           <div className={styles.container}>

@@ -286,7 +286,7 @@ class FilterOffers extends React.Component {
 
                             </Col>
                         <Col sm={9}>
-                            <Offers/>
+                            <Offers isHome={false}/>
                         </Col>
 
                         </Form.Group>

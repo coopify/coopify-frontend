@@ -43,7 +43,7 @@ export default () => (
   <Protected>
   <GuestLayout>
   
-  <Offers></Offers>
+  <Offers isHome={true}></Offers>
 
   </GuestLayout>
   </Protected>

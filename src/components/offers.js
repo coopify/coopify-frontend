@@ -33,7 +33,8 @@ class Offers extends React.Component {
     dispatch: PropTypes.func,
     error: PropTypes.string,
     offers: PropTypes.array,
-    countOffers: PropTypes.number
+    countOffers: PropTypes.number,
+    filters: PropTypes.object
   };
 
   static defaultProps = {

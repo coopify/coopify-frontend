@@ -1,7 +1,7 @@
 
 import React from 'react';
 import GuestLayout from './guest-layout';
-import { resetError, attemptOffersAction, attemptShowOffer } from '../actions/user';
+import { resetError, attemptOffersAction } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';

@@ -22,7 +22,7 @@ import { Offers } from './offers';
 import { BARTER_PAYMENT, COOPI_PAYMENT, HOUR_EXCHANGE, SESSION_EXCHANGE, PRODUCT_EXCHANGE } from './offerCreation/offerEnums';
 import Slider from 'rc-slider';
 import makeAnimated from 'react-select/lib/animated';
-import SearchField from 'react-search-field';
+//import SearchField from 'react-search-field';
 import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -90,7 +90,7 @@ class FilterOffers extends React.Component {
     }
 
     handleSearchNameChange(e){
-        const newName = e;
+        const newName = e.target.value;
         this.setState({
             ...this.state, searchName: newName
         });
@@ -196,11 +196,17 @@ class FilterOffers extends React.Component {
                         <Col sm={3} style={{marginTop: "5%"}}>
 
 
-<SearchField 
+{/* <SearchField 
   placeholder='Search offer...'
   onChange={e => this.handleSearchNameChange(e)}
   value = {this.state.searchName}
   onSearchClick = {e => this.handleApplyFilter(e)}
+/> */}
+
+<Input type="text"
+placeholder='Search offer...'
+onChange={e => this.handleSearchNameChange(e)}
+value = {this.state.searchName}
 />
 
 <h4 style={{color: "black", marginTop: "10%"}}>Payment instance</h4>

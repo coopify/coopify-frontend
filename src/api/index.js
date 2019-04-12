@@ -145,7 +145,7 @@ export function checkTransactionsAPICall(payload){
     then((response) => {
       return {       
         status: response.status,
-        transactions: response.data.transactions
+        transactions: response.data
       }
     }).catch((e) => { 
       console.log("checkTransactions Error: " + JSON.stringify(e) + "  " + e);

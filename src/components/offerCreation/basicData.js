@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { attemptSignUpAction } from '../../actions/user';
+import { attemptSignUpAction, attemptCategoriesAction } from '../../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,13 +12,18 @@ import { loadScript } from "@pawjs/pawjs/src/utils/utils";
 import { loadStyle } from "@pawjs/pawjs/src/utils/utils";
 import _ from 'lodash';
 import { withStyles } from '@material-ui/core/styles';
+import Input from '@material-ui/core/Input';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 
 export default @connect(state => ({
     loggedUser: state.user,
     error: state.error,
     loading: state.loading,
-    userDidSignUp: state.userDidSignUp
+    userDidSignUp: state.userDidSignUp,
+    categories: state.categories
 }))
 
 class BasicData extends React.Component {
@@ -28,6 +33,7 @@ class BasicData extends React.Component {
         loading: PropTypes.bool,
         error: PropTypes.string,
         userDidSignUp: PropTypes.bool,
+        categories: PropTypes.array
     };
 
     static defaultProps = {
@@ -36,7 +42,8 @@ class BasicData extends React.Component {
         loggedUser: {},
         loading: false,
         error: '',
-        userDidSignUp: false
+        userDidSignUp: false,
+        categories: []
     };
 
     onLoginRedirectUrl = '/home';
@@ -47,12 +54,15 @@ class BasicData extends React.Component {
             loggedUser: {},
             loading: false,
             error: '',
-            userDidSignUp: false
+            userDidSignUp: false,
+            categories: []
         };
     }
 
     componentDidMount() {
         loadScript("//widget.cloudinary.com/global/all.js").then((res) => { }).catch(err => { });
+        const { dispatch } = this.props;
+        dispatch(attemptCategoriesAction());
     }
 
     changeImage(e) {
@@ -89,17 +99,25 @@ class BasicData extends React.Component {
         const data = new FormData(e.target.form);
         const title = data.get('title');
         const description = data.get('description');
-        const category = data.get('category');
 
         const newOffer =
         {
             title: title,
-            description: description,
-            category: category
+            description: description
         };
 
         this.props.onOfferInputChangeStep1(newOffer);
+    }
 
+    handleOnCategoryChange(e){
+
+        const newCategories = e.target.value;
+        this.setState({
+            ...this.state,
+            categories: newCategories
+        });
+
+        this.props.onCategoriesChange(newCategories);
     }
 
     render() {
@@ -153,20 +171,32 @@ class BasicData extends React.Component {
                             </Col>
                         </Form.Group>
 
-                        <Form.Group as={Row} controlId="formPlaintextEmail">
-                            <Form.Label column sm="2">
-                                Category
-                </Form.Label>
-                            <Col sm="10">
-                                <Form.Control value={category} as="select" name="category" onChange={e => this.handleOnChange(e)}>
-                                    <option>Musica</option>
-                                    <option>Tecnologia</option>
-                                    <option>Fontaneria</option>
-                                    <option>Tapizado</option>
-                                    <option>Otros</option>
-                                </Form.Control>
-                            </Col>
-                        </Form.Group>
+<h4 style={{color: "black"}}>Categories</h4>
+
+<FormControl style={{display: "block"}}>
+      <Select
+        name = "categories"
+        multiple
+        value={this.state.categories}
+        onChange={e => this.handleOnCategoryChange(e)}
+        input={<Input id="select-multiple-chip" />}
+        renderValue={selected => (
+          <div>
+            {selected.map(value => (
+              <Chip key={value} label={value} />
+            ))}
+          </div>
+        )}
+      >
+        {this.props.categories.map(name => (
+          <MenuItem key={name} value={name}>
+            {name}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+
+
                     </Form>
 
                 </div>

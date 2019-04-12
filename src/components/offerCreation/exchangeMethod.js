@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import { attemptSignUpAction } from '../../actions/user';
+import { attemptSignUpAction, attemptCategoriesAction } from '../../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
@@ -234,7 +234,8 @@ class ExchangeMethod extends React.Component {
       <Button type="submit">Create</Button>
     </Col>
   </Form.Group>
-</Form>;
+
+</Form>
 </div>
       </div>
     );

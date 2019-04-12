@@ -249,4 +249,8 @@ export function getCategoriesAPICall(){
         status: e.response.status,
         errorMessage: e.response.data.message
     }});
+  // return {
+  //   status: 200,
+  //   categories: [{name: 'Musica'},{name: 'Tecnologia'},{name:'Otros'}]
+  // };
 }

@@ -113,8 +113,18 @@ class IndividualOffer extends React.Component {
               </Col>
 
               <div>
-                <h4>Category: </h4>
-                <Chip label={readOnlyOffer.category} />
+                <h4>Categories: </h4>
+
+              {readOnlyOffer.categories != undefined ? (
+                readOnlyOffer.categories.map(c => {
+              return (
+                <Chip
+                  key={c.name}
+                  label={c.name}
+                />
+              );
+            })): ''}
+
               </div>
 
               <div>

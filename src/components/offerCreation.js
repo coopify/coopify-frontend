@@ -19,7 +19,6 @@ import Switch from "react-switch";
 import Protected from './protected';
 import { Link } from 'react-router-dom';
 import {loadScript} from "@pawjs/pawjs/src/utils/utils";
-
 import StepZilla from "react-stepzilla";
 import {loadStyle} from "@pawjs/pawjs/src/utils/utils";
 import BasicData from './offerCreation/basicData.js';
@@ -30,6 +29,7 @@ export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
   loading: state.loading,
+  categories: state.categories
 }))
 
 class OfferCreation extends React.Component {
@@ -57,9 +57,11 @@ class OfferCreation extends React.Component {
       loggedUser: {},
       loading: false,
       error: '',
-      offer: {}
+      offer: {},
+      categories: ['algo']
     };
     this.handleChangeStep1 = this.handleChangeStep1.bind(this);
+    this.handleCategoriesChange = this.handleCategoriesChange.bind(this);
     this.handleImageChange = this.handleImageChange.bind(this);
     this.handleChangeStep2 = this.handleChangeStep2.bind(this);
     this.handleFinalSubmit = this.handleFinalSubmit.bind(this);
@@ -76,18 +78,19 @@ class OfferCreation extends React.Component {
     }
   }
 
-  componentDidMount(){
-    //loadStyle("../css/stepZilla.css").then((res) => {console.log('cargo css')} ).catch(err => {console.log('fallo carga css: ' + err)});
-  }
-
   handleChangeStep1(e){
 
     const offer = {...this.state.offer }
     offer.title = e.title;
     offer.description = e.description;
-    offer.category = e.category;
     this.setState({offer});
+  }
 
+  handleCategoriesChange(e){
+    const offer = {...this.state.offer }
+    const newCategories = e;
+    offer.categories = newCategories;
+    this.setState({offer});
   }
 
   handleImageChange(e){
@@ -114,7 +117,7 @@ class OfferCreation extends React.Component {
     offer.finishDate = e.endDate;
     offer.status = 'Started';
     offer.images = offer.images ? offer.images : [];
-    this.setState({offer});
+    this.setState({...this.state, offer});
 
   }
 
@@ -137,7 +140,7 @@ class OfferCreation extends React.Component {
 
   render() {
     const { loading, error, loggedUser, balance } = this.props
-    const { offer } = this.state
+    const { offer, categories } = this.state
     const steps =
     [
       { 
@@ -146,6 +149,7 @@ class OfferCreation extends React.Component {
           <BasicData offer={offer} 
           onOfferInputChangeStep1={this.handleChangeStep1}
           onOfferImageChange={this.handleImageChange}
+          onCategoriesChange= {this.handleCategoriesChange}
           isReadOnly = {false}>
           </BasicData>
       },
@@ -154,7 +158,7 @@ class OfferCreation extends React.Component {
         component: 
           <ExchangeMethod offer={offer}
           onOfferInputChangeStep2={this.handleChangeStep2}
-          onFinalStepSubmit={this.handleFinalSubmit}
+          onFinalStepSubmit={this.handleFinalSubmit}       
           isReadOnly = {false}>
           </ExchangeMethod>
       }

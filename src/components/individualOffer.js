@@ -25,6 +25,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import TextField from '@material-ui/core/TextField';
 import * as moment from 'moment';
+import { GeneralQuestions } from './generalQuestions'
 
 
 export default @connect(state => ({
@@ -168,6 +169,8 @@ class IndividualOffer extends React.Component {
                   shrink: true,
                 }}
               />
+
+              <GeneralQuestions offerId={this.props.match.params.id}/>
             </div>
           </div>
 

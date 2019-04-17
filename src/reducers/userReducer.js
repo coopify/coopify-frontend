@@ -39,6 +39,9 @@ export const CHANGE_FILTERS_ATTEMPT = 'CHANGE_FILTERS_ATTEMPT'
 export const GET_CATEGORIES_ATTEMPT = 'GET_CATEGORIES_ATTEMPT'
 export const GET_CATEGORIES_SUCCESS = 'GET_CATEGORIES_SUCCESS'
 export const GET_CATEGORIES_FAILURE = 'GET_CATEGORIES_FAILURE'
+export const POST_QUESTION_ATTEMPT = 'POST_QUESTION_ATTEMPT'
+export const POST_QUESTION_SUCCESS = 'POST_QUESTION_SUCCESS'
+export const POST_QUESTION_FAILURE = 'POST_QUESTION_FAILURE'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -285,6 +288,22 @@ export const user = (state = initialUserState, action) => {
       });
 
       case GET_CATEGORIES_FAILURE:
+      return _.assignIn({}, state, {
+        error: action.errorMessage
+      });
+
+      case POST_QUESTION_ATTEMPT:
+      return _.assignIn({}, state, {
+        error: ''
+      });
+
+      case POST_QUESTION_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        categories: action.message
+      });
+
+      case POST_QUESTION_FAILURE:
       return _.assignIn({}, state, {
         error: action.errorMessage
       });

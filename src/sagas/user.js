@@ -21,6 +21,8 @@ import { LOGIN_SUCCESS,
   SHOW_OFFER_SUCCESS,
   GET_CATEGORIES_SUCCESS,
   GET_CATEGORIES_FAILURE,
+  POST_QUESTION_SUCCESS,
+  POST_QUESTION_FAILURE,
 } from '../reducers';
 
 import { logInAPICall, 
@@ -35,6 +37,7 @@ import { logInAPICall,
   createOfferAPICall,
   getOfferAPICall,
   getCategoriesAPICall,
+  postQuestionAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -164,5 +167,14 @@ export function* getCategoriesAsync() {
     yield put({ type: GET_CATEGORIES_SUCCESS, categories: result.categories })
   } else {
     yield put({ type: GET_CATEGORIES_FAILURE, errorMessage: result.errorMessage })
+  }
+}
+
+export function* postQuestionAsync(payload) {
+  const result = yield postQuestionAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: POST_QUESTION_SUCCESS, message: result.message })
+  } else {
+    yield put({ type: POST_QUESTION_FAILURE, errorMessage: result.errorMessage })
   }
 }

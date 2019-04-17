@@ -254,3 +254,22 @@ export function getCategoriesAPICall(){
   //   categories: [{name: 'Musica'},{name: 'Tecnologia'},{name:'Otros'}]
   // };
 }
+
+export function postQuestionAPICall(payload){
+  const offerId =  payload.offerId;
+  const question = payload.question;
+
+  return axios.post(
+    `${global.API_URL}/api/question/`, offerId, question).  
+    then((response) => {
+      return {       
+        status: response.status,
+        message: response.status
+      }
+    }).catch((e) => { 
+      console.log("createOfficeAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+}

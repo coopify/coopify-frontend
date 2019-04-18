@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
@@ -24,15 +25,16 @@ import {loadStyle} from "@pawjs/pawjs/src/utils/utils";
 import BasicData from './offerCreation/basicData.js';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import { ChatList } from 'react-chat-elements'
+import { MessageList } from 'react-chat-elements'
 
 
-export default @connect(state => ({//obtener todos los mensajes y chats en este componente, en el chat simplemente se obtienen del state de la store.
+export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
   loading: state.loading
 }))
 
-class ConversationList extends React.Component {
+class Chat extends React.Component {
 
   static propTypes = {
     dispatch: PropTypes.func,
@@ -57,16 +59,8 @@ class ConversationList extends React.Component {
       loggedUser: {},
       loading: false,
       error: '',
-      offer: {}
+      offer: {},
     };
-  }
-
-  displayChat(e){
-    this.props.history.push(`/user/conversations/${e.conversationId}`);
-  }
-
-  componentDidMount(){
-      //fetch conversations data ...
   }
 
   render() {
@@ -76,56 +70,37 @@ class ConversationList extends React.Component {
     return (
       <Protected>
       <GuestLayout>
-
-        <ChatList
-            className='chat-list'
+     
+        <MessageList
+            className='message-list'
+            lockable={true}
+            toBottomHeight={'100%'}
             dataSource={[
                 {
-                    avatar: 'https://image.flaticon.com/icons/png/512/55/55089.png',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
+                    position: 'right',
+                    type: 'text',
+                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
                     date: new Date(),
-                    unread: 0,
-                    userId: 1234555,
-                    messages: ['hola', 'hola 1234555'],
-                    conversationId: 12345435
                 },
                 {
-                    avatar: 'https://image.flaticon.com/icons/png/512/55/55089.png',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
+                    position: 'left',
+                    type: 'text',
+                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
                     date: new Date(),
-                    unread: 0,
-                    userId: 23434342,
-                    messages: ['hola', 'hola 23434342'],
-                    conversationId: 22345435
                 },
                 {
-                    avatar: 'https://image.flaticon.com/icons/png/512/55/55089.png',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
+                    position: 'right',
+                    type: 'text',
+                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
                     date: new Date(),
-                    unread: 0,
-                    userId: 3234555,
-                    messages: ['hola', 'hola 3234555'],
-                    conversationId: 32345435
                 },
                 {
-                    avatar: 'https://image.flaticon.com/icons/png/512/55/55089.png',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
+                    position: 'left',
+                    type: 'text',
+                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
                     date: new Date(),
-                    unread: 0,
-                    userId: 4234555,
-                    messages: ['hola', 'hola 4234555'],
-                    conversationId: 42345435
-                },        
-            ]}
-            onClick={e => this.displayChat(e)} />
+                },
+            ]} />
 
       </GuestLayout>
      </Protected>
@@ -133,4 +108,4 @@ class ConversationList extends React.Component {
   }
 }
 
-export { ConversationList }
+export { Chat }

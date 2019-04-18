@@ -107,6 +107,9 @@ class Header extends PureComponent {
             </div>)
             : 
             (<div className="navbar-end">
+
+               <Link to="/user/conversations" className="navbar-item"><i className="fa fa-comments"></i></Link>
+
               <div className="navbar-item has-dropdown is-hoverable">
                 <a href="#" data-toggle="dropdown" className="navbar-link" aria-expanded="false">
 

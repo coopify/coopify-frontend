@@ -11,11 +11,7 @@ import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/style.css'
-import '../css/form-elements.css'
 import {Link} from 'react-router-dom'
-import 'font-awesome/css/font-awesome.min.css';
 import LoadingScreen from 'react-loading-screen';
 
 export default @connect(state => ({

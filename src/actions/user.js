@@ -85,3 +85,8 @@ export const attemptQuestion = (payload) => ({
     type: Actions.POST_QUESTION_ATTEMPT,
     payload
 });
+
+export const attemptGetQuestionsAndAnswer = (payload) => ({
+    type: Actions.GET_QUESTION_ANSWER_ATTEMPT,
+    payload
+});

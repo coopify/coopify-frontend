@@ -13,6 +13,7 @@ import { loginAsync,
   getOfferAsync,
   getCategoriesAsync,
   postQuestionAsync,
+  getQuestionAnswerAsync
 } from './user'
 
 export default function* rootSaga() {
@@ -32,5 +33,6 @@ export default function* rootSaga() {
     takeEvery('SHOW_OFFER_ATTEMPT', getOfferAsync),
     takeEvery('GET_CATEGORIES_ATTEMPT', getCategoriesAsync),
     takeEvery('POST_QUESTION_ATTEMPT', postQuestionAsync),
+    takeEvery('GET_QUESTION_ANSWER_ATTEMPT', getQuestionAnswerAsync)
   ]);
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import GuestLayout from './guest-layout';
-import { resetError, attemptQuestion } from '../actions/user';
+import { resetError, attemptQuestion, attemptGetQuestionsAndAnswer } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -24,6 +24,7 @@ import { Button } from 'react-bootstrap';
 export default @connect(state => ({
   error: state.error,
   questions: state.questions,
+  countQuestions: state.countQuestions,
   question: state.question,
 }))
 
@@ -33,6 +34,7 @@ class GeneralQuestions extends React.Component {
     dispatch: PropTypes.func,
     error: PropTypes.string,
     questions: PropTypes.array,
+    countQuestions: PropTypes.number,
     question: PropTypes.string,
   };
 
@@ -40,6 +42,7 @@ class GeneralQuestions extends React.Component {
     dispatch: () => {
     },
     questions: [],
+    countCuestions: 0,
     question: '',
     error: ''
   };
@@ -48,8 +51,10 @@ class GeneralQuestions extends React.Component {
     super(props);
     this.state = {
       questions: [],
+      countCuestions: 0,
       question: '',
       error: '',
+      limit: 10,
     };
   }
 
@@ -62,6 +67,20 @@ class GeneralQuestions extends React.Component {
     else {
       toast.success(message)
     }
+  }
+
+  componentDidMount() {
+
+    const { dispatch } = this.props;
+    const offerId = this.props.offerId;
+
+    const reqAttributes = {
+      offerId: offerId,
+      limit: this.state.limit,
+      page: 0,
+    }
+
+    dispatch(attemptGetQuestionsAndAnswer(reqAttributes));
   }
 
   handleQuestionChange(e){
@@ -85,6 +104,38 @@ class GeneralQuestions extends React.Component {
 
   render() {
 
+    const TheadComponent = props => null; // a component returning null (to hide) or you could write as per your requirement
+    const { error, questions}  = this.props
+    const data = questions
+    const columns = [{
+      accessor: 'question',
+      Cell: props => (
+        <div>
+            <TextField
+            disabled
+            fullWidth
+            multiline
+            type="text"
+            value = {props.original.question}
+            />
+        </div>
+      ),
+      //maxWidth: 200
+    }, {
+      accessor: 'answer',
+      Cell: props => (
+        <div>
+            <TextField
+            disabled
+            fullWidth
+            multiline
+            type="text"
+            value = {props.original.answer}
+            />
+        </div>
+      )
+    }]
+
     return (
           <div className={styles.container}>
             <form >
@@ -100,6 +151,20 @@ class GeneralQuestions extends React.Component {
                 <Button onClick={e => this.handleSendQuestion(e)}>
                   Send question
                 </Button>
+            </div>
+            <div>
+            <h4 style={{ textAlign: 'center' }}> Questions </h4>
+
+              <ReactTable
+                defaultPageSize={this.state.limit}
+                data={data}
+                columns={columns}
+                TheadComponent={TheadComponent}
+                pages = {1}
+                //pages={ this.state.limit != 0 ? Math.ceil(countQuestions / this.state.limit) : countQuestions }
+                noDataText = 'No questions'
+                manual
+              />
             </div>
             </form>
             <ToastContainer autoClose={3000} />

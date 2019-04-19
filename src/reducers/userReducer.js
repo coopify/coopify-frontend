@@ -42,6 +42,9 @@ export const GET_CATEGORIES_FAILURE = 'GET_CATEGORIES_FAILURE'
 export const POST_QUESTION_ATTEMPT = 'POST_QUESTION_ATTEMPT'
 export const POST_QUESTION_SUCCESS = 'POST_QUESTION_SUCCESS'
 export const POST_QUESTION_FAILURE = 'POST_QUESTION_FAILURE'
+export const GET_QUESTION_ANSWER_ATTEMPT = 'GET_QUESTION_ANSWER_ATTEMPT'
+export const GET_QUESTION_ANSWER_SUCCESS = 'GET_QUESTION_ANSWER_SUCCESS'
+export const GET_QUESTION_ANSWER_FAILURE = 'GET_QUESTION_ANSWER_FAILURE'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -304,6 +307,26 @@ export const user = (state = initialUserState, action) => {
       });
 
       case POST_QUESTION_FAILURE:
+      return _.assignIn({}, state, {
+        error: action.errorMessage
+      });
+
+      case GET_QUESTION_ANSWER_ATTEMPT:
+      return _.assignIn({}, state, {
+        error: ''
+      });
+
+      case GET_QUESTION_ANSWER_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        // questions: action.responseQuestions.questions,
+        // countQuestions: action.responseQuestions.countQuestions
+        questions: [{question: "Cual seria la disponibilidad horaria?", answer: "De 9AM a 6PM"},
+        {question: "Tienes algun certificado que valide tu experiencia?", answer: "Si tranquilo, tenemos mucha experiencia."}],
+        countQuestions: 30
+      });
+
+      case GET_QUESTION_ANSWER_FAILURE:
       return _.assignIn({}, state, {
         error: action.errorMessage
       });

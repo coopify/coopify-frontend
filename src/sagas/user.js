@@ -23,6 +23,8 @@ import { LOGIN_SUCCESS,
   GET_CATEGORIES_FAILURE,
   POST_QUESTION_SUCCESS,
   POST_QUESTION_FAILURE,
+  GET_QUESTION_ANSWER_SUCCESS,
+  GET_QUESTION_ANSWER_FAILURE,
 } from '../reducers';
 
 import { logInAPICall, 
@@ -38,6 +40,7 @@ import { logInAPICall,
   getOfferAPICall,
   getCategoriesAPICall,
   postQuestionAPICall,
+  getQuestionAnswerAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -176,5 +179,14 @@ export function* postQuestionAsync(payload) {
     yield put({ type: POST_QUESTION_SUCCESS, message: result.message })
   } else {
     yield put({ type: POST_QUESTION_FAILURE, errorMessage: result.errorMessage })
+  }
+}
+
+export function* getQuestionAnswerAsync(payload) {
+  const result = yield getQuestionAnswerAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: GET_QUESTION_ANSWER_SUCCESS, responseQuestions: result.responseCuestions })
+  } else {
+    yield put({ type: GET_QUESTION_ANSWER_FAILURE, errorMessage: result.errorMessage })
   }
 }

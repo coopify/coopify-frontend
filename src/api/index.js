@@ -260,7 +260,7 @@ export function postQuestionAPICall(payload){
   const question = payload.question;
 
   return axios.post(
-    `${global.API_URL}/api/question/`, offerId, question).  
+    `${global.API_URL}/api/questions/`, offerId, question).  
     then((response) => {
       return {       
         status: response.status,
@@ -272,4 +272,46 @@ export function postQuestionAPICall(payload){
         status: e.response.status,
         errorMessage: e.response.data.message
     }});
+}
+
+export function getQuestionAnswerAPICall(payload){
+  const offerId =  payload.offerId;
+
+  // return axios.get(
+  //   `${global.API_URL}/api/questions/${offerId}`).
+  //   then((response) => {
+  //     return {       
+  //       status: response.status,
+  //       responseQuestions: {questions: response.data.questions, countQuestions: response.data.count},
+  //     }
+  //   }).catch((e) => { 
+  //     console.log("getQuestionAnswerAPICall Error: " + JSON.stringify(e) + "  " + e);
+  //     return {
+  //       status: e.response.status,
+  //       errorMessage: e.response.data.message
+  //   }});
+
+    return axios.get(
+    //`${global.API_URL}/api/questions/${offerId}`).
+    (response) => {
+      return {       
+        status: 200,
+        //responseQuestions: {questions: response.data.questions, countQuestions: response.data.count},
+        responseQuestions: {questions: [{question: "Cual seria la disponibilidad horaria?", answer: "De 9AM a 6PM"},
+        {question: "Tienes algun certificado que valide tu experiencia?", answer: "Si tranquilo, tenemos mucha experiencia."}],
+        countQuestions: 2},
+      }
+    }).catch((e) => { 
+      console.log("getQuestionAnswerAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+
+    // return {       
+    //   status: 200,
+    //   responseQuestions: {questions: [{question: 'Cual seria la disponibilidad horaria?', answer: 'De 9AM a 6PM'},
+    //   {question: 'Tienes algun certificado que valide tu experiencia?', answer: 'Si tranquilo, tenemos mucha experiencia.'}],
+    //   countQuestions: 2}
+    // };
 }

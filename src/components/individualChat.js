@@ -44,8 +44,7 @@ import StepContent from '@material-ui/core/StepContent';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
-
-
+import { MessageBox } from 'react-chat-elements'
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -237,40 +236,42 @@ getSteps() {
     const { offer, categories, activeStep } = this.state
     const steps = this.getSteps();
 
+    const usersChat =
+     [
+         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+     ];
+
     return (
       <Protected>
       <GuestLayout>
-     
-        <MessageList
-            className='message-list'
-            lockable={true}
-            toBottomHeight={'100%'}
-            dataSource={[
-                {
-                    position: 'right',
-                    type: 'text',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                    date: new Date(),
-                },
-                {
-                    position: 'left',
-                    type: 'text',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                    date: new Date(),
-                },
-                {
-                    position: 'right',
-                    type: 'text',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                    date: new Date(),
-                },
-                {
-                    position: 'left',
-                    type: 'text',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                    date: new Date(),
-                },
-            ]} />
+
+          <div className='message-list' style={{height:"300px", overflowY: "auto"}}>
+
+            {
+                usersChat.map(item => (
+                    <MessageBox
+                    style={{marginBottom: "2%"}}
+                        position={item.mine ? 'right' : 'left'}
+                        type={'text'}
+                        text={item.message}
+                        date= {new Date()}/>
+                ))
+            }
+
+              </div>
 
             <CommonButton style={{width: "100%"}} onClick={e => this.handleClickOpen(e)}>
                 Make an offer <i className="fa fa-handshake-o" aria-hidden="true"></i>
@@ -341,8 +342,8 @@ getSteps() {
             rightButtons={
                 <Button
                     color='white'
-                    backgroundColor='black'
-                    text={<i className="fa fa-chevron-circle-right" aria-hidden="true"></i>}/>
+                    backgroundColor='transparent'
+                    text={<i className="fa fa-caret-right" style={{fontSize:"48px", color: "blue"}}></i>}/>
             }/>
 
       </GuestLayout>

@@ -15,6 +15,7 @@ import './resources/css/stepZilla.css';
 import 'rc-slider/assets/index.css';
 import 'react-chat-elements/dist/main.css';
 import './resources/css/style.css';
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 const appInitialState = {};
 

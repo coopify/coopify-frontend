@@ -185,7 +185,7 @@ export function* postQuestionAsync(payload) {
 export function* getQuestionAnswerAsync(payload) {
   const result = yield getQuestionAnswerAPICall(payload.payload);
   if (result.status == 200) {
-    yield put({ type: GET_QUESTION_ANSWER_SUCCESS, responseQuestions: result.responseCuestions })
+    yield put({ type: GET_QUESTION_ANSWER_SUCCESS, responseQuestions: result.responseQuestions })
   } else {
     yield put({ type: GET_QUESTION_ANSWER_FAILURE, errorMessage: result.errorMessage })
   }

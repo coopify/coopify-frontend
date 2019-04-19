@@ -291,27 +291,27 @@ export function getQuestionAnswerAPICall(payload){
   //       errorMessage: e.response.data.message
   //   }});
 
-    return axios.get(
-    //`${global.API_URL}/api/questions/${offerId}`).
-    (response) => {
-      return {       
-        status: 200,
-        //responseQuestions: {questions: response.data.questions, countQuestions: response.data.count},
-        responseQuestions: {questions: [{question: "Cual seria la disponibilidad horaria?", answer: "De 9AM a 6PM"},
-        {question: "Tienes algun certificado que valide tu experiencia?", answer: "Si tranquilo, tenemos mucha experiencia."}],
-        countQuestions: 2},
-      }
-    }).catch((e) => { 
-      console.log("getQuestionAnswerAPICall Error: " + JSON.stringify(e) + "  " + e);
-      return {
-        status: e.response.status,
-        errorMessage: e.response.data.message
-    }});
+    // return axios.get(
+    // //`${global.API_URL}/api/questions/${offerId}`).
+    // (response) => {
+    //   return {       
+    //     status: 200,
+    //     //responseQuestions: {questions: response.data.questions, countQuestions: response.data.count},
+    //     responseQuestions: {questions: [{question: "Cual seria la disponibilidad horaria?", answer: "De 9AM a 6PM"},
+    //     {question: "Tienes algun certificado que valide tu experiencia?", answer: "Si tranquilo, tenemos mucha experiencia."}],
+    //     countQuestions: 2},
+    //   }
+    // }).catch((e) => { 
+    //   console.log("getQuestionAnswerAPICall Error: " + JSON.stringify(e) + "  " + e);
+    //   return {
+    //     status: e.response.status,
+    //     errorMessage: e.response.data.message
+    // }});
 
-    // return {       
-    //   status: 200,
-    //   responseQuestions: {questions: [{question: 'Cual seria la disponibilidad horaria?', answer: 'De 9AM a 6PM'},
-    //   {question: 'Tienes algun certificado que valide tu experiencia?', answer: 'Si tranquilo, tenemos mucha experiencia.'}],
-    //   countQuestions: 2}
-    // };
+    return {       
+      status: 200,
+      responseQuestions: {questions: [{question: 'Cual seria la disponibilidad horaria?', answer: 'De 9AM a 6PM'},
+      {question: 'Tienes algun certificado que valide tu experiencia?', answer: 'Si tranquilo, tenemos mucha experiencia.'}],
+      countQuestions: 2}
+    };
 }

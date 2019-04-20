@@ -81,7 +81,9 @@ class Chat extends React.Component {
       modalOpen: false,
       activeStep: 0,
       exchangeMethodSelected: "Coopi",
-      exchangeInstanceSelected: "Hour"
+      exchangeInstanceSelected: "Hour",
+      selectedService: '',
+      myExchangeService: ''
     };
     this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
     this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);
@@ -156,6 +158,20 @@ getSteps() {
         });
     }
 
+    handleServiceChange(e){
+      this.setState({
+        ...this.state,
+        selectedService: e.target.value
+    });
+    }
+
+    handleBarterService(e){
+      this.setState({
+        ...this.state,
+        myExchangeService: e.target.value
+    });
+    }
+
     getStepContent(index){
 
         let componentToRender = "";
@@ -163,13 +179,15 @@ getSteps() {
             case 0:
 
          componentToRender = 
-            (<Select style={{width: "100%"}}>
+            (<Select style={{width: "100%"}}
+            value={this.state.selectedService}
+            onChange={e => this.handleServiceChange(e)}>
                 <MenuItem value="">
                 <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>Guitar lessons</MenuItem>
-                <MenuItem value={20}>Lawyer</MenuItem>
-                <MenuItem value={30}>Dog walk</MenuItem>
+                <MenuItem value="Guitar lessons">Guitar lessons</MenuItem>
+                <MenuItem value="Lawyer">Lawyer</MenuItem>
+                <MenuItem value="Dog walk">Dog walk</MenuItem>
             </Select>);
             break;
 
@@ -210,13 +228,15 @@ getSteps() {
         margin="normal"
         style={{display: coopiSelected}}/>
 
-        <Select style={{width: "100%", display: barterSelected}}>
+        <Select style={{width: "100%", display: barterSelected}}
+          value={this.state.myExchangeService}
+          onChange={e => this.handleBarterService(e)}>
                 <MenuItem value="">
                 <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>My Guitar lessons</MenuItem>
-                <MenuItem value={20}>My Lawyer</MenuItem>
-                <MenuItem value={30}>My Dog walk</MenuItem>
+                <MenuItem value="My Guitar lessons">My Guitar lessons</MenuItem>
+                <MenuItem value="My Lawyer">My Lawyer</MenuItem>
+                <MenuItem value="My Dog walk">My Dog walk</MenuItem>
             </Select>  
         </div>
         );
@@ -270,7 +290,6 @@ getSteps() {
                         date= {new Date()}/>
                 ))
             }
-
               </div>
 
             <CommonButton style={{width: "100%"}} onClick={e => this.handleClickOpen(e)}>

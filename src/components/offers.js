@@ -113,7 +113,7 @@ class Offers extends React.Component {
       accessor: 'image',
       Cell: props => (
         <div style={{ textAlign: 'right' }}>
-          <img src={props.original.images.length > 0 ? props.original.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg'} alt="offer image" height="200" width="200"></img>
+          <img src={props.original.images && props.original.images.length > 0 ? props.original.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg'} alt="offer image" height="200" width="200"></img>
         </div>
       ),
       maxWidth: 200
@@ -144,12 +144,11 @@ class Offers extends React.Component {
             <div className="row">
 
               {props.original.paymentMethod == "Coopy" ?
-                // <div>
-                //   {props.original.prices.length > 0 && props.original.prices[0].price != "0" ? <div className="col-sm-12"><span>{props.original.prices[0].price} Coopies x {props.original.prices[0].frequency}</span></div> : ''}
-                //   {props.original.prices.length > 1 && props.original.prices[1].price != "0" ? <div className="col-sm-12"><span>{props.original.prices[1].price} Coopies x {props.original.prices[1].frequency}</span></div> : ''}
-                //   {props.original.prices.length > 2 && props.original.prices[2].price != "0" ? <div className="col-sm-12"><span>{props.original.prices[2].price} Coopies x {props.original.prices[2].frequency}</span></div> : ''}
-                // </div>
-                <div className="col-sm-12"><span>Coopi</span></div>
+                <div>
+                  {props.original.hourPrice && props.original.hourPrice != "0" ? <div className="col-sm-12"><span>{props.original.hourPrice} Coopies x hour</span></div> : ''}
+                  {props.original.sessionPrice && props.original.sessionPrice != "0" ? <div className="col-sm-12"><span>{props.original.sessionPrice} Coopies x session</span></div> : ''}
+                  {props.original.finalProductPrice && props.original.finalProductPrice != "0" ? <div className="col-sm-12"><span>{props.original.finalProductPrice} Coopies x hour</span></div> : ''}
+                </div>
                 :
                 <div className="col-sm-12"><span>Barter</span></div>
               }

@@ -114,7 +114,11 @@ class OfferCreation extends React.Component {
     offer.paymentMethod = e.paymentMethod;
     offer.prices = e.exchangeMethod;
     offer.startDate = e.startDate;
-    offer.finishDate = e.endDate;
+    if (e.endDate !== "") { offer.finishDate = e.endDate; }
+    offer.hourPrice = e.hourPrice;
+    offer.sessionPrice = e.sessionPrice;
+    offer.finalProductPrice = e.finalProductPrice;
+    offer.exchangeMethod = e.exchangeMethod.filter((em) => em.selected).map((em) => em.frequency)
     offer.status = 'Started';
     offer.images = offer.images ? offer.images : [];
     this.setState({...this.state, offer});

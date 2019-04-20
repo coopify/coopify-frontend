@@ -105,7 +105,10 @@ class ExchangeMethod extends React.Component {
         paymentMethod: paymentMethod,
         exchangeMethod: exchangeMethod,
         startDate: startDate,
-        endDate: endDate
+        endDate: endDate,
+        hourPrice: showHours ? hoursCoopi : undefined,
+        sessionPrice: showSessions ? sessionsCoopi : undefined,
+        finalProductPrice: showFinalProduct ? productCoopi : undefined,
     };
 
     this.props.onOfferInputChangeStep2(newOffer);
@@ -225,7 +228,7 @@ class ExchangeMethod extends React.Component {
       End Date
     </Form.Label>
     <Col sm={10}>
-      <Form.Control type="date" name="endDate" value={placeHolderEndDate} onChange={e => this.handleInputChange(e)}/>
+      <Form.Control type="date" name="endDate" value="" onChange={e => this.handleInputChange(e)}/>
     </Col>
   </Form.Group>
 

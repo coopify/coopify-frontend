@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie/server';
 import Authenticator from './fake-authenticator';
-import { resetError, attemptPublishOffer } from '../actions/user';
+import { attemptSendMessage } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -49,7 +49,8 @@ import { MessageBox } from 'react-chat-elements'
 export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
-  loading: state.loading
+  loading: state.loading,
+  conversations: state.conversations,
 }))
 
 class Chat extends React.Component {
@@ -59,7 +60,8 @@ class Chat extends React.Component {
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
     error: PropTypes.string,
-    offer: PropTypes.object
+    offer: PropTypes.object,
+    conversations: PropTypes.array,
   };
 
   static defaultProps = {
@@ -68,7 +70,8 @@ class Chat extends React.Component {
     loggedUser: {},
     loading: false,
     error: '',
-    offer: {}
+    offer: {},
+    conversations: []
   };
 
   constructor(props) {
@@ -83,34 +86,18 @@ class Chat extends React.Component {
       exchangeMethodSelected: "Coopi",
       exchangeInstanceSelected: "Hour",
       selectedService: '',
-      myExchangeService: ''
+      myExchangeService: '',
+      coopiValue: 0,
+      chatMessage: ''
     };
     this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
     this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);
+    this.handleMakeOfferProposal = this.handleMakeOfferProposal.bind(this);
   }
 
 getSteps() {
     return ['Select the offer you want to trade', 'Select the exchange method', 'Confirm the offer'];
   }
-  
-// getStepContent(step) {
-//     switch (step) {
-//       case 0:
-//         return `For each ad campaign that you create, you can control how much
-//                 you're willing to spend on clicks and conversions, which networks
-//                 and geographical locations you want your ads to show on, and more.`;
-//       case 1:
-//         return 'An ad group contains one or more ads which target a shared set of keywords.';
-//       case 2:
-//         return `Try out different ad text to see what brings in the most customers,
-//                 and learn how to enhance your ads using features like ad extensions.
-//                 If you run into any problems with your ads, find out how to tell if
-//                 they're running and how to resolve approval issues.`;
-//       default:
-//         return 'Unknown step';
-//     }
-//   }
-
 
   handleClickOpen = () => {
     this.setState({
@@ -122,7 +109,8 @@ getSteps() {
   handleClose = () => {
     this.setState({
         ...this.state,
-        modalOpen: false 
+        modalOpen: false,
+        activeStep: 0
     }); 
     };
 
@@ -170,6 +158,45 @@ getSteps() {
         ...this.state,
         myExchangeService: e.target.value
     });
+    }
+
+    onChangeCoopiValue(e){
+      this.setState({
+        ...this.state,
+        coopiValue: e.target.value
+    });
+    }
+
+    onChangeChatInput(e){
+      this.setState({
+        ...this.state,
+        chatMessage: e.target.value
+    });
+    }
+
+    async handleSendMessage(e){
+      const { dispatch } = this.props;
+      const token = localStorage.getItem("token");
+     
+      const payload =
+      {
+        token: token,
+        message: 
+        {
+          text: this.state.chatMessage
+        },
+        conversationId: this.props.match.params.conversationId
+      };
+
+      dispatch(attemptSendMessage(payload));
+      this.setState({...this.state, chatMessage: ''});
+    }
+
+    handleMakeOfferProposal(e){
+      this.handleReset(e);
+      const token = localStorage.getItem("token");
+
+
     }
 
     getStepContent(index){
@@ -226,6 +253,7 @@ getSteps() {
         label="Coopi value"
         placeholder="Enter the value in Coopi"
         margin="normal"
+        onChange = {e => this.onChangeCoopiValue(e)}
         style={{display: coopiSelected}}/>
 
         <Select style={{width: "100%", display: barterSelected}}
@@ -243,6 +271,31 @@ getSteps() {
             break;
 
             case 2:
+        componentToRender = 
+        (
+          <Paper>
+            <Typography variant="h5" component="h3">
+              {this.state.selectedService}
+            </Typography>        
+
+        {
+          this.state.exchangeMethodSelected == 'Coopi' ?
+          (
+            <Typography component="p">
+              {this.state.exchangeInstanceSelected} <br/>
+              por <br/>
+              {this.state.coopiValue} COOPI
+            </Typography>
+          ) : 
+          (
+            <Typography component="p">
+            por <br/>
+            {this.state.myExchangeService}
+          </Typography>
+          )}
+
+          </Paper>
+        );
 
             break;
         }
@@ -348,7 +401,7 @@ getSteps() {
             <CommonButton onClick={this.handleClose} color="primary">
               Cancel
             </CommonButton>
-            <CommonButton onClick={this.handleClose} color="primary">
+            <CommonButton onClick={this.handleMakeOfferProposal} color="primary">
               Make the offer
             </CommonButton>
           </DialogActions>
@@ -358,10 +411,12 @@ getSteps() {
             <Input
             placeholder="Type here..."
             multiline={false}
+            onChange={e => this.onChangeChatInput(e)}
             rightButtons={
                 <Button
                     color='white'
                     backgroundColor='transparent'
+                    onClick = {e => this.handleSendMessage(e)}
                     text={<i className="fa fa-caret-right" style={{fontSize:"48px", color: "blue"}}></i>}/>
             }/>
 

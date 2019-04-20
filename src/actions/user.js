@@ -80,3 +80,8 @@ export const attemptChangeFilters = (payload) => ({
 export const attemptCategoriesAction = () => ({
     type: Actions.GET_CATEGORIES_ATTEMPT
 });
+
+export const attemptSendMessage = (payload) => ({
+    type: Actions.SEND_MESSAGE_ATTEMPT,
+    payload
+});

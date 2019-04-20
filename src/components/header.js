@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import logo from '../assets/logo.png';
 import {attemptLogoutAction, loadState} from '../actions/user';
-
+import * as Pusher from 'pusher';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -22,6 +22,7 @@ class Header extends PureComponent {
       isActive: false,
     };
       this.loadStateFromCookies();
+      this.initializePusher();
   }
 
   static propTypes = {
@@ -53,7 +54,24 @@ class Header extends PureComponent {
     if(!userDidLog){
       dispatch(loadState());
     }
+  }
 
+  initializePusher(){
+
+    const { dispatch, loggedUser } = this.props;
+
+    const pusherAppKey = global.PUSHER_APP_KEY;
+    const pusherCluster = global.PUSHER_APP_CLUSTER;
+
+    let pusher = new Pusher(pusherAppKey, {
+      cluster: pusherCluster
+    });
+
+    let channel = pusher.subscribe(loggedUser.id);
+
+    channel.bind('message', function(data) {
+      alert('An event was triggered with message: ' + data.message); //dispatch ...
+    });
   }
 
   closeMenuBar() {

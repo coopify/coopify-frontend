@@ -38,6 +38,8 @@ import { user, initialUserState,
     GET_CATEGORIES_ATTEMPT,
     GET_CATEGORIES_SUCCESS,
     GET_CATEGORIES_FAILURE,
+    SEND_MESSAGE_ATTEMPT,
+    SEND_MESSAGE_SUCCESS,
  } from './userReducer';
 //import { serviceReducers, initialServiceState } from './serviceReducer';
 
@@ -91,6 +93,8 @@ const Actions = {
     GET_CATEGORIES_ATTEMPT,
     GET_CATEGORIES_SUCCESS,
     GET_CATEGORIES_FAILURE,
+    SEND_MESSAGE_ATTEMPT,
+    SEND_MESSAGE_SUCCESS,
 }
 
 export {
@@ -137,4 +141,6 @@ export {
     GET_CATEGORIES_ATTEMPT,
     GET_CATEGORIES_SUCCESS,
     GET_CATEGORIES_FAILURE,
+    SEND_MESSAGE_ATTEMPT,
+    SEND_MESSAGE_SUCCESS,
 }

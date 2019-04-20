@@ -291,4 +291,18 @@ export function sendMessageAPICall(payload){
         status: e.response.status,
         errorMessage: e.response.data.message
     }});
+
+
+    // const obj =  
+    // {
+    //   status: 200,
+    //   message:
+    //   {
+    //     conversationId: '2ee32380-6397-11e9-b6ae-09117d14be4f',
+    //     authorId: 'pepepepepe',
+    //     text: 'Hola!!!'
+    //   }
+    // };
+    // return obj;
+
 }

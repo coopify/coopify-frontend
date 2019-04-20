@@ -25,7 +25,7 @@ global.FB_APP_ID = '323887408477346'
 global.GOOGLE_APP_ID = '157449480210-9sr3ar7e5q2lm7emifvegj0r9ohr3vm6.apps.googleusercontent.com'
 //global.GOOGLE_APP_ID = '157449480210-dd88viejmm5ce2ia29j0cqpaul1ml5j4.apps.googleusercontent.com'
 global.PUSHER_APP_KEY = '854192fae3c55354146c'
-gloabal.PUSHER_APP_CLUSTER = 'us2'
+global.PUSHER_APP_CLUSTER = 'us2'
 
 export default class Client {
   constructor({ addPlugin }) {

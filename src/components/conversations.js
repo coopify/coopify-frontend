@@ -89,7 +89,7 @@ class ConversationList extends React.Component {
                     unread: 0,
                     userId: 1234555,
                     messages: ['hola', 'hola 1234555'],
-                    conversationId: 12345435
+                    conversationId: '2ee32380-6397-11e9-b6ae-09117d14be4f'
                 },
                 {
                     avatar: 'https://image.flaticon.com/icons/png/512/55/55089.png',

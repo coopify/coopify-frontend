@@ -54,6 +54,7 @@
     "moment": "^2.24.0",
     "prop-types": "^15.6.2",
     "pusher": "^2.2.0",
+    "pusher-js": "^4.4.0",
     "query-string": "^6.4.2",
     "rc-slider": "^8.6.9",
     "rc-steps": "^3.3.1",

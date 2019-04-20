@@ -73,8 +73,10 @@ class GeneralQuestions extends React.Component {
 
     const { dispatch } = this.props;
     const offerId = this.props.offerId;
+    const userToken = localStorage.getItem("token");
 
     const reqAttributes = {
+      token: userToken,
       offerId: offerId,
       limit: this.state.limit,
       page: 0,
@@ -92,11 +94,13 @@ class GeneralQuestions extends React.Component {
 
   handleSendQuestion(e){
     const { dispatch } = this.props;
+    const userToken = localStorage.getItem("token");
 
     const reqAttributes = 
     {
         question: this.state.question,
         offerId: this.props.offerId,
+        token: userToken
     };
 
     dispatch(attemptQuestion(reqAttributes));

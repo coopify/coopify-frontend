@@ -302,8 +302,7 @@ export const user = (state = initialUserState, action) => {
 
       case POST_QUESTION_SUCCESS:
       return _.assignIn({}, state, {
-        error: '',
-        categories: action.message
+        error: ''
       });
 
       case POST_QUESTION_FAILURE:
@@ -321,9 +320,6 @@ export const user = (state = initialUserState, action) => {
         error: '',
         questions: action.responseQuestions.questions,
         countQuestions: action.responseQuestions.countQuestions
-        // questions: [{question: "Cual seria la disponibilidad horaria?", answer: "De 9AM a 6PM"},
-        // {question: "Tienes algun certificado que valide tu experiencia?", answer: "Si tranquilo, tenemos mucha experiencia."}],
-        // countQuestions: 30
       });
 
       case GET_QUESTION_ANSWER_FAILURE:

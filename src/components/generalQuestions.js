@@ -1,6 +1,6 @@
 import React from 'react';
 import GuestLayout from './guest-layout';
-import { resetError, attemptQuestion, attemptGetQuestionsAndAnswer } from '../actions/user';
+import { resetError, attemptQuestion, attemptGetQuestionsAndAnswer, attemptSendReply } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -127,32 +127,53 @@ changePage(pageIndex) {
   dispatch(attemptGetQuestionsAndAnswer(reqAttributes));
 }
 
+handleReplyClick(e){
+  const { dispatch } = this.props;
+
+  const formData = e.target.form.elements;
+  const replyComment = formData.replyComment.value;
+  const questionId = formData.conversation.value;
+  const token = localStorage.getItem("token");
+
+  const payload = 
+  {
+    token: token,
+    reply: replyComment,
+    questionId: questionId
+  };
+
+  dispatch(attemptSendReply(payload));
+}
+
   render() {
 
-    const TheadComponent = props => null; // a component returning null (to hide) or you could write as per your requirement
+    const TheadComponent = props => null;
     const { error, questions}  = this.props
     const data = questions
     const columns = [{
       accessor: 'question',
       Cell: props => (
         <div>
-            <TextField
-            disabled
-            fullWidth
-            multiline 
-            type="text"
-            value = {<i class="far fa-comment-dots"></i> props.original.text}
-            />
+          <form>
+        <div style={{color: "black", textAlign: "left"}}>
+          <i class="fa fa-comments-o"></i> {props.original.text}
+        </div>
+          <br/>
 
-        <Button onClick={e => this.handleReplyClick(e)}>Reply <i class="fas fa-reply"></i></Button>
-
+          <input type="text" style={{display: "none"}} name="conversation" value={props.original.id}/>
+        <Button onClick={e => this.handleReplyClick(e)} style={{backgroundColor: "transparent", color: "black", borderColor: "transparent", float: "right"}}>Reply <i class="fa fa-reply"></i></Button>
+      <br/>
+      <i class="fa fa-comments"></i>&nbsp;
         <TextField
-        disabled
+        disabled={props.original.response != undefined && props.original.response != ""}
         fullWidth
         multiline
         type="text"
-        value = {<i class="fas fa-comment-dots"></i>props.original.response}
+        name="replyComment"
+        tag = {props.original.id}
+        value = {props.original.response}
         />
+        </form>
         </div>
       ),
     }]
@@ -169,7 +190,7 @@ changePage(pageIndex) {
                     onChange={e => this.handleQuestionChange(e)}
                     value = {this.state.question}
                 />
-                <Button onClick={e => this.handleSendQuestion(e)}>
+                <Button onClick={e => this.handleSendQuestion(e)} style={{marginTop: "2%"}}>
                   Send question
                 </Button>
             </div>

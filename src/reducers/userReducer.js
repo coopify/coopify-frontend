@@ -45,6 +45,8 @@ export const POST_QUESTION_FAILURE = 'POST_QUESTION_FAILURE'
 export const GET_QUESTION_ANSWER_ATTEMPT = 'GET_QUESTION_ANSWER_ATTEMPT'
 export const GET_QUESTION_ANSWER_SUCCESS = 'GET_QUESTION_ANSWER_SUCCESS'
 export const GET_QUESTION_ANSWER_FAILURE = 'GET_QUESTION_ANSWER_FAILURE'
+export const SEND_QUESTION_REPLY_ATTEMPT = 'SEND_QUESTION_REPLY_ATTEMPT'
+export const SEND_QUESTION_REPLY_SUCCESS = 'SEND_QUESTION_REPLY_SUCCESS'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -325,6 +327,12 @@ export const user = (state = initialUserState, action) => {
       case GET_QUESTION_ANSWER_FAILURE:
       return _.assignIn({}, state, {
         error: action.errorMessage
+      });
+
+      case SEND_QUESTION_REPLY_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        reply: action.reply,
       });
 
     default:

@@ -300,12 +300,27 @@ export function getQuestionAnswerAPICall(payload){
         status: e.response.status,
         errorMessage: e.response.data.message
     }});
+}
 
+export function sendReplyAPICall(payload){
 
-    // return {       
-    //   status: 200,
-    //   responseQuestions: {questions: [{question: 'Cual seria la disponibilidad horaria?', answer: 'De 9AM a 6PM'},
-    //   {question: 'Tienes algun certificado que valide tu experiencia?', answer: 'Si tranquilo, tenemos mucha experiencia.'}],
-    //   countQuestions: 2}
-    // };
+  const questionId = payload.questionId;
+  const reply = { attributes: { response: payload.reply } };
+  const userToken = payload.token;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
+
+  return axios.put(
+    `${global.API_URL}/api/questions/${questionId}`, reply).  
+    then((response) => {
+      return {       
+        status: response.status,
+        reply: response.data.response
+      }
+    }).catch((e) => { 
+      console.log("createOfficeAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
 }

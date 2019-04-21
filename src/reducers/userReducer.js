@@ -304,12 +304,10 @@ export const user = (state = initialUserState, action) => {
       case SEND_MESSAGE_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
-        messages: updateMessagesList(state, action.message)
+        messages: state.messages.concat([action.message]),
       });
 
       case UPDATE_MESSAGE_ATTEMPT:
-      //const prevMessages = state.messages;
-      //const messages = updateMessagesList(state, action.payload);
       return _.assignIn({}, state, {
         error: '',
         messages: state.messages.concat([action.payload]),
@@ -331,20 +329,6 @@ export const user = (state = initialUserState, action) => {
     default:
       return state
   }
-};
-
-const updateMessagesList = (state, newMessage) => {
-
-  let messages = state.messages;
-
-  if(messages == undefined){
-    messages = [];
-  }
-
-  messages.push({text: newMessage.text, authorId: newMessage.authorId, conversationId: newMessage.conversationId, createdAt: new Date(Date.now())});
-
-  return messages;
-  
 };
 
 export const initialUserState = {

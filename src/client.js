@@ -23,7 +23,7 @@ const appInitialState = {};
 let pusher;
 
 //global.API_URL = 'https://coopify-dev-backend.herokuapp.com'
-global.API_URL = 'http://192.168.43.232:3001' //TODO: CHANGE WHEN DEPLOYING TO DEV OR STAGE MAYBE A SWITCH AND HAVING MULTIPLE CONFIGS?
+global.API_URL = 'http://localhost:3001' //TODO: CHANGE WHEN DEPLOYING TO DEV OR STAGE MAYBE A SWITCH AND HAVING MULTIPLE CONFIGS?
 global.FB_APP_ID = '323887408477346'
 global.GOOGLE_APP_ID = '157449480210-9sr3ar7e5q2lm7emifvegj0r9ohr3vm6.apps.googleusercontent.com'
 //global.GOOGLE_APP_ID = '157449480210-dd88viejmm5ce2ia29j0cqpaul1ml5j4.apps.googleusercontent.com'
@@ -83,7 +83,6 @@ export default class Client {
 export function createPusherChannel(loggedUser, dispatch) {
 
   if(loggedUser && loggedUser.id){
-    console.log("CreatePusherCHANNEL");
   let channel = pusher.subscribe(loggedUser.id);
 
   channel.bind('message', function(data) {   
@@ -91,7 +90,8 @@ export function createPusherChannel(loggedUser, dispatch) {
       {
         text: data.text,
         authorId: data.authorId,
-        conversationId: data.conversationId,    
+        conversationId: data.conversationId,
+        date: new Date(Date.now()),
       };
       dispatch(attemptUpdateMessage(payload));
   });

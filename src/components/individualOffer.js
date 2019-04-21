@@ -108,7 +108,7 @@ class IndividualOffer extends React.Component {
     const { error, loggedUser, balance, readOnlyOffer } = this.props
     const { offer, loading } = this.state
     const pictureUrl = readOnlyOffer && readOnlyOffer.images && readOnlyOffer.images.length > 0 ? readOnlyOffer.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
-    const displayContactButton = loggedUser.id === readOnlyOffer.userId ? 'none' : 'block';
+    const displayOwnerOnly = loggedUser.id === readOnlyOffer.userId ? 'none' : 'block';
 
     return (
       <Protected>
@@ -123,7 +123,7 @@ class IndividualOffer extends React.Component {
 
           <div className="columns is-centered p-t-xl p-r-md p-l-md">
 
-          <Button onClick={e => this.handleContactClick(e)} style={{display: displayContactButton}}>
+          <Button onClick={e => this.handleContactClick(e)} style={{display: displayOwnerOnly}}>
           Contact me <i className="fa fa-comment"></i>
         </Button>
 

@@ -26,6 +26,8 @@ export default @connect(state => ({
   questions: state.questions,
   countQuestions: state.countQuestions,
   question: state.question,
+  readOnlyOffer: state.offer,
+  loggedUser: state.user,
 }))
 
 class GeneralQuestions extends React.Component {
@@ -36,6 +38,8 @@ class GeneralQuestions extends React.Component {
     questions: PropTypes.array,
     countQuestions: PropTypes.number,
     question: PropTypes.string,
+    loggedUser: PropTypes.object,
+    readOnlyOffer: PropTypes.offer,
   };
 
   static defaultProps = {
@@ -44,7 +48,9 @@ class GeneralQuestions extends React.Component {
     questions: [],
     countCuestions: 0,
     question: '',
-    error: ''
+    error: '',
+    loggedUser: {},
+    readOnlyOffer: {},
   };
 
   constructor(props) {
@@ -148,7 +154,8 @@ handleReplyClick(e){
   render() {
 
     const TheadComponent = props => null;
-    const { error, questions}  = this.props
+    const { error, questions, loggedUser, readOnlyOffer }  = this.props
+    const displayReplyButton = loggedUser.id === readOnlyOffer.userId ? 'block' : 'none';
     const data = questions
     const columns = [{
       accessor: 'question',
@@ -161,7 +168,7 @@ handleReplyClick(e){
           <br/>
 
           <input type="text" style={{display: "none"}} name="conversation" value={props.original.id}/>
-        <Button onClick={e => this.handleReplyClick(e)} style={{backgroundColor: "transparent", color: "black", borderColor: "transparent", float: "right"}}>Reply <i class="fa fa-reply"></i></Button>
+        <Button onClick={e => this.handleReplyClick(e)} style={{backgroundColor: "transparent", color: "black", borderColor: "transparent", float: "right", display: displayReplyButton}}>Reply <i class="fa fa-reply"></i></Button>
       <br/>
       <i class="fa fa-comments"></i>&nbsp;
         <TextField

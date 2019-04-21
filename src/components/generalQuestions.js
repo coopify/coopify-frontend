@@ -172,7 +172,7 @@ handleReplyClick(e){
       <br/>
       <i class="fa fa-comments"></i>&nbsp;
         <TextField
-        disabled={props.original.response != undefined && props.original.response != ""}
+        disabled={ (props.original.response != undefined && props.original.response != "") || (loggedUser.id != readOnlyOffer.userId)}
         fullWidth
         multiline
         type="text"

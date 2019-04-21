@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie/server';
 import Authenticator from './fake-authenticator';
-import { attemptSendMessage } from '../actions/user';
+import { attemptSendMessage, attemptGetUserChat } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -88,7 +88,7 @@ class Chat extends React.Component {
       selectedService: '',
       myExchangeService: '',
       coopiValue: 0,
-      chatMessage: ''
+      chatMessage: '',
     };
     this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
     this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);

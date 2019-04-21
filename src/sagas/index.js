@@ -13,6 +13,8 @@ import { loginAsync,
   getOfferAsync,
   getCategoriesAsync,
   sendChatMessageAsync,
+  getConversationsAsync,
+  getMessagesAsync,
 } from './user'
 
 export default function* rootSaga() {
@@ -32,5 +34,7 @@ export default function* rootSaga() {
     takeEvery('SHOW_OFFER_ATTEMPT', getOfferAsync),
     takeEvery('GET_CATEGORIES_ATTEMPT', getCategoriesAsync),
     takeEvery('SEND_MESSAGE_ATTEMPT', sendChatMessageAsync),
+    takeEvery('GET_CONVERSATIONS_ATTEMPT', getConversationsAsync),
+    takeEvery('GET_MESSAGES_ATTEMPT', getMessagesAsync),
   ]);
 }

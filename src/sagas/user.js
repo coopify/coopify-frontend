@@ -22,6 +22,8 @@ import { LOGIN_SUCCESS,
   GET_CATEGORIES_SUCCESS,
   GET_CATEGORIES_FAILURE,
   SEND_MESSAGE_SUCCESS,
+  GET_CONVERSATIONS_SUCCESS,
+  GET_MESSAGES__SUCCESS,
 } from '../reducers';
 
 import { logInAPICall, 
@@ -37,6 +39,8 @@ import { logInAPICall,
   getOfferAPICall,
   getCategoriesAPICall,
   sendMessageAPICall,
+  getConversationsAPICall,
+  getMessagesAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -173,5 +177,19 @@ export function* sendChatMessageAsync(payload) {
   const result = yield sendMessageAPICall(payload.payload);
   if (result.status == 200) {
     yield put({ type: SEND_MESSAGE_SUCCESS, message: result.message })
+  }
+}
+
+export function* getConversationsAsync(payload) {
+  const result = yield getConversationsAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: GET_CONVERSATIONS_SUCCESS, message: result.conversations })
+  }
+}
+
+export function* getMessagesAsync(payload) {
+  const result = yield getMessagesAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: GET_MESSAGES_SUCCESS, message: result.messages })
   }
 }

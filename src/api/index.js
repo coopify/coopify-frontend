@@ -291,18 +291,43 @@ export function sendMessageAPICall(payload){
         status: e.response.status,
         errorMessage: e.response.data.message
     }});
+}
 
+export function getConversationsAPICall(payload) {
 
-    // const obj =  
-    // {
-    //   status: 200,
-    //   message:
-    //   {
-    //     conversationId: '2ee32380-6397-11e9-b6ae-09117d14be4f',
-    //     authorId: 'pepepepepe',
-    //     text: 'Hola!!!'
-    //   }
-    // };
-    // return obj;
+  const token = payload.token;
 
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.get(
+      `${global.API_URL}/api/conversations/`).
+      then((response) => {
+        return {       
+          status: response.status,
+          conversations: response.data.conversations
+        }
+      }).catch((e) => ({
+        status: response.status,
+        data: response.data.data.message
+      }));
+}
+
+export function getMessagesAPICall(payload) {
+
+  const token = payload.token;
+  const conversationId = payload.conversationId;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.get(
+      `${global.API_URL}/api/conversations/${conversationId}/`).
+      then((response) => {
+        return {       
+          status: response.status,
+          messages: response.data.messages
+        }
+      }).catch((e) => ({
+        status: response.status,
+        data: response.data.data.message
+      }));
 }

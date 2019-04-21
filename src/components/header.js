@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import logo from '../assets/logo.png';
-import {attemptLogoutAction, loadState} from '../actions/user';
+import {attemptLogoutAction, loadState, attemptUpdateMessage} from '../actions/user';
 import Pusher from 'pusher-js';
 
 export default @connect(state => ({
@@ -70,10 +70,27 @@ class Header extends PureComponent {
     if(loggedUser.id){
       let channel = pusher.subscribe(loggedUser.id);
 
-      channel.bind('message', function(data) {
-        alert('An event was triggered with message: ' + data.text); //TODO hacer el dispatch ...
+      channel.bind('message', function(data) {   
+        onPusherReceivedNewMessage(data);
       });
     }
+  }
+
+  onPusherReceivedNewMessage(data){
+      //alert('An event was triggered with message: ' + data.text);
+      const { dispatch } = this.props;
+     
+      const payload =
+      {
+        message: 
+        {
+          text: data.text,
+          authorId: data.fromId,
+          conversationId: data.conversationId,
+        }
+      };
+
+      dispatch(attemptUpdateMessage(payload.message));
   }
 
   closeMenuBar() {

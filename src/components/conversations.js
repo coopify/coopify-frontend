@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie/server';
 import Authenticator from './fake-authenticator';
-import { resetError, attemptPublishOffer } from '../actions/user';
+import { resetError, attemptGetUserConversations } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -29,7 +29,8 @@ import { ChatList } from 'react-chat-elements'
 export default @connect(state => ({//obtener todos los mensajes y chats en este componente, en el chat simplemente se obtienen del state de la store.
   loggedUser: state.user,
   error: state.error,
-  loading: state.loading
+  loading: state.loading,
+  conversations: state.conversations
 }))
 
 class ConversationList extends React.Component {
@@ -39,7 +40,8 @@ class ConversationList extends React.Component {
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
     error: PropTypes.string,
-    offer: PropTypes.object
+    offer: PropTypes.object,
+    conversations: PropTypes.array,
   };
 
   static defaultProps = {
@@ -48,7 +50,8 @@ class ConversationList extends React.Component {
     loggedUser: {},
     loading: false,
     error: '',
-    offer: {}
+    offer: {},
+    conversations: [],
   };
 
   constructor(props) {

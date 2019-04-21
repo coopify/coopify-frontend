@@ -41,6 +41,11 @@ export const GET_CATEGORIES_SUCCESS = 'GET_CATEGORIES_SUCCESS'
 export const GET_CATEGORIES_FAILURE = 'GET_CATEGORIES_FAILURE'
 export const SEND_MESSAGE_ATTEMPT = 'SEND_MESSAGE_ATTEMPT'
 export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS'
+export const UPDATE_MESSAGE_ATTEMPT = 'UPDATE_MESSAGE_ATTEMPT'
+export const GET_CONVERSATIONS_ATTEMPT = 'GET_CONVERSATIONS_ATTEMPT'
+export const GET_CONVERSATIONS_SUCCESS = 'GET_CONVERSATIONS_SUCCESS'
+export const GET_MESSAGES_ATTEMPT = 'GET_MESSAGES_ATTEMPT'
+export const GET_MESSAGES_SUCCESS = 'GET_MESSAGES_SUCCESS'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -299,7 +304,25 @@ export const user = (state = initialUserState, action) => {
       case SEND_MESSAGE_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
-        conversations: action.message //updateMessagesList(state, action.message)
+        conversations: updateMessagesList(state, action.message)
+      });
+
+      case UPDATE_MESSAGE_ATTEMPT:
+      return _.assignIn({}, state, {
+        error: '',
+        conversations: updateMessagesList(state, action.payload.message)
+      });
+
+      case GET_CONVERSATIONS_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        conversations: processConversations(state, action.conversations)
+      });
+
+      case GET_MESSAGES_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        conversations: addMessagesToConversation(state, action.messages)
       });
 
     default:
@@ -330,6 +353,15 @@ const updateMessagesList = (state, newMessage) => {
 
   return conversations;
   
+};
+
+const processConversations = (state, conversations) => {
+  //TODO transform data to view data
+};
+
+
+const addMessagesToConversation = (state, messages) => {
+  //TODO add messages to conversation list
 };
 
 export const initialUserState = {

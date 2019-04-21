@@ -14,6 +14,7 @@ import {Link} from 'react-router-dom'
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import Protected from './protected';
+import { createPusherChannel } from '../client';
 
 export default @connect(state => ({
   userDidLog: state.userDidLog,
@@ -96,7 +97,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { loading, error, loggedUser, userDidLog } = this.props
+    const { loading, error, loggedUser, userDidLog, dispatch } = this.props
     if(error.length > 0) this.notify(error, true)
     if (loading) {
       //show spinner
@@ -104,6 +105,7 @@ class Login extends React.Component {
       //hide spinner
     }
     if (userDidLog) {
+      createPusherChannel(loggedUser, dispatch);
       return <Redirect push={false} to={this.onLoginRedirectUrl} />;
     }
 

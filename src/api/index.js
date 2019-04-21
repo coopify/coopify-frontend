@@ -320,7 +320,7 @@ export function getMessagesAPICall(payload) {
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
   return axios.get(
-      `${global.API_URL}/api/conversations/${conversationId}/`).
+      `${global.API_URL}/api/messages/${conversationId}`).
       then((response) => {
         return {       
           status: response.status,

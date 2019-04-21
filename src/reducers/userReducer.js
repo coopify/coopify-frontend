@@ -304,25 +304,28 @@ export const user = (state = initialUserState, action) => {
       case SEND_MESSAGE_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
-        conversations: updateMessagesList(state, action.message)
+        messages: updateMessagesList(state, action.message)
       });
 
       case UPDATE_MESSAGE_ATTEMPT:
+      //const prevMessages = state.messages;
+      //const messages = updateMessagesList(state, action.payload);
       return _.assignIn({}, state, {
         error: '',
-        conversations: updateMessagesList(state, action.payload.message)
+        messages: state.messages.concat([action.payload]),
       });
 
       case GET_CONVERSATIONS_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
-        conversations: processConversations(state, action.conversations)
+        conversations: action.conversations
       });
 
       case GET_MESSAGES_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
-        conversations: addMessagesToConversation(state, action.messages)
+        messages: action.messages,
+        newMessages: [],
       });
 
     default:
@@ -332,36 +335,16 @@ export const user = (state = initialUserState, action) => {
 
 const updateMessagesList = (state, newMessage) => {
 
-  let conversations = state.conversations;
-  let exists = false;
+  let messages = state.messages;
 
-  if(conversations == undefined){
-    conversations = [];
+  if(messages == undefined){
+    messages = [];
   }
 
-  conversations.forEach(element => {
-    
-    if(element.conversationId == newMessage.conversationId){
-      element.messages.push({text: newMessage.text, authorId: newMessage.authorId});
-      exists = true;
-    }
-  });
+  messages.push({text: newMessage.text, authorId: newMessage.authorId, conversationId: newMessage.conversationId, createdAt: new Date(Date.now())});
 
-  if(!exists){
-    conversations.push({conversationId: newMessage.conversationId, messages: [{text: newMessage.text, authorId: newMessage.authorId}] });
-  }
-
-  return conversations;
+  return messages;
   
-};
-
-const processConversations = (state, conversations) => {
-  //TODO transform data to view data
-};
-
-
-const addMessagesToConversation = (state, messages) => {
-  //TODO add messages to conversation list
 };
 
 export const initialUserState = {

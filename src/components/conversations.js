@@ -69,11 +69,18 @@ class ConversationList extends React.Component {
   }
 
   componentDidMount(){
-      //fetch conversations data ...
+      const { dispatch } = this.props;
+      const token = localStorage.getItem('token');
+
+      const payload = 
+      {
+        token: token
+      };
+      dispatch(attemptGetUserConversations(payload));
   }
 
   render() {
-    const { loading, error, loggedUser } = this.props
+    const { loading, error, loggedUser, conversations } = this.props
     const { offer, categories } = this.state
 
     return (
@@ -82,52 +89,22 @@ class ConversationList extends React.Component {
 
         <ChatList
             className='chat-list'
-            dataSource={[
-                {
-                    avatar: 'https://image.flaticon.com/icons/png/512/55/55089.png',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
-                    date: new Date(),
-                    unread: 0,
-                    userId: 1234555,
-                    messages: ['hola', 'hola 1234555'],
-                    conversationId: '2ee32380-6397-11e9-b6ae-09117d14be4f'
-                },
-                {
-                    avatar: 'https://image.flaticon.com/icons/png/512/55/55089.png',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
-                    date: new Date(),
-                    unread: 0,
-                    userId: 23434342,
-                    messages: ['hola', 'hola 23434342'],
-                    conversationId: 22345435
-                },
-                {
-                    avatar: 'https://image.flaticon.com/icons/png/512/55/55089.png',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
-                    date: new Date(),
-                    unread: 0,
-                    userId: 3234555,
-                    messages: ['hola', 'hola 3234555'],
-                    conversationId: 32345435
-                },
-                {
-                    avatar: 'https://image.flaticon.com/icons/png/512/55/55089.png',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
-                    date: new Date(),
-                    unread: 0,
-                    userId: 4234555,
-                    messages: ['hola', 'hola 4234555'],
-                    conversationId: 42345435
-                },        
-            ]}
+            dataSource={
+              
+              conversations.map((c) => {
+                const user = c.from.id === loggedUser.id ? c.to : c.from;
+                const response = 
+                {   
+                  avatar: user.pictureURL,
+                  title: user.name,
+                  date: new Date(c.createdAt),
+                  unread: 0,
+                  userId: user.id,
+                  conversationId: c.id,
+                };
+                return response;
+              })
+          }
             onClick={e => this.displayChat(e)} />
 
       </GuestLayout>

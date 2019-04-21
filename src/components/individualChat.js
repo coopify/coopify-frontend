@@ -50,7 +50,7 @@ export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
   loading: state.loading,
-  conversations: state.conversations,
+  messages: state.messages,
 }))
 
 class Chat extends React.Component {
@@ -61,7 +61,7 @@ class Chat extends React.Component {
     loading: PropTypes.bool,
     error: PropTypes.string,
     offer: PropTypes.object,
-    conversations: PropTypes.array,
+    messages: PropTypes.array,
   };
 
   static defaultProps = {
@@ -71,7 +71,7 @@ class Chat extends React.Component {
     loading: false,
     error: '',
     offer: {},
-    conversations: []
+    messages: [],
   };
 
   constructor(props) {
@@ -89,6 +89,7 @@ class Chat extends React.Component {
       myExchangeService: '',
       coopiValue: 0,
       chatMessage: '',
+      messages: [],
     };
     this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
     this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);
@@ -173,6 +174,19 @@ getSteps() {
         chatMessage: e.target.value
     });
     }
+
+    componentDidMount(){
+      const { dispatch } = this.props;
+      const token = localStorage.getItem('token');
+      const conversationId = this.props.match.params.conversationId;
+
+      const payload = 
+      {
+        token: token,
+        conversationId: conversationId
+      };
+      dispatch(attemptGetUserChat(payload));
+  }
 
     async handleSendMessage(e){
       const { dispatch } = this.props;
@@ -305,27 +319,9 @@ getSteps() {
 
 
   render() {
-    const { loading, error, loggedUser } = this.props
+    const { loading, error, loggedUser, messages } = this.props
     const { offer, categories, activeStep } = this.state
     const steps = this.getSteps();
-
-    const usersChat =
-     [
-         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
-         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
-         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
-         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
-         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
-         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
-         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
-         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
-         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
-         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
-         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
-         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
-         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
-         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
-     ];
 
     return (
       <Protected>
@@ -334,13 +330,19 @@ getSteps() {
           <div className='message-list' style={{height:"300px", overflowY: "auto"}}>
 
             {
-                usersChat.map(item => (
+                 messages.map((m) => {
+                  return {
+                    mine: m.authorId === loggedUser.id,
+                    message: m.text,
+                    date: new Date(m.createdAt),
+                  }
+              }).map(item => (
                     <MessageBox
                     style={{marginBottom: "2%"}}
                         position={item.mine ? 'right' : 'left'}
                         type={'text'}
                         text={item.message}
-                        date= {new Date()}/>
+                        date= {item.date}/>
                 ))
             }
               </div>

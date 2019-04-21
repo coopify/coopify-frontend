@@ -16,8 +16,11 @@ import 'rc-slider/assets/index.css';
 import 'react-chat-elements/dist/main.css';
 import './resources/css/style.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import Pusher from 'pusher-js';
+import {attemptUpdateMessage} from '../src/actions/user';
 
 const appInitialState = {};
+let pusher;
 
 //global.API_URL = 'https://coopify-dev-backend.herokuapp.com'
 global.API_URL = 'http://192.168.43.232:3001' //TODO: CHANGE WHEN DEPLOYING TO DEV OR STAGE MAYBE A SWITCH AND HAVING MULTIPLE CONFIGS?
@@ -34,6 +37,7 @@ export default class Client {
     this.sagaMiddleware = createSagaMiddleware();
     reduxClient.addMiddleware(this.sagaMiddleware);
     addPlugin(reduxClient);
+    this.initializePusher();
   }
 
   trackPageView() {
@@ -65,5 +69,32 @@ export default class Client {
       .beforeRender
       .tapPromise('AddReduxProvider', async () => (console.log('Client')));
   }
+
+  initializePusher(){
+    const pusherAppKey = global.PUSHER_APP_KEY;
+    const pusherCluster = global.PUSHER_APP_CLUSTER;
+
+    pusher = new Pusher(pusherAppKey, {
+      cluster: pusherCluster
+    });
+  }
+}
+
+export function createPusherChannel(loggedUser, dispatch) {
+
+  if(loggedUser && loggedUser.id){
+    console.log("CreatePusherCHANNEL");
+  let channel = pusher.subscribe(loggedUser.id);
+
+  channel.bind('message', function(data) {   
+      const payload =
+      {
+        text: data.text,
+        authorId: data.authorId,
+        conversationId: data.conversationId,    
+      };
+      dispatch(attemptUpdateMessage(payload));
+  });
+}
 }
 

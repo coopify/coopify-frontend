@@ -54,7 +54,7 @@ class GeneralQuestions extends React.Component {
       countCuestions: 0,
       question: '',
       error: '',
-      limit: 10,
+      limit: 5,
     };
   }
 
@@ -106,6 +106,27 @@ class GeneralQuestions extends React.Component {
     dispatch(attemptQuestion(reqAttributes));
 }
 
+changeSize(pageSize) {
+  this.setState((state) => {
+    return { ...state, limit: pageSize }
+  })
+}
+
+
+changePage(pageIndex) {
+  const { dispatch, offerId } = this.props;
+  const userToken = localStorage.getItem("token");
+
+  const reqAttributes = {
+    token: userToken,
+    offerId: offerId,
+    limit: this.state.limit,
+    page: pageIndex,
+  }
+
+  dispatch(attemptGetQuestionsAndAnswer(reqAttributes));
+}
+
   render() {
 
     const TheadComponent = props => null; // a component returning null (to hide) or you could write as per your requirement
@@ -118,26 +139,22 @@ class GeneralQuestions extends React.Component {
             <TextField
             disabled
             fullWidth
-            multiline
+            multiline 
             type="text"
-            value = {props.original.question}
+            value = {<i class="far fa-comment-dots"></i> props.original.text}
             />
+
+        <Button onClick={e => this.handleReplyClick(e)}>Reply <i class="fas fa-reply"></i></Button>
+
+        <TextField
+        disabled
+        fullWidth
+        multiline
+        type="text"
+        value = {<i class="fas fa-comment-dots"></i>props.original.response}
+        />
         </div>
       ),
-      //maxWidth: 200
-    }, {
-      accessor: 'answer',
-      Cell: props => (
-        <div>
-            <TextField
-            disabled
-            fullWidth
-            multiline
-            type="text"
-            value = {props.original.answer}
-            />
-        </div>
-      )
     }]
 
     return (
@@ -164,9 +181,10 @@ class GeneralQuestions extends React.Component {
                 data={data}
                 columns={columns}
                 TheadComponent={TheadComponent}
-                pages = {1}
-                //pages={ this.state.limit != 0 ? Math.ceil(countQuestions / this.state.limit) : countQuestions }
+                pages={ this.state.limit != 0 ? Math.ceil(this.props.countQuestions / this.state.limit) : this.props.countQuestions }
                 noDataText = 'No questions'
+                onPageChange={e => this.changePage(e)}
+                onPageSizeChange={e => this.changeSize(e)}
                 manual
               />
             </div>

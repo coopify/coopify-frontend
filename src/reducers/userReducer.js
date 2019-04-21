@@ -319,7 +319,7 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         error: '',
         questions: action.responseQuestions.questions,
-        countQuestions: action.responseQuestions.countQuestions
+        countQuestions: action.responseQuestions.count
       });
 
       case GET_QUESTION_ANSWER_FAILURE:

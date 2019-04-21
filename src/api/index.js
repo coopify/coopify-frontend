@@ -257,7 +257,7 @@ export function getCategoriesAPICall(){
 
 export function postQuestionAPICall(payload){
   const offerId =  payload.offerId;
-  const text = payload.question;
+  const text =  { text: payload.question };
   const userToken = payload.token;
 
   axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
@@ -280,15 +280,19 @@ export function postQuestionAPICall(payload){
 export function getQuestionAnswerAPICall(payload){
   const offerId =  payload.offerId;
   const token = payload.token;
+  const limit = payload.limit;
+  const skip = payload.page;
+
+  const queryParams = stringify({limit,skip})
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
   return axios.get(
-    `${global.API_URL}/api/questions/${offerId}`).
+    `${global.API_URL}/api/offers/questions/${offerId}?${queryParams}`).
     then((response) => {
       return {       
         status: response.status,
-        responseQuestions: response.data.questions,
+        responseQuestions: response.data,
       }
     }).catch((e) => { 
       console.log("getQuestionAnswerAPICall Error: " + JSON.stringify(e) + "  " + e);

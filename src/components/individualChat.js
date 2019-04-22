@@ -322,6 +322,7 @@ getSteps() {
     const { loading, error, loggedUser, messages } = this.props
     const { offer, categories, activeStep } = this.state
     const steps = this.getSteps();
+    const proposalMade = false;
 
     return (
       <Protected>
@@ -347,68 +348,106 @@ getSteps() {
             }
               </div>
 
-            <CommonButton style={{width: "100%"}} onClick={e => this.handleClickOpen(e)}>
-                Make an offer <i className="fa fa-handshake-o" aria-hidden="true"></i>
-            </CommonButton>
+          {proposalMade ? 
+            (
+              <CommonButton style={{width: "100%"}} onClick={e => this.handleClickOpen(e)}>
+              Show offer proposal <i className="fa fa-handshake-o" aria-hidden="true"></i>
+              </CommonButton>
+            ) : 
+            (
+              <CommonButton style={{width: "100%"}} onClick={e => this.handleClickOpen(e)}>
+              Make an offer <i className="fa fa-handshake-o" aria-hidden="true"></i>
+              </CommonButton>
+            ) }
+
+          {proposalMade ? 
+          (
+
+
+
 
             <Dialog
-          open={this.state.modalOpen}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Offer details</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Complete the steps below to send an offer proposal to this user.
-            </DialogContentText>
-
-
-        <div>
-        <Stepper activeStep={activeStep} orientation="vertical">
-          {steps.map((label, index) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-              <StepContent>              
-                <div>
-
-            {this.getStepContent(activeStep)}
-
-                {activeStep === steps.length - 1 ? "" : (
-
-                    <div style={{paddingTop: "5%"}}>
-                    <CommonButton
-                    disabled={activeStep === 0}
-                    onClick={this.handleBack}>
-                    Back
-                    </CommonButton>
-                    <CommonButton
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleNext}>
-                    Next
-                    </CommonButton>
-                </div>
-
-                )}
-
-                </div>
-              </StepContent>
-            </Step>
-          ))}
-        </Stepper>
-        </div>
-
-          </DialogContent>
-          <DialogActions>
+            open={this.state.modalOpen}
+            onClose={this.handleClose}
+            aria-labelledby="form-dialog-title"
+          >
+            <DialogTitle id="form-dialog-title">Offer proposal</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                You have the following offer proposal:
+              </DialogContentText>
+  
+          <div>
             <CommonButton onClick={this.handleClose} color="primary">
-              Cancel
-            </CommonButton>
-            <CommonButton onClick={this.handleMakeOfferProposal} color="primary">
-              Make the offer
-            </CommonButton>
-          </DialogActions>
-        </Dialog>
+            <i class="fa fa-times"></i> &nbsp; Decline
+              </CommonButton>
+              <CommonButton onClick={this.handleMakeOfferProposal} color="primary">
+              <i class="fa fa-check"></i> &nbsp; Accept
+              </CommonButton>
+          </div>
+  
+            </DialogContent>
+          </Dialog>
 
+          ) :
+          (
+            <Dialog
+            open={this.state.modalOpen}
+            onClose={this.handleClose}
+            aria-labelledby="form-dialog-title"
+          >
+            <DialogTitle id="form-dialog-title">Offer details</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Complete the steps below to send an offer proposal to this user.
+              </DialogContentText>
+  
+          <div>
+          <Stepper activeStep={activeStep} orientation="vertical">
+            {steps.map((label, index) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+                <StepContent>              
+                  <div>
+  
+              {this.getStepContent(activeStep)}
+  
+                  {activeStep === steps.length - 1 ? "" : (
+  
+                      <div style={{paddingTop: "5%"}}>
+                      <CommonButton
+                      disabled={activeStep === 0}
+                      onClick={this.handleBack}>
+                      Back
+                      </CommonButton>
+                      <CommonButton
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleNext}>
+                      Next
+                      </CommonButton>
+                  </div>
+  
+                  )}
+  
+                  </div>
+                </StepContent>
+              </Step>
+            ))}
+          </Stepper>
+          </div>
+  
+            </DialogContent>
+            <DialogActions>
+              <CommonButton onClick={this.handleClose} color="primary">
+                Cancel
+              </CommonButton>
+              <CommonButton onClick={this.handleMakeOfferProposal} color="primary">
+                Make the offer
+              </CommonButton>
+            </DialogActions>
+          </Dialog>
+          )}
 
             <Input
             placeholder="Type here..."

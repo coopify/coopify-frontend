@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import {Link} from 'react-router-dom'
 import LoadingScreen from 'react-loading-screen';
+import { createPusherChannel } from '../client';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -74,12 +75,13 @@ class FacebookSignUp extends React.Component {
   }
 
   render() {
-    const { error, socialUserDidSignUp, loading } = this.props
+    const { error, socialUserDidSignUp, loading, dispatch, loggedUser } = this.props
     if(socialUserDidSignUp && error.length > 0){
         return <Redirect to='/signup'/>
     }
     else if(socialUserDidSignUp && error.length == 0){
-        return <Redirect to='/home'/>
+      createPusherChannel(loggedUser, dispatch);  
+      return <Redirect to='/home'/>
     }
 
     return (

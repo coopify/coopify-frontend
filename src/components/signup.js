@@ -14,6 +14,7 @@ import 'react-bootstrap';
 import { Link } from 'react-router-dom'
 import { FACEBOOK, GOOGLE } from '../constants/constants';
 import { getUrlSocialAPICall } from '../api';
+import { createPusherChannel } from '../client';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -62,7 +63,7 @@ class Signup extends React.Component {
   }
 
   handleSubmit(e) {
-    if (e && e.preventDefault) { //Evita refresh al pepe
+    if (e && e.preventDefault) {
       e.preventDefault();
     }
     const { dispatch } = this.props;
@@ -92,10 +93,13 @@ class Signup extends React.Component {
   }
 
   render() {
-    const {error, userDidSignUp} = this.props
+    const {error, userDidSignUp, loggedUser, dispatch} = this.props
     if(error.length > 0) this.notify(error, true)
     if(userDidSignUp) {
       this.notify("El usuario se ha registrado exitosamente, se enviara un mail de confirmacion en breve.", false)
+
+      createPusherChannel(loggedUser, dispatch);
+
       return <Redirect to='/home'/>
     }
 

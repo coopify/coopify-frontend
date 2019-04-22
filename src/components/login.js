@@ -109,10 +109,6 @@ class Login extends React.Component {
       return <Redirect push={false} to={this.onLoginRedirectUrl} />;
     }
 
-    if(userDidLog){
-      return <Redirect to='/home'/>
-    }
-
     return (
       <GuestLayout>
         <div className="columns is-centered p-t-xl p-r-md p-l-md">

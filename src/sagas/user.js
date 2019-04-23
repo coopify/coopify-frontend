@@ -21,6 +21,11 @@ import { LOGIN_SUCCESS,
   SHOW_OFFER_SUCCESS,
   GET_CATEGORIES_SUCCESS,
   GET_CATEGORIES_FAILURE,
+  POST_QUESTION_SUCCESS,
+  POST_QUESTION_FAILURE,
+  GET_QUESTION_ANSWER_SUCCESS,
+  GET_QUESTION_ANSWER_FAILURE,
+  SEND_QUESTION_REPLY_SUCCESS,
 } from '../reducers';
 
 import { logInAPICall, 
@@ -35,6 +40,9 @@ import { logInAPICall,
   createOfferAPICall,
   getOfferAPICall,
   getCategoriesAPICall,
+  postQuestionAPICall,
+  getQuestionAnswerAPICall,
+  sendReplyAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -164,5 +172,31 @@ export function* getCategoriesAsync() {
     yield put({ type: GET_CATEGORIES_SUCCESS, categories: result.categories })
   } else {
     yield put({ type: GET_CATEGORIES_FAILURE, errorMessage: result.errorMessage })
+  }
+}
+
+export function* postQuestionAsync(payload) {
+  const result = yield postQuestionAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: POST_QUESTION_SUCCESS, message: result.message })
+  } else {
+    yield put({ type: POST_QUESTION_FAILURE, errorMessage: result.errorMessage })
+  }
+}
+
+export function* getQuestionAnswerAsync(payload) {
+  const result = yield getQuestionAnswerAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: GET_QUESTION_ANSWER_SUCCESS, responseQuestions: result.responseQuestions })
+  } else {
+    yield put({ type: GET_QUESTION_ANSWER_FAILURE, errorMessage: result.errorMessage })
+  }
+}
+
+
+export function* sendReplyAsync(payload) {
+  const result = yield sendReplyAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: SEND_QUESTION_REPLY_SUCCESS, reply: result.reply })
   }
 }

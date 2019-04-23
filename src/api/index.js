@@ -254,3 +254,73 @@ export function getCategoriesAPICall(){
   //   categories: [{name: 'Musica'},{name: 'Tecnologia'},{name:'Otros'}]
   // };
 }
+
+export function postQuestionAPICall(payload){
+  const offerId =  payload.offerId;
+  const text =  { text: payload.question };
+  const userToken = payload.token;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
+
+  return axios.post(
+    `${global.API_URL}/api/questions/${offerId}`, text).  
+    then((response) => {
+      return {       
+        status: response.status,
+        message: response.status
+      }
+    }).catch((e) => { 
+      console.log("createOfficeAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+}
+
+export function getQuestionAnswerAPICall(payload){
+  const offerId =  payload.offerId;
+  const token = payload.token;
+  const limit = payload.limit;
+  const skip = payload.page;
+
+  const queryParams = stringify({limit,skip})
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.get(
+    `${global.API_URL}/api/offers/questions/${offerId}?${queryParams}`).
+    then((response) => {
+      return {       
+        status: response.status,
+        responseQuestions: response.data,
+      }
+    }).catch((e) => { 
+      console.log("getQuestionAnswerAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+}
+
+export function sendReplyAPICall(payload){
+
+  const questionId = payload.questionId;
+  const reply = { attributes: { response: payload.reply } };
+  const userToken = payload.token;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
+
+  return axios.put(
+    `${global.API_URL}/api/questions/${questionId}`, reply).  
+    then((response) => {
+      return {       
+        status: response.status,
+        reply: response.data.response
+      }
+    }).catch((e) => { 
+      console.log("createOfficeAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+}

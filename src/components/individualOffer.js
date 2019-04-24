@@ -133,22 +133,11 @@ class IndividualOffer extends React.Component {
                 <Chip label={readOnlyOffer.paymentMethod} />
               </div>
 
-              {readOnlyOffer.prices ?
-                (
-                  readOnlyOffer.prices.map(data => {
-                    return (
-                      data.selected ? (
-                        <div>
-                          <Row>
-                            <Col sm={4} style={{ textAlign: 'left' }}> <h4>{data.frequency}</h4> </Col>
-                            <Col sm={4} style={{ textAlign: 'left' }}> <h4>{data.price}</h4> </Col>
-                          </Row>
-                        </div>
-                      ) : ''
-                    );
-                  }))
-                :
-                ('')}
+                <div>
+                  {readOnlyOffer.hourPrice && readOnlyOffer.hourPrice != "0" ? <div className="col-sm-12"><span>{readOnlyOffer.hourPrice} Coopies x hour</span></div> : ''}
+                  {readOnlyOffer.sessionPrice && readOnlyOffer.sessionPrice != "0" ? <div className="col-sm-12"><span>{readOnlyOffer.sessionPrice} Coopies x session</span></div> : ''}
+                  {readOnlyOffer.finalProductPrice && readOnlyOffer.finalProductPrice != "0" ? <div className="col-sm-12"><span>{readOnlyOffer.finalProductPrice} Coopies x final product</span></div> : ''}
+                </div>
 
               <TextField
                 label="Start Date"

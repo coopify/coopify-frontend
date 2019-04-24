@@ -147,7 +147,7 @@ class Offers extends React.Component {
                 <div>
                   {props.original.hourPrice && props.original.hourPrice != "0" ? <div className="col-sm-12"><span>{props.original.hourPrice} Coopies x hour</span></div> : ''}
                   {props.original.sessionPrice && props.original.sessionPrice != "0" ? <div className="col-sm-12"><span>{props.original.sessionPrice} Coopies x session</span></div> : ''}
-                  {props.original.finalProductPrice && props.original.finalProductPrice != "0" ? <div className="col-sm-12"><span>{props.original.finalProductPrice} Coopies x hour</span></div> : ''}
+                  {props.original.finalProductPrice && props.original.finalProductPrice != "0" ? <div className="col-sm-12"><span>{props.original.finalProductPrice} Coopies x Final Product</span></div> : ''}
                 </div>
                 :
                 <div className="col-sm-12"><span>Barter</span></div>

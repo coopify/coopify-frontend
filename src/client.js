@@ -98,3 +98,7 @@ export function createPusherChannel(loggedUser, dispatch) {
 }
 }
 
+export function pusherDisconnect(){
+  pusher.disconnect();
+}
+

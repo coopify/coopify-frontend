@@ -48,9 +48,12 @@ import { MessageBox } from 'react-chat-elements'
 
 export default @connect(state => ({
   loggedUser: state.user,
+  serviceUser: state.serviceUser,
   error: state.error,
   loading: state.loading,
   messages: state.messages,
+  myOffers: state.myOffers,
+  userOffers: state.userOffers,
 }))
 
 class Chat extends React.Component {
@@ -62,6 +65,8 @@ class Chat extends React.Component {
     error: PropTypes.string,
     offer: PropTypes.object,
     messages: PropTypes.array,
+    myOffers: PropTypes.array,
+    userOffers: PropTypes.array,
   };
 
   static defaultProps = {
@@ -72,6 +77,8 @@ class Chat extends React.Component {
     error: '',
     offer: {},
     messages: [],
+    myOffers: [],
+    userOffers: [],
   };
 
   constructor(props) {
@@ -90,6 +97,8 @@ class Chat extends React.Component {
       coopiValue: 0,
       chatMessage: '',
       messages: [],
+      myExchangeServiceId: 0,
+      selectedServiceId: 0,
     };
     this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
     this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);
@@ -150,14 +159,16 @@ getSteps() {
     handleServiceChange(e){
       this.setState({
         ...this.state,
-        selectedService: e.target.value
+        selectedService: e.target.value,
+        selectedServiceId: e.target.value,
     });
     }
 
     handleBarterService(e){
       this.setState({
         ...this.state,
-        myExchangeService: e.target.value
+        myExchangeService: e.target.value,
+        myExchangeServiceId: e.target.value,
     });
     }
 
@@ -175,17 +186,28 @@ getSteps() {
     });
     }
 
-    componentDidMount(){
-      const { dispatch } = this.props;
+    async componentDidMount(){
+      const { dispatch, loggedUser } = this.props;
       const token = localStorage.getItem('token');
       const conversationId = this.props.match.params.conversationId;
+
+      await dispatch(attempGetConversation(conversationId)); //carga el usuario de la offer
 
       const payload = 
       {
         token: token,
         conversationId: conversationId
       };
+
+      const users = 
+      {
+        token: token,
+        myUserId: loggedUser.id,
+        serviceUserId: serviceUserId,
+      }
+      
       dispatch(attemptGetUserChat(payload));
+      dispatch(attemptGetUsersOffers(payloa));
   }
 
     async handleSendMessage(e){
@@ -209,6 +231,19 @@ getSteps() {
     handleMakeOfferProposal(e){
       this.handleReset(e);
       const token = localStorage.getItem("token");
+      const { selectedServiceId, exchangeMethod, myExchangeServiceId, exchangeInstanceSelected } = this.state;
+      const isCoopi = exchangeMethod == 'Coopi' ? true : false;
+
+      const payload = 
+      {
+        token: token,
+        conversationId: this.props.match.params.conversationId,
+        offerId: selectedServiceId,
+        exchangeMethod: exchangeMethod,
+        proposalServiceId: isCoopi ? undefined : myExchangeServiceId,
+        exchangeInstance: isCoopi ? exchangeInstanceSelected : undefined,
+        proposedPrice: isCoopi ? coopiValue : undefined,
+      }
 
 
     }
@@ -335,7 +370,7 @@ getSteps() {
                   return {
                     mine: m.authorId === loggedUser.id,
                     message: m.text,
-                    date: new Date(m.createdAt),
+                    date: new Date(m.createdAt ? m.createdAt : Date.now()),
                   }
               }).map(item => (
                     <MessageBox
@@ -355,7 +390,7 @@ getSteps() {
               </CommonButton>
             ) : 
             (
-              <CommonButton style={{width: "100%"}} onClick={e => this.handleClickOpen(e)}>
+              <CommonButton style={{width: "100%"}} onClick={e => this.handleMakeOfferProposal(e)}>
               Make an offer <i className="fa fa-handshake-o" aria-hidden="true"></i>
               </CommonButton>
             ) }

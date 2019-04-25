@@ -24,6 +24,9 @@ import { LOGIN_SUCCESS,
   SEND_MESSAGE_SUCCESS,
   GET_CONVERSATIONS_SUCCESS,
   GET_MESSAGES_SUCCESS,
+  MAKE_PROPOSAL_SUCCESS,
+  MAKE_PROPOSAL_FAILURE,
+  GET_USERS_OFFERS_SUCCESS,
 } from '../reducers';
 
 import { logInAPICall, 
@@ -41,6 +44,8 @@ import { logInAPICall,
   sendMessageAPICall,
   getConversationsAPICall,
   getMessagesAPICall,
+  makeProposalAPICall,
+  getUsersOffersAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -192,5 +197,22 @@ export function* getMessagesAsync(payload) {
   const result = yield getMessagesAPICall(payload.payload);
   if (result.status == 200) {
     yield put({ type: GET_MESSAGES_SUCCESS, messages: result.messages })
+  }
+}
+
+export function* makeProposalAsync(payload) {
+  const result = yield makeProposalAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: MAKE_PROPOSAL_SUCCESS, proposal: result.proposal })
+  }
+  else{
+    yield put({ type: MAKE_PROPOSAL_FAILURE, errorMessage: result.errorMessage })
+  }
+}
+
+export function* geteUsersOffers(payload) {
+  const result = yield getUsersOffersAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: GET_USERS_OFFERS_SUCCESS, usersOffers: result.usersOffers })
   }
 }

@@ -14,7 +14,7 @@ import {Link} from 'react-router-dom'
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import Protected from './protected';
-//import { createPusherChannel } from '../client';
+import SingletonPusher from './singletonPusher';
 
 export default @connect(state => ({
   userDidLog: state.userDidLog,
@@ -105,7 +105,7 @@ class Login extends React.Component {
       //hide spinner
     }
     if (userDidLog) {
-      //createPusherChannel(loggedUser, dispatch);
+      SingletonPusher.getInstance().createPusherChannel(loggedUser, dispatch);
       return <Redirect push={false} to={this.onLoginRedirectUrl} />;
     }
 

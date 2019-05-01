@@ -5,13 +5,16 @@ import mySaga from './sagas';
 import { user } from './reducers';
 import 'bulma/css/bulma.min.css';
 import './resources/css/util.scss';
-import './resources/css/global.css'; 
+import './resources/css/global.css';
+import './resources/css/form-elements.css';
+import './resources/css/material_icons.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min';
 import 'font-awesome/css/font-awesome.min.css';
 import './resources/css/stepZilla.css';
 import 'rc-slider/assets/index.css';
 import 'react-chat-elements/dist/main.css';
+import './resources/css/style.css';
 
 const appInitialState = {};
 

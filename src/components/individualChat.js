@@ -10,8 +10,6 @@ import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'font-awesome/css/font-awesome.min.css';
 import styles from '../css/profile.scss';
 import Switch from "react-switch";
 import Protected from './protected';
@@ -43,6 +41,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import { RadioGroup, RadioButton } from 'react-radio-buttons';
 
 
 export default @connect(state => ({
@@ -137,6 +136,46 @@ class Chat extends React.Component {
         });
     };
 
+    onChangeExchangeMethod(e){
+
+    }
+
+    getStepContent(index){
+
+        let componentToRender = "";
+        switch(index){
+            case 0:
+
+         componentToRender = 
+            (<Select style={{width: "100%"}}>
+                <MenuItem value="">
+                <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>Guitar lessons</MenuItem>
+                <MenuItem value={20}>Lawyer</MenuItem>
+                <MenuItem value={30}>Dog walk</MenuItem>
+            </Select>);
+            break;
+
+            case 1:
+            componentToRender = 
+                (<RadioGroup onChange={ this.onChangeExchangeMethod } vertical>
+                <RadioButton value="Coopi">
+                Coopi
+                </RadioButton>
+                <RadioButton value="Barter">
+                Barter
+                </RadioButton>
+            </RadioGroup>);
+            break;
+
+            case 2:
+
+            break;
+        }
+        return componentToRender;
+    }
+
   render() {
     const { loading, error, loggedUser } = this.props
     const { offer, categories, activeStep } = this.state
@@ -177,9 +216,9 @@ class Chat extends React.Component {
                 },
             ]} />
 
-             <div style={{backgroundColor: "red", color: "white"}} onClick={e => this.handleClickOpen(e)}>
-                Make an offer
-            </div>
+            <CommonButton style={{width: "100%"}} onClick={e => this.handleClickOpen(e)}>
+                Make an offer <i class="fa fa-handshake-o" aria-hidden="true"></i>
+            </CommonButton>
 
             <Dialog
           open={this.state.modalOpen}
@@ -189,13 +228,12 @@ class Chat extends React.Component {
           <DialogTitle id="form-dialog-title">Offer details</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              To subscribe to this website, please enter your email address here. We will send
-              updates occasionally.
+            Complete the steps below to send an offer proposal to this user.
             </DialogContentText>
 
 
 
-<div>
+        <div>
         <Stepper activeStep={activeStep} orientation="vertical">
           {steps.map((label, index) => (
             <Step key={label}>
@@ -203,46 +241,31 @@ class Chat extends React.Component {
               <StepContent>              
                 <div>
 
-               {activeStep === 0 ? (     
-                <Select>
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-            ) : ""}
+                  {this.getStepContent(activeStep)}
+
+              {activeStep === steps.length - 1 ? "" : (
 
                   <div>
-                    <Button
-                      disabled={activeStep === 0}
-                      onClick={this.handleBack}
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={this.handleNext}
-                    >
-                      {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                    </Button>
-                  </div>
+                  <CommonButton
+                  disabled={activeStep === 0}
+                  onClick={this.handleBack}>
+                  Back
+                  </CommonButton>
+                  <CommonButton
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleNext}>
+                  Next
+                  </CommonButton>
+              </div>
+
+              )}
                 </div>
               </StepContent>
             </Step>
           ))}
         </Stepper>
-        {activeStep === steps.length && (
-          <Paper square elevation={0}>
-            <Typography>All steps completed - you&apos;re finished</Typography>
-            <Button onClick={this.handleReset}>
-              Reset
-            </Button>
-          </Paper>
-        )}
-</div>
+      </div>
 
 
 
@@ -255,7 +278,7 @@ class Chat extends React.Component {
               Make the offer
             </CommonButton>
           </DialogActions>
-</Dialog>
+        </Dialog>
 
 
             <Input
@@ -265,7 +288,7 @@ class Chat extends React.Component {
                 <Button
                     color='white'
                     backgroundColor='black'
-                    text='>'/>
+                    text={<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>}/>
             }/>
 
       </GuestLayout>

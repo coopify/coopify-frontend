@@ -10,6 +10,7 @@ import { OfferCreation } from '../components/offerCreation';
 import { IndividualOffer } from '../components/individualOffer';
 import { FilterOffers } from '../components/filterOffers';
 import { ConversationList } from '../components/conversations';
+import { Chat } from '../components/individualChat';
 
 export default [
   {
@@ -115,6 +116,16 @@ export default [
     seo: {
       title: 'Auth | ReactPWA Demo',
       description: 'User coopies',
+      image: LoginImage,
+    },
+  },
+  {
+    path: '/user/conversations/:conversationId',
+    exact: true,
+    component: Chat,
+    seo: {
+      title: 'Auth | ReactPWA Demo',
+      description: 'Offers',
       image: LoginImage,
     },
   },

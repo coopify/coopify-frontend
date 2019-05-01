@@ -23,6 +23,7 @@ import {loadStyle} from "@pawjs/pawjs/src/utils/utils";
 import BasicData from './offerCreation/basicData.js';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import { ChatList } from 'react-chat-elements'
+import { MessageList } from 'react-chat-elements'
 
 
 export default @connect(state => ({
@@ -31,7 +32,7 @@ export default @connect(state => ({
   loading: state.loading
 }))
 
-class ConversationList extends React.Component {
+class Chat extends React.Component {
 
   static propTypes = {
     dispatch: PropTypes.func,
@@ -60,14 +61,6 @@ class ConversationList extends React.Component {
     };
   }
 
-  displayChat(e){
-    this.props.history.push(`/user/conversations/${e.conversationId}`);
-  }
-
-  componentDidMount(){
-      //fetch conversations data ...
-  }
-
   render() {
     const { loading, error, loggedUser } = this.props
     const { offer, categories } = this.state
@@ -76,55 +69,36 @@ class ConversationList extends React.Component {
       <Protected>
       <GuestLayout>
 
-        <ChatList
-            className='chat-list'
+        <MessageList
+            className='message-list'
+            lockable={true}
+            toBottomHeight={'100%'}
             dataSource={[
                 {
-                    avatar: 'https://facebook.github.io/react/img/logo.svg',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
+                    position: 'right',
+                    type: 'text',
+                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
                     date: new Date(),
-                    unread: 0,
-                    userId: 4234555,
-                    messages: ['hola', 'hola 4234555'],
-                    conversationId: 42345435
                 },
                 {
-                    avatar: 'https://facebook.github.io/react/img/logo.svg',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
+                    position: 'left',
+                    type: 'text',
+                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
                     date: new Date(),
-                    unread: 0,
-                    userId: 4234555,
-                    messages: ['hola', 'hola 4234555'],
-                    conversationId: 42345435
                 },
                 {
-                    avatar: 'https://facebook.github.io/react/img/logo.svg',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
+                    position: 'right',
+                    type: 'text',
+                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
                     date: new Date(),
-                    unread: 0,
-                    userId: 4234555,
-                    messages: ['hola', 'hola 4234555'],
-                    conversationId: 42345435
                 },
                 {
-                    avatar: 'https://facebook.github.io/react/img/logo.svg',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
+                    position: 'left',
+                    type: 'text',
+                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
                     date: new Date(),
-                    unread: 0,
-                    userId: 4234555,
-                    messages: ['hola', 'hola 4234555'],
-                    conversationId: 42345435
-                },        
-              ]}
-              onClick={e => this.displayChat(e)} />
+                },
+            ]} />
 
       </GuestLayout>
      </Protected>
@@ -132,4 +106,4 @@ class ConversationList extends React.Component {
   }
 }
 
-export { ConversationList } 
+export { Chat } 

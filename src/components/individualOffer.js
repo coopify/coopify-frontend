@@ -133,6 +133,8 @@ class IndividualOffer extends React.Component {
 
               <p style={{ width: "40%" }}>{readOnlyOffer.description}</p>
 
+              <p style={{ width: "40%" }}>By {readOnlyOffer.by}</p>
+
               <Col sm="10">
                 <img name="picture" src={pictureUrl} />
               </Col>

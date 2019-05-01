@@ -162,9 +162,17 @@ handleReplyClick(e){
       Cell: props => (
         <div>
           <form>
-        <div style={{color: "black", textAlign: "left"}}>
-          <i class="fa fa-comments-o"></i> {props.original.text}
-        </div>
+          <i class="fa fa-comments-o"></i> &nbsp;
+        <TextField
+        disabled={ (props.original.response != undefined && props.original.response != "") || (loggedUser.id != readOnlyOffer.userId)}
+        fullWidth
+        multiline
+        type="text"
+        name="replyComment"
+        tag = {props.original.id}
+        value = {props.original.text}
+        style={{color: "black", textAlign: "left"}}
+        />
           <br/>
 
           <input type="text" style={{display: "none"}} name="conversation" value={props.original.id}/>

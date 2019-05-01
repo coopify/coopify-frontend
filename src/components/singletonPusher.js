@@ -39,7 +39,6 @@ export default class SingletonPusher {
   createPusherChannel(loggedUser, dispatch) {
 
     if(loggedUser && loggedUser.id){
-      console.log("CreatePusherCHANNEL");
     let channel = pusher.subscribe(loggedUser.id);
   
     channel.bind('message', function(data) {   
@@ -47,7 +46,8 @@ export default class SingletonPusher {
         {
           text: data.text,
           authorId: data.authorId,
-          conversationId: data.conversationId,    
+          conversationId: data.conversationId,
+          date: new Date(Date.now()),
         };
         dispatch(attemptUpdateMessage(payload));
     });

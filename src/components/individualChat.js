@@ -42,6 +42,7 @@ import StepContent from '@material-ui/core/StepContent';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
+import { MessageBox } from 'react-chat-elements'
 
 
 export default @connect(state => ({
@@ -77,13 +78,16 @@ class Chat extends React.Component {
       error: '',
       offer: {},
       modalOpen: false,
-      activeStep: 0
+      activeStep: 0,
+      exchangeMethodSelected: "Coopi",
+      exchangeInstanceSelected: "Hour"
     };
+    this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
+    this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);
   }
 
   getSteps() {
-    return ['Select the offer you want to trade', 'Select exchange method', 'Confirm'];
-  }
+    return ['Select the offer you want to trade', 'Select the exchange method', 'Confirm the offer'];  }
 
 // getStepContent(step) {
 //     switch (step) {
@@ -137,8 +141,18 @@ class Chat extends React.Component {
     };
 
     onChangeExchangeMethod(e){
-
+      this.setState({
+        ...this.state,
+        exchangeMethodSelected: e
+    });
     }
+
+    onChangeExchangeInstance(e){
+      this.setState({
+          ...this.state,
+          exchangeInstanceSelected: e
+      });
+  }
 
     getStepContent(index){
 
@@ -158,15 +172,52 @@ class Chat extends React.Component {
             break;
 
             case 1:
+
+            const coopiSelected = this.state.exchangeMethodSelected == "Coopi" ? "inline-flex" : "none";
+            const barterSelected = this.state.exchangeMethodSelected == "Barter" ? "block" : "none";
+
             componentToRender = 
-                (<RadioGroup onChange={ this.onChangeExchangeMethod } vertical>
+            (
+              <div>
+              <RadioGroup onChange={ this.onChangeExchangeMethod } vertical>
                 <RadioButton value="Coopi">
                 Coopi
                 </RadioButton>
                 <RadioButton value="Barter">
                 Barter
                 </RadioButton>
-            </RadioGroup>);
+                </RadioGroup>
+
+<RadioGroup onChange={ this.onChangeExchangeInstance } horizontal style={{display: coopiSelected}}>
+<RadioButton value="Hour">
+Hour
+</RadioButton>
+<RadioButton value="Session">
+Session
+</RadioButton>
+<RadioButton value="FinalProduct">
+Final Product
+</RadioButton>
+</RadioGroup>
+
+<TextField
+id="filled-with-placeholder"
+type="number"
+label="Coopi value"
+placeholder="Enter the value in Coopi"
+margin="normal"
+style={{display: coopiSelected}}/>
+
+<Select style={{width: "100%", display: barterSelected}}>
+    <MenuItem value="">
+    <em>None</em>
+    </MenuItem>
+    <MenuItem value={10}>My Guitar lessons</MenuItem>
+    <MenuItem value={20}>My Lawyer</MenuItem>
+    <MenuItem value={30}>My Dog walk</MenuItem>
+</Select>  
+</div>
+);
             break;
 
             case 2:
@@ -181,43 +232,45 @@ class Chat extends React.Component {
     const { offer, categories, activeStep } = this.state
     const steps = this.getSteps();
 
+    const usersChat =
+     [
+         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: false, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+         {mine: true, message: "Lorem ipsum dolor sit amet, consectetur adipisicing elit"},
+     ];
+
     return (
       <Protected>
       <GuestLayout>
 
-        <MessageList
-            className='message-list'
-            lockable={true}
-            toBottomHeight={'100%'}
-            dataSource={[
-                {
-                    position: 'right',
-                    type: 'text',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                    date: new Date(),
-                },
-                {
-                    position: 'left',
-                    type: 'text',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                    date: new Date(),
-                },
-                {
-                    position: 'right',
-                    type: 'text',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                    date: new Date(),
-                },
-                {
-                    position: 'left',
-                    type: 'text',
-                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-                    date: new Date(),
-                },
-            ]} />
+         <div className='message-list' style={{height:"300px", overflowY: "auto"}}>
+
+            {
+                usersChat.map(item => (
+                    <MessageBox
+                    style={{marginBottom: "2%"}}
+                        position={item.mine ? 'right' : 'left'}
+                        type={'text'}
+                        text={item.message}
+                        date= {new Date()}/>
+                ))
+            }
+
+              </div>
 
             <CommonButton style={{width: "100%"}} onClick={e => this.handleClickOpen(e)}>
-                Make an offer <i class="fa fa-handshake-o" aria-hidden="true"></i>
+                Make an offer <i className="fa fa-handshake-o" aria-hidden="true"></i>
             </CommonButton>
 
             <Dialog
@@ -245,7 +298,7 @@ class Chat extends React.Component {
 
               {activeStep === steps.length - 1 ? "" : (
 
-                  <div>
+              <div style={{paddingTop: "5%"}}>
                   <CommonButton
                   disabled={activeStep === 0}
                   onClick={this.handleBack}>
@@ -287,8 +340,8 @@ class Chat extends React.Component {
             rightButtons={
                 <Button
                     color='white'
-                    backgroundColor='black'
-                    text={<i class="fa fa-chevron-circle-right" aria-hidden="true"></i>}/>
+                    backgroundColor='transparent'
+                    text={<i className="fa fa-caret-right" style={{fontSize:"48px", color: "blue"}}></i>}/>
             }/>
 
       </GuestLayout>

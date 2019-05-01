@@ -11,6 +11,7 @@ import 'bootstrap/dist/js/bootstrap.min';
 import 'font-awesome/css/font-awesome.min.css';
 import './resources/css/stepZilla.css';
 import 'rc-slider/assets/index.css';
+import 'react-chat-elements/dist/main.css';
 
 const appInitialState = {};
 

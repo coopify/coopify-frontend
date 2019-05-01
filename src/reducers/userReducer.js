@@ -54,6 +54,11 @@ export const GET_CONVERSATIONS_ATTEMPT = 'GET_CONVERSATIONS_ATTEMPT'
 export const GET_CONVERSATIONS_SUCCESS = 'GET_CONVERSATIONS_SUCCESS'
 export const GET_MESSAGES_ATTEMPT = 'GET_MESSAGES_ATTEMPT'
 export const GET_MESSAGES_SUCCESS = 'GET_MESSAGES_SUCCESS'
+export const MAKE_PROPOSAL_ATTEMPT = 'MAKE_PROPOSAL_ATTEMPT'
+export const MAKE_PROPOSAL_SUCCESS = 'MAKE_PROPOSAL_SUCCESS'
+export const MAKE_PROPOSAL_FAILURE = 'MAKE_PROPOSAL_FAILURE'
+export const GET_USERS_OFFERS_ATTEMPT = 'GET_USERS_OFFERS_ATTEMPT'
+export const GET_USERS_OFFERS_SUCCESS = 'GET_USERS_OFFERS_SUCCESS'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -370,6 +375,19 @@ export const user = (state = initialUserState, action) => {
         error: '',
         messages: action.messages,
         newMessages: [],
+      });
+
+      case MAKE_PROPOSAL_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        proposal: action.proposal,
+      });
+
+      case GET_USERS_OFFERS_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        myOffers: action.usersOffers.myOffers,
+        userOffers: action.usersOffers.userOffers,
       });
 
     default:

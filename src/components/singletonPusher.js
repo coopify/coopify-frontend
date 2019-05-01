@@ -14,6 +14,7 @@ export default class SingletonPusher {
     constructor()
     {
         this.initializePusher = this.initializePusher.bind(this);
+        this.pusherDisconnect = this.pusherDisconnect.bind(this);
 
         this.initializePusher();
     }
@@ -52,6 +53,10 @@ export default class SingletonPusher {
         dispatch(attemptUpdateMessage(payload));
     });
   }
+  }
+
+  pusherDisconnect(){
+    pusher.disconnect();
   }
 }
 

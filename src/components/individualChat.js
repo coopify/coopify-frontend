@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie/server';
 import Authenticator from './fake-authenticator';
-import { attemptSendMessage, attemptGetUserChat } from '../actions/user';
+import { attemptSendMessage, attemptGetUserChat, attemptGetUsersOffers, attemptMakeProposal } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -34,7 +34,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
-
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -44,12 +43,18 @@ import Typography from '@material-ui/core/Typography';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import { MessageBox } from 'react-chat-elements'
 
+import { getConversation } from '../api';
+
 
 export default @connect(state => ({
   loggedUser: state.user,
+  serviceUser: state.serviceUser,
   error: state.error,
   loading: state.loading,
   messages: state.messages,
+  myOffers: state.myOffers,
+  userOffers: state.userOffers,
+  proposal: state.proposal,
 }))
 
 class Chat extends React.Component {
@@ -57,20 +62,28 @@ class Chat extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
+    serviceUser: PropTypes.object,
     loading: PropTypes.bool,
     error: PropTypes.string,
     offer: PropTypes.object,
     messages: PropTypes.array,
+    myOffers: PropTypes.array,
+    userOffers: PropTypes.array,
+    proposal: PropTypes.object,
   };
 
   static defaultProps = {
     dispatch: () => {
     },
     loggedUser: {},
+    serviceUser: {},
     loading: false,
     error: '',
     offer: {},
-    messages: []
+    messages: [],
+    myOffers: [],
+    userOffers: [],
+    proposal: {},
   };
 
   constructor(props) {
@@ -82,13 +95,15 @@ class Chat extends React.Component {
       offer: {},
       modalOpen: false,
       activeStep: 0,
-      exchangeMethodSelected: "Coopi",
+      exchangeMethodSelected: "Coopy",
       exchangeInstanceSelected: "Hour",
       selectedService: '',
       myExchangeService: '',
       coopiValue: 0,
       chatMessage: '',
       messages: [],
+      selectedServiceText: '',
+      exchangeServiceText: '',
     };
     this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
     this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);
@@ -167,14 +182,16 @@ class Chat extends React.Component {
   handleServiceChange(e){
     this.setState({
       ...this.state,
-      selectedService: e.target.value
+      selectedService: e.target.value,
+      selectedServiceText: e.target.text,
   });
   }
 
   handleBarterService(e){
     this.setState({
       ...this.state,
-      myExchangeService: e.target.value
+      myExchangeService: e.target.value,
+      exchangeServiceText: e.target.text,
   });
   }
 
@@ -192,8 +209,8 @@ class Chat extends React.Component {
   });
   }
 
-  componentDidMount(){
-    const { dispatch } = this.props;
+  async componentDidMount(){
+    const { dispatch, loggedUser } = this.props;
     const token = localStorage.getItem('token');
     const conversationId = this.props.match.params.conversationId;
 
@@ -202,7 +219,18 @@ class Chat extends React.Component {
       token: token,
       conversationId: conversationId
     };
+
+    const conversation = await getConversation(payload);
+
+    const users = 
+      {
+        token: token,
+        myUserId: loggedUser.id,
+        serviceUserId: conversation.to.id == loggedUser.id ? conversation.from.id : conversation.to.id,
+      };
+
     dispatch(attemptGetUserChat(payload));
+    dispatch(attemptGetUsersOffers(users));
 }
 
   async handleSendMessage(e){
@@ -226,7 +254,25 @@ class Chat extends React.Component {
   handleMakeOfferProposal(e){
     this.handleReset(e);
     const token = localStorage.getItem("token");
+    const { selectedService, exchangeMethodSelected, myExchangeService, exchangeInstanceSelected, coopiValue } = this.state;
+    const { dispatch } = this.props;
+    const isCoopi = exchangeMethodSelected == 'Coopy' ? true : false;
 
+    const payload = 
+    {
+      token: token,
+      proposal:
+      {
+        offerId: selectedService,
+        exchangeMethod: exchangeMethodSelected,
+        proposedServiceId: isCoopi ? undefined : myExchangeService,
+        exchangeInstance: isCoopi ? exchangeInstanceSelected : undefined,
+        proposedPrice: isCoopi ? coopiValue : undefined,
+      },
+      conversationId: this.props.match.params.conversationId,
+    };
+
+    dispatch(attemptMakeProposal(payload));
   }
 
     getStepContent(index){
@@ -239,33 +285,32 @@ class Chat extends React.Component {
          (<Select style={{width: "100%"}}
          value={this.state.selectedService}
          onChange={e => this.handleServiceChange(e)}>
-                <MenuItem value="">
-                <em>None</em>
-                </MenuItem>
-                <MenuItem value="Guitar lessons">Guitar lessons</MenuItem>
-                <MenuItem value="Lawyer">Lawyer</MenuItem>
-                <MenuItem value="Dog walk">Dog walk</MenuItem>
+               {
+                  this.props.userOffers.map(o => (
+                    <MenuItem value={o.id}>{o.title}</MenuItem>
+                  ))
+                }
             </Select>);
             break;
 
             case 1:
 
-            const coopiSelected = this.state.exchangeMethodSelected == "Coopi" ? "inline-flex" : "none";
-            const barterSelected = this.state.exchangeMethodSelected == "Barter" ? "block" : "none";
+            const coopiSelected = this.state.exchangeMethodSelected == "Coopy" ? "inline-flex" : "none";
+            const barterSelected = this.state.exchangeMethodSelected == "Exchange" ? "block" : "none";
 
             componentToRender = 
             (
               <div>
-              <RadioGroup onChange={ this.onChangeExchangeMethod } vertical>
-                <RadioButton value="Coopi">
+               <RadioGroup onChange={e => this.onChangeExchangeMethod(e) } vertical>
+                <RadioButton value="Coopy">
                 Coopi
                 </RadioButton>
-                <RadioButton value="Barter">
+                <RadioButton value="Exchange">
                 Barter
                 </RadioButton>
                 </RadioGroup>
 
-<RadioGroup onChange={ this.onChangeExchangeInstance } horizontal style={{display: coopiSelected}}>
+             <RadioGroup onChange={e => this.onChangeExchangeInstance(e) } horizontal style={{display: coopiSelected}}>
 <RadioButton value="Hour">
 Hour
 </RadioButton>
@@ -289,12 +334,11 @@ style={{display: coopiSelected}}/>
  <Select style={{width: "100%", display: barterSelected}}
           value={this.state.myExchangeService}
           onChange={e => this.handleBarterService(e)}>
-    <MenuItem value="">
-    <em>None</em>
-    </MenuItem>
-    <MenuItem value="My Guitar lessons">My Guitar lessons</MenuItem>
-    <MenuItem value="My Lawyer">My Lawyer</MenuItem>
-    <MenuItem value="My Dog walk">My Dog walk</MenuItem>
+     {
+          this.props.myOffers.map(o => (
+            <MenuItem value={o.id}>{o.title}</MenuItem>
+          ))
+      }
 </Select>  
 </div>
 );
@@ -305,11 +349,11 @@ style={{display: coopiSelected}}/>
             (
               <Paper>
                 <Typography variant="h5" component="h3">
-                  {this.state.selectedService}
+                  {this.state.selectedServiceText}
                 </Typography>        
     
             {
-              this.state.exchangeMethodSelected == 'Coopi' ?
+              this.state.exchangeMethodSelected == 'Coopy' ?
               (
                 <Typography component="p">
                   {this.state.exchangeInstanceSelected} <br/>
@@ -320,7 +364,7 @@ style={{display: coopiSelected}}/>
               (
                 <Typography component="p">
                 por <br/>
-                {this.state.myExchangeService}
+                {this.state.exchangeServiceText}
               </Typography>
               )}
     
@@ -332,7 +376,7 @@ style={{display: coopiSelected}}/>
     }
 
   render() {
-    const { loading, error, loggedUser, messages } = this.props
+    const { loading, error, loggedUser, messages, proposal } = this.props
     const { offer, categories, activeStep } = this.state
     const steps = this.getSteps();
     const proposalMade = false;
@@ -348,7 +392,7 @@ style={{display: coopiSelected}}/>
                   return {
                     mine: m.authorId === loggedUser.id,
                     message: m.text,
-                    date: new Date(m.createdAt),
+                    date: new Date(m.createdAt ? m.createdAt : Date.now()),
                   }
               }).map(item => (
                     <MessageBox

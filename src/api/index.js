@@ -404,4 +404,61 @@ export function getMessagesAPICall(payload) {
         status: response.status,
         data: response.data.data.message
       }));
+}
+
+export function getConversation(payload){
+  const token = payload.token;
+  const conversationId = payload.conversationId;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.get(
+      `${global.API_URL}/api/conversations/${conversationId}`).
+      then((response) => {
+        return response.data.conversation
+
+      }).catch((e) => {
+        return undefined});
+}
+
+export function makeProposalAPICall(payload){
+  const token = payload.token;
+  const conversationId = payload.conversationId;
+  const proposal = payload.proposal;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.post(
+      `${global.API_URL}/api/proposals/${conversationId}`, proposal).
+        then((response) => {
+        return {       
+          status: response.status,
+          proposal: response.data.proposal
+        }
+      }).catch((e) => ({
+        status: response.status,
+        data: response.data.data.message
+      }));
+}
+
+export async function getUsersOffersAPICall(payload){
+  const token = payload.token;
+  const conversationId = payload.conversationId;
+  const myUserId = payload.myUserId;
+  const serviceUserId = payload.serviceUserId;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  const resultMyOffers = await axios.get(`${global.API_URL}/api/offers/user/${myUserId}`);
+  console.log("MYoFFERS: " + JSON.stringify(resultMyOffers));
+  const resultServiceUserOffers = await axios.get(`${global.API_URL}/api/offers/user/${serviceUserId}`);
+  console.log("other user offers: " +JSON.stringify(resultServiceUserOffers));
+
+      return {
+        status: 200,
+        usersOffers: {
+          myOffers: resultMyOffers.data.offers,
+          userOffers: resultServiceUserOffers.data.offers,
+        }
+      };
 } 

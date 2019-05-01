@@ -115,3 +115,13 @@ export const attemptGetUserChat = (payload) => ({
     type: Actions.GET_MESSAGES_ATTEMPT,
     payload
 });
+
+export const attemptMakeProposal= (payload) => ({
+    type: Actions.MAKE_PROPOSAL_ATTEMPT,
+    payload
+});
+
+export const attemptGetUsersOffers = (payload) => ({
+    type: Actions.GET_USERS_OFFERS_ATTEMPT,
+    payload
+});

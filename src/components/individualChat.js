@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie/server';
 import Authenticator from './fake-authenticator';
-import { resetError, attemptPublishOffer } from '../actions/user';
+import { attemptSendMessage } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -48,7 +48,8 @@ import { MessageBox } from 'react-chat-elements'
 export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
-  loading: state.loading
+  loading: state.loading,
+  conversations: state.conversations,
 }))
 
 class Chat extends React.Component {
@@ -58,7 +59,8 @@ class Chat extends React.Component {
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
     error: PropTypes.string,
-    offer: PropTypes.object
+    offer: PropTypes.object,
+    conversations: PropTypes.array,
   };
 
   static defaultProps = {
@@ -67,7 +69,8 @@ class Chat extends React.Component {
     loggedUser: {},
     loading: false,
     error: '',
-    offer: {}
+    offer: {},
+    conversations: []
   };
 
   constructor(props) {
@@ -80,10 +83,15 @@ class Chat extends React.Component {
       modalOpen: false,
       activeStep: 0,
       exchangeMethodSelected: "Coopi",
-      exchangeInstanceSelected: "Hour"
+      exchangeInstanceSelected: "Hour",
+      selectedService: '',
+      myExchangeService: '',
+      coopiValue: 0,
+      chatMessage: ''
     };
     this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
     this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);
+    this.handleMakeOfferProposal = this.handleMakeOfferProposal.bind(this);
   }
 
   getSteps() {
@@ -118,7 +126,8 @@ class Chat extends React.Component {
   handleClose = () => {
     this.setState({
         ...this.state,
-        modalOpen: false 
+        modalOpen: false,
+        activeStep: 0
     }); 
     };
 
@@ -154,6 +163,58 @@ class Chat extends React.Component {
       });
   }
 
+  handleServiceChange(e){
+    this.setState({
+      ...this.state,
+      selectedService: e.target.value
+  });
+  }
+
+  handleBarterService(e){
+    this.setState({
+      ...this.state,
+      myExchangeService: e.target.value
+  });
+  }
+
+  onChangeCoopiValue(e){
+    this.setState({
+      ...this.state,
+      coopiValue: e.target.value
+  });
+  }
+
+  onChangeChatInput(e){
+    this.setState({
+      ...this.state,
+      chatMessage: e.target.value
+  });
+  }
+
+  async handleSendMessage(e){
+    const { dispatch } = this.props;
+    const token = localStorage.getItem("token");
+
+    const payload =
+    {
+      token: token,
+      message: 
+      {
+        text: this.state.chatMessage
+      },
+      conversationId: this.props.match.params.conversationId
+    };
+
+    dispatch(attemptSendMessage(payload));
+    this.setState({...this.state, chatMessage: ''});
+  }
+
+  handleMakeOfferProposal(e){
+    this.handleReset(e);
+    const token = localStorage.getItem("token");
+
+  }
+
     getStepContent(index){
 
         let componentToRender = "";
@@ -161,13 +222,15 @@ class Chat extends React.Component {
             case 0:
 
          componentToRender = 
-            (<Select style={{width: "100%"}}>
+         (<Select style={{width: "100%"}}
+         value={this.state.selectedService}
+         onChange={e => this.handleServiceChange(e)}>
                 <MenuItem value="">
                 <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>Guitar lessons</MenuItem>
-                <MenuItem value={20}>Lawyer</MenuItem>
-                <MenuItem value={30}>Dog walk</MenuItem>
+                <MenuItem value="Guitar lessons">Guitar lessons</MenuItem>
+                <MenuItem value="Lawyer">Lawyer</MenuItem>
+                <MenuItem value="Dog walk">Dog walk</MenuItem>
             </Select>);
             break;
 
@@ -206,22 +269,49 @@ type="number"
 label="Coopi value"
 placeholder="Enter the value in Coopi"
 margin="normal"
+onChange = {e => this.onChangeCoopiValue(e)}
 style={{display: coopiSelected}}/>
 
-<Select style={{width: "100%", display: barterSelected}}>
+ <Select style={{width: "100%", display: barterSelected}}
+          value={this.state.myExchangeService}
+          onChange={e => this.handleBarterService(e)}>
     <MenuItem value="">
     <em>None</em>
     </MenuItem>
-    <MenuItem value={10}>My Guitar lessons</MenuItem>
-    <MenuItem value={20}>My Lawyer</MenuItem>
-    <MenuItem value={30}>My Dog walk</MenuItem>
+    <MenuItem value="My Guitar lessons">My Guitar lessons</MenuItem>
+    <MenuItem value="My Lawyer">My Lawyer</MenuItem>
+    <MenuItem value="My Dog walk">My Dog walk</MenuItem>
 </Select>  
 </div>
 );
             break;
 
             case 2:
-
+            componentToRender = 
+            (
+              <Paper>
+                <Typography variant="h5" component="h3">
+                  {this.state.selectedService}
+                </Typography>        
+    
+            {
+              this.state.exchangeMethodSelected == 'Coopi' ?
+              (
+                <Typography component="p">
+                  {this.state.exchangeInstanceSelected} <br/>
+                  por <br/>
+                  {this.state.coopiValue} COOPI
+                </Typography>
+              ) : 
+              (
+                <Typography component="p">
+                por <br/>
+                {this.state.myExchangeService}
+              </Typography>
+              )}
+    
+              </Paper>
+            );
             break;
         }
         return componentToRender;
@@ -327,7 +417,7 @@ style={{display: coopiSelected}}/>
             <CommonButton onClick={this.handleClose} color="primary">
               Cancel
             </CommonButton>
-            <CommonButton onClick={this.handleClose} color="primary">
+            <CommonButton onClick={this.handleMakeOfferProposal} color="primary">
               Make the offer
             </CommonButton>
           </DialogActions>
@@ -337,10 +427,12 @@ style={{display: coopiSelected}}/>
             <Input
             placeholder="Type here..."
             multiline={false}
+            onChange={e => this.onChangeChatInput(e)}
             rightButtons={
                 <Button
                     color='white'
                     backgroundColor='transparent'
+                    onClick = {e => this.handleSendMessage(e)}
                     text={<i className="fa fa-caret-right" style={{fontSize:"48px", color: "blue"}}></i>}/>
             }/>
 

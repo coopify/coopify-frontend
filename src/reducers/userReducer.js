@@ -47,6 +47,8 @@ export const GET_QUESTION_ANSWER_SUCCESS = 'GET_QUESTION_ANSWER_SUCCESS'
 export const GET_QUESTION_ANSWER_FAILURE = 'GET_QUESTION_ANSWER_FAILURE'
 export const SEND_QUESTION_REPLY_ATTEMPT = 'SEND_QUESTION_REPLY_ATTEMPT'
 export const SEND_QUESTION_REPLY_SUCCESS = 'SEND_QUESTION_REPLY_SUCCESS'
+export const SEND_MESSAGE_ATTEMPT = 'SEND_MESSAGE_ATTEMPT'
+export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -335,9 +337,39 @@ export const user = (state = initialUserState, action) => {
         reply: action.reply,
       });
 
+      case SEND_MESSAGE_ATTEMPT:
+      return _.assignIn({}, state, {
+        error: ''
+      });
+
+      case SEND_MESSAGE_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        conversations: updateMessagesList(state, action.message)
+      });
+
     default:
       return state
   }
+};
+
+const updateMessagesList = (state, newMessage) => {
+
+  let conversations = state.conversations;
+  let exists = false;
+
+  conversations.array.forEach(element => {
+
+    if(element.conversationId == newMessage.conversationId){
+      element.messages.push({text: newMessage.text, authorId: newMessage.authorId});
+      exists = true;
+    }
+  });
+
+  if(!exists){
+    conversations.push({conversationId: newMessage.conversationId, messages: [{text: newMessage.text, authorId: newMessage.authorId}] });
+  }
+
 };
 
 export const initialUserState = {

@@ -46,6 +46,8 @@ import { user, initialUserState,
     GET_QUESTION_ANSWER_FAILURE,
     SEND_QUESTION_REPLY_ATTEMPT,
     SEND_QUESTION_REPLY_SUCCESS,
+    SEND_MESSAGE_ATTEMPT,
+    SEND_MESSAGE_SUCCESS,
  } from './userReducer';
 //import { serviceReducers, initialServiceState } from './serviceReducer';
 
@@ -107,6 +109,8 @@ const Actions = {
     GET_QUESTION_ANSWER_FAILURE,
     SEND_QUESTION_REPLY_ATTEMPT,
     SEND_QUESTION_REPLY_SUCCESS,
+    SEND_MESSAGE_ATTEMPT,
+    SEND_MESSAGE_SUCCESS,
 }
 
 export {
@@ -161,4 +165,6 @@ export {
     GET_QUESTION_ANSWER_FAILURE,
     SEND_QUESTION_REPLY_ATTEMPT,
     SEND_QUESTION_REPLY_SUCCESS,
+    SEND_MESSAGE_ATTEMPT,
+    SEND_MESSAGE_SUCCESS,
 }

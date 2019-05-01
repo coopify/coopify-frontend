@@ -95,3 +95,8 @@ export const attemptSendReply = (payload) => ({
     type: Actions.SEND_QUESTION_REPLY_ATTEMPT,
     payload
 });
+
+export const attemptSendMessage = (payload) => ({
+    type: Actions.SEND_MESSAGE_ATTEMPT,
+    payload
+});

@@ -324,3 +324,45 @@ export function sendReplyAPICall(payload){
         errorMessage: e.response.data.message
     }});
 }
+
+export function getUrlConversation(payload) {
+
+  const token = payload.token;
+  const toId = { toId:  payload.toUser }; 
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.post(
+      `${global.API_URL}/api/conversations/`, toId).
+      then((response) => {
+        return {       
+          status: response.status,
+          conversation: response.data.conversation
+        }
+      }).catch((e) => ({
+        status: response.status,
+        data: response.data.data.message
+      }));
+}
+
+export function sendMessageAPICall(payload){
+  const token = payload.token;
+  const message = payload.message;
+  const conversationId = payload.conversationId;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.post(
+    `${global.API_URL}/api/messages/${conversationId}`, message).  
+    then((response) => {
+      return {       
+        status: response.status,
+        message: response.data.message
+      }
+    }).catch((e) => { 
+      console.log("createOfficeAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+} 

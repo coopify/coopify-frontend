@@ -26,6 +26,7 @@ import { LOGIN_SUCCESS,
   GET_QUESTION_ANSWER_SUCCESS,
   GET_QUESTION_ANSWER_FAILURE,
   SEND_QUESTION_REPLY_SUCCESS,
+  SEND_MESSAGE_SUCCESS,
 } from '../reducers';
 
 import { logInAPICall, 
@@ -43,6 +44,7 @@ import { logInAPICall,
   postQuestionAPICall,
   getQuestionAnswerAPICall,
   sendReplyAPICall,
+  sendMessageAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -198,5 +200,12 @@ export function* sendReplyAsync(payload) {
   const result = yield sendReplyAPICall(payload.payload);
   if (result.status == 200) {
     yield put({ type: SEND_QUESTION_REPLY_SUCCESS, reply: result.reply })
+  }
+}
+
+export function* sendChatMessageAsync(payload) {
+  const result = yield sendMessageAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: SEND_MESSAGE_SUCCESS, message: result.message })
   }
 }

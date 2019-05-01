@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import {Link} from 'react-router-dom'
 import LoadingScreen from 'react-loading-screen';
+import SingletonPusher from './singletonPusher';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -57,7 +58,7 @@ class FacebookSignUp extends React.Component {
 
   verifyAuthCode() {
 
-    const { dispatch } = this.props;
+    const { dispatch, loggedUser } = this.props;
     let { gotCode } = this.props;
     const urlParams = new URLSearchParams(window.location.search);
     const codeFromUrl = urlParams.get('code');
@@ -79,6 +80,7 @@ class FacebookSignUp extends React.Component {
         return <Redirect to='/signup'/>
     }
     else if(socialUserDidSignUp && error.length == 0){
+      SingletonPusher.getInstance().createPusherChannel(loggedUser, dispatch);
         return <Redirect to='/home'/>
     }
 

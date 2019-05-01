@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import {Link} from 'react-router-dom'
 import LoadingScreen from 'react-loading-screen';
+import SingletonPusher from './singletonPusher';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -70,11 +71,12 @@ class GoogleSignUp extends React.Component {
   }
 
   render() {
-    const { error, socialUserDidSignUp, loading } = this.props
+    const { error, socialUserDidSignUp, loading, loggedUser, dispatch } = this.props
     if(socialUserDidSignUp && error.length > 0){
         return <Redirect to='/signup'/>
     }
     else if(socialUserDidSignUp && error.length == 0){
+      SingletonPusher.getInstance().createPusherChannel(loggedUser, dispatch);
         return <Redirect to='/home'/>
     }
 

@@ -88,7 +88,7 @@ class ConversationList extends React.Component {
                     unread: 0,
                     userId: 4234555,
                     messages: ['hola', 'hola 4234555'],
-                    conversationId: 42345435
+                    conversationId: '2ee32380-6397-11e9-b6ae-09117d14be4f'
                 },
                 {
                     avatar: 'https://facebook.github.io/react/img/logo.svg',

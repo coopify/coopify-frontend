@@ -345,7 +345,7 @@ export const user = (state = initialUserState, action) => {
       case SEND_MESSAGE_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
-        conversations: updateMessagesList(state, action.message)
+        conversations: action.message
       });
 
     default:
@@ -358,6 +358,10 @@ const updateMessagesList = (state, newMessage) => {
   let conversations = state.conversations;
   let exists = false;
 
+  if(conversations == undefined){
+    conversations = [];
+  }
+
   conversations.array.forEach(element => {
 
     if(element.conversationId == newMessage.conversationId){
@@ -369,6 +373,8 @@ const updateMessagesList = (state, newMessage) => {
   if(!exists){
     conversations.push({conversationId: newMessage.conversationId, messages: [{text: newMessage.text, authorId: newMessage.authorId}] });
   }
+
+  return conversations;
 
 };
 

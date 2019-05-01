@@ -49,6 +49,11 @@ export const SEND_QUESTION_REPLY_ATTEMPT = 'SEND_QUESTION_REPLY_ATTEMPT'
 export const SEND_QUESTION_REPLY_SUCCESS = 'SEND_QUESTION_REPLY_SUCCESS'
 export const SEND_MESSAGE_ATTEMPT = 'SEND_MESSAGE_ATTEMPT'
 export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS'
+export const UPDATE_MESSAGE_ATTEMPT = 'UPDATE_MESSAGE_ATTEMPT'
+export const GET_CONVERSATIONS_ATTEMPT = 'GET_CONVERSATIONS_ATTEMPT'
+export const GET_CONVERSATIONS_SUCCESS = 'GET_CONVERSATIONS_SUCCESS'
+export const GET_MESSAGES_ATTEMPT = 'GET_MESSAGES_ATTEMPT'
+export const GET_MESSAGES_SUCCESS = 'GET_MESSAGES_SUCCESS'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -345,7 +350,26 @@ export const user = (state = initialUserState, action) => {
       case SEND_MESSAGE_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
-        conversations: action.message
+        messages: updateMessagesList(state, action.message)
+      });
+
+      case UPDATE_MESSAGE_ATTEMPT:
+      return _.assignIn({}, state, {
+        error: '',
+        messages: state.messages.concat([action.payload]),
+      });
+
+      case GET_CONVERSATIONS_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        conversations: action.conversations
+      });
+
+      case GET_MESSAGES_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        messages: action.messages,
+        newMessages: [],
       });
 
     default:
@@ -355,26 +379,15 @@ export const user = (state = initialUserState, action) => {
 
 const updateMessagesList = (state, newMessage) => {
 
-  let conversations = state.conversations;
-  let exists = false;
+  let messages = state.messages;
 
-  if(conversations == undefined){
-    conversations = [];
+  if(messages  == undefined){
+    messages  = [];
   }
 
-  conversations.array.forEach(element => {
+  messages.push({text: newMessage.text, authorId: newMessage.authorId, conversationId: newMessage.conversationId, createdAt: new Date(Date.now())});
 
-    if(element.conversationId == newMessage.conversationId){
-      element.messages.push({text: newMessage.text, authorId: newMessage.authorId});
-      exists = true;
-    }
-  });
-
-  if(!exists){
-    conversations.push({conversationId: newMessage.conversationId, messages: [{text: newMessage.text, authorId: newMessage.authorId}] });
-  }
-
-  return conversations;
+  return messages;
 
 };
 

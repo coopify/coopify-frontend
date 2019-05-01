@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie/server';
 import Authenticator from './fake-authenticator';
-import { resetError, attemptPublishOffer } from '../actions/user';
+import { resetError, attemptGetUserConversations  } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -28,7 +28,8 @@ import { ChatList } from 'react-chat-elements'
 export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
-  loading: state.loading
+  loading: state.loading,
+  conversations: state.conversations
 }))
 
 class ConversationList extends React.Component {
@@ -38,7 +39,8 @@ class ConversationList extends React.Component {
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
     error: PropTypes.string,
-    offer: PropTypes.object
+    offer: PropTypes.object,
+    conversations: PropTypes.array,
   };
 
   static defaultProps = {
@@ -47,7 +49,8 @@ class ConversationList extends React.Component {
     loggedUser: {},
     loading: false,
     error: '',
-    offer: {}
+    offer: {},
+    conversations: [],
   };
 
   constructor(props) {
@@ -66,10 +69,18 @@ class ConversationList extends React.Component {
 
   componentDidMount(){
       //fetch conversations data ...
+      const { dispatch } = this.props;
+      const token = localStorage.getItem('token');
+
+      const payload = 
+      {
+        token: token
+      };
+      dispatch(attemptGetUserConversations(payload));
   }
 
   render() {
-    const { loading, error, loggedUser } = this.props
+    const { loading, error, loggedUser, conversations } = this.props
     const { offer, categories } = this.state
 
     return (
@@ -78,52 +89,22 @@ class ConversationList extends React.Component {
 
         <ChatList
             className='chat-list'
-            dataSource={[
-                {
-                    avatar: 'https://facebook.github.io/react/img/logo.svg',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
-                    date: new Date(),
-                    unread: 0,
-                    userId: 4234555,
-                    messages: ['hola', 'hola 4234555'],
-                    conversationId: '2ee32380-6397-11e9-b6ae-09117d14be4f'
-                },
-                {
-                    avatar: 'https://facebook.github.io/react/img/logo.svg',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
-                    date: new Date(),
-                    unread: 0,
-                    userId: 4234555,
-                    messages: ['hola', 'hola 4234555'],
-                    conversationId: 42345435
-                },
-                {
-                    avatar: 'https://facebook.github.io/react/img/logo.svg',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
-                    date: new Date(),
-                    unread: 0,
-                    userId: 4234555,
-                    messages: ['hola', 'hola 4234555'],
-                    conversationId: 42345435
-                },
-                {
-                    avatar: 'https://facebook.github.io/react/img/logo.svg',
-                    alt: 'Reactjs',
-                    title: 'Facebook',
-                    subtitle: 'What are you doing?',
-                    date: new Date(),
-                    unread: 0,
-                    userId: 4234555,
-                    messages: ['hola', 'hola 4234555'],
-                    conversationId: 42345435
-                },        
-              ]}
+            dataSource={
+
+              conversations.map((c) => {
+                const user = c.from.id === loggedUser.id ? c.to : c.from;
+                const response = 
+                {   
+                  avatar: user.pictureURL,
+                  title: user.name,
+                  date: new Date(c.createdAt),
+                  unread: 0,
+                  userId: user.id,
+                  conversationId: c.id,
+                };
+                return response;
+              })
+          }
               onClick={e => this.displayChat(e)} />
 
       </GuestLayout>

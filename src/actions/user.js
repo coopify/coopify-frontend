@@ -125,3 +125,8 @@ export const attemptGetUsersOffers = (payload) => ({
     type: Actions.GET_USERS_OFFERS_ATTEMPT,
     payload
 });
+
+export const attemptProposalsAction = (payload) => ({
+    type: Actions.GET_PROPOSALS_ATTEMPT,
+    payload
+});

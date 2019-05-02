@@ -461,4 +461,35 @@ export async function getUsersOffersAPICall(payload){
           userOffers: resultServiceUserOffers.data.offers,
         }
       };
-} 
+}
+
+export function getProposalsAPICall(payload){
+  //const offerId =  payload.offerId;
+  const token = payload.token;
+  //const limit = payload.limit;
+  //const skip = payload.page;
+
+  //const queryParams = stringify({limit,skip})
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.get(
+    `${global.API_URL}/api/proposals/`).
+    then((response) => {
+      return {       
+        status: response.status,
+        responseProposals: response.data,
+      }
+    }).catch((e) => { 
+      console.log("getProposalsAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+
+  // return {
+  //   status: 200,
+  //   responseProposals: {proposals: [{id: 1234, offerId: 654321, conversationId: 789456, exchangeMethod: 'Coopy', exchangeIntance: 'Hour', proposedPrice: 10, porposedServiceId: '', status: 'Waiting'},
+  //   {id: 111222, offerId: 222333, conversationId: 56466, exchangeMethod: 'Exchange', exchangeIntance: '', proposedPrice: 0, porposedServiceId: 147258, status: 'Waiting'}]}
+  // };
+}

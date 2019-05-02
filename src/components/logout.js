@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import Authenticator from './fake-authenticator';
+import SingletonPusher from './singletonPusher';
 
 export default class Logout extends React.Component {
   onLogoutRedirectUrl = '/login';
@@ -22,6 +23,7 @@ export default class Logout extends React.Component {
   render() {
     const { logout } = this.state;
     if (logout) {
+      SingletonPusher.getInstance().pusherDisconnect();
       return <Redirect to={this.onLogoutRedirectUrl} />;
     }
     return null;

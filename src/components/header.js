@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import logo from '../assets/logo.png';
-import {attemptLogoutAction, loadState} from '../actions/user';
+import {attemptLogoutAction, loadState, attemptUpdateMessage } from '../actions/user';
 
 
 export default @connect(state => ({
@@ -107,6 +107,7 @@ class Header extends PureComponent {
             </div>)
             : 
             (<div className="navbar-end">
+            <Link to="/user/conversations" className="navbar-item"><i className="fa fa-comments"></i></Link>
               <div className="navbar-item has-dropdown is-hoverable">
                 <a href="#" data-toggle="dropdown" className="navbar-link" aria-expanded="false">
 

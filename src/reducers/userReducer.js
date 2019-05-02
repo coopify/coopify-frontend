@@ -47,6 +47,18 @@ export const GET_QUESTION_ANSWER_SUCCESS = 'GET_QUESTION_ANSWER_SUCCESS'
 export const GET_QUESTION_ANSWER_FAILURE = 'GET_QUESTION_ANSWER_FAILURE'
 export const SEND_QUESTION_REPLY_ATTEMPT = 'SEND_QUESTION_REPLY_ATTEMPT'
 export const SEND_QUESTION_REPLY_SUCCESS = 'SEND_QUESTION_REPLY_SUCCESS'
+export const SEND_MESSAGE_ATTEMPT = 'SEND_MESSAGE_ATTEMPT'
+export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS'
+export const UPDATE_MESSAGE_ATTEMPT = 'UPDATE_MESSAGE_ATTEMPT'
+export const GET_CONVERSATIONS_ATTEMPT = 'GET_CONVERSATIONS_ATTEMPT'
+export const GET_CONVERSATIONS_SUCCESS = 'GET_CONVERSATIONS_SUCCESS'
+export const GET_MESSAGES_ATTEMPT = 'GET_MESSAGES_ATTEMPT'
+export const GET_MESSAGES_SUCCESS = 'GET_MESSAGES_SUCCESS'
+export const MAKE_PROPOSAL_ATTEMPT = 'MAKE_PROPOSAL_ATTEMPT'
+export const MAKE_PROPOSAL_SUCCESS = 'MAKE_PROPOSAL_SUCCESS'
+export const MAKE_PROPOSAL_FAILURE = 'MAKE_PROPOSAL_FAILURE'
+export const GET_USERS_OFFERS_ATTEMPT = 'GET_USERS_OFFERS_ATTEMPT'
+export const GET_USERS_OFFERS_SUCCESS = 'GET_USERS_OFFERS_SUCCESS'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -333,6 +345,49 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         error: '',
         reply: action.reply,
+      });
+
+      case SEND_MESSAGE_ATTEMPT:
+      return _.assignIn({}, state, {
+        error: ''
+      });
+
+      case SEND_MESSAGE_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        messages: state.messages.concat([action.message]),
+      });
+
+      case UPDATE_MESSAGE_ATTEMPT:
+      return _.assignIn({}, state, {
+        error: '',
+        messages: state.messages.concat([action.payload]),
+      });
+
+      case GET_CONVERSATIONS_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        conversations: action.conversations
+      });
+
+      case GET_MESSAGES_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        messages: action.messages,
+        newMessages: [],
+      });
+
+      case MAKE_PROPOSAL_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        proposal: action.proposal,
+      });
+
+      case GET_USERS_OFFERS_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        myOffers: action.usersOffers.myOffers,
+        userOffers: action.usersOffers.userOffers,
       });
 
     default:

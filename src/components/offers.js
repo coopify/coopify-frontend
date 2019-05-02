@@ -8,10 +8,6 @@ import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/style.css'
-import '../css/form-elements.css'
-import 'font-awesome/css/font-awesome.min.css';
 import styles from '../css/profile.scss';
 import Protected from './protected';
 import ReactTable from "react-table";

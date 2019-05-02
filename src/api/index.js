@@ -324,3 +324,141 @@ export function sendReplyAPICall(payload){
         errorMessage: e.response.data.message
     }});
 }
+
+export function getUrlConversation(payload) {
+
+  const token = payload.token;
+  const toId = { toId:  payload.toUser }; 
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.post(
+      `${global.API_URL}/api/conversations/`, toId).
+      then((response) => {
+        return {       
+          status: response.status,
+          conversation: response.data.conversation
+        }
+      }).catch((e) => ({
+        status: response.status,
+        data: response.data.data.message
+      }));
+}
+
+export function sendMessageAPICall(payload){
+  const token = payload.token;
+  const message = payload.message;
+  const conversationId = payload.conversationId;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.post(
+    `${global.API_URL}/api/messages/${conversationId}`, message).  
+    then((response) => {
+      return {       
+        status: response.status,
+        message: response.data.message
+      }
+    }).catch((e) => { 
+      console.log("createOfficeAPICall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+}
+
+export function getConversationsAPICall(payload) {
+
+  const token = payload.token;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.get(
+      `${global.API_URL}/api/conversations/`).
+      then((response) => {
+        return {       
+          status: response.status,
+          conversations: response.data.conversations
+        }
+      }).catch((e) => ({
+        status: response.status,
+        data: response.data.data.message
+      }));
+}
+
+export function getMessagesAPICall(payload) {
+
+  const token = payload.token;
+  const conversationId = payload.conversationId;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.get(
+      `${global.API_URL}/api/messages/${conversationId}/`).
+      then((response) => {
+        return {       
+          status: response.status,
+          messages: response.data.messages
+        }
+      }).catch((e) => ({
+        status: response.status,
+        data: response.data.data.message
+      }));
+}
+
+export function getConversation(payload){
+  const token = payload.token;
+  const conversationId = payload.conversationId;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.get(
+      `${global.API_URL}/api/conversations/${conversationId}`).
+      then((response) => {
+        return response.data.conversation
+
+      }).catch((e) => {
+        return undefined});
+}
+
+export function makeProposalAPICall(payload){
+  const token = payload.token;
+  const conversationId = payload.conversationId;
+  const proposal = payload.proposal;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.post(
+      `${global.API_URL}/api/proposals/${conversationId}`, proposal).
+        then((response) => {
+        return {       
+          status: response.status,
+          proposal: response.data.proposal
+        }
+      }).catch((e) => ({
+        status: response.status,
+        data: response.data.data.message
+      }));
+}
+
+export async function getUsersOffersAPICall(payload){
+  const token = payload.token;
+  const conversationId = payload.conversationId;
+  const myUserId = payload.myUserId;
+  const serviceUserId = payload.serviceUserId;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  const resultMyOffers = await axios.get(`${global.API_URL}/api/offers/user/${myUserId}`);
+  console.log("MYoFFERS: " + JSON.stringify(resultMyOffers));
+  const resultServiceUserOffers = await axios.get(`${global.API_URL}/api/offers/user/${serviceUserId}`);
+  console.log("other user offers: " +JSON.stringify(resultServiceUserOffers));
+
+      return {
+        status: 200,
+        usersOffers: {
+          myOffers: resultMyOffers.data.offers,
+          userOffers: resultServiceUserOffers.data.offers,
+        }
+      };
+} 

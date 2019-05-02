@@ -10,14 +10,11 @@ import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/style.css'
-import '../css/form-elements.css'
 import {Link} from 'react-router-dom'
-import 'font-awesome/css/font-awesome.min.css';
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import Protected from './protected';
+import SingletonPusher from './singletonPusher';
 
 export default @connect(state => ({
   userDidLog: state.userDidLog,
@@ -100,7 +97,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { loading, error, loggedUser, userDidLog } = this.props
+    const { loading, error, loggedUser, userDidLog, dispatch } = this.props
     if(error.length > 0) this.notify(error, true)
     if (loading) {
       //show spinner
@@ -108,11 +105,8 @@ class Login extends React.Component {
       //hide spinner
     }
     if (userDidLog) {
+      SingletonPusher.getInstance().createPusherChannel(loggedUser, dispatch);
       return <Redirect push={false} to={this.onLoginRedirectUrl} />;
-    }
-
-    if(userDidLog){
-      return <Redirect to='/home'/>
     }
 
     return (

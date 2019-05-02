@@ -95,3 +95,33 @@ export const attemptSendReply = (payload) => ({
     type: Actions.SEND_QUESTION_REPLY_ATTEMPT,
     payload
 });
+
+export const attemptSendMessage = (payload) => ({
+    type: Actions.SEND_MESSAGE_ATTEMPT,
+    payload
+});
+
+export const attemptUpdateMessage = (payload) => ({
+    type: Actions.UPDATE_MESSAGE_ATTEMPT,
+    payload
+});
+
+export const attemptGetUserConversations = (payload) => ({
+    type: Actions.GET_CONVERSATIONS_ATTEMPT,
+    payload
+});
+
+export const attemptGetUserChat = (payload) => ({
+    type: Actions.GET_MESSAGES_ATTEMPT,
+    payload
+});
+
+export const attemptMakeProposal= (payload) => ({
+    type: Actions.MAKE_PROPOSAL_ATTEMPT,
+    payload
+});
+
+export const attemptGetUsersOffers = (payload) => ({
+    type: Actions.GET_USERS_OFFERS_ATTEMPT,
+    payload
+});

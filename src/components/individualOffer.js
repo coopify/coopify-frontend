@@ -1,31 +1,20 @@
 
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
-import cookie from '../libs/cookie/server';
-import Authenticator from './fake-authenticator';
 import { resetError, attemptShowOffer } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'font-awesome/css/font-awesome.min.css';
-import styles from '../css/profile.scss';
 import { Button, Input, Row, Col } from 'react-bootstrap';
-import Switch from "react-switch";
 import Protected from './protected';
-import { Link } from 'react-router-dom';
-import { loadScript } from "@pawjs/pawjs/src/utils/utils";
-
-import { loadStyle } from "@pawjs/pawjs/src/utils/utils";
-import { withStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import TextField from '@material-ui/core/TextField';
 import * as moment from 'moment';
 import { GeneralQuestions } from './generalQuestions'
+import LoadingScreen from 'react-loading-screen';
+import { getUrlConversation } from '../api';
 
 
 export default @connect(state => ({
@@ -65,6 +54,7 @@ class IndividualOffer extends React.Component {
       offer: {},
       readOnlyOffer: {},
     };
+    this.delay = this.delay.bind(this);
   }
 
   notify(message, isError) {
@@ -76,6 +66,27 @@ class IndividualOffer extends React.Component {
     else {
       toast.success(message)
     }
+  }
+
+  delay = ms => new Promise(res => setTimeout(res, ms));
+
+  async handleContactClick(e){
+
+    const { dispatch, readOnlyOffer, loggedUser } = this.props;
+
+    this.setState({...this.state, loading: true});
+    //await this.delay(5000);
+    const payload = 
+    {
+      token: localStorage.getItem("token"),
+      toUser: readOnlyOffer.userId
+    };
+
+    const response = await getUrlConversation(payload);
+    this.setState({...this.state, loading: false});
+
+    const conversationId = response.conversation.id;
+    this.props.history.push(`/user/conversations/${conversationId}`);
   }
 
   componentDidMount() {
@@ -95,19 +106,34 @@ class IndividualOffer extends React.Component {
 
 
   render() {
-    const { loading, error, loggedUser, balance, readOnlyOffer } = this.props
-    const { offer } = this.state
+    const { error, loggedUser, balance, readOnlyOffer } = this.props
+    const { offer , loading } = this.state
     const pictureUrl = readOnlyOffer && readOnlyOffer.images && readOnlyOffer.images.length > 0 ? readOnlyOffer.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
+    const displayOwnerOnly  = loggedUser.id === readOnlyOffer.userId ? 'none' : 'block';
 
     return (
       <Protected>
         <GuestLayout>
 
+        <LoadingScreen
+          loading={loading}
+          bgColor='#125876'
+          spinnerColor='#BE1931'
+          textColor='#ffffff'
+          text= {"Iniciando chat con el proveedor..."}> 
+
           <div className="columns is-centered p-t-xl p-r-md p-l-md">
+
+          <Button onClick={e => this.handleContactClick(e)} style={{display: displayOwnerOnly }}>
+          Contact me <i className="fa fa-comment"></i>
+        </Button>
+
             <div className="column is-half">
               <h1 className="title">{readOnlyOffer.title}</h1>
 
               <p style={{ width: "40%" }}>{readOnlyOffer.description}</p>
+
+              <p style={{ width: "40%" }}>By {readOnlyOffer.by}</p>
 
               <Col sm="10">
                 <img name="picture" src={pictureUrl} />
@@ -163,6 +189,7 @@ class IndividualOffer extends React.Component {
             </div>
           </div>
 
+          </LoadingScreen>
         </GuestLayout>
       </Protected>
     );

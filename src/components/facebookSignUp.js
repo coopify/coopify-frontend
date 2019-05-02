@@ -11,12 +11,9 @@ import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/style.css'
-import '../css/form-elements.css'
 import {Link} from 'react-router-dom'
-import 'font-awesome/css/font-awesome.min.css';
 import LoadingScreen from 'react-loading-screen';
+import SingletonPusher from './singletonPusher';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -61,7 +58,7 @@ class FacebookSignUp extends React.Component {
 
   verifyAuthCode() {
 
-    const { dispatch } = this.props;
+    const { dispatch, loggedUser } = this.props;
     let { gotCode } = this.props;
     const urlParams = new URLSearchParams(window.location.search);
     const codeFromUrl = urlParams.get('code');
@@ -83,6 +80,7 @@ class FacebookSignUp extends React.Component {
         return <Redirect to='/signup'/>
     }
     else if(socialUserDidSignUp && error.length == 0){
+      SingletonPusher.getInstance().createPusherChannel(loggedUser, dispatch);
         return <Redirect to='/home'/>
     }
 
@@ -90,9 +88,9 @@ class FacebookSignUp extends React.Component {
       <GuestLayout>
           <LoadingScreen
               loading={loading}
-              bgColor='#f1f1f1'
-              spinnerColor='#9ee5f8'
-              textColor='#676767'
+              bgColor='#125876'
+              spinnerColor='#BE1931'
+              textColor='#ffffff'
              // logoSrc='/logo.png'
               text= {"Autenticando... Por favor, aguarde unos instantes."}> 
             </LoadingScreen>

@@ -5,12 +5,16 @@ import mySaga from './sagas';
 import { user } from './reducers';
 import 'bulma/css/bulma.min.css';
 import './resources/css/util.scss';
-import './resources/css/global.css'; 
+import './resources/css/global.css';
+import './resources/css/form-elements.css';
+import './resources/css/material_icons.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min';
 import 'font-awesome/css/font-awesome.min.css';
 import './resources/css/stepZilla.css';
 import 'rc-slider/assets/index.css';
+import 'react-chat-elements/dist/main.css';
+import './resources/css/style.css';
 
 const appInitialState = {};
 
@@ -19,6 +23,8 @@ global.API_URL = 'https://coopify-dev-backend.herokuapp.com'
 global.FB_APP_ID = '323887408477346'
 global.GOOGLE_APP_ID = '157449480210-9sr3ar7e5q2lm7emifvegj0r9ohr3vm6.apps.googleusercontent.com'
 //global.GOOGLE_APP_ID = '157449480210-dd88viejmm5ce2ia29j0cqpaul1ml5j4.apps.googleusercontent.com'
+global.PUSHER_APP_KEY = '854192fae3c55354146c'
+global.PUSHER_APP_CLUSTER = 'us2'
 
 export default class Client {
   constructor({ addPlugin }) {
@@ -59,4 +65,3 @@ export default class Client {
       .tapPromise('AddReduxProvider', async () => (console.log('Client')));
   }
 }
-

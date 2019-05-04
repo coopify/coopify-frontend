@@ -194,8 +194,8 @@ class Proposal extends React.Component {
 
               <Paper>
                 <Typography variant="h5" component="h3">
-                  {proposal.offerId}
-                </Typography>        
+                  {proposal.purchasedOffer.title}
+                </Typography>
     
             {
               proposal.exchangeMethod == 'Coopy' ?
@@ -208,7 +208,7 @@ class Proposal extends React.Component {
               (
                 <Typography component="p">
                 por <br/>
-                {proposal.proposedServiceId}
+                {proposal.proposedService.title}
               </Typography>
               )}
     
@@ -218,7 +218,7 @@ class Proposal extends React.Component {
           <div>
 
 {
-    proposal.proposedId != loggedUser.id ?
+    proposal.proposerId != loggedUser.id ?
     (
         <div>
         <CommonButton onClick={this.handleDecline} color="primary">
@@ -233,7 +233,7 @@ class Proposal extends React.Component {
 }
 
 {
-    proposal.proposedId == loggedUser.id ?
+    proposal.proposerId == loggedUser.id ?
     (
         <div>
         <CommonButton onClick={this.handleCancel} color="primary">

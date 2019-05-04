@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie/server';
 import Authenticator from './fake-authenticator';
-import { attemptSendMessage, attemptGetUserChat, attemptGetUsersOffers, attemptMakeProposal } from '../actions/user';
+import { attemptAcceptProposal, attemptRejectProposal, attemptCancelProposal } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -107,6 +107,7 @@ class Proposal extends React.Component {
     };
     this.handleDecline = this.handleDecline.bind(this);
     this.handleAccept = this.handleAccept.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
  
@@ -154,8 +155,23 @@ class Proposal extends React.Component {
         this.handleClose();
     }
 
+    handleCancel(){
+        const token = localStorage.getItem("token");
+        const { dispatch, proposal } = this.props;
+        
+        const payload = 
+        {
+          token: token,
+          proposalId: proposal.id,
+        };
+    
+        dispatch(attemptCancelProposal(payload));
+    
+        this.handleClose();
+    }
+
   render() {
-    const { proposal, buttonText } = this.props
+    const { proposal, buttonText, loggedUser } = this.props
     const { modalOpen } = this.state
 
     return (
@@ -200,12 +216,38 @@ class Proposal extends React.Component {
               </DialogContentText>
 
           <div>
-            <CommonButton onClick={this.handleDecline} color="primary">
-            <i class="fa fa-times"></i> &nbsp; Decline
+
+{
+    proposal.proposedId != loggedUser.id ?
+    (
+        <div>
+        <CommonButton onClick={this.handleDecline} color="primary">
+        <i class="fa fa-times"></i> &nbsp; Decline
+          </CommonButton>
+          <CommonButton onClick={this.handleAccept} color="primary">
+          <i class="fa fa-check"></i> &nbsp; Accept
+          </CommonButton>
+          </div>
+    ) :
+    ""
+}
+
+{
+    proposal.proposedId == loggedUser.id ?
+    (
+        <div>
+        <CommonButton onClick={this.handleCancel} color="primary">
+        Cancel
+        </CommonButton>
+        </div>
+    ) :
+    ""
+}
+            <div>
+              <CommonButton onClick={this.handleClose} color="primary">
+              Think about it a little more...
               </CommonButton>
-              <CommonButton onClick={this.handleAccept} color="primary">
-              <i class="fa fa-check"></i> &nbsp; Accept
-              </CommonButton>
+              </div>
           </div>
 
             </DialogContent>

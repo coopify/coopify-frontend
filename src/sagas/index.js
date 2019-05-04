@@ -21,6 +21,9 @@ import { loginAsync,
   makeProposalAsync,
   geteUsersOffers,
   getProposalsAsync,
+  acceptProposalAsync,
+  rejectProposalAsync,
+  cancelProposalAsync,
 } from './user'
 
 export default function* rootSaga() {
@@ -48,5 +51,8 @@ export default function* rootSaga() {
     takeEvery('MAKE_PROPOSAL_ATTEMPT', makeProposalAsync),
     takeEvery('GET_USERS_OFFERS_ATTEMPT', geteUsersOffers),
     takeEvery('GET_PROPOSALS_ATTEMPT', getProposalsAsync),
+    takeEvery('ACCEPT_PROPOSAL_ATTEMPT', acceptProposalAsync),
+    takeEvery('REJECT_PROPOSAL_ATTEMPT', rejectProposalAsync),
+    takeEvery('ATTEMPT_CANCEL_PROPOSAL', cancelProposalAsync),
   ]);
 }

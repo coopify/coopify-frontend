@@ -381,7 +381,7 @@ style={{display: coopiSelected}}/>
     const { loading, error, loggedUser, messages, proposal } = this.props
     const { offer, categories, activeStep } = this.state
     const steps = this.getSteps();
-    const proposalMade = true;
+    const proposalMade = proposal.length > 0;
 
     return (
       <Protected>

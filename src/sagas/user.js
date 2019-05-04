@@ -34,6 +34,9 @@ import { LOGIN_SUCCESS,
   GET_USERS_OFFERS_SUCCESS,
   GET_PROPOSALS_SUCCESS,
   GET_PROPOSALS_FAILURE,
+  ACCEPT_PROPOSAL_SUCCESS,
+  REJECT_PROPOSAL_SUCCESS,
+  CANCEL_PROPOSAL_SUCCESS,
 } from '../reducers';
 
 import { logInAPICall, 
@@ -56,6 +59,9 @@ import { logInAPICall,
   makeProposalAPICall,
   getUsersOffersAPICall,
   getProposalsAPICall,
+  rejectProposalAPICall,
+  acceptProposalAPICall,
+  cancelProposalAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -259,5 +265,26 @@ export function* getProposalsAsync(payload) {
   }
   else{
     yield put({ type: GET_PROPOSALS_FAILURE, errorMessage: result.errorMessage })
+  }
+}
+
+export function* acceptProposalAsync(payload) {
+  const result = yield acceptProposalAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: ACCEPT_PROPOSAL_SUCCESS, proposal: result.proposal })
+  }
+}
+
+export function* rejectProposalAsync(payload) {
+  const result = yield rejectProposalAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: REJECT_PROPOSAL_SUCCESS, proposal: result.proposal })
+  }
+}
+
+export function* cancelProposalAsync(payload) {
+  const result = yield cancelProposalAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: CANCEL_PROPOSAL_SUCCESS, proposal: result.proposal })
   }
 }

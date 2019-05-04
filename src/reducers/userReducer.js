@@ -62,6 +62,12 @@ export const GET_USERS_OFFERS_SUCCESS = 'GET_USERS_OFFERS_SUCCESS'
 export const GET_PROPOSALS_ATTEMPT = 'GET_PROPOSALS_ATTEMPT'
 export const GET_PROPOSALS_SUCCESS = 'GET_PROPOSALS_SUCCESS'
 export const GET_PROPOSALS_FAILURE = 'GET_PROPOSALS_FAILURE'
+export const ACCEPT_PROPOSAL_ATTEMPT = 'ACCEPT_PROPOSAL_ATTEMP'
+export const ACCEPT_PROPOSAL_SUCCESS = 'ACCEPT_PROPOSAL_SUCCESS'
+export const REJECT_PROPOSAL_ATTEMPT = 'REJECT_PROPOSAL_ATTEMPT'
+export const REJECT_PROPOSAL_SUCCESS = 'REJECT_PROPOSAL_SUCCESS'
+export const ATTEMPT_CANCEL_PROPOSAL = 'ATTEMPT_CANCEL_PROPOSAL'
+export const CANCEL_PROPOSAL_SUCCESS = 'CANCEL_PROPOSAL_SUCCESS'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -408,6 +414,24 @@ export const user = (state = initialUserState, action) => {
         error: '',
         proposals: action.proposals,
         //countProposals: action.count
+      });
+
+      case ACCEPT_PROPOSAL_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        proposal: action.proposal,
+      });
+
+      case REJECT_PROPOSAL_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        proposal: action.proposal,
+      });
+
+      case CANCEL_PROPOSAL_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        proposal: action.proposal,
       });
 
     default:

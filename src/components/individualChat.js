@@ -43,6 +43,8 @@ import Typography from '@material-ui/core/Typography';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import { MessageBox } from 'react-chat-elements'
 
+import { Proposal } from './proposal';
+
 import { getConversation } from '../api';
 
 
@@ -379,7 +381,7 @@ style={{display: coopiSelected}}/>
     const { loading, error, loggedUser, messages, proposal } = this.props
     const { offer, categories, activeStep } = this.state
     const steps = this.getSteps();
-    const proposalMade = false;
+    const proposalMade = true;
 
     return (
       <Protected>
@@ -406,11 +408,12 @@ style={{display: coopiSelected}}/>
 
               </div>
 
-              {proposalMade ? 
+            {proposalMade ? 
             (
-              <CommonButton style={{width: "100%"}} onClick={e => this.handleClickOpen(e)}>
-              Show offer proposal <i className="fa fa-handshake-o" aria-hidden="true"></i>
-              </CommonButton>
+              <Proposal
+              proposal= {this.props.proposal}
+              buttonText= "See proposal"
+              />
             ) : 
             (
               <CommonButton style={{width: "100%"}} onClick={e => this.handleClickOpen(e)}>
@@ -418,34 +421,6 @@ style={{display: coopiSelected}}/>
               </CommonButton>
             ) }
 
-          {proposalMade ? 
-          (
-
-            <Dialog
-            open={this.state.modalOpen}
-            onClose={this.handleClose}
-            aria-labelledby="form-dialog-title"
-          >
-            <DialogTitle id="form-dialog-title">Offer proposal</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                You have the following offer proposal:
-              </DialogContentText>
-
-          <div>
-            <CommonButton onClick={this.handleClose} color="primary">
-            <i class="fa fa-times"></i> &nbsp; Decline
-              </CommonButton>
-              <CommonButton onClick={this.handleMakeOfferProposal} color="primary">
-              <i class="fa fa-check"></i> &nbsp; Accept
-              </CommonButton>
-          </div>
-
-            </DialogContent>
-          </Dialog>
-
-          ) :
-          (
             <Dialog
             open={this.state.modalOpen}
             onClose={this.handleClose}
@@ -502,8 +477,6 @@ style={{display: coopiSelected}}/>
               </CommonButton>
             </DialogActions>
           </Dialog>
-          )}
-
 
             <Input
             placeholder="Type here..."

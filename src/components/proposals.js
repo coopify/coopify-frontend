@@ -111,22 +111,16 @@ class Proposals extends React.Component {
         <div>
             <div className="container" style={{ textAlign: 'left' }}>
                 <div className="row">
-                    <div className="col-sm-4"><h4>offerId {props.original.offerId}</h4></div>
+                    <div className="col-sm-4"><h4><Link to={`/offers/${props.original.offerId}`} className="navbar-item"><i className="fa"></i>Offer: {props.original.offer.title}</Link></h4></div>
                 </div>
                 <div className="row">
-                    <div className="col-sm-4"><h4>conversationId {props.original.conversationId}</h4></div>
+                    <div className="col-sm-4"><h4>Proposed Exchange Method: {props.original.exchangeMethod}</h4></div>
                 </div>
                 <div className="row">
-                    <div className="col-sm-4"><h4>Exchange Method {props.original.exchangeMethod}</h4></div>
+                    {props.original.proposedPrice ? <div className="col-sm-4"><h4>Proposes {props.original.proposedPrice} Coopies per {props.original.exchangeInstance}</h4></div> : ''}
                 </div>
                 <div className="row">
-                    <div className="col-sm-4"><h4>Exchange Instance {props.original.exchangeInstance}</h4></div>
-                </div>
-                <div className="row">
-                    <div className="col-sm-4"><h4>Proposed Price {props.original.proposedPrice}</h4></div>
-                </div>
-                <div className="row">
-                    {props.original.proposedServiceId ? <div className="col-sm-4"><h4>proposedServiceId {props.original.proposedServiceId}</h4></div> : ''}
+                    {props.original.exchangeMethod == 'Exchange' ? <div className="col-sm-4"><h4>proposedServiceId: {props.original.proposedServiceId}</h4></div> : ''}
                 </div>
             </div>
         </div>

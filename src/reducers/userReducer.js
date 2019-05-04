@@ -62,7 +62,7 @@ export const GET_USERS_OFFERS_SUCCESS = 'GET_USERS_OFFERS_SUCCESS'
 export const GET_PROPOSALS_ATTEMPT = 'GET_PROPOSALS_ATTEMPT'
 export const GET_PROPOSALS_SUCCESS = 'GET_PROPOSALS_SUCCESS'
 export const GET_PROPOSALS_FAILURE = 'GET_PROPOSALS_FAILURE'
-export const ACCEPT_PROPOSAL_ATTEMPT = 'ACCEPT_PROPOSAL_ATTEMP'
+export const ACCEPT_PROPOSAL_ATTEMPT = 'ACCEPT_PROPOSAL_ATTEMPT'
 export const ACCEPT_PROPOSAL_SUCCESS = 'ACCEPT_PROPOSAL_SUCCESS'
 export const REJECT_PROPOSAL_ATTEMPT = 'REJECT_PROPOSAL_ATTEMPT'
 export const REJECT_PROPOSAL_SUCCESS = 'REJECT_PROPOSAL_SUCCESS'
@@ -277,7 +277,8 @@ export const user = (state = initialUserState, action) => {
       case CREATE_OFFER_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
-        message: action.message
+        message: action.message,
+        offerIsCreated: true,
       });
       
       case SHOW_OFFER_ATTEMPT:

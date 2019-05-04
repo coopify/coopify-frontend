@@ -218,7 +218,7 @@ class Proposal extends React.Component {
           <div>
 
 {
-    proposal.proposerId != loggedUser.id ?
+    (proposal.proposerId != loggedUser.id) && (proposal.status == "Waiting") ?
     (
         <div>
         <CommonButton onClick={this.handleDecline} color="primary">
@@ -229,15 +229,15 @@ class Proposal extends React.Component {
           </CommonButton>
           </div>
     ) :
-    ""
+    'Stauts: ' + proposal.status
 }
 
 {
-    proposal.proposerId == loggedUser.id ?
+    (proposal.proposerId == loggedUser.id) && (proposal.status == "Waiting") ?
     (
         <div>
         <CommonButton onClick={this.handleCancel} color="primary">
-        Cancel
+        Cancel this proposal
         </CommonButton>
         </div>
     ) :
@@ -245,7 +245,7 @@ class Proposal extends React.Component {
 }
             <div>
               <CommonButton onClick={this.handleClose} color="primary">
-              Think about it a little more...
+              Go back
               </CommonButton>
               </div>
           </div>

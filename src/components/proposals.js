@@ -12,6 +12,7 @@ import Protected from './protected';
 import ReactTable from "react-table";
 import 'react-table/react-table.css'
 import { Link } from 'react-router-dom';
+import { Proposal } from './proposal';
 
 export default @connect(state => ({
   error: state.error,
@@ -111,16 +112,23 @@ class Proposals extends React.Component {
         <div>
             <div className="container" style={{ textAlign: 'left' }}>
                 <div className="row">
-                    <div className="col-sm-4"><h4><Link to={`/offers/${props.original.offerId}`} className="navbar-item"><i className="fa"></i>Offer: {props.original.offer.title}</Link></h4></div>
+                    <div className="col-sm-8">{props.original.proposer.name} proposed for the following:
+                    <Link style={{padding: "0"}} to={`/offers/${props.original.offerId}`} className="navbar-item"><i className="fa"></i>Offer: {props.original.purchasedOffer.title}</Link></div>
                 </div>
                 <div className="row">
-                    <div className="col-sm-4"><h4>Proposed Exchange Method: {props.original.exchangeMethod}</h4></div>
+                    <div className="col-sm-4">Proposed Exchange Method: {props.original.exchangeMethod}</div>
                 </div>
                 <div className="row">
-                    {props.original.proposedPrice ? <div className="col-sm-4"><h4>Proposes {props.original.proposedPrice} Coopies per {props.original.exchangeInstance}</h4></div> : ''}
+                    {props.original.proposedPrice ? <div className="col-sm-4">Proposes {props.original.proposedPrice} Coopies per {props.original.exchangeInstance}</div> : ''}
                 </div>
                 <div className="row">
-                    {props.original.exchangeMethod == 'Exchange' ? <div className="col-sm-4"><h4>proposedServiceId: {props.original.proposedServiceId}</h4></div> : ''}
+                    {props.original.exchangeMethod == 'Exchange' ? <div className="col-sm-4">Proposed Service: {props.original.proposedService.title}</div> : ''}
+                </div>
+                <div>
+                  <Proposal
+                  proposal={props.original}
+                  buttonText= "See proposal"
+                  />
                 </div>
             </div>
         </div>

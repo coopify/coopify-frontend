@@ -387,7 +387,7 @@ style={{display: coopiSelected}}/>
       <Protected>
       <GuestLayout>
 
-         <div className='message-list' style={{height:"300px", overflowY: "auto"}}>
+         <div className='message-list' style={{height:"300px", overflowY: "auto", flexDirection: "column-reverse"}}>
 
             {
                  messages.map((m) => {
@@ -402,6 +402,7 @@ style={{display: coopiSelected}}/>
                         position={item.mine ? 'right' : 'left'}
                         type={'text'}
                         text={item.message}
+                        status="read"
                         date= {item.date}/>
                 ))
             }
@@ -482,6 +483,7 @@ style={{display: coopiSelected}}/>
             placeholder="Type here..."
             multiline={false}
             onChange={e => this.onChangeChatInput(e)}
+            value={this.state.chatMessage}
             rightButtons={
                 <Button
                     color='white'

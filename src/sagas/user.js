@@ -32,6 +32,8 @@ import { LOGIN_SUCCESS,
   MAKE_PROPOSAL_SUCCESS,
   MAKE_PROPOSAL_FAILURE,
   GET_USERS_OFFERS_SUCCESS,
+  GET_PROPOSALS_SUCCESS,
+  GET_PROPOSALS_FAILURE,
 } from '../reducers';
 
 import { logInAPICall, 
@@ -41,7 +43,6 @@ import { logInAPICall,
   socialLogInAPICall,
   checkBalanceAPICall,
   checkTransactionsAPICall,
-  checkOffersAPICall,
   checkOffersPagedAPICall,
   createOfferAPICall,
   getOfferAPICall,
@@ -54,6 +55,7 @@ import { logInAPICall,
   getMessagesAPICall,
   makeProposalAPICall,
   getUsersOffersAPICall,
+  getProposalsAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -247,5 +249,15 @@ export function* geteUsersOffers(payload) {
   const result = yield getUsersOffersAPICall(payload.payload);
   if (result.status == 200) {
     yield put({ type: GET_USERS_OFFERS_SUCCESS, usersOffers: result.usersOffers })
+  }
+}
+
+export function* getProposalsAsync(payload) {
+  const result = yield getProposalsAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: GET_PROPOSALS_SUCCESS, proposals: result.responseProposals.proposals})//Pedir que BE devuelva count
+  }
+  else{
+    yield put({ type: GET_PROPOSALS_FAILURE, errorMessage: result.errorMessage })
   }
 }

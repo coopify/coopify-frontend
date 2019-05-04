@@ -11,6 +11,7 @@ import { IndividualOffer } from '../components/individualOffer';
 import { FilterOffers } from '../components/filterOffers';
 import { ConversationList } from '../components/conversations';
 import { Chat } from '../components/individualChat';
+import { Proposals } from '../components/proposals';
 
 export default [
   {
@@ -67,6 +68,15 @@ export default [
       title: 'Auth | ReactPWA Demo',
       description: 'User coopies',
       image: LoginImage,
+    },
+  },
+  {
+    path: '/user/proposals',
+    exact: true,
+    component: Proposals,
+    seo: {
+      title: 'Proposals Coopify',
+      description: 'Show proposals made to the user',
     },
   },
   {

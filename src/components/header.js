@@ -119,6 +119,7 @@ class Header extends PureComponent {
                 <div className="navbar-dropdown">
                   <Link to="/user/profile" className="navbar-item"><i className="fa fa-user-o"></i> Profile</Link>
                   <Link to="/user/coopiesAccount" className="navbar-item"><i className="fa"></i> Transactions</Link>
+                  <Link to="/user/proposals" className="navbar-item"><i className="fa"></i> Proposals</Link>
                   <hr className="navbar-divider"/>
                   <a href="#" onClick={e => this.handleLogout(e)} className="navbar-item"><i className="material-icons"></i> Logout</a>
                 </div> 

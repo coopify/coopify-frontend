@@ -391,7 +391,7 @@ style={{display: coopiSelected}}/>
 
   <LoadingScreen
           loading={this.props.loading}
-          bgColor='#125876'
+          bgColor='transparent'
           spinnerColor='#BE1931'
           textColor='#ffffff'
           text= {"Loading..."}> 

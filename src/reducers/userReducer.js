@@ -66,9 +66,9 @@ export const ACCEPT_PROPOSAL_ATTEMPT = 'ACCEPT_PROPOSAL_ATTEMPT'
 export const ACCEPT_PROPOSAL_SUCCESS = 'ACCEPT_PROPOSAL_SUCCESS'
 export const REJECT_PROPOSAL_ATTEMPT = 'REJECT_PROPOSAL_ATTEMPT'
 export const REJECT_PROPOSAL_SUCCESS = 'REJECT_PROPOSAL_SUCCESS'
-export const ATTEMPT_CANCEL_PROPOSAL = 'ATTEMPT_CANCEL_PROPOSAL'
+export const CANCEL_PROPOSAL_ATTEMPT = 'CANCEL_PROPOSAL_ATTEMPT'
 export const CANCEL_PROPOSAL_SUCCESS = 'CANCEL_PROPOSAL_SUCCESS'
-export const ATTEMPT_DISPLAY_TOAST = 'ATTEMPT_DISPLAY_TOAST'
+export const DISPLAY_TOAST_ATTEMPT = 'DISPLAY_TOAST_ATTEMPT'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -464,7 +464,7 @@ export const user = (state = initialUserState, action) => {
         proposal: action.proposal,
       }); 
 
-      case ATTEMPT_DISPLAY_TOAST:
+      case DISPLAY_TOAST_ATTEMPT:
       return _.assignIn({}, state, {
         error: '',
         status: action.payload.status,

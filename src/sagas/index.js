@@ -53,6 +53,6 @@ export default function* rootSaga() {
     takeEvery('GET_PROPOSALS_ATTEMPT', getProposalsAsync),
     takeEvery('ACCEPT_PROPOSAL_ATTEMPT', acceptProposalAsync),
     takeEvery('REJECT_PROPOSAL_ATTEMPT', rejectProposalAsync),
-    takeEvery('ATTEMPT_CANCEL_PROPOSAL', cancelProposalAsync),
+    takeEvery('CANCEL_PROPOSAL_ATTEMPT', cancelProposalAsync),
   ]);
 }

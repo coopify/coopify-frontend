@@ -142,11 +142,11 @@ export const attemptRejectProposal = (payload) => ({
 });
 
 export const attemptCancelProposal = (payload) => ({
-    type: Actions.ATTEMPT_CANCEL_PROPOSAL,
+    type: Actions.CANCEL_PROPOSAL_ATTEMPT,
     payload
 });
 
 export const attemptDisplayToast = (payload) => ({
-    type: Actions.ATTEMPT_DISPLAY_TOAST,
+    type: Actions.DISPLAY_TOAST_ATTEMPT,
     payload
 });

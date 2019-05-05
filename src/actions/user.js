@@ -150,3 +150,9 @@ export const attemptDisplayToast = (payload) => ({
     type: Actions.DISPLAY_TOAST_ATTEMPT,
     payload
 });
+
+
+export const attemptGetConversationProposals = (payload) => ({
+    type: Actions.GET_CONVERSATION_PROPOSAL_ATTEMPT,
+    payload
+});

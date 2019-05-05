@@ -67,6 +67,7 @@ import { user, initialUserState,
     REJECT_PROPOSAL_SUCCESS,
     ATTEMPT_CANCEL_PROPOSAL,
     CANCEL_PROPOSAL_SUCCESS,
+    ATTEMPT_DISPLAY_TOAST,
 
  } from './userReducer';
 //import { serviceReducers, initialServiceState } from './serviceReducer';
@@ -150,6 +151,7 @@ const Actions = {
     REJECT_PROPOSAL_SUCCESS,
     ATTEMPT_CANCEL_PROPOSAL,
     CANCEL_PROPOSAL_SUCCESS,
+    ATTEMPT_DISPLAY_TOAST,
 }
 
 export {
@@ -225,4 +227,5 @@ export {
     REJECT_PROPOSAL_SUCCESS, 
     ATTEMPT_CANCEL_PROPOSAL,
     CANCEL_PROPOSAL_SUCCESS,
+    ATTEMPT_DISPLAY_TOAST,
 }

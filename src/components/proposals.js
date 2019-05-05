@@ -118,48 +118,48 @@ class Proposals extends React.Component {
       accessor: 'proposals',
       Cell: props => (
         <div>
-            <div className="container" style={{ textAlign: 'left' }}>
-                <div className="row">
-                    <div className="col-sm-8">{props.original.proposer.name} proposed for the following:
-                    <Link style={{padding: "0"}} to={`/offers/${props.original.offerId}`} className="navbar-item"><i className="fa"></i>Offer: {props.original.purchasedOffer.title}</Link></div>
-                </div>
-                <div className="row">
-                    <div className="col-sm-4">Proposed Exchange Method: {props.original.exchangeMethod}</div>
-                </div>
-                <div className="row">
-                    {props.original.proposedPrice ? <div className="col-sm-4">Proposes {props.original.proposedPrice} Coopies per {props.original.exchangeInstance}</div> : ''}
-                </div>
-                <div className="row">
-                    {props.original.exchangeMethod == 'Exchange' ? <div className="col-sm-4">Proposed Service: {props.original.proposedService.title}</div> : ''}
-                </div>
-                <div>
-                  <Proposal
-                  proposal={props.original}
-                  buttonText= "See proposal"
-                  />
-                </div>
+          <div className="container" style={{ textAlign: 'left' }}>
+            <div className="row">
+              <div className="col-sm-8">{props.original.proposer.name} proposed for the following:
+                    <Link style={{ padding: "0" }} to={`/offers/${props.original.offerId}`} className="navbar-item"><i className="fa"></i>Offer: {props.original.purchasedOffer.title}</Link></div>
             </div>
+            <div className="row">
+              <div className="col-sm-4">Proposed Exchange Method: {props.original.exchangeMethod}</div>
+            </div>
+            <div className="row">
+              {props.original.proposedPrice ? <div className="col-sm-4">Proposes {props.original.proposedPrice} Coopies per {props.original.exchangeInstance}</div> : ''}
+            </div>
+            <div className="row">
+              {props.original.exchangeMethod == 'Exchange' ? <div className="col-sm-4">Proposed Service: {props.original.proposedService.title}</div> : ''}
+            </div>
+            <div>
+              <Proposal
+                proposal={props.original}
+                buttonText="See proposal"
+              />
+            </div>
+          </div>
         </div>
       )
     }]
 
     return (
       <Protected>
-      <GuestLayout>
+        <GuestLayout>
 
-  <LoadingScreen
-          loading={this.props.loading}
-          bgColor='#125876'
-          spinnerColor='#BE1931'
-          textColor='#ffffff'
-          text= {"Loading..."}> 
+          <LoadingScreen
+            loading={this.props.loading}
+            bgColor='#125876'
+            spinnerColor='#BE1931'
+            textColor='#ffffff'
+            text={"Loading..."}>
 
-          <div className={styles.container}>
-            <form >
+            <div className={styles.container}>
+              <form >
 
-              <h2 style={{ textAlign: 'center' }}> Proposals </h2>
+                <h2 style={{ textAlign: 'center' }}> Proposals </h2>
 
-              {/* <ReactTable
+                {/* <ReactTable
                 defaultPageSize={this.state.limit}
                 data={data}
                 columns={columns}
@@ -171,41 +171,41 @@ class Proposals extends React.Component {
                 manual
               /> */}
 
-<div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white'}}>
-  <GridList cellHeight={180} style={{height: '80%', width: '100%'}}>
-        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-          <ListSubheader component="div">Proposals</ListSubheader>
-        </GridListTile>
-        {proposals.map(tile => (
-          <GridListTile>
-            <img src=
-            {tile.purchasedOffer.images ? tile.purchasedOffer.images[0] ? tile.purchasedOffer.images[0].url : "": ""} 
-            alt={tile.title} />
-            <GridListTileBar
-              title={tile.purchasedOffer.title}
-              subtitle={<span>by: {tile.proposer.name}</span>}
-              actionIcon={
+                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white' }}>
+                  <GridList cellHeight={180} style={{ height: '80%', width: '100%' }}>
+                    <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+                      <ListSubheader component="div">Proposals</ListSubheader>
+                    </GridListTile>
+                    {proposals.map(tile => (
+                      <GridListTile>
+                        <img src=
+                          {tile.purchasedOffer.images ? tile.purchasedOffer.images[0] ? tile.purchasedOffer.images[0].url : "" : ""}
+                          alt={tile.title} />
+                        <GridListTileBar
+                          title={tile.purchasedOffer.title}
+                          subtitle={<span>by: {tile.proposer.name}</span>}
+                          actionIcon={
 
-            <Proposal
-            proposal={tile}
-            buttonText={<InfoIcon/>}
-            isInfo={true}/>
+                            <Proposal
+                              proposal={tile}
+                              buttonText={<InfoIcon />}
+                              isInfo={true} />
 
-              }
-            />
+                          }
+                        />
 
-          </GridListTile>
-        ))}
-</GridList>
-</div>
+                      </GridListTile>
+                    ))}
+                  </GridList>
+                </div>
 
-            </form>
-            <ToastContainer autoClose={3000} />
-          </div>
+              </form>
+              <ToastContainer autoClose={3000} />
+            </div>
 
           </LoadingScreen>
         </GuestLayout>
-        </Protected>
+      </Protected>
     );
   }
 }

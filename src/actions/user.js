@@ -145,3 +145,8 @@ export const attemptCancelProposal = (payload) => ({
     type: Actions.ATTEMPT_CANCEL_PROPOSAL,
     payload
 });
+
+export const attemptDisplayToast = (payload) => ({
+    type: Actions.ATTEMPT_DISPLAY_TOAST,
+    payload
+});

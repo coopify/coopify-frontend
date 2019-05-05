@@ -4,7 +4,7 @@ import ReduxClient from '@pawjs/redux/client';
 import createSagaMiddleware from 'redux-saga';
 import mySaga from '../sagas';
 import Pusher from 'pusher-js';
-import {attemptUpdateMessage} from '../actions/user';
+import {attemptUpdateMessage, attemptDisplayToast } from '../actions/user';
 
 let instance =  null;
 let pusher = null;
@@ -52,6 +52,14 @@ export default class SingletonPusher {
         };
         dispatch(attemptUpdateMessage(payload));
     });
+
+    channel.bind('notifyStatus', function(data) {   
+      const payload =
+      {
+        status: data.status,
+      };
+      dispatch(attemptDisplayToast(payload));
+  });
   }
   }
 

@@ -55,7 +55,7 @@ export default [
     exact: true,
     component: Profile,
     seo: {
-      title: 'Auth | ReactPWA Demo',
+      title: 'Profile',
       description: 'Implementing Auth with ReactPWA is simple. Check out this fake auth example for more details',
       image: LoginImage,
     },
@@ -65,7 +65,7 @@ export default [
     exact: true,
     component: CoopiesAccount,
     seo: {
-      title: 'Auth | ReactPWA Demo',
+      title: 'My account',
       description: 'User coopies',
       image: LoginImage,
     },
@@ -84,7 +84,7 @@ export default [
     exact: true,
     component: Offers,
     seo: {
-      title: 'Auth | ReactPWA Demo',
+      title: 'Offers',
       description: 'Offers',
       image: LoginImage,
     },
@@ -94,7 +94,7 @@ export default [
     exact: true,
     component: IndividualOffer,
     seo: {
-      title: 'Auth | ReactPWA Demo',
+      title: 'Offer',
       description: 'Offers',
       image: LoginImage,
     },
@@ -114,7 +114,7 @@ export default [
     exact: true,
     component: OfferCreation,
     seo: {
-      title: 'Auth | ReactPWA Demo',
+      title: 'Create offer',
       description: 'User coopies',
       image: LoginImage,
     },
@@ -124,7 +124,7 @@ export default [
     exact: true,
     component: ConversationList,
     seo: {
-      title: 'Auth | ReactPWA Demo',
+      title: 'My conversations',
       description: 'User coopies',
       image: LoginImage,
     },
@@ -134,7 +134,7 @@ export default [
     exact: true,
     component: Chat,
     seo: {
-      title: 'Auth | ReactPWA Demo',
+      title: 'Chat',
       description: 'Offers',
       image: LoginImage,
     },

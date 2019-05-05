@@ -23,6 +23,7 @@ import StepZilla from "react-stepzilla";
 import {loadStyle} from "@pawjs/pawjs/src/utils/utils";
 import BasicData from './offerCreation/basicData.js';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
+import LoadingScreen from 'react-loading-screen';
 
 
 export default @connect(state => ({
@@ -172,6 +173,13 @@ class OfferCreation extends React.Component {
       <Protected>
       <GuestLayout>
 
+  <LoadingScreen
+          loading={this.props.loading}
+          bgColor='#125876'
+          spinnerColor='#BE1931'
+          textColor='#ffffff'
+          text= {"Loading..."}> 
+
       <div className='step-progress'>
         <StepZilla
               steps={steps}
@@ -179,6 +187,7 @@ class OfferCreation extends React.Component {
               nextTextOnFinalActionStep={"Next"}
           />
       </div>
+      </LoadingScreen>
 
       </GuestLayout>
      </Protected>

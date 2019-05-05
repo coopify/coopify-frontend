@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import logo from '../assets/logo.png';
-import {attemptLogoutAction, loadState, attemptUpdateMessage } from '../actions/user';
-
+import {attemptLogoutAction, loadState, attemptUpdateMessage, resetError } from '../actions/user';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default @connect(state => ({
   loggedUser: state.user,
-  userDidLog: state.userDidLog
+  userDidLog: state.userDidLog,
+  status: state.status,
 }))
 
 
@@ -28,14 +30,25 @@ class Header extends PureComponent {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
     userDidLog: PropTypes.bool,
+    status: PropTypes.string,
   };
 
   static defaultProps = {
     dispatch: () => {
     },
     loggedUser: {},
-    userDidLog: false
+    userDidLog: false,
+    status: '',
   };
+
+  notify(message, isError){
+    if(isError){
+      toast.error(message);
+    }
+    else{
+      toast.success(message)
+    }
+  }
   
 
   toggleMenuBar(e) {
@@ -66,6 +79,11 @@ class Header extends PureComponent {
     }))
   }
 
+  componentDidMount(){
+    const {dispatch} = this.props;
+    dispatch(resetError());
+  }
+
   handleLogout(e){
     const { dispatch } = this.props;  
     dispatch(attemptLogoutAction());
@@ -73,7 +91,8 @@ class Header extends PureComponent {
 
   render() {
     const { open } = this.state;
-    const { userDidLog, loggedUser } = this.props
+    const { userDidLog, loggedUser, status } = this.props
+    if(status && status.length > 0) this.notify(`Your proposal was ${status}`, false)
 
     return (
       <div>
@@ -128,6 +147,7 @@ class Header extends PureComponent {
             }
           </div>
         </nav>
+        <ToastContainer autoClose={false}/>
       </div>
     );
   }

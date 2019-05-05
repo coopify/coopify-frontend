@@ -14,6 +14,7 @@ import ReactTable from "react-table";
 import 'react-table/react-table.css'
 import StarRatingComponent from 'react-star-rating-component';
 import { Link } from 'react-router-dom';
+import LoadingScreen from 'react-loading-screen';
 
 export default @connect(state => ({
   error: state.error,
@@ -156,6 +157,13 @@ class Offers extends React.Component {
     }]
 
     return (
+      <LoadingScreen
+      loading={this.props.loading}
+      bgColor='#125876'
+      spinnerColor='#BE1931'
+      textColor='#ffffff'
+      text= {"Loading..."}> 
+
           <div className={styles.container}>
             <form >
 
@@ -176,6 +184,7 @@ class Offers extends React.Component {
             </form>
             <ToastContainer autoClose={3000} />
           </div>
+          </LoadingScreen>
     );
   }
 }

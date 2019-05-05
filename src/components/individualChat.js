@@ -43,7 +43,10 @@ import Typography from '@material-ui/core/Typography';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import { MessageBox } from 'react-chat-elements'
 
+import { Proposal } from './proposal';
+
 import { getConversation } from '../api';
+import LoadingScreen from 'react-loading-screen';
 
 
 export default @connect(state => ({
@@ -179,19 +182,19 @@ class Chat extends React.Component {
       });
   }
 
-  handleServiceChange(e){
+  handleServiceChange(e, rc){
     this.setState({
       ...this.state,
       selectedService: e.target.value,
-      selectedServiceText: e.target.text,
+      selectedServiceText: rc.props.name,
   });
   }
 
-  handleBarterService(e){
+  handleBarterService(e, rc){
     this.setState({
       ...this.state,
       myExchangeService: e.target.value,
-      exchangeServiceText: e.target.text,
+      exchangeServiceText: rc.props.name,
   });
   }
 
@@ -284,10 +287,10 @@ class Chat extends React.Component {
          componentToRender = 
          (<Select style={{width: "100%"}}
          value={this.state.selectedService}
-         onChange={e => this.handleServiceChange(e)}>
+         onChange={(e, f) => this.handleServiceChange(e, f)}>
                {
                   this.props.userOffers.map(o => (
-                    <MenuItem value={o.id}>{o.title}</MenuItem>
+                    <MenuItem value={o.id} name={o.title}>{o.title}</MenuItem>
                   ))
                 }
             </Select>);
@@ -333,10 +336,10 @@ style={{display: coopiSelected}}/>
 
  <Select style={{width: "100%", display: barterSelected}}
           value={this.state.myExchangeService}
-          onChange={e => this.handleBarterService(e)}>
+          onChange={(e, f) => this.handleBarterService(e, f)}>
      {
           this.props.myOffers.map(o => (
-            <MenuItem value={o.id}>{o.title}</MenuItem>
+            <MenuItem value={o.id} name={o.title}>{o.title}</MenuItem>
           ))
       }
 </Select>  
@@ -357,13 +360,13 @@ style={{display: coopiSelected}}/>
               (
                 <Typography component="p">
                   {this.state.exchangeInstanceSelected} <br/>
-                  por <br/>
+                  for <br/>
                   {this.state.coopiValue} COOPI
                 </Typography>
               ) : 
               (
                 <Typography component="p">
-                por <br/>
+                for <br/>
                 {this.state.exchangeServiceText}
               </Typography>
               )}
@@ -379,13 +382,20 @@ style={{display: coopiSelected}}/>
     const { loading, error, loggedUser, messages, proposal } = this.props
     const { offer, categories, activeStep } = this.state
     const steps = this.getSteps();
-    const proposalMade = false;
+    const proposalMade = proposal.length > 0;
 
     return (
       <Protected>
       <GuestLayout>
 
-         <div className='message-list' style={{height:"300px", overflowY: "auto"}}>
+  <LoadingScreen
+          loading={this.props.loading}
+          bgColor='#125876'
+          spinnerColor='#BE1931'
+          textColor='#ffffff'
+          text= {"Loading..."}> 
+
+         <div className='message-list' style={{height:"300px", overflowY: "auto", flexDirection: "column-reverse"}}>
 
             {
                  messages.map((m) => {
@@ -400,17 +410,20 @@ style={{display: coopiSelected}}/>
                         position={item.mine ? 'right' : 'left'}
                         type={'text'}
                         text={item.message}
+                        status="read"
                         date= {item.date}/>
                 ))
             }
 
               </div>
 
-              {proposalMade ? 
+            {proposalMade ? 
             (
-              <CommonButton style={{width: "100%"}} onClick={e => this.handleClickOpen(e)}>
-              Show offer proposal <i className="fa fa-handshake-o" aria-hidden="true"></i>
-              </CommonButton>
+              <Proposal
+              proposal= {this.props.proposal}
+              buttonText= {"See proposal"}
+              isInfo={false}
+              />
             ) : 
             (
               <CommonButton style={{width: "100%"}} onClick={e => this.handleClickOpen(e)}>
@@ -418,34 +431,6 @@ style={{display: coopiSelected}}/>
               </CommonButton>
             ) }
 
-          {proposalMade ? 
-          (
-
-            <Dialog
-            open={this.state.modalOpen}
-            onClose={this.handleClose}
-            aria-labelledby="form-dialog-title"
-          >
-            <DialogTitle id="form-dialog-title">Offer proposal</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                You have the following offer proposal:
-              </DialogContentText>
-
-          <div>
-            <CommonButton onClick={this.handleClose} color="primary">
-            <i class="fa fa-times"></i> &nbsp; Decline
-              </CommonButton>
-              <CommonButton onClick={this.handleMakeOfferProposal} color="primary">
-              <i class="fa fa-check"></i> &nbsp; Accept
-              </CommonButton>
-          </div>
-
-            </DialogContent>
-          </Dialog>
-
-          ) :
-          (
             <Dialog
             open={this.state.modalOpen}
             onClose={this.handleClose}
@@ -502,13 +487,12 @@ style={{display: coopiSelected}}/>
               </CommonButton>
             </DialogActions>
           </Dialog>
-          )}
-
 
             <Input
             placeholder="Type here..."
             multiline={false}
             onChange={e => this.onChangeChatInput(e)}
+            value={this.state.chatMessage}
             rightButtons={
                 <Button
                     color='white'
@@ -517,6 +501,7 @@ style={{display: coopiSelected}}/>
                     text={<i className="fa fa-caret-right" style={{fontSize:"48px", color: "blue"}}></i>}/>
             }/>
 
+          </LoadingScreen>
       </GuestLayout>
      </Protected>
     );

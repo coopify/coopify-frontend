@@ -23,6 +23,7 @@ import {loadStyle} from "@pawjs/pawjs/src/utils/utils";
 import BasicData from './offerCreation/basicData.js';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import { ChatList } from 'react-chat-elements'
+import LoadingScreen from 'react-loading-screen';
 
 
 export default @connect(state => ({
@@ -87,6 +88,14 @@ class ConversationList extends React.Component {
       <Protected>
       <GuestLayout>
 
+          <LoadingScreen
+          loading={this.props.loading}
+          bgColor='#125876'
+          spinnerColor='#BE1931'
+          textColor='#ffffff'
+          text= {"Loading..."}> 
+
+
         <ChatList
             className='chat-list'
             dataSource={
@@ -107,6 +116,7 @@ class ConversationList extends React.Component {
           }
               onClick={e => this.displayChat(e)} />
 
+        </LoadingScreen>
       </GuestLayout>
      </Protected>
     );

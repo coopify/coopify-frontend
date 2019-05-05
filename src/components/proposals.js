@@ -12,6 +12,15 @@ import Protected from './protected';
 import ReactTable from "react-table";
 import 'react-table/react-table.css'
 import { Link } from 'react-router-dom';
+import { Proposal } from './proposal';
+
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
+import LoadingScreen from 'react-loading-screen';
 
 export default @connect(state => ({
   error: state.error,
@@ -102,40 +111,55 @@ class Proposals extends React.Component {
   }
 
   render() {
-    const TheadComponent = props => null; // a component returning null (to hide) or you could write as per your requirement
+    const TheadComponent = props => null;
     const { error, proposals, countProposals } = this.props
     const data = proposals
     const columns = [{
       accessor: 'proposals',
       Cell: props => (
         <div>
-            <div className="container" style={{ textAlign: 'left' }}>
-                <div className="row">
-                    <div className="col-sm-4"><h4><Link to={`/offers/${props.original.offerId}`} className="navbar-item"><i className="fa"></i>Offer: {props.original.offer.title}</Link></h4></div>
-                </div>
-                <div className="row">
-                    <div className="col-sm-4"><h4>Proposed Exchange Method: {props.original.exchangeMethod}</h4></div>
-                </div>
-                <div className="row">
-                    {props.original.proposedPrice ? <div className="col-sm-4"><h4>Proposes {props.original.proposedPrice} Coopies per {props.original.exchangeInstance}</h4></div> : ''}
-                </div>
-                <div className="row">
-                    {props.original.exchangeMethod == 'Exchange' ? <div className="col-sm-4"><h4>proposedServiceId: {props.original.proposedServiceId}</h4></div> : ''}
-                </div>
+          <div className="container" style={{ textAlign: 'left' }}>
+            <div className="row">
+              <div className="col-sm-8">{props.original.proposer.name} proposed for the following:
+                    <Link style={{ padding: "0" }} to={`/offers/${props.original.offerId}`} className="navbar-item"><i className="fa"></i>Offer: {props.original.purchasedOffer.title}</Link></div>
             </div>
+            <div className="row">
+              <div className="col-sm-4">Proposed Exchange Method: {props.original.exchangeMethod}</div>
+            </div>
+            <div className="row">
+              {props.original.proposedPrice ? <div className="col-sm-4">Proposes {props.original.proposedPrice} Coopies per {props.original.exchangeInstance}</div> : ''}
+            </div>
+            <div className="row">
+              {props.original.exchangeMethod == 'Exchange' ? <div className="col-sm-4">Proposed Service: {props.original.proposedService.title}</div> : ''}
+            </div>
+            <div>
+              <Proposal
+                proposal={props.original}
+                buttonText="See proposal"
+              />
+            </div>
+          </div>
         </div>
       )
     }]
 
     return (
       <Protected>
-      <GuestLayout>
-          <div className={styles.container}>
-            <form >
+        <GuestLayout>
 
-              <h2 style={{ textAlign: 'center' }}> Proposals </h2>
+          <LoadingScreen
+            loading={this.props.loading}
+            bgColor='#125876'
+            spinnerColor='#BE1931'
+            textColor='#ffffff'
+            text={"Loading..."}>
 
-              <ReactTable
+            <div className={styles.container}>
+              <form >
+
+                <h2 style={{ textAlign: 'center' }}> Proposals </h2>
+
+                {/* <ReactTable
                 defaultPageSize={this.state.limit}
                 data={data}
                 columns={columns}
@@ -145,13 +169,43 @@ class Proposals extends React.Component {
                 pages={ this.state.limit != 0 ? Math.ceil(countProposals / this.state.limit) : countProposals }
                 noDataText = 'Has no proposals'
                 manual
-              />
+              /> */}
 
-            </form>
-            <ToastContainer autoClose={3000} />
-          </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white' }}>
+                  <GridList cellHeight={180} style={{ height: '80%', width: '100%' }}>
+                    <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+                      <ListSubheader component="div">Proposals</ListSubheader>
+                    </GridListTile>
+                    {proposals.map(tile => (
+                      <GridListTile>
+                        <img src=
+                          {tile.purchasedOffer.images ? tile.purchasedOffer.images[0] ? tile.purchasedOffer.images[0].url : "" : ""}
+                          alt={tile.title} />
+                        <GridListTileBar
+                          title={tile.purchasedOffer.title}
+                          subtitle={<span>by: {tile.proposer.name}</span>}
+                          actionIcon={
+
+                            <Proposal
+                              proposal={tile}
+                              buttonText={<InfoIcon />}
+                              isInfo={true} />
+
+                          }
+                        />
+
+                      </GridListTile>
+                    ))}
+                  </GridList>
+                </div>
+
+              </form>
+              <ToastContainer autoClose={3000} />
+            </div>
+
+          </LoadingScreen>
         </GuestLayout>
-        </Protected>
+      </Protected>
     );
   }
 }

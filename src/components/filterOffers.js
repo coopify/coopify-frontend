@@ -24,6 +24,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
+import LoadingScreen from 'react-loading-screen';
 
 
 export default @connect(state => ({
@@ -192,17 +193,11 @@ class FilterOffers extends React.Component {
                         <Col sm={3} style={{marginTop: "5%"}}>
 
 
-{/* <SearchField 
-  placeholder='Search offer...'
-  onChange={e => this.handleSearchNameChange(e)}
-  value = {this.state.searchName}
-  onSearchClick = {e => this.handleApplyFilter(e)}
-/> */}
-
 <Input type="text"
 placeholder='Search offer...'
 onChange={e => this.handleSearchNameChange(e)}
 value = {this.state.searchName}
+disableUnderline = {true}
 />
 
 <h4 style={{color: "black", marginTop: "10%"}}>Payment instance</h4>

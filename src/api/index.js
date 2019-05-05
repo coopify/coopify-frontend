@@ -471,25 +471,75 @@ export function getProposalsAPICall(payload){
 
   //const queryParams = stringify({limit,skip})
 
-  // axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
-  // return axios.get(
-  //   `${global.API_URL}/api/proposals/`).
-  //   then((response) => {
-  //     return {       
-  //       status: response.status,
-  //       responseProposals: response.data,
-  //     }
-  //   }).catch((e) => { 
-  //     console.log("getProposalsAPICall Error: " + JSON.stringify(e) + "  " + e);
-  //     return {
-  //       status: e.response.status,
-  //       errorMessage: e.response.data.message
-  //   }});
+  return axios.get(
+    `${global.API_URL}/api/proposals/`).
+    then((response) => {
+      return {       
+        status: response.status,
+        responseProposals: response.data,
+      }
+    }).catch((e) => { 
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+} 
 
-  return {
-    status: 200,
-    responseProposals: {proposals: [{id: 1234, offerId: 'af8ba020-669e-11e9-b85a-d904f913a0ff', offer: {title: 'Garage Sale'}, conversationId: 789456, exchangeMethod: 'Coopy', exchangeInstance: 'Hour', proposedPrice: 10, porposedServiceId: '', status: 'Waiting'},
-    {id: 111222, offerId: 222333, offer: {title: 'Builder'}, conversationId: 56466, exchangeMethod: 'Exchange', proposedServiceId: 147258, status: 'Waiting'}]}
-  };
+export async function acceptProposalAPICall(payload){
+    const token = payload.token;
+    const proposalId = payload.proposalId;  
+
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+    return axios.put(
+      `${global.API_URL}/api/proposals/${proposalId}/accept`).
+        then((response) => {
+        return {       
+          status: response.status,
+          proposal: response.data.proposal
+        }
+      }).catch((e) => ({
+        status: response.status,
+        data: response.data.data.message
+      }));
+} 
+
+export async function rejectProposalAPICall(payload){
+  const token = payload.token;
+  const proposalId = payload.proposalId;  
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.put(
+    `${global.API_URL}/api/proposals/${proposalId}/reject`).
+      then((response) => {
+      return {       
+        status: response.status,
+        proposal: response.data.proposal
+      }
+    }).catch((e) => ({
+      status: response.status,
+      data: response.data.data.message
+    }));
+} 
+
+export async function cancelProposalAPICall(payload){
+  const token = payload.token;
+  const proposalId = payload.proposalId;  
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.put(
+    `${global.API_URL}/api/proposals/${proposalId}/cancel`).
+      then((response) => {
+      return {       
+        status: response.status,
+        proposal: response.data.proposal
+      }
+    }).catch((e) => ({
+      status: response.status,
+      data: response.data.data.message
+    }));
 }

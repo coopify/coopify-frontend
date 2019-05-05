@@ -120,7 +120,14 @@ class IndividualOffer extends React.Component {
           bgColor='#125876'
           spinnerColor='#BE1931'
           textColor='#ffffff'
-          text= {"Iniciando chat con el proveedor..."}> 
+          text= {"Loading..."}> 
+
+          <LoadingScreen
+          loading={this.props.loading}
+          bgColor='#125876'
+          spinnerColor='#BE1931'
+          textColor='#ffffff'
+          text= {"Loading..."}> 
 
           <div className="columns is-centered p-t-xl p-r-md p-l-md">
 
@@ -189,6 +196,7 @@ class IndividualOffer extends React.Component {
             </div>
           </div>
 
+          </LoadingScreen>
           </LoadingScreen>
         </GuestLayout>
       </Protected>

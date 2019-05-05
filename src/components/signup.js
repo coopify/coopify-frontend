@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom'
 import { FACEBOOK, GOOGLE } from '../constants/constants';
 import { getUrlSocialAPICall } from '../api';
 import SingletonPusher from './singletonPusher';
+import LoadingScreen from 'react-loading-screen';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -103,6 +104,14 @@ class Signup extends React.Component {
 
     return (
         <GuestLayout>
+
+            <LoadingScreen
+          loading={this.props.loading}
+          bgColor='#125876'
+          spinnerColor='#BE1931'
+          textColor='#ffffff'
+          text= {"Loading..."}> 
+
           <div className="columns is-centered p-t-xl p-r-md p-l-md">
           <div className="column is-half">
             <div className="box">
@@ -201,6 +210,7 @@ class Signup extends React.Component {
             <ToastContainer autoClose={3000}/>
           </div>
         </div>
+        </LoadingScreen>
         </GuestLayout>
 
     );

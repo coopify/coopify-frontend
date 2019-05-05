@@ -11,7 +11,7 @@ export default [
     exact: true,
     component: import('../components/home'),
     seo: {
-      title: 'Home | ReactPWA Demo',
+      title: 'Coopify',
       description: 'Feature set offered by ReactPWA with pluggable @pawjs plugins. ReactPWA is highly customizable and once can achieve anything as it is extendable',
       image: FeaturesImage,
     },

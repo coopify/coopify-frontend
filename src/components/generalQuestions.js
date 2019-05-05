@@ -20,6 +20,7 @@ import { Link } from 'react-router-dom';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import { Button } from 'react-bootstrap';
+import LoadingScreen from 'react-loading-screen';
 
 export default @connect(state => ({
   error: state.error,

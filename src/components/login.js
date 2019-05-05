@@ -15,6 +15,7 @@ import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import Protected from './protected';
 import SingletonPusher from './singletonPusher';
+import LoadingScreen from 'react-loading-screen';
 
 export default @connect(state => ({
   userDidLog: state.userDidLog,
@@ -111,6 +112,14 @@ class Login extends React.Component {
 
     return (
       <GuestLayout>
+
+          <LoadingScreen
+          loading={this.props.loading}
+          bgColor='#125876'
+          spinnerColor='#BE1931'
+          textColor='#ffffff'
+          text= {"Loading..."}> 
+
         <div className="columns is-centered p-t-xl p-r-md p-l-md">
           <div className="column is-half">
             <div className="box">
@@ -173,6 +182,8 @@ class Login extends React.Component {
             <ToastContainer autoClose={3000}/>
           </div>
         </div>
+
+        </LoadingScreen>
       </GuestLayout>
     );
   }

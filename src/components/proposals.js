@@ -14,6 +14,14 @@ import 'react-table/react-table.css'
 import { Link } from 'react-router-dom';
 import { Proposal } from './proposal';
 
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
+import LoadingScreen from 'react-loading-screen';
+
 export default @connect(state => ({
   error: state.error,
   loading: state.loading,
@@ -103,7 +111,7 @@ class Proposals extends React.Component {
   }
 
   render() {
-    const TheadComponent = props => null; // a component returning null (to hide) or you could write as per your requirement
+    const TheadComponent = props => null;
     const { error, proposals, countProposals } = this.props
     const data = proposals
     const columns = [{
@@ -138,12 +146,20 @@ class Proposals extends React.Component {
     return (
       <Protected>
       <GuestLayout>
+
+  <LoadingScreen
+          loading={this.props.loading}
+          bgColor='#125876'
+          spinnerColor='#BE1931'
+          textColor='#ffffff'
+          text= {"Loading..."}> 
+
           <div className={styles.container}>
             <form >
 
               <h2 style={{ textAlign: 'center' }}> Proposals </h2>
 
-              <ReactTable
+              {/* <ReactTable
                 defaultPageSize={this.state.limit}
                 data={data}
                 columns={columns}
@@ -153,11 +169,41 @@ class Proposals extends React.Component {
                 pages={ this.state.limit != 0 ? Math.ceil(countProposals / this.state.limit) : countProposals }
                 noDataText = 'Has no proposals'
                 manual
-              />
+              /> */}
+
+<div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white'}}>
+  <GridList cellHeight={180} style={{height: '80%', width: '100%'}}>
+        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+          <ListSubheader component="div">Proposals</ListSubheader>
+        </GridListTile>
+        {proposals.map(tile => (
+          <GridListTile>
+            <img src=
+            {tile.purchasedOffer.images ? tile.purchasedOffer.images[0] ? tile.purchasedOffer.images[0].url : "": ""} 
+            alt={tile.title} />
+            <GridListTileBar
+              title={tile.purchasedOffer.title}
+              subtitle={<span>by: {tile.proposer.name}</span>}
+              actionIcon={
+
+            <Proposal
+            proposal={tile}
+            buttonText={<InfoIcon/>}
+            isInfo={true}/>
+
+              }
+            />
+
+          </GridListTile>
+        ))}
+</GridList>
+</div>
 
             </form>
             <ToastContainer autoClose={3000} />
           </div>
+
+          </LoadingScreen>
         </GuestLayout>
         </Protected>
     );

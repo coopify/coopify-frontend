@@ -171,14 +171,16 @@ class Proposal extends React.Component {
     }
 
   render() {
-    const { proposal, buttonText, loggedUser } = this.props
+    const { proposal, buttonText, loggedUser, isInfo } = this.props
     const { modalOpen } = this.state
 
+    const stylesInfo = isInfo ? {color: 'rgba(255, 255, 255, 0.54)'} : {width: "100%" };
+    const styleProposalIcon = isInfo ? "" : <i className="fa fa-handshake-o" aria-hidden="true"></i>;
     return (
 
         <div>
-        <CommonButton style={{width: "100%" }} onClick={e => this.handleClickOpen(e)}>
-        {buttonText} <i className="fa fa-handshake-o" aria-hidden="true"></i>
+        <CommonButton style={stylesInfo} onClick={e => this.handleClickOpen(e)}>
+        {buttonText} {styleProposalIcon}
         </CommonButton>
 
 
@@ -201,13 +203,13 @@ class Proposal extends React.Component {
               proposal.exchangeMethod == 'Coopy' ?
               (
                 <Typography component="p">
-                  por <br/>
+                  for <br/>
                   {proposal.proposedPrice} COOPI / {proposal.exchangeInstance}
                 </Typography>
               ) : 
               (
                 <Typography component="p">
-                por <br/>
+                for <br/>
                 {proposal.proposedService.title}
               </Typography>
               )}
@@ -237,7 +239,7 @@ class Proposal extends React.Component {
     (
         <div>
         <CommonButton onClick={this.handleCancel} color="primary">
-        Cancel this proposal
+        <i class="fa fa-ban"></i> &nbsp; Cancel this proposal
         </CommonButton>
         </div>
     ) :
@@ -245,7 +247,7 @@ class Proposal extends React.Component {
 }
             <div>
               <CommonButton onClick={this.handleClose} color="primary">
-              Go back
+              <i class="fa fa-arrow-circle-left"></i> &nbsp; Go back
               </CommonButton>
               </div>
           </div>

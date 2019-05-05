@@ -17,6 +17,7 @@ import Switch from "react-switch";
 import Protected from './protected';
 import { Link } from 'react-router-dom';
 import {loadScript} from "@pawjs/pawjs/src/utils/utils";
+import LoadingScreen from 'react-loading-screen';
 
 export default @connect(state => ({
   loggedUser: state.user, //el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
@@ -174,6 +175,14 @@ class Profile extends React.Component {
     return (
       <Protected>
       <GuestLayout>
+
+          <LoadingScreen
+          loading={this.props.loading}
+          bgColor='#125876'
+          spinnerColor='#BE1931'
+          textColor='#ffffff'
+          text= {"Loading..."}> 
+
         <div className={styles.container}>
         <form onSubmit={e => this.handleSubmit(e)}>
         <Row>
@@ -315,6 +324,8 @@ class Profile extends React.Component {
         </form>
         </div>
         <ToastContainer autoClose={3000}/>
+
+        </LoadingScreen>
       </GuestLayout>
       </Protected>
     );

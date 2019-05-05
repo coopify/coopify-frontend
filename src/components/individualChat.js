@@ -46,6 +46,7 @@ import { MessageBox } from 'react-chat-elements'
 import { Proposal } from './proposal';
 
 import { getConversation } from '../api';
+import LoadingScreen from 'react-loading-screen';
 
 
 export default @connect(state => ({
@@ -181,19 +182,19 @@ class Chat extends React.Component {
       });
   }
 
-  handleServiceChange(e){
+  handleServiceChange(e, rc){
     this.setState({
       ...this.state,
       selectedService: e.target.value,
-      selectedServiceText: e.target.text,
+      selectedServiceText: rc.props.name,
   });
   }
 
-  handleBarterService(e){
+  handleBarterService(e, rc){
     this.setState({
       ...this.state,
       myExchangeService: e.target.value,
-      exchangeServiceText: e.target.text,
+      exchangeServiceText: rc.props.name,
   });
   }
 
@@ -286,10 +287,10 @@ class Chat extends React.Component {
          componentToRender = 
          (<Select style={{width: "100%"}}
          value={this.state.selectedService}
-         onChange={e => this.handleServiceChange(e)}>
+         onChange={(e, f) => this.handleServiceChange(e, f)}>
                {
                   this.props.userOffers.map(o => (
-                    <MenuItem value={o.id}>{o.title}</MenuItem>
+                    <MenuItem value={o.id} name={o.title}>{o.title}</MenuItem>
                   ))
                 }
             </Select>);
@@ -335,10 +336,10 @@ style={{display: coopiSelected}}/>
 
  <Select style={{width: "100%", display: barterSelected}}
           value={this.state.myExchangeService}
-          onChange={e => this.handleBarterService(e)}>
+          onChange={(e, f) => this.handleBarterService(e, f)}>
      {
           this.props.myOffers.map(o => (
-            <MenuItem value={o.id}>{o.title}</MenuItem>
+            <MenuItem value={o.id} name={o.title}>{o.title}</MenuItem>
           ))
       }
 </Select>  
@@ -359,13 +360,13 @@ style={{display: coopiSelected}}/>
               (
                 <Typography component="p">
                   {this.state.exchangeInstanceSelected} <br/>
-                  por <br/>
+                  for <br/>
                   {this.state.coopiValue} COOPI
                 </Typography>
               ) : 
               (
                 <Typography component="p">
-                por <br/>
+                for <br/>
                 {this.state.exchangeServiceText}
               </Typography>
               )}
@@ -386,6 +387,13 @@ style={{display: coopiSelected}}/>
     return (
       <Protected>
       <GuestLayout>
+
+  <LoadingScreen
+          loading={this.props.loading}
+          bgColor='#125876'
+          spinnerColor='#BE1931'
+          textColor='#ffffff'
+          text= {"Loading..."}> 
 
          <div className='message-list' style={{height:"300px", overflowY: "auto", flexDirection: "column-reverse"}}>
 
@@ -413,7 +421,8 @@ style={{display: coopiSelected}}/>
             (
               <Proposal
               proposal= {this.props.proposal}
-              buttonText= "See proposal"
+              buttonText= {"See proposal"}
+              isInfo={false}
               />
             ) : 
             (
@@ -492,6 +501,7 @@ style={{display: coopiSelected}}/>
                     text={<i className="fa fa-caret-right" style={{fontSize:"48px", color: "blue"}}></i>}/>
             }/>
 
+          </LoadingScreen>
       </GuestLayout>
      </Protected>
     );

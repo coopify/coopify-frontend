@@ -202,19 +202,22 @@ export const user = (state = initialUserState, action) => {
       case OFFERS_ATTEMPT:
       return _.assignIn({}, state, {
         error: '',
+        loading: true,
       });
       case OFFERS_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
         offers: action.responseOffers.offers,
-        countOffers: action.responseOffers.countOffers 
+        countOffers: action.responseOffers.countOffers,
+        loading: false,
       });
       case OFFERS_FAILURE:
       return _.assignIn({}, state, {
         error: action.errorMessage,
         offers: [],
         countOffers: 0,
-        filters: {}
+        filters: {},
+        loading: false,
       });
       case LOAD_STATE_ATTEMPT:
       return _.assignIn({}, state, {
@@ -266,12 +269,14 @@ export const user = (state = initialUserState, action) => {
 
       case CREATE_OFFER_ATTEMPT:
       return _.assignIn({}, state, {
-        error: ''
+        error: '',
+        loading: true,
       });
 
       case CREATE_OFFER_FAILURE:
       return _.assignIn({}, state, {
-        error: action.errorMessage
+        error: action.errorMessage,
+        loading: false,
       });
 
       case CREATE_OFFER_SUCCESS:
@@ -279,22 +284,26 @@ export const user = (state = initialUserState, action) => {
         error: '',
         message: action.message,
         offerIsCreated: true,
+        loading: false,
       });
       
       case SHOW_OFFER_ATTEMPT:
       return _.assignIn({}, state, {
-        error: ''
+        error: '',
+        loading: true,
       });
 
       case SHOW_OFFER_FAILURE:
       return _.assignIn({}, state, {
-        error: action.errorMessage
+        error: action.errorMessage,
+        loading: false,
       });
 
       case SHOW_OFFER_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
-        offer: action.offer
+        offer: action.offer,
+        loading: false,
       });
 
       case CHANGE_FILTERS_ATTEMPT:
@@ -374,10 +383,23 @@ export const user = (state = initialUserState, action) => {
         messages: state.messages.concat([action.payload]),
       });
 
+      case GET_CONVERSATIONS_ATTEMPT:
+      return _.assignIn({}, state, {
+        error: '',
+        loading: true,
+      });
+
       case GET_CONVERSATIONS_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
-        conversations: action.conversations
+        conversations: action.conversations,
+        loading: false,
+      });
+
+      case GET_MESSAGES_ATTEMPT:
+      return _.assignIn({}, state, {
+        error: '',
+        loading: true,
       });
 
       case GET_MESSAGES_SUCCESS:
@@ -385,12 +407,14 @@ export const user = (state = initialUserState, action) => {
         error: '',
         messages: action.messages,
         newMessages: [],
+        loading: false,
       });
 
       case MAKE_PROPOSAL_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
         proposal: action.proposal,
+        loading: false,
       });
 
       case GET_USERS_OFFERS_SUCCESS:
@@ -402,19 +426,22 @@ export const user = (state = initialUserState, action) => {
 
       case GET_PROPOSALS_ATTEMPT:
       return _.assignIn({}, state, {
-        error: ''
+        error: '',
+        loading: true,
       });
 
       case GET_PROPOSALS_FAILURE:
       return _.assignIn({}, state, {
-        error: action.errorMessage
+        error: action.errorMessage,
+        loading: false,
       });
 
       case GET_PROPOSALS_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
         proposals: action.proposals,
-        //countProposals: action.count
+        //countProposals: action.count,
+        loading: false,
       });
 
       case ACCEPT_PROPOSAL_SUCCESS:

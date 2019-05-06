@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { attemptSignUpAction, attemptCategoriesAction } from '../../actions/user';
 import PropTypes from 'prop-types';
@@ -109,7 +108,7 @@ class BasicData extends React.Component {
         this.props.onOfferInputChangeStep1(newOffer);
     }
 
-    handleOnCategoryChange(e){
+    handleOnCategoryChange(e) {
 
         const newCategories = e.target.value;
         this.setState({
@@ -131,7 +130,7 @@ class BasicData extends React.Component {
         const category = offer.category
 
         return (
- 
+
             <div className="columns is-centered p-t-xl p-r-md p-l-md">
                 <div className="column is-half">
                     <h1 className="title">Basic Data</h1>
@@ -140,7 +139,7 @@ class BasicData extends React.Component {
                         <Form.Group as={Row} controlId="formPlaintextEmail">
                             <Form.Label column sm="2">
                                 Title
-                </Form.Label>
+                            </Form.Label>
                             <Col sm="10">
                                 <Form.Control type="textarea" name="title" onChange={e => this.handleOnChange(e)} value={title} />
                             </Col>
@@ -149,7 +148,7 @@ class BasicData extends React.Component {
                         <Form.Group as={Row} controlId="formPlaintextPassword">
                             <Form.Label column sm="2">
                                 Description
-                </Form.Label>
+                            </Form.Label>
                             <Col sm="10">
                                 <Form.Control as="textarea" name="description" rows="8" onChange={e => this.handleOnChange(e)} value={description} />
                             </Col>
@@ -158,7 +157,7 @@ class BasicData extends React.Component {
                         <Form.Group as={Row} controlId="formPlaintextEmail">
                             <Form.Label column sm="2">
                                 Image
-                </Form.Label>
+                            </Form.Label>
                             <Col sm="10">
                                 <div onClick={e => this.changeImage(e)}>
                                     {
@@ -171,36 +170,33 @@ class BasicData extends React.Component {
                             </Col>
                         </Form.Group>
 
-<h4 style={{color: "black"}}>Categories</h4>
+                        <h4 style={{ color: "black" }}>Categories</h4>
 
-<FormControl style={{display: "block"}}>
-      <Select
-        name = "categories"
-        multiple
-        value={this.state.categories}
-        onChange={e => this.handleOnCategoryChange(e)}
-        input={<Input id="select-multiple-chip" />}
-        renderValue={selected => (
-          <div>
-            {selected.map(value => (
-              <Chip key={value} label={value} />
-            ))}
-          </div>
-        )}
-      >
-        {this.props.categories.map(name => (
-          <MenuItem key={name} value={name}>
-            {name}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
-
-
+                        <FormControl style={{ display: "block" }}>
+                            <Select
+                                name="categories"
+                                multiple
+                                value={this.state.categories}
+                                onChange={e => this.handleOnCategoryChange(e)}
+                                input={<Input id="select-multiple-chip" />}
+                                renderValue={selected => (
+                                    <div>
+                                        {selected.map(value => (
+                                            <Chip key={value} label={value} />
+                                        ))}
+                                    </div>
+                                )}
+                            >
+                                {this.props.categories.map(name => (
+                                    <MenuItem key={name} value={name}>
+                                        {name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                     </Form>
-
                 </div>
-        </div>
+            </div>
         );
     }
 }

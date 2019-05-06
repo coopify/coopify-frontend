@@ -86,51 +86,51 @@ class FilterOffers extends React.Component {
         dispatch(attemptCategoriesAction());
     }
 
-    handleSearchNameChange(e){
+    handleSearchNameChange(e) {
         const newName = e.target.value;
         this.setState({
             ...this.state, searchName: newName
         });
     }
 
-    handlePaymentChange(e){
+    handlePaymentChange(e) {
         const paymentMethod = e.target.name;
         var isChecked = e.target.checked;
-        var showExchangeInstance = (paymentMethod != COOPI_PAYMENT) || (paymentMethod == COOPI_PAYMENT) 
+        var showExchangeInstance = (paymentMethod != COOPI_PAYMENT) || (paymentMethod == COOPI_PAYMENT)
 
-        if(isChecked){
+        if (isChecked) {
             this.setState({
                 ...this.state,
                 paymentMethods: [...this.state.paymentMethods, paymentMethod],
                 showEI: paymentMethod == COOPI_PAYMENT ? isChecked : this.state.showEI
             });
         }
-        else{
+        else {
             this.setState({
-                ...this.state, 
+                ...this.state,
                 paymentMethods: this.state.paymentMethods.filter(item => item !== paymentMethod),
                 showEI: paymentMethod == COOPI_PAYMENT ? isChecked : this.state.showEI
             });
         }
     }
 
-    handleExchangeChange(e){
+    handleExchangeChange(e) {
         const exchangeMethod = e.target.name;
         var isChecked = e.target.checked;
 
-        if(isChecked){
+        if (isChecked) {
             this.setState({
                 ...this.state, exchangeMethods: [...this.state.exchangeMethods, exchangeMethod]
             });
         }
-        else{
+        else {
             this.setState({
                 ...this.state, exchangeMethods: this.state.exchangeMethods.filter(item => item !== exchangeMethod)
             });
         }
     }
 
-    handlePricesChange(prices){
+    handlePricesChange(prices) {
         const lowerPrice = prices[0];
         const upperPrice = prices[1];
         const newPrices = [lowerPrice, upperPrice];
@@ -140,28 +140,28 @@ class FilterOffers extends React.Component {
         });
     }
 
-    handleCategoriesChange(e){
+    handleCategoriesChange(e) {
         const newCategories = e.target.value;
         this.setState({
             ...this.state, categories: newCategories
         });
     }
 
-    handleSortByChange(e){
+    handleSortByChange(e) {
         const newSortBy = e.target.value;
         this.setState({
             ...this.state, sortBy: newSortBy
         });
     }
 
-    handleApplyFilter(e){
+    handleApplyFilter(e) {
         const { dispatch } = this.props;
 
-        const filters = 
+        const filters =
         {
             name: this.state.searchName,
-            paymentMethods: this.state.paymentMethods, 
-            exchangeMethods: this.state.exchangeMethods, 
+            paymentMethods: this.state.paymentMethods,
+            exchangeMethods: this.state.exchangeMethods,
             lowerPrice: this.state.prices[0],
             upperPrice: this.state.prices[1],
             categories: this.state.categories,
@@ -177,7 +177,7 @@ class FilterOffers extends React.Component {
         const createSliderWithTooltip = Slider.createSliderWithTooltip;
         const Range = createSliderWithTooltip(Slider.Range);
         const { classes } = this.props;
-        const sortOptions = ['Price','Date','Rate'];
+        const sortOptions = ['Price', 'Date', 'Rate'];
         const showEI = this.state.showEI ? 'block' : 'none';
 
         if (error.length > 0) this.notify(error, true)
@@ -187,112 +187,103 @@ class FilterOffers extends React.Component {
             <Protected>
                 <GuestLayout>
                     <div className={styles.container}>
+                        <Form.Group as={Row}>
+                            <Col sm={3} style={{ marginTop: "5%" }}>
+                                <Input type="text"
+                                    placeholder='Search offer...'
+                                    onChange={e => this.handleSearchNameChange(e)}
+                                    value={this.state.searchName}
+                                    disableUnderline={true}
+                                />
 
-        
-                    <Form.Group as={Row}>     
-                        <Col sm={3} style={{marginTop: "5%"}}>
+                                <h4 style={{ color: "black", marginTop: "10%" }}>Payment instance</h4>
 
+                                <Form.Group check style={{ textAlign: "left", marginLeft: "20%" }}>
+                                    <Form.Label check>
+                                        <input type="checkbox" name={BARTER_PAYMENT} onChange={e => this.handlePaymentChange(e)} />
+                                        {BARTER_PAYMENT}
+                                    </Form.Label>
+                                </Form.Group>
 
-<Input type="text"
-placeholder='Search offer...'
-onChange={e => this.handleSearchNameChange(e)}
-value = {this.state.searchName}
-disableUnderline = {true}
-/>
+                                <Form.Group check style={{ textAlign: "left", marginLeft: "20%" }}>
+                                    <Form.Label check>
+                                        <input type="checkbox" name={COOPI_PAYMENT} onChange={e => this.handlePaymentChange(e)} />
+                                        {COOPI_PAYMENT}
+                                    </Form.Label>
+                                </Form.Group>
 
-<h4 style={{color: "black", marginTop: "10%"}}>Payment instance</h4>
+                                <h4 style={{ color: "black", display: showEI }}>Exchange instance</h4>
 
-<Form.Group check style={{textAlign: "left", marginLeft:"20%"}}>
-          <Form.Label check>
-            <input type="checkbox" name={BARTER_PAYMENT} onChange={e => this.handlePaymentChange(e)}/>
-            {BARTER_PAYMENT}
-          </Form.Label>
-</Form.Group>
+                                <Form.Group check style={{ textAlign: "left", marginLeft: "20%", display: showEI }}>
+                                    <Form.Label check>
+                                        <input type="checkbox" name={HOUR_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
+                                        {HOUR_EXCHANGE}
+                                    </Form.Label>
+                                </Form.Group>
 
-<Form.Group check style={{textAlign: "left", marginLeft:"20%"}}>
-          <Form.Label check>
-            <input type="checkbox" name={COOPI_PAYMENT} onChange={e => this.handlePaymentChange(e)}/>
-            {COOPI_PAYMENT}
-          </Form.Label>
-</Form.Group>
+                                <Form.Group check style={{ textAlign: "left", marginLeft: "20%", display: showEI }}>
+                                    <Form.Label check>
+                                        <input type="checkbox" name={SESSION_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
+                                        {SESSION_EXCHANGE}
+                                    </Form.Label>
+                                </Form.Group>
 
+                                <Form.Group check style={{ textAlign: "left", marginLeft: "20%", display: showEI }}>
+                                    <Form.Label check>
+                                        <input type="checkbox" name={PRODUCT_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
+                                        {PRODUCT_EXCHANGE}
+                                    </Form.Label>
+                                </Form.Group>
 
-<h4 style={{color: "black", display: showEI}}>Exchange instance</h4>
+                                <h4 style={{ color: "black", display: showEI }}>Price range</h4>
 
-<Form.Group check style={{textAlign: "left", marginLeft:"20%", display: showEI}}>
-          <Form.Label check>
-            <input type="checkbox" name={HOUR_EXCHANGE} onChange={e => this.handleExchangeChange(e)}/>
-            {HOUR_EXCHANGE}
-          </Form.Label>
-</Form.Group>
+                                <Range min={0} max={100} defaultValue={this.state.prices} tipFormatter={value => `${value} Coopi`} allowCross={false} style={{ marginBottom: "10%", display: showEI }} onAfterChange={e => this.handlePricesChange(e)} />
 
-<Form.Group check style={{textAlign: "left", marginLeft:"20%", display: showEI}}>
-          <Form.Label check>
-            <input type="checkbox" name={SESSION_EXCHANGE} onChange={e => this.handleExchangeChange(e)}/>
-            {SESSION_EXCHANGE}
-          </Form.Label>
-</Form.Group>
+                                <h4 style={{ color: "black" }}>Categories</h4>
 
-<Form.Group check style={{textAlign: "left", marginLeft:"20%", display: showEI}}>
-          <Form.Label check>
-            <input type="checkbox" name={PRODUCT_EXCHANGE} onChange={e => this.handleExchangeChange(e)}/>
-            {PRODUCT_EXCHANGE}
-          </Form.Label>
-</Form.Group>
+                                <FormControl style={{ display: "block" }}>
+                                    <Select
+                                        multiple
+                                        value={this.state.categories}
+                                        onChange={e => this.handleCategoriesChange(e)}
+                                        input={<Input id="select-multiple-chip" />}
+                                        renderValue={selected => (
+                                            <div>
+                                                {selected.map(value => (
+                                                    <Chip key={value} label={value} />
+                                                ))}
+                                            </div>
+                                        )}
+                                    >
+                                        {this.props.categories.map(name => (
+                                            <MenuItem key={name} value={name}>
+                                                {name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
 
+                                <h4 style={{ color: "black", marginTop: "10%" }}>Sort By</h4>
 
-<h4 style={{color: "black", display: showEI}}>Price range</h4>
+                                <FormControl style={{ display: "block" }}>
+                                    <Select
+                                        value={this.state.sortBy}
+                                        onChange={e => this.handleSortByChange(e)}
+                                    >
+                                        {sortOptions.map(name => (
+                                            <MenuItem key={name} value={name}>
+                                                {name}
+                                            </MenuItem>
+                                        ))}
 
+                                    </Select>
+                                </FormControl>
 
-      <Range min={0} max={100} defaultValue={this.state.prices} tipFormatter={value => `${value} Coopi`} allowCross={false} style={{marginBottom: "10%", display: showEI}} onAfterChange={e => this.handlePricesChange(e)}/>
-
-<h4 style={{color: "black"}}>Categories</h4>
-
-    <FormControl style={{display: "block"}}>
-          <Select
-            multiple
-            value={this.state.categories}
-            onChange={e => this.handleCategoriesChange(e)}
-            input={<Input id="select-multiple-chip" />}
-            renderValue={selected => (
-              <div>
-                {selected.map(value => (
-                  <Chip key={value} label={value} />
-                ))}
-              </div>
-            )}
-          >
-            {this.props.categories.map(name => (
-              <MenuItem key={name} value={name}>
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-<h4 style={{color: "black", marginTop: "10%"}}>Sort By</h4>
-
-            <FormControl style={{display: "block"}}>
-          <Select
-            value={this.state.sortBy}
-            onChange={e => this.handleSortByChange(e)}
-            >
-            {sortOptions.map(name => (
-            <MenuItem key={name} value={name}>
-            {name}
-            </MenuItem>
-            ))}
-
-          </Select>
-        </FormControl>
-
-    <Button style={{marginTop: "10%"}} onClick={e => this.handleApplyFilter(e)}>Apply Filters</Button>
-
+                                <Button style={{ marginTop: "10%" }} onClick={e => this.handleApplyFilter(e)}>Apply Filters</Button>
                             </Col>
-                        <Col sm={9}>
-                            <Offers isHome={false}/>
-                        </Col>
-
+                            <Col sm={9}>
+                                <Offers isHome={false} />
+                            </Col>
                         </Form.Group>
                     </div>
                 </GuestLayout>

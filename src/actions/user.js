@@ -116,7 +116,7 @@ export const attemptGetUserChat = (payload) => ({
     payload
 });
 
-export const attemptMakeProposal= (payload) => ({
+export const attemptMakeProposal = (payload) => ({
     type: Actions.MAKE_PROPOSAL_ATTEMPT,
     payload
 });

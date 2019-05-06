@@ -14,9 +14,9 @@ import styles from '../css/profile.scss';
 import Switch from "react-switch";
 import Protected from './protected';
 import { Link } from 'react-router-dom';
-import {loadScript} from "@pawjs/pawjs/src/utils/utils";
+import { loadScript } from "@pawjs/pawjs/src/utils/utils";
 import StepZilla from "react-stepzilla";
-import {loadStyle} from "@pawjs/pawjs/src/utils/utils";
+import { loadStyle } from "@pawjs/pawjs/src/utils/utils";
 import BasicData from './offerCreation/basicData.js';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import { ChatList } from 'react-chat-elements'
@@ -48,464 +48,451 @@ import { Proposal } from './proposal';
 import { getConversation } from '../api';
 import LoadingScreen from 'react-loading-screen';
 
-
 export default @connect(state => ({
-  loggedUser: state.user,
-  serviceUser: state.serviceUser,
-  error: state.error,
-  loading: state.loading,
-  messages: state.messages,
-  myOffers: state.myOffers,
-  userOffers: state.userOffers,
-  proposal: state.proposal,
+    loggedUser: state.user,
+    serviceUser: state.serviceUser,
+    error: state.error,
+    loading: state.loading,
+    messages: state.messages,
+    myOffers: state.myOffers,
+    userOffers: state.userOffers,
+    proposal: state.proposal,
 }))
 
 class Chat extends React.Component {
-
-  static propTypes = {
-    dispatch: PropTypes.func,
-    loggedUser: PropTypes.object,
-    serviceUser: PropTypes.object,
-    loading: PropTypes.bool,
-    error: PropTypes.string,
-    offer: PropTypes.object,
-    messages: PropTypes.array,
-    myOffers: PropTypes.array,
-    userOffers: PropTypes.array,
-    proposal: PropTypes.object,
-  };
-
-  static defaultProps = {
-    dispatch: () => {
-    },
-    loggedUser: {},
-    serviceUser: {},
-    loading: false,
-    error: '',
-    offer: {},
-    messages: [],
-    myOffers: [],
-    userOffers: [],
-    proposal: {},
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedUser: {},
-      loading: false,
-      error: '',
-      offer: {},
-      modalOpen: false,
-      activeStep: 0,
-      exchangeMethodSelected: "Coopy",
-      exchangeInstanceSelected: "Hour",
-      selectedService: '',
-      myExchangeService: '',
-      coopiValue: 0,
-      chatMessage: '',
-      messages: [],
-      selectedServiceText: '',
-      exchangeServiceText: '',
+    static propTypes = {
+        dispatch: PropTypes.func,
+        loggedUser: PropTypes.object,
+        serviceUser: PropTypes.object,
+        loading: PropTypes.bool,
+        error: PropTypes.string,
+        offer: PropTypes.object,
+        messages: PropTypes.array,
+        myOffers: PropTypes.array,
+        userOffers: PropTypes.array,
+        proposal: PropTypes.object,
     };
-    this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
-    this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);
-    this.handleMakeOfferProposal = this.handleMakeOfferProposal.bind(this);
-  }
 
-  getSteps() {
-    return ['Select the offer you want to trade', 'Select the exchange method', 'Confirm the offer'];  }
+    static defaultProps = {
+        dispatch: () => {
+        },
+        loggedUser: {},
+        serviceUser: {},
+        loading: false,
+        error: '',
+        offer: {},
+        messages: [],
+        myOffers: [],
+        userOffers: [],
+        proposal: {},
+    };
 
-// getStepContent(step) {
-//     switch (step) {
-//       case 0:
-//         return `For each ad campaign that you create, you can control how much
-//                 you're willing to spend on clicks and conversions, which networks
-//                 and geographical locations you want your ads to show on, and more.`;
-//       case 1:
-//         return 'An ad group contains one or more ads which target a shared set of keywords.';
-//       case 2:
-//         return `Try out different ad text to see what brings in the most customers,
-//                 and learn how to enhance your ads using features like ad extensions.
-//                 If you run into any problems with your ads, find out how to tell if
-//                 they're running and how to resolve approval issues.`;
-//       default:
-//         return 'Unknown step';
-//     }
-//   }
+    constructor(props) {
+        super(props);
+        this.state = {
+            loggedUser: {},
+            loading: false,
+            error: '',
+            offer: {},
+            modalOpen: false,
+            activeStep: 0,
+            exchangeMethodSelected: "Coopy",
+            exchangeInstanceSelected: "Hour",
+            selectedService: '',
+            myExchangeService: '',
+            coopiValue: 0,
+            chatMessage: '',
+            messages: [],
+            selectedServiceText: '',
+            exchangeServiceText: '',
+        };
+        this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
+        this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);
+        this.handleMakeOfferProposal = this.handleMakeOfferProposal.bind(this);
+    }
 
+    getSteps() {
+        return ['Select the offer you want to trade', 'Select the exchange method', 'Confirm the offer'];
+    }
 
-  handleClickOpen = () => {
-    this.setState({
-        ...this.state,
-        modalOpen: true 
-    });
-  };
+    // getStepContent(step) {
+    //     switch (step) {
+    //       case 0:
+    //         return `For each ad campaign that you create, you can control how much
+    //                 you're willing to spend on clicks and conversions, which networks
+    //                 and geographical locations you want your ads to show on, and more.`;
+    //       case 1:
+    //         return 'An ad group contains one or more ads which target a shared set of keywords.';
+    //       case 2:
+    //         return `Try out different ad text to see what brings in the most customers,
+    //                 and learn how to enhance your ads using features like ad extensions.
+    //                 If you run into any problems with your ads, find out how to tell if
+    //                 they're running and how to resolve approval issues.`;
+    //       default:
+    //         return 'Unknown step';
+    //     }
+    //   }
 
-  handleClose = () => {
-    this.setState({
-        ...this.state,
-        modalOpen: false,
-        activeStep: 0
-    }); 
+    handleClickOpen = () => {
+        this.setState({
+            ...this.state,
+            modalOpen: true
+        });
+    };
+
+    handleClose = () => {
+        this.setState({
+            ...this.state,
+            modalOpen: false,
+            activeStep: 0
+        });
     };
 
     handleNext = () => {
         this.setState(state => ({
-          activeStep: state.activeStep + 1,
+            activeStep: state.activeStep + 1,
         }));
-      };
+    };
 
-      handleBack = () => {
+    handleBack = () => {
         this.setState(state => ({
-          activeStep: state.activeStep - 1,
+            activeStep: state.activeStep - 1,
         }));
-      };
+    };
 
-      handleReset = () => {
+    handleReset = () => {
         this.setState({
-          activeStep: 0,
+            activeStep: 0,
         });
     };
 
-    onChangeExchangeMethod(e){
-      this.setState({
-        ...this.state,
-        exchangeMethodSelected: e
-    });
+    onChangeExchangeMethod(e) {
+        this.setState({
+            ...this.state,
+            exchangeMethodSelected: e
+        });
     }
 
-    onChangeExchangeInstance(e){
-      this.setState({
-          ...this.state,
-          exchangeInstanceSelected: e
-      });
-  }
+    onChangeExchangeInstance(e) {
+        this.setState({
+            ...this.state,
+            exchangeInstanceSelected: e
+        });
+    }
 
-  handleServiceChange(e, rc){
-    this.setState({
-      ...this.state,
-      selectedService: e.target.value,
-      selectedServiceText: rc.props.name,
-  });
-  }
+    handleServiceChange(e, rc) {
+        this.setState({
+            ...this.state,
+            selectedService: e.target.value,
+            selectedServiceText: rc.props.name,
+        });
+    }
 
-  handleBarterService(e, rc){
-    this.setState({
-      ...this.state,
-      myExchangeService: e.target.value,
-      exchangeServiceText: rc.props.name,
-  });
-  }
+    handleBarterService(e, rc) {
+        this.setState({
+            ...this.state,
+            myExchangeService: e.target.value,
+            exchangeServiceText: rc.props.name,
+        });
+    }
 
-  onChangeCoopiValue(e){
-    this.setState({
-      ...this.state,
-      coopiValue: e.target.value
-  });
-  }
+    onChangeCoopiValue(e) {
+        this.setState({
+            ...this.state,
+            coopiValue: e.target.value
+        });
+    }
 
-  onChangeChatInput(e){
-    this.setState({
-      ...this.state,
-      chatMessage: e.target.value
-  });
-  }
+    onChangeChatInput(e) {
+        this.setState({
+            ...this.state,
+            chatMessage: e.target.value
+        });
+    }
 
-  async componentDidMount(){
-    const { dispatch, loggedUser } = this.props;
-    const token = localStorage.getItem('token');
-    const conversationId = this.props.match.params.conversationId;
+    async componentDidMount() {
+        const { dispatch, loggedUser } = this.props;
+        const token = localStorage.getItem('token');
+        const conversationId = this.props.match.params.conversationId;
 
-    const payload = 
-    {
-      token: token,
-      conversationId: conversationId
-    };
+        const payload =
+        {
+            token: token,
+            conversationId: conversationId
+        };
 
-    const conversation = await getConversation(payload);
+        const conversation = await getConversation(payload);
 
-    const users = 
-      {
-        token: token,
-        myUserId: loggedUser.id,
-        serviceUserId: conversation.to.id == loggedUser.id ? conversation.from.id : conversation.to.id,
-      };
+        const users =
+        {
+            token: token,
+            myUserId: loggedUser.id,
+            serviceUserId: conversation.to.id == loggedUser.id ? conversation.from.id : conversation.to.id,
+        };
 
-    dispatch(attemptGetUserChat(payload));
-    dispatch(attemptGetUsersOffers(users));
-}
+        dispatch(attemptGetUserChat(payload));
+        dispatch(attemptGetUsersOffers(users));
+    }
 
-  async handleSendMessage(e){
-    const { dispatch } = this.props;
-    const token = localStorage.getItem("token");
+    async handleSendMessage(e) {
+        const { dispatch } = this.props;
+        const token = localStorage.getItem("token");
 
-    const payload =
-    {
-      token: token,
-      message: 
-      {
-        text: this.state.chatMessage
-      },
-      conversationId: this.props.match.params.conversationId
-    };
+        const payload =
+        {
+            token: token,
+            message:
+            {
+                text: this.state.chatMessage
+            },
+            conversationId: this.props.match.params.conversationId
+        };
 
-    dispatch(attemptSendMessage(payload));
-    this.setState({...this.state, chatMessage: ''});
-  }
+        dispatch(attemptSendMessage(payload));
+        this.setState({ ...this.state, chatMessage: '' });
+    }
 
-  handleMakeOfferProposal(e){
-    this.handleReset(e);
-    const token = localStorage.getItem("token");
-    const { selectedService, exchangeMethodSelected, myExchangeService, exchangeInstanceSelected, coopiValue } = this.state;
-    const { dispatch } = this.props;
-    const isCoopi = exchangeMethodSelected == 'Coopy' ? true : false;
+    handleMakeOfferProposal(e) {
+        this.handleReset(e);
+        const token = localStorage.getItem("token");
+        const { selectedService, exchangeMethodSelected, myExchangeService, exchangeInstanceSelected, coopiValue } = this.state;
+        const { dispatch } = this.props;
+        const isCoopi = exchangeMethodSelected == 'Coopy' ? true : false;
 
-    const payload = 
-    {
-      token: token,
-      proposal:
-      {
-        offerId: selectedService,
-        exchangeMethod: exchangeMethodSelected,
-        proposedServiceId: isCoopi ? undefined : myExchangeService,
-        exchangeInstance: isCoopi ? exchangeInstanceSelected : undefined,
-        proposedPrice: isCoopi ? coopiValue : undefined,
-      },
-      conversationId: this.props.match.params.conversationId,
-    };
+        const payload =
+        {
+            token: token,
+            proposal:
+            {
+                offerId: selectedService,
+                exchangeMethod: exchangeMethodSelected,
+                proposedServiceId: isCoopi ? undefined : myExchangeService,
+                exchangeInstance: isCoopi ? exchangeInstanceSelected : undefined,
+                proposedPrice: isCoopi ? coopiValue : undefined,
+            },
+            conversationId: this.props.match.params.conversationId,
+        };
 
-    dispatch(attemptMakeProposal(payload));
-  }
+        dispatch(attemptMakeProposal(payload));
+    }
 
-    getStepContent(index){
-
+    getStepContent(index) {
         let componentToRender = "";
-        switch(index){
+        switch (index) {
             case 0:
-
-         componentToRender = 
-         (<Select style={{width: "100%"}}
-         value={this.state.selectedService}
-         onChange={(e, f) => this.handleServiceChange(e, f)}>
-               {
-                  this.props.userOffers.map(o => (
-                    <MenuItem value={o.id} name={o.title}>{o.title}</MenuItem>
-                  ))
-                }
-            </Select>);
-            break;
+                componentToRender =
+                    (<Select style={{ width: "100%" }}
+                        value={this.state.selectedService}
+                        onChange={(e, f) => this.handleServiceChange(e, f)}>
+                        {
+                            this.props.userOffers.map(o => (
+                                <MenuItem value={o.id} name={o.title}>{o.title}</MenuItem>
+                            ))
+                        }
+                    </Select>);
+                break;
 
             case 1:
 
-            const coopiSelected = this.state.exchangeMethodSelected == "Coopy" ? "inline-flex" : "none";
-            const barterSelected = this.state.exchangeMethodSelected == "Exchange" ? "block" : "none";
+                const coopiSelected = this.state.exchangeMethodSelected == "Coopy" ? "inline-flex" : "none";
+                const barterSelected = this.state.exchangeMethodSelected == "Exchange" ? "block" : "none";
 
-            componentToRender = 
-            (
-              <div>
-               <RadioGroup onChange={e => this.onChangeExchangeMethod(e) } vertical>
-                <RadioButton value="Coopy">
-                Coopi
-                </RadioButton>
-                <RadioButton value="Exchange">
-                Barter
-                </RadioButton>
-                </RadioGroup>
+                componentToRender =
+                    (
+                        <div>
+                            <RadioGroup onChange={e => this.onChangeExchangeMethod(e)} vertical>
+                                <RadioButton value="Coopy">
+                                    Coopi
+                                </RadioButton>
+                                <RadioButton value="Exchange">
+                                    Barter
+                                </RadioButton>
+                            </RadioGroup>
 
-             <RadioGroup onChange={e => this.onChangeExchangeInstance(e) } horizontal style={{display: coopiSelected}}>
-<RadioButton value="Hour">
-Hour
-</RadioButton>
-<RadioButton value="Session">
-Session
-</RadioButton>
-<RadioButton value="FinalProduct">
-Final Product
-</RadioButton>
-</RadioGroup>
+                            <RadioGroup onChange={e => this.onChangeExchangeInstance(e)} horizontal style={{ display: coopiSelected }}>
+                                <RadioButton value="Hour">
+                                    Hour
+                                </RadioButton>
+                                <RadioButton value="Session">
+                                    Session
+                                </RadioButton>
+                                <RadioButton value="FinalProduct">
+                                    Final Product
+                            </RadioButton>
+                            </RadioGroup>
 
-<TextField
-id="filled-with-placeholder"
-type="number"
-label="Coopi value"
-placeholder="Enter the value in Coopi"
-margin="normal"
-onChange = {e => this.onChangeCoopiValue(e)}
-style={{display: coopiSelected}}/>
+                            <TextField
+                                id="filled-with-placeholder"
+                                type="number"
+                                label="Coopi value"
+                                placeholder="Enter the value in Coopi"
+                                margin="normal"
+                                onChange={e => this.onChangeCoopiValue(e)}
+                                style={{ display: coopiSelected }}
+                            />
 
- <Select style={{width: "100%", display: barterSelected}}
-          value={this.state.myExchangeService}
-          onChange={(e, f) => this.handleBarterService(e, f)}>
-     {
-          this.props.myOffers.map(o => (
-            <MenuItem value={o.id} name={o.title}>{o.title}</MenuItem>
-          ))
-      }
-</Select>  
-</div>
-);
-            break;
+                            <Select style={{ width: "100%", display: barterSelected }}
+                                value={this.state.myExchangeService}
+                                onChange={(e, f) => this.handleBarterService(e, f)}>
+                                {
+                                    this.props.myOffers.map(o => (
+                                        <MenuItem value={o.id} name={o.title}>{o.title}</MenuItem>
+                                    ))
+                                }
+                            </Select>
+                        </div>
+                    );
+                break;
 
             case 2:
-            componentToRender = 
-            (
-              <Paper>
-                <Typography variant="h5" component="h3">
-                  {this.state.selectedServiceText}
-                </Typography>        
-    
-            {
-              this.state.exchangeMethodSelected == 'Coopy' ?
-              (
-                <Typography component="p">
-                  {this.state.exchangeInstanceSelected} <br/>
-                  for <br/>
-                  {this.state.coopiValue} COOPI
-                </Typography>
-              ) : 
-              (
-                <Typography component="p">
-                for <br/>
-                {this.state.exchangeServiceText}
-              </Typography>
-              )}
-    
-              </Paper>
-            );
-            break;
+                componentToRender =
+                    (
+                        <Paper>
+                            <Typography variant="h5" component="h3">
+                                {this.state.selectedServiceText}
+                            </Typography>
+                            {
+                                this.state.exchangeMethodSelected == 'Coopy' ?
+                                    (
+                                        <Typography component="p">
+                                            {this.state.exchangeInstanceSelected} <br />
+                                            for <br />
+                                            {this.state.coopiValue} COOPI
+                                        </Typography>
+                                    ) :
+                                    (
+                                        <Typography component="p">
+                                            for <br />
+                                            {this.state.exchangeServiceText}
+                                        </Typography>
+                                    )
+                            }
+                        </Paper>
+                    );
+                break;
         }
         return componentToRender;
     }
 
-  render() {
-    const { loading, error, loggedUser, messages, proposal } = this.props
-    const { offer, categories, activeStep } = this.state
-    const steps = this.getSteps();
-    const proposalMade = proposal.length > 0;
+    render() {
+        const { loading, error, loggedUser, messages, proposal } = this.props
+        const { offer, categories, activeStep } = this.state
+        const steps = this.getSteps();
+        const proposalMade = proposal.length > 0;
 
-    return (
-      <Protected>
-      <GuestLayout>
+        return (
+            <Protected>
+                <GuestLayout>
+                    <LoadingScreen
+                        loading={this.props.loading}
+                        bgColor='#125876'
+                        spinnerColor='#BE1931'
+                        textColor='#ffffff'
+                        text={"Loading..."}>
 
-  <LoadingScreen
-          loading={this.props.loading}
-          bgColor='#125876'
-          spinnerColor='#BE1931'
-          textColor='#ffffff'
-          text= {"Loading..."}> 
+                        <div className='message-list' style={{ height: "300px", overflowY: "auto", flexDirection: "column-reverse" }}>
+                            {
+                                messages.map((m) => {
+                                    return {
+                                        mine: m.authorId === loggedUser.id,
+                                        message: m.text,
+                                        date: new Date(m.createdAt ? m.createdAt : Date.now()),
+                                    }
+                                }).map(item => (
+                                    <MessageBox
+                                        style={{ marginBottom: "2%" }}
+                                        position={item.mine ? 'right' : 'left'}
+                                        type={'text'}
+                                        text={item.message}
+                                        status="read"
+                                        date={item.date} />
+                                ))
+                            }
+                        </div>
+                        {proposalMade ?
+                            (
+                                <Proposal
+                                    proposal={this.props.proposal}
+                                    buttonText={"See proposal"}
+                                    isInfo={false}
+                                />
+                            ) :
+                            (
+                                <CommonButton style={{ width: "100%" }} onClick={e => this.handleClickOpen(e)}>
+                                    Make an offer <i className="fa fa-handshake-o" aria-hidden="true"></i>
+                                </CommonButton>
+                            )
+                        }
 
-         <div className='message-list' style={{height:"300px", overflowY: "auto", flexDirection: "column-reverse"}}>
+                        <Dialog
+                            open={this.state.modalOpen}
+                            onClose={this.handleClose}
+                            aria-labelledby="form-dialog-title"
+                        >
+                            <DialogTitle id="form-dialog-title">Offer details</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText>
+                                    Complete the steps below to send an offer proposal to this user.
+                                </DialogContentText>
+                                <div>
+                                    <Stepper activeStep={activeStep} orientation="vertical">
+                                        {steps.map((label, index) => (
+                                            <Step key={label}>
+                                                <StepLabel>{label}</StepLabel>
+                                                <StepContent>
+                                                    <div>
+                                                        {this.getStepContent(activeStep)}
+                                                        {activeStep === steps.length - 1 ? "" : (
+                                                            <div style={{ paddingTop: "5%" }}>
+                                                                <CommonButton
+                                                                    disabled={activeStep === 0}
+                                                                    onClick={this.handleBack}>
+                                                                    Back
+                                                                </CommonButton>
+                                                                <CommonButton
+                                                                    variant="contained"
+                                                                    color="primary"
+                                                                    onClick={this.handleNext}>
+                                                                    Next
+                                                                </CommonButton>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </StepContent>
+                                            </Step>
+                                        ))}
+                                    </Stepper>
+                                </div>
+                            </DialogContent>
+                            <DialogActions>
+                                <CommonButton onClick={this.handleClose} color="primary">
+                                    Cancel
+                                </CommonButton>
+                                <CommonButton onClick={this.handleMakeOfferProposal} color="primary">
+                                    Make the offer
+                                </CommonButton>
+                            </DialogActions>
+                        </Dialog>
 
-            {
-                 messages.map((m) => {
-                  return {
-                    mine: m.authorId === loggedUser.id,
-                    message: m.text,
-                    date: new Date(m.createdAt ? m.createdAt : Date.now()),
-                  }
-              }).map(item => (
-                    <MessageBox
-                    style={{marginBottom: "2%"}}
-                        position={item.mine ? 'right' : 'left'}
-                        type={'text'}
-                        text={item.message}
-                        status="read"
-                        date= {item.date}/>
-                ))
-            }
-
-              </div>
-
-            {proposalMade ? 
-            (
-              <Proposal
-              proposal= {this.props.proposal}
-              buttonText= {"See proposal"}
-              isInfo={false}
-              />
-            ) : 
-            (
-              <CommonButton style={{width: "100%"}} onClick={e => this.handleClickOpen(e)}>
-              Make an offer <i className="fa fa-handshake-o" aria-hidden="true"></i>
-              </CommonButton>
-            ) }
-
-            <Dialog
-            open={this.state.modalOpen}
-            onClose={this.handleClose}
-            aria-labelledby="form-dialog-title"
-          >
-            <DialogTitle id="form-dialog-title">Offer details</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Complete the steps below to send an offer proposal to this user.
-              </DialogContentText>
-
-          <div>
-          <Stepper activeStep={activeStep} orientation="vertical">
-            {steps.map((label, index) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-                <StepContent>              
-                  <div>
-
-              {this.getStepContent(activeStep)}
-
-                  {activeStep === steps.length - 1 ? "" : (
-
-                      <div style={{paddingTop: "5%"}}>
-                      <CommonButton
-                      disabled={activeStep === 0}
-                      onClick={this.handleBack}>
-                      Back
-                      </CommonButton>
-                      <CommonButton
-                      variant="contained"
-                      color="primary"
-                      onClick={this.handleNext}>
-                      Next
-                      </CommonButton>
-                  </div>
-
-                  )}
-
-                  </div>
-                </StepContent>
-              </Step>
-            ))}
-          </Stepper>
-          </div>
-
-            </DialogContent>
-            <DialogActions>
-              <CommonButton onClick={this.handleClose} color="primary">
-                Cancel
-              </CommonButton>
-              <CommonButton onClick={this.handleMakeOfferProposal} color="primary">
-                Make the offer
-              </CommonButton>
-            </DialogActions>
-          </Dialog>
-
-            <Input
-            placeholder="Type here..."
-            multiline={false}
-            onChange={e => this.onChangeChatInput(e)}
-            value={this.state.chatMessage}
-            rightButtons={
-                <Button
-                    color='white'
-                    backgroundColor='transparent'
-                    onClick = {e => this.handleSendMessage(e)}
-                    text={<i className="fa fa-caret-right" style={{fontSize:"48px", color: "blue"}}></i>}/>
-            }/>
-
-          </LoadingScreen>
-      </GuestLayout>
-     </Protected>
-    );
-  }
+                        <Input
+                            placeholder="Type here..."
+                            multiline={false}
+                            onChange={e => this.onChangeChatInput(e)}
+                            value={this.state.chatMessage}
+                            rightButtons={
+                                <Button
+                                    color='white'
+                                    backgroundColor='transparent'
+                                    onClick={e => this.handleSendMessage(e)}
+                                    text={<i className="fa fa-caret-right" style={{ fontSize: "48px", color: "blue" }}></i>}
+                                />
+                            }
+                        />
+                    </LoadingScreen>
+                </GuestLayout>
+            </Protected>
+        );
+    }
 }
 
-export { Chat } 
+export { Chat }

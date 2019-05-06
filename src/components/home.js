@@ -5,47 +5,48 @@ import Protected from './protected';
 import Offers from './offers';
 
 const Column = (props) => {
-  const { title, description, link } = props;
-  return (
-    <div className="column">
-      <div className="card">
-        <header className="card-header">
-          <p className="card-header-title">
-            {title}
-          </p>
-        </header>
-        <div className="card-content">
-          <div className="content">
-            {description}
-            {' '}
-            {!!link.length && (
-              <a
-                href={link}
-                target="_blank"
-                rel="noreferrer noopener nofollow"
-              >
-                Read more
-              </a>
-            )}
-          </div>
+    const { title, description, link } = props;
+    return (
+        <div className="column">
+            <div className="card">
+                <header className="card-header">
+                    <p className="card-header-title">
+                        {title}
+                    </p>
+                </header>
+                <div className="card-content">
+                    <div className="content">
+                        {description}
+                        {' '}
+                        {!!link.length && (
+                            <a
+                                href={link}
+                                target="_blank"
+                                rel="noreferrer noopener nofollow"
+                            >
+                                Read more
+                            </a>
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
+
 Column.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  link: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
 };
 
 export default () => (
-  <Protected>
-  <GuestLayout>
-  
-  <Offers isHome={true}></Offers>
+    <Protected>
+        <GuestLayout>
 
-  </GuestLayout>
-  </Protected>
+            <Offers isHome={true}></Offers>
+
+        </GuestLayout>
+    </Protected>
 
 );

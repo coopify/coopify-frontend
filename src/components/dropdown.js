@@ -1,24 +1,23 @@
-
 /* @flow */
 import React, { PropTypes } from 'react';
 import { Input } from 'react-bootstrap';
 
 class DropDown extends React.Component {
-  static propTypes = {
-    label: PropTypes.string.isRequired,
-    field: PropTypes.object.isRequired,
-    values: PropTypes.array.isRequired,
-  };
+    static propTypes = {
+        label: PropTypes.string.isRequired,
+        field: PropTypes.object.isRequired,
+        values: PropTypes.array.isRequired,
+    };
 
-  render() {
-    const { label, field, values } = this.props;
+    render() {
+        const { label, field, values } = this.props;
 
-    return (
-      <Input type="select" label={label} {...field}>
-        {values.map(value => <option key={value} value={value}>{value}</option>)}
-      </Input>
-    );
-  }
+        return (
+            <Input type="select" label={label} {...field}>
+                {values.map(value => <option key={value} value={value}>{value}</option>)}
+            </Input>
+        );
+    }
 }
 
 export default DropDown;

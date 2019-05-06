@@ -14,9 +14,9 @@ import styles from '../css/profile.scss';
 import Switch from "react-switch";
 import Protected from './protected';
 import { Link } from 'react-router-dom';
-import {loadScript} from "@pawjs/pawjs/src/utils/utils";
+import { loadScript } from "@pawjs/pawjs/src/utils/utils";
 import StepZilla from "react-stepzilla";
-import {loadStyle} from "@pawjs/pawjs/src/utils/utils";
+import { loadStyle } from "@pawjs/pawjs/src/utils/utils";
 import BasicData from './offerCreation/basicData.js';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import { ChatList } from 'react-chat-elements'
@@ -45,218 +45,208 @@ import { MessageBox } from 'react-chat-elements'
 
 import { getConversation } from '../api';
 
-
 export default @connect(state => ({
-  loggedUser: state.user,
-  serviceUser: state.serviceUser,
-  error: state.error,
-  loading: state.loading,
-  messages: state.messages,
-  myOffers: state.myOffers,
-  userOffers: state.userOffers,
- // proposal: state.proposal,
+    loggedUser: state.user,
+    serviceUser: state.serviceUser,
+    error: state.error,
+    loading: state.loading,
+    messages: state.messages,
+    myOffers: state.myOffers,
+    userOffers: state.userOffers,
+    // proposal: state.proposal,
 }))
 
 class Proposal extends React.Component {
-
-  static propTypes = {
-    dispatch: PropTypes.func,
-    loggedUser: PropTypes.object,
-    serviceUser: PropTypes.object,
-    loading: PropTypes.bool,
-    error: PropTypes.string,
-    offer: PropTypes.object,
-    messages: PropTypes.array,
-    myOffers: PropTypes.array,
-    userOffers: PropTypes.array,
-    proposal: PropTypes.object,
-  };
-
-  static defaultProps = {
-    dispatch: () => {
-    },
-    loggedUser: {},
-    serviceUser: {},
-    loading: false,
-    error: '',
-    offer: {},
-    messages: [],
-    myOffers: [],
-    userOffers: [],
-    proposal: {},
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedUser: {},
-      loading: false,
-      error: '',
-      offer: {},
-      modalOpen: false,
-      activeStep: 0,
-      exchangeMethodSelected: "Coopy",
-      exchangeInstanceSelected: "Hour",
-      selectedService: '',
-      myExchangeService: '',
-      coopiValue: 0,
-      chatMessage: '',
-      messages: [],
-      selectedServiceText: '',
-      exchangeServiceText: '',
-    };
-    this.handleDecline = this.handleDecline.bind(this);
-    this.handleAccept = this.handleAccept.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-  }
-
- 
-  handleClickOpen = () => {
-    this.setState({
-        ...this.state,
-        modalOpen: true 
-    });
-  };
-
-  handleClose = () => {
-    this.setState({
-        ...this.state,
-        modalOpen: false
-    }); 
+    static propTypes = {
+        dispatch: PropTypes.func,
+        loggedUser: PropTypes.object,
+        serviceUser: PropTypes.object,
+        loading: PropTypes.bool,
+        error: PropTypes.string,
+        offer: PropTypes.object,
+        messages: PropTypes.array,
+        myOffers: PropTypes.array,
+        userOffers: PropTypes.array,
+        proposal: PropTypes.object,
     };
 
-    handleAccept(){
+    static defaultProps = {
+        dispatch: () => {
+        },
+        loggedUser: {},
+        serviceUser: {},
+        loading: false,
+        error: '',
+        offer: {},
+        messages: [],
+        myOffers: [],
+        userOffers: [],
+        proposal: {},
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loggedUser: {},
+            loading: false,
+            error: '',
+            offer: {},
+            modalOpen: false,
+            activeStep: 0,
+            exchangeMethodSelected: "Coopy",
+            exchangeInstanceSelected: "Hour",
+            selectedService: '',
+            myExchangeService: '',
+            coopiValue: 0,
+            chatMessage: '',
+            messages: [],
+            selectedServiceText: '',
+            exchangeServiceText: '',
+        };
+        this.handleDecline = this.handleDecline.bind(this);
+        this.handleAccept = this.handleAccept.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
+    }
+
+    handleClickOpen = () => {
+        this.setState({
+            ...this.state,
+            modalOpen: true
+        });
+    };
+
+    handleClose = () => {
+        this.setState({
+            ...this.state,
+            modalOpen: false
+        });
+    };
+
+    handleAccept() {
         const token = localStorage.getItem("token");
         const { dispatch, proposal } = this.props;
-        
-        const payload = 
+
+        const payload =
         {
-          token: token,
-          proposalId: proposal.id,
+            token: token,
+            proposalId: proposal.id,
         };
-    
+
         dispatch(attemptAcceptProposal(payload));
-    
+
         this.handleClose();
     }
 
-    handleDecline(){
+    handleDecline() {
         const token = localStorage.getItem("token");
         const { dispatch, proposal } = this.props;
-        
-        const payload = 
+
+        const payload =
         {
-          token: token,
-          proposalId: proposal.id,
+            token: token,
+            proposalId: proposal.id,
         };
-    
+
         dispatch(attemptRejectProposal(payload));
-    
+
         this.handleClose();
     }
 
-    handleCancel(){
+    handleCancel() {
         const token = localStorage.getItem("token");
         const { dispatch, proposal } = this.props;
-        
-        const payload = 
+
+        const payload =
         {
-          token: token,
-          proposalId: proposal.id,
+            token: token,
+            proposalId: proposal.id,
         };
-    
+
         dispatch(attemptCancelProposal(payload));
-    
+
         this.handleClose();
     }
 
-  render() {
-    const { proposal, buttonText, loggedUser, isInfo } = this.props
-    const { modalOpen } = this.state
+    render() {
+        const { proposal, buttonText, loggedUser, isInfo } = this.props
+        const { modalOpen } = this.state
 
-    const stylesInfo = isInfo ? {color: 'rgba(255, 255, 255, 0.54)'} : {width: "100%" };
-    const styleProposalIcon = isInfo ? "" : <i className="fa fa-handshake-o" aria-hidden="true"></i>;
-    return (
-
-        <div>
-        <CommonButton style={stylesInfo} onClick={e => this.handleClickOpen(e)}>
-        {buttonText} {styleProposalIcon}
-        </CommonButton>
-
-
-            <Dialog
-            open={modalOpen}
-            onClose={this.handleClose}
-            aria-labelledby="form-dialog-title"
-          >
-            <DialogTitle id="form-dialog-title">Offer proposal</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                You have the following offer proposal:
-
-              <Paper>
-                <Typography variant="h5" component="h3">
-                  {proposal.purchasedOffer.title}
-                </Typography>
-    
-            {
-              proposal.exchangeMethod == 'Coopy' ?
-              (
-                <Typography component="p">
-                  for <br/>
-                  {proposal.proposedPrice} COOPI / {proposal.exchangeInstance}
-                </Typography>
-              ) : 
-              (
-                <Typography component="p">
-                for <br/>
-                {proposal.proposedService.title}
-              </Typography>
-              )}
-    
-              </Paper>
-              </DialogContentText>
-
-          <div>
-
-{
-    (proposal.proposerId != loggedUser.id) && (proposal.status == "Waiting") ?
-    (
-        <div>
-        <CommonButton onClick={this.handleDecline} color="primary">
-        <i class="fa fa-times"></i> &nbsp; Decline
-          </CommonButton>
-          <CommonButton onClick={this.handleAccept} color="primary">
-          <i class="fa fa-check"></i> &nbsp; Accept
-          </CommonButton>
-          </div>
-    ) :
-    'Stauts: ' + proposal.status
-}
-
-{
-    (proposal.proposerId == loggedUser.id) && (proposal.status == "Waiting") ?
-    (
-        <div>
-        <CommonButton onClick={this.handleCancel} color="primary">
-        <i class="fa fa-ban"></i> &nbsp; Cancel this proposal
-        </CommonButton>
-        </div>
-    ) :
-    ""
-}
+        const stylesInfo = isInfo ? { color: 'rgba(255, 255, 255, 0.54)' } : { width: "100%" };
+        const styleProposalIcon = isInfo ? "" : <i className="fa fa-handshake-o" aria-hidden="true"></i>;
+        return (
             <div>
-              <CommonButton onClick={this.handleClose} color="primary">
-              <i class="fa fa-arrow-circle-left"></i> &nbsp; Go back
-              </CommonButton>
-              </div>
-          </div>
+                <CommonButton style={stylesInfo} onClick={e => this.handleClickOpen(e)}>
+                    {buttonText} {styleProposalIcon}
+                </CommonButton>
 
-            </DialogContent>
-          </Dialog>
-        </div>
-    );
-  }
+                <Dialog
+                    open={modalOpen}
+                    onClose={this.handleClose}
+                    aria-labelledby="form-dialog-title"
+                >
+                    <DialogTitle id="form-dialog-title">Offer proposal</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            You have the following offer proposal:
+                            <Paper>
+                                <Typography variant="h5" component="h3">
+                                    {proposal.purchasedOffer.title}
+                                </Typography>
+                                {
+                                    proposal.exchangeMethod == 'Coopy' ?
+                                        (
+                                            <Typography component="p">
+                                                for <br />
+                                                {proposal.proposedPrice} COOPI / {proposal.exchangeInstance}
+                                            </Typography>
+                                        ) :
+                                        (
+                                            <Typography component="p">
+                                                for <br />
+                                                {proposal.proposedService.title}
+                                            </Typography>
+                                        )}
+
+                            </Paper>
+                        </DialogContentText>
+
+                        <div>
+                            {
+                                (proposal.proposerId != loggedUser.id) && (proposal.status == "Waiting") ?
+                                    (
+                                        <div>
+                                            <CommonButton onClick={this.handleDecline} color="primary">
+                                                <i class="fa fa-times"></i> &nbsp; Decline
+                                            </CommonButton>
+                                            <CommonButton onClick={this.handleAccept} color="primary">
+                                                <i class="fa fa-check"></i> &nbsp; Accept
+                                            </CommonButton>
+                                        </div>
+                                    ) :
+                                    'Stauts: ' + proposal.status
+                            }
+                            {
+                                (proposal.proposerId == loggedUser.id) && (proposal.status == "Waiting") ?
+                                    (
+                                        <div>
+                                            <CommonButton onClick={this.handleCancel} color="primary">
+                                                <i class="fa fa-ban"></i> &nbsp; Cancel this proposal
+                                            </CommonButton>
+                                        </div>
+                                    ) :
+                                    ""
+                            }
+                            <div>
+                                <CommonButton onClick={this.handleClose} color="primary">
+                                    <i class="fa fa-arrow-circle-left"></i> &nbsp; Go back
+                                </CommonButton>
+                            </div>
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            </div>
+        );
+    }
 }
 
-export { Proposal } 
+export { Proposal }

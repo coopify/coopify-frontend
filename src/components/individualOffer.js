@@ -15,6 +15,7 @@ import * as moment from 'moment';
 import { GeneralQuestions } from './generalQuestions'
 import LoadingScreen from 'react-loading-screen';
 import { getUrlConversation } from '../api';
+import Divider from '@material-ui/core/Divider';
 
 
 export default @connect(state => ({
@@ -110,6 +111,7 @@ class IndividualOffer extends React.Component {
     const { offer , loading } = this.state
     const pictureUrl = readOnlyOffer && readOnlyOffer.images && readOnlyOffer.images.length > 0 ? readOnlyOffer.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
     const displayOwnerOnly  = loggedUser.id === readOnlyOffer.userId ? 'none' : 'block';
+    const marginBetween = "5%";
 
     return (
       <Protected>
@@ -117,35 +119,42 @@ class IndividualOffer extends React.Component {
 
         <LoadingScreen
           loading={loading}
-          bgColor='transparent'
+          bgColor='rgba(255, 255, 255, .5)'
           spinnerColor='#BE1931'
-          textColor='#ffffff'
+          textColor='#BE1931'
           text= {"Loading..."}> 
 
           <LoadingScreen
           loading={this.props.loading}
-          bgColor='transparent'
+          bgColor='rgba(255, 255, 255, .5)'
           spinnerColor='#BE1931'
-          textColor='#ffffff'
+          textColor='#BE1931'
           text= {"Loading..."}> 
 
-          <div className="columns is-centered p-t-xl p-r-md p-l-md">
+          <div className="">
 
-          <Button onClick={e => this.handleContactClick(e)} style={{display: displayOwnerOnly }}>
-          Contact me <i className="fa fa-comment"></i>
-        </Button>
+            <div className="">        
 
-            <div className="column is-half">
-              <h1 className="title">{readOnlyOffer.title}</h1>
-
-              <p style={{ width: "40%" }}>{readOnlyOffer.description}</p>
-
-              <p style={{ width: "40%" }}>By {readOnlyOffer.by}</p>
-
-              <Col sm="10">
-                <img name="picture" src={pictureUrl} />
+<Row>
+              <Col sm="4">
+                <img name="picture" src={pictureUrl} style={{position: "relative", top: "50%", transform: "translateY(-50%)"}} />
               </Col>
 
+              <Col sm="8" style={{textAlign: "center"}}>
+
+              <Row style={{display: "block", marginTop: marginBetween, marginBottom: marginBetween}}>
+
+              <h1 className="title">{readOnlyOffer.title}</h1>
+
+            <Button onClick={e => this.handleContactClick(e)} style={{display: displayOwnerOnly, backgroundColor: "transparent", color: "black" }}>
+            Contact {readOnlyOffer.by} <i className="fa fa-comment"></i>
+            </Button>
+
+              <p>{readOnlyOffer.description}</p>
+
+                </Row>
+                <Divider />
+              <Row style={{display: "block", marginTop: marginBetween, marginBottom: marginBetween}}>
               <div>
                 <h4>Categories: </h4>
 
@@ -161,6 +170,9 @@ class IndividualOffer extends React.Component {
 
               </div>
 
+              </Row>
+              <Divider />
+<Row style={{display: "block", marginTop: marginBetween, marginBottom: marginBetween}}>
               <div>
               <h4>Payment Method: </h4>
                 <Chip label={readOnlyOffer.paymentMethod} />
@@ -172,6 +184,9 @@ class IndividualOffer extends React.Component {
                   {readOnlyOffer.finalProductPrice && readOnlyOffer.finalProductPrice != "0" ? <div className="col-sm-12"><span>{readOnlyOffer.finalProductPrice} Coopies x final product</span></div> : ''}
                 </div>
 
+</Row>
+<Divider />
+<Row style={{display: "block", marginTop: marginBetween, marginBottom: marginBetween}}>
               <TextField
                 label="Start Date"
                 type="date"
@@ -191,6 +206,9 @@ class IndividualOffer extends React.Component {
                   shrink: true,
                 }}
               />
+  </Row>
+  </Col>
+</Row>
 
               <GeneralQuestions offerId={this.props.match.params.id}/>
             </div>

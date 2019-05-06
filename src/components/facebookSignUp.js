@@ -88,9 +88,9 @@ class FacebookSignUp extends React.Component {
       <GuestLayout>
           <LoadingScreen
               loading={loading}
-              bgColor='transparent'
+              bgColor='rgba(255, 255, 255, .5)'
               spinnerColor='#BE1931'
-              textColor='#ffffff'
+              textColor='#BE1931'
              // logoSrc='/logo.png'
               text= {"Autenticando... Por favor, aguarde unos instantes."}> 
             </LoadingScreen>

@@ -84,9 +84,9 @@ class GoogleSignUp extends React.Component {
       <GuestLayout>
           <LoadingScreen
               loading={loading}
-              bgColor='#125876'
+              bgColor='rgba(255, 255, 255, .5)'
               spinnerColor='#BE1931'
-              textColor='#ffffff'
+              textColor='#BE1931'
              // logoSrc='/logo.png'
               text= {"Autenticando... Por favor, aguarde unos instantes."}> 
             </LoadingScreen>

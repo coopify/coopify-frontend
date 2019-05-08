@@ -543,3 +543,23 @@ export async function cancelProposalAPICall(payload){
       data: response.data.data.message
     }));
 }
+
+export function getConversationProposalAPICall(payload){
+  const token = payload.token;
+  const conversationId = payload.conversationId;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.get(
+    `${global.API_URL}/api/proposals/${conversationId}`).
+    then((response) => {
+      return {       
+        status: response.status,
+        proposal: response.data.proposal,
+      }
+    }).catch((e) => { 
+      return {
+        status: e.response.status,
+        proposal: {},
+    }});
+}

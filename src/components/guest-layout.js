@@ -5,7 +5,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-
 export default function (props) {
   // eslint-disable-next-line
   const { children } = props;

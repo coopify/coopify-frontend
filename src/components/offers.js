@@ -159,9 +159,9 @@ class Offers extends React.Component {
     return (
       <LoadingScreen
       loading={this.props.loading}
-      bgColor='#125876'
+      bgColor='rgba(255, 255, 255, .5)'
       spinnerColor='#BE1931'
-      textColor='#ffffff'
+      textColor='#BE1931'
       text= {"Loading..."}> 
 
           <div className={styles.container}>

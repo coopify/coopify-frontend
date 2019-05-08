@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie/server';
 import Authenticator from './fake-authenticator';
-import { attemptSendMessage, attemptGetUserChat, attemptGetUsersOffers, attemptMakeProposal } from '../actions/user';
+import { attemptSendMessage, attemptGetUserChat, attemptGetUsersOffers, attemptMakeProposal, attemptGetConversationProposals } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -234,6 +234,7 @@ class Chat extends React.Component {
 
     dispatch(attemptGetUserChat(payload));
     dispatch(attemptGetUsersOffers(users));
+    dispatch(attemptGetConversationProposals(payload));
 }
 
   async handleSendMessage(e){
@@ -382,7 +383,7 @@ style={{display: coopiSelected}}/>
     const { loading, error, loggedUser, messages, proposal } = this.props
     const { offer, categories, activeStep } = this.state
     const steps = this.getSteps();
-    const proposalMade = proposal.length > 0;
+    const proposalMade = proposal && proposal.id;
 
     return (
       <Protected>
@@ -390,9 +391,9 @@ style={{display: coopiSelected}}/>
 
   <LoadingScreen
           loading={this.props.loading}
-          bgColor='#125876'
+          bgColor='rgba(255, 255, 255, .5)'
           spinnerColor='#BE1931'
-          textColor='#ffffff'
+          textColor='#BE1931'
           text= {"Loading..."}> 
 
          <div className='message-list' style={{height:"300px", overflowY: "auto", flexDirection: "column-reverse"}}>

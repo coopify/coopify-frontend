@@ -37,6 +37,7 @@ import { LOGIN_SUCCESS,
   ACCEPT_PROPOSAL_SUCCESS,
   REJECT_PROPOSAL_SUCCESS,
   CANCEL_PROPOSAL_SUCCESS,
+  GET_CONVERSATION_PROPOSAL_SUCCESS,
 } from '../reducers';
 
 import { logInAPICall, 
@@ -62,6 +63,7 @@ import { logInAPICall,
   rejectProposalAPICall,
   acceptProposalAPICall,
   cancelProposalAPICall,
+  getConversationProposalAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -287,4 +289,9 @@ export function* cancelProposalAsync(payload) {
   if (result.status == 200) {
     yield put({ type: CANCEL_PROPOSAL_SUCCESS, proposal: result.proposal })
   }
+}
+
+export function* getConversationProposalAsync(payload) {
+  const result = yield getConversationProposalAPICall(payload.payload);
+  yield put({ type: GET_CONVERSATION_PROPOSAL_SUCCESS, proposal: result.proposal })
 }

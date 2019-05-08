@@ -1,4 +1,5 @@
-import { user, initialUserState,
+import {
+    user, initialUserState,
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     LOGIN_ATTEMPT,
@@ -69,7 +70,7 @@ import { user, initialUserState,
     CANCEL_PROPOSAL_SUCCESS,
     DISPLAY_TOAST_ATTEMPT,
 
- } from './userReducer';
+} from './userReducer';
 //import { serviceReducers, initialServiceState } from './serviceReducer';
 
 const AppReducers = {
@@ -224,7 +225,7 @@ export {
     ACCEPT_PROPOSAL_ATTEMPT,
     ACCEPT_PROPOSAL_SUCCESS,
     REJECT_PROPOSAL_ATTEMPT,
-    REJECT_PROPOSAL_SUCCESS, 
+    REJECT_PROPOSAL_SUCCESS,
     CANCEL_PROPOSAL_ATTEMPT,
     CANCEL_PROPOSAL_SUCCESS,
     DISPLAY_TOAST_ATTEMPT,

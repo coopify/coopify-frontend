@@ -1,6 +1,6 @@
 export const serviceReducers = {
-    service: function(state = initialServiceState) {
-      return state;
+    service: function (state = initialServiceState) {
+        return state;
     }
 };
 

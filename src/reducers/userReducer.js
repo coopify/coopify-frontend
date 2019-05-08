@@ -71,410 +71,412 @@ export const CANCEL_PROPOSAL_SUCCESS = 'CANCEL_PROPOSAL_SUCCESS'
 export const DISPLAY_TOAST_ATTEMPT = 'DISPLAY_TOAST_ATTEMPT'
 
 export const user = (state = initialUserState, action) => {
-  switch (action.type) {
-    
-    case LOGIN_SUCCESS:
-      return _.assignIn({}, state, {
-        loading: false,
-        user: action.data.user,
-        error: '',
-        userDidLog: true
-    });
-    case LOGIN_ATTEMPT:
-      return _.assignIn({}, state, {
-        loading: true,
-        error: '',
-        userDidLog: false
-    });
-    case SOCIAL_LOGIN_ATTEMPT:
-      return _.assignIn({}, state, {
-        loading: true,
-        error: '',
-        userDidLog: false
-    });
-    case LOGIN_FAILURE:
-      return _.assignIn({}, state, {
-        loading: false,
-        error: action.data.data.message,
-        userDidLog: false
-      });
+    switch (action.type) {
 
-      case SIGNUP_SUCCESS:
-      return _.assignIn({}, state, {
-        loading: false,
-        user: action.user,
-        error: '',
-        userDidSignUp: true
-      });
-    case SIGNUP_ATTEMPT:
-      return _.assignIn({}, state, {
-        loading: true,
-        error: '',
-        userDidSignUp: false
-    });
-    case SOCIAL_SIGNUP_ATTEMPT:
-    return _.assignIn({}, state, {
-      loading: true,
-      error: '',
-      userDidSignUp: false
-  });
-    case SIGNUP_FAILURE:
-      return _.assignIn({}, state, {
-        loading: false,
-        error: action.data.data.message,
-        userDidSignUp: false
-      });
-      case SOCIAL_SIGNUP_FAILURE:
-      return _.assignIn({}, state, {
-        loading: false,
-        error: action.data.message,
-        userDidSignUp: false
-      });
-      case SOCIAL_SIGNUP_SUCCESS:
-      return _.assignIn({}, state, {
-        loading: false,
-        user: action.user,
-        error: '',
-        socialUserDidSignUp: true,
-        userDidLog: true
-      });
+        case LOGIN_SUCCESS:
+            return _.assignIn({}, state, {
+                loading: false,
+                user: action.data.user,
+                error: '',
+                userDidLog: true
+            });
+        case LOGIN_ATTEMPT:
+            return _.assignIn({}, state, {
+                loading: true,
+                error: '',
+                userDidLog: false
+            });
+        case SOCIAL_LOGIN_ATTEMPT:
+            return _.assignIn({}, state, {
+                loading: true,
+                error: '',
+                userDidLog: false
+            });
+        case LOGIN_FAILURE:
+            return _.assignIn({}, state, {
+                loading: false,
+                error: action.data.data.message,
+                userDidLog: false
+            });
 
-      case LOGOUT_ATTEMPT:
-      return _.assignIn({}, state, {
-        loading: true,
-        userDidSignUp: false,
-        userDidLog: true
-      });
+        case SIGNUP_SUCCESS:
+            return _.assignIn({}, state, {
+                loading: false,
+                user: action.user,
+                error: '',
+                userDidSignUp: true
+            });
+        case SIGNUP_ATTEMPT:
+            return _.assignIn({}, state, {
+                loading: true,
+                error: '',
+                userDidSignUp: false
+            });
+        case SOCIAL_SIGNUP_ATTEMPT:
+            return _.assignIn({}, state, {
+                loading: true,
+                error: '',
+                userDidSignUp: false
+            });
+        case SIGNUP_FAILURE:
+            return _.assignIn({}, state, {
+                loading: false,
+                error: action.data.data.message,
+                userDidSignUp: false
+            });
+        case SOCIAL_SIGNUP_FAILURE:
+            return _.assignIn({}, state, {
+                loading: false,
+                error: action.data.message,
+                userDidSignUp: false
+            });
+        case SOCIAL_SIGNUP_SUCCESS:
+            return _.assignIn({}, state, {
+                loading: false,
+                user: action.user,
+                error: '',
+                socialUserDidSignUp: true,
+                userDidLog: true
+            });
 
-      case LOGOUT_SUCCESS:
-      return _.assignIn({}, state, {
-        loading: false,
-        userDidSignUp: false,
-        userDidLog: false
-      });
-      case PROFILE_ATTEMPT:
-      return _.assignIn({}, state, {
-        loading: true,
-        error: '',
-      });
-      case PROFILE_SUCCESS:
-      return _.assignIn({}, state, {
-        loading: false,
-        error: '',
-        user: action.user.user
-      });
-      case PROFILE_FAILURE:
-      return _.assignIn({}, state, {
-        loading: false,
-        error: action.errorMessage,
-      });
-      case CHECKBALANCE_ATTEMPT:
-      return _.assignIn({}, state, {
-        loading: true,
-        error: '',
-      });
-      case CHECKBALANCE_SUCCESS:
-      return _.assignIn({}, state, {
-        loading: false,
-        error: '',
-        balance: action.balance
-      });
-      case CHECKBALANCE_FAILURE:
-      return _.assignIn({}, state, {
-        loading: false,
-        error: action.errorMessage,
-      });
-      case CHECKTRANSACTIONS_ATTEMPT:
-      return _.assignIn({}, state, {
-        loading: true,
-        error: '',
-      });
-      case CHECKTRANSACTIONS_SUCCESS:
-      return _.assignIn({}, state, {
-        loading: false,
-        error: '',
-        transactions: action.transactions
-      });
-      case CHECKTRANSACTIONS_FAILURE:
-      return _.assignIn({}, state, {
-        loading: false,
-        error: action.errorMessage,
-      });
-      case OFFERS_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
-      case OFFERS_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        offers: action.responseOffers.offers,
-        countOffers: action.responseOffers.countOffers,
-        loading: false,
-      });
-      case OFFERS_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-        offers: [],
-        countOffers: 0,
-        filters: {},
-        loading: false,
-      });
-      case LOAD_STATE_ATTEMPT:
-      return _.assignIn({}, state, {
-        loading: true,
-        userDidSignUp: false,
-        userDidLog: false
-      });
+        case LOGOUT_ATTEMPT:
+            return _.assignIn({}, state, {
+                loading: true,
+                userDidSignUp: false,
+                userDidLog: true
+            });
 
-      case LOAD_SUCCESS:
-      return _.assignIn({}, state, {
-        loading: false,
-        userDidSignUp: false,
-        user: action.cookieData.user,
-        userDidLog: action.cookieData.isLogged
-      });
+        case LOGOUT_SUCCESS:
+            return _.assignIn({}, state, {
+                loading: false,
+                userDidSignUp: false,
+                userDidLog: false
+            });
+        case PROFILE_ATTEMPT:
+            return _.assignIn({}, state, {
+                loading: true,
+                error: '',
+            });
+        case PROFILE_SUCCESS:
+            return _.assignIn({}, state, {
+                loading: false,
+                error: '',
+                user: action.user.user
+            });
+        case PROFILE_FAILURE:
+            return _.assignIn({}, state, {
+                loading: false,
+                error: action.errorMessage,
+            });
+        case CHECKBALANCE_ATTEMPT:
+            return _.assignIn({}, state, {
+                loading: true,
+                error: '',
+            });
+        case CHECKBALANCE_SUCCESS:
+            return _.assignIn({}, state, {
+                loading: false,
+                error: '',
+                balance: action.balance
+            });
+        case CHECKBALANCE_FAILURE:
+            return _.assignIn({}, state, {
+                loading: false,
+                error: action.errorMessage,
+            });
+        case CHECKTRANSACTIONS_ATTEMPT:
+            return _.assignIn({}, state, {
+                loading: true,
+                error: '',
+            });
+        case CHECKTRANSACTIONS_SUCCESS:
+            return _.assignIn({}, state, {
+                loading: false,
+                error: '',
+                transactions: action.transactions
+            });
+        case CHECKTRANSACTIONS_FAILURE:
+            return _.assignIn({}, state, {
+                loading: false,
+                error: action.errorMessage,
+            });
+        case OFFERS_ATTEMPT:
+            return _.assignIn({}, state, {
+                error: '',
+                loading: true,
+            });
+        case OFFERS_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                offers: action.responseOffers.offers,
+                countOffers: action.responseOffers.countOffers,
+                loading: false,
+            });
+        case OFFERS_FAILURE:
+            return _.assignIn({}, state, {
+                error: action.errorMessage,
+                offers: [],
+                countOffers: 0,
+                filters: {},
+                loading: false,
+            });
+        case LOAD_STATE_ATTEMPT:
+            return _.assignIn({}, state, {
+                loading: true,
+                userDidSignUp: false,
+                userDidLog: false
+            });
 
-      case CHANGE_ATTEMPT:
-      return _.assignIn({}, state, {
-        loading: false,
-        userDidSignUp: false,
-        user: {...state.user, 
-          name: action.payload.name,
-          lastName: action.payload.lastName,
-          address : action.payload.address,
-          phone : action.payload.phone,
-          birthdate : action.payload.birthdate,
-          bio : action.payload.bio,
-          interests : action.payload.interests
-        },
+        case LOAD_SUCCESS:
+            return _.assignIn({}, state, {
+                loading: false,
+                userDidSignUp: false,
+                user: action.cookieData.user,
+                userDidLog: action.cookieData.isLogged
+            });
 
-        userDidLog: true
-      });
+        case CHANGE_ATTEMPT:
+            return _.assignIn({}, state, {
+                loading: false,
+                userDidSignUp: false,
+                user: {
+                    ...state.user,
+                    name: action.payload.name,
+                    lastName: action.payload.lastName,
+                    address: action.payload.address,
+                    phone: action.payload.phone,
+                    birthdate: action.payload.birthdate,
+                    bio: action.payload.bio,
+                    interests: action.payload.interests
+                },
 
-      case CHANGE_IMAGE_ATTEMPT:
-      return _.assignIn({}, state, {
-        loading: false,
-        userDidSignUp: false,
-        user: {...state.user, 
-          pictureURL: action.payload.url,
-        },
-        
-        userDidLog: true
-      });
+                userDidLog: true
+            });
 
-      case RESET_ERROR:
-      return _.assignIn({}, state, {
-        error: '',
-        status: '',
-      });
+        case CHANGE_IMAGE_ATTEMPT:
+            return _.assignIn({}, state, {
+                loading: false,
+                userDidSignUp: false,
+                user: {
+                    ...state.user,
+                    pictureURL: action.payload.url,
+                },
 
-      case CREATE_OFFER_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
+                userDidLog: true
+            });
 
-      case CREATE_OFFER_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-        loading: false,
-      });
+        case RESET_ERROR:
+            return _.assignIn({}, state, {
+                error: '',
+                status: '',
+            });
 
-      case CREATE_OFFER_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        message: action.message,
-        offerIsCreated: true,
-        loading: false,
-      });
-      
-      case SHOW_OFFER_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
+        case CREATE_OFFER_ATTEMPT:
+            return _.assignIn({}, state, {
+                error: '',
+                loading: true,
+            });
 
-      case SHOW_OFFER_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-        loading: false,
-      });
+        case CREATE_OFFER_FAILURE:
+            return _.assignIn({}, state, {
+                error: action.errorMessage,
+                loading: false,
+            });
 
-      case SHOW_OFFER_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        offer: action.offer,
-        loading: false,
-      });
+        case CREATE_OFFER_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                message: action.message,
+                offerIsCreated: true,
+                loading: false,
+            });
 
-      case CHANGE_FILTERS_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        filters: action.payload
-      });
+        case SHOW_OFFER_ATTEMPT:
+            return _.assignIn({}, state, {
+                error: '',
+                loading: true,
+            });
 
-      case GET_CATEGORIES_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: ''
-      });
+        case SHOW_OFFER_FAILURE:
+            return _.assignIn({}, state, {
+                error: action.errorMessage,
+                loading: false,
+            });
 
-      case GET_CATEGORIES_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        categories: action.categories.map(c => (c.name))
-      });
+        case SHOW_OFFER_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                offer: action.offer,
+                loading: false,
+            });
 
-      case GET_CATEGORIES_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage
-      });
+        case CHANGE_FILTERS_ATTEMPT:
+            return _.assignIn({}, state, {
+                error: '',
+                filters: action.payload
+            });
 
-      case POST_QUESTION_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: ''
-      });
+        case GET_CATEGORIES_ATTEMPT:
+            return _.assignIn({}, state, {
+                error: ''
+            });
 
-      case POST_QUESTION_SUCCESS:
-      return _.assignIn({}, state, {
-        error: ''
-      });
+        case GET_CATEGORIES_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                categories: action.categories.map(c => (c.name))
+            });
 
-      case POST_QUESTION_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage
-      });
+        case GET_CATEGORIES_FAILURE:
+            return _.assignIn({}, state, {
+                error: action.errorMessage
+            });
 
-      case GET_QUESTION_ANSWER_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: ''
-      });
+        case POST_QUESTION_ATTEMPT:
+            return _.assignIn({}, state, {
+                error: ''
+            });
 
-      case GET_QUESTION_ANSWER_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        questions: action.responseQuestions.questions,
-        countQuestions: action.responseQuestions.count
-      });
+        case POST_QUESTION_SUCCESS:
+            return _.assignIn({}, state, {
+                error: ''
+            });
 
-      case GET_QUESTION_ANSWER_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage
-      });
+        case POST_QUESTION_FAILURE:
+            return _.assignIn({}, state, {
+                error: action.errorMessage
+            });
 
-      case SEND_QUESTION_REPLY_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        reply: action.reply,
-      });
+        case GET_QUESTION_ANSWER_ATTEMPT:
+            return _.assignIn({}, state, {
+                error: ''
+            });
 
-      case SEND_MESSAGE_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: ''
-      });
+        case GET_QUESTION_ANSWER_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                questions: action.responseQuestions.questions,
+                countQuestions: action.responseQuestions.count
+            });
 
-      case SEND_MESSAGE_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        messages: state.messages.concat([action.message]),
-      });
+        case GET_QUESTION_ANSWER_FAILURE:
+            return _.assignIn({}, state, {
+                error: action.errorMessage
+            });
 
-      case UPDATE_MESSAGE_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        messages: state.messages.concat([action.payload]),
-      });
+        case SEND_QUESTION_REPLY_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                reply: action.reply,
+            });
 
-      case GET_CONVERSATIONS_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
+        case SEND_MESSAGE_ATTEMPT:
+            return _.assignIn({}, state, {
+                error: ''
+            });
 
-      case GET_CONVERSATIONS_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        conversations: action.conversations,
-        loading: false,
-      });
+        case SEND_MESSAGE_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                messages: state.messages.concat([action.message]),
+            });
 
-      case GET_MESSAGES_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
+        case UPDATE_MESSAGE_ATTEMPT:
+            return _.assignIn({}, state, {
+                error: '',
+                messages: state.messages.concat([action.payload]),
+            });
 
-      case GET_MESSAGES_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        messages: action.messages,
-        newMessages: [],
-        loading: false,
-      });
+        case GET_CONVERSATIONS_ATTEMPT:
+            return _.assignIn({}, state, {
+                error: '',
+                loading: true,
+            });
 
-      case MAKE_PROPOSAL_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposal: action.proposal,
-        loading: false,
-      });
+        case GET_CONVERSATIONS_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                conversations: action.conversations,
+                loading: false,
+            });
 
-      case GET_USERS_OFFERS_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        myOffers: action.usersOffers.myOffers,
-        userOffers: action.usersOffers.userOffers,
-      });
+        case GET_MESSAGES_ATTEMPT:
+            return _.assignIn({}, state, {
+                error: '',
+                loading: true,
+            });
 
-      case GET_PROPOSALS_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
+        case GET_MESSAGES_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                messages: action.messages,
+                newMessages: [],
+                loading: false,
+            });
 
-      case GET_PROPOSALS_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-        loading: false,
-      });
+        case MAKE_PROPOSAL_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                proposal: action.proposal,
+                loading: false,
+            });
 
-      case GET_PROPOSALS_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposals: action.proposals,
-        //countProposals: action.count,
-        loading: false,
-      });
+        case GET_USERS_OFFERS_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                myOffers: action.usersOffers.myOffers,
+                userOffers: action.usersOffers.userOffers,
+            });
 
-      case ACCEPT_PROPOSAL_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposal: action.proposal,
-      });
+        case GET_PROPOSALS_ATTEMPT:
+            return _.assignIn({}, state, {
+                error: '',
+                loading: true,
+            });
 
-      case REJECT_PROPOSAL_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposal: action.proposal,
-      });
+        case GET_PROPOSALS_FAILURE:
+            return _.assignIn({}, state, {
+                error: action.errorMessage,
+                loading: false,
+            });
 
-      case CANCEL_PROPOSAL_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposal: action.proposal,
-      }); 
+        case GET_PROPOSALS_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                proposals: action.proposals,
+                //countProposals: action.count,
+                loading: false,
+            });
 
-      case DISPLAY_TOAST_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        status: action.payload.status,
-      }); 
+        case ACCEPT_PROPOSAL_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                proposal: action.proposal,
+            });
 
-    default:
-      return state
-  }
+        case REJECT_PROPOSAL_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                proposal: action.proposal,
+            });
+
+        case CANCEL_PROPOSAL_SUCCESS:
+            return _.assignIn({}, state, {
+                error: '',
+                proposal: action.proposal,
+            });
+
+        case DISPLAY_TOAST_ATTEMPT:
+            return _.assignIn({}, state, {
+                error: '',
+                status: action.payload.status,
+            });
+
+        default:
+            return state
+    }
 };
 
 export const initialUserState = {
-  user: {}
+    user: {}
 };

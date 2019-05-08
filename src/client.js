@@ -27,41 +27,41 @@ global.PUSHER_APP_KEY = '854192fae3c55354146c'
 global.PUSHER_APP_CLUSTER = 'us2'
 
 export default class Client {
-  constructor({ addPlugin }) {
-    const reduxClient = new ReduxClient({ addPlugin });
-    reduxClient.setReducers(user);
-    this.sagaMiddleware = createSagaMiddleware();
-    reduxClient.addMiddleware(this.sagaMiddleware);
-    addPlugin(reduxClient);
-  }
-
-  trackPageView() {
-    const { ga } = window;
-    if (typeof ga !== 'undefined' && ga) {
-      ga('send', {
-        hitType: 'pageview',
-        page: window.location.pathname,
-      });
+    constructor({ addPlugin }) {
+        const reduxClient = new ReduxClient({ addPlugin });
+        reduxClient.setReducers(user);
+        this.sagaMiddleware = createSagaMiddleware();
+        reduxClient.addMiddleware(this.sagaMiddleware);
+        addPlugin(reduxClient);
     }
-  }
 
-  apply(clientHandler) {
-    clientHandler
-      .hooks
-      .reduxInitialState
-      .tapPromise('ReduxInitialState', async ({ getInitialState, setInitialState }) => {
-        const initialState = Object.assign({}, getInitialState(), appInitialState);
-        setInitialState(initialState);
-      });
+    trackPageView() {
+        const { ga } = window;
+        if (typeof ga !== 'undefined' && ga) {
+            ga('send', {
+                hitType: 'pageview',
+                page: window.location.pathname,
+            });
+        }
+    }
 
-    clientHandler
-      .hooks
-      .beforeRender
-      .tapPromise('RunSagaMiddleware', async () => this.sagaMiddleware.run(mySaga));
+    apply(clientHandler) {
+        clientHandler
+            .hooks
+            .reduxInitialState
+            .tapPromise('ReduxInitialState', async ({ getInitialState, setInitialState }) => {
+                const initialState = Object.assign({}, getInitialState(), appInitialState);
+                setInitialState(initialState);
+            });
 
-    clientHandler
-      .hooks
-      .beforeRender
-      .tapPromise('AddReduxProvider', async () => (console.log('Client')));
-  }
+        clientHandler
+            .hooks
+            .beforeRender
+            .tapPromise('RunSagaMiddleware', async () => this.sagaMiddleware.run(mySaga));
+
+        clientHandler
+            .hooks
+            .beforeRender
+            .tapPromise('AddReduxProvider', async () => (console.log('Client')));
+    }
 }

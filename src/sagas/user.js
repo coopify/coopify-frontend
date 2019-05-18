@@ -39,6 +39,8 @@ import {
   REJECT_PROPOSAL_SUCCESS,
   CANCEL_PROPOSAL_SUCCESS,
   GET_CONVERSATION_PROPOSAL_SUCCESS,
+  GET_GOALS_SUCCESS,
+  GET_GOALS_FAILURE,
 } from '../reducers';
 
 import {
@@ -67,6 +69,7 @@ import {
   acceptProposalAPICall,
   cancelProposalAPICall,
   getConversationProposalAPICall,
+  getGoalsAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -297,4 +300,14 @@ export function* cancelProposalAsync(payload) {
 export function* getConversationProposalAsync(payload) {
   const result = yield getConversationProposalAPICall(payload.payload);
   yield put({ type: GET_CONVERSATION_PROPOSAL_SUCCESS, proposal: result.proposal })
+}
+
+export function* getGoalsAsync(payload) {
+  const result = yield getGoalsAPICall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: GET_GOALS_SUCCESS, responseGoals: result.responseGoals })
+  }
+  else {
+    yield put({ type: GET_GOALS_FAILURE, errorMessage: result.errorMessage })
+  }
 }

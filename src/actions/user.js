@@ -156,3 +156,8 @@ export const attemptGetConversationProposals = (payload) => ({
     type: Actions.GET_CONVERSATION_PROPOSAL_ATTEMPT,
     payload
 });
+
+export const attemptGoalsAction = (payload) => ({
+    type: Actions.GET_GOALS_ATTEMPT,
+    payload
+});

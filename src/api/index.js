@@ -568,3 +568,27 @@ export function getConversationProposalAPICall(payload){
     }});
 }
 
+export function getGoalsAPICall(payload){
+  const token = payload.token;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  // return axios.get(
+  //   `${global.API_URL}/api/goals/`).
+  //   then((response) => {
+  //     return {       
+  //       status: response.status,
+  //       responseGoals: {goals: response.data.goals, countGoals: response.data.count},
+  //     }
+  //   }).catch((e) => { 
+  //     return {
+  //       status: e.response.status,
+  //       goals: {},
+  //   }});
+    return {
+    status: 200,
+    responseGoals: {goals: [{name: 'Offer a service',description: 'Post your first service and offer your talents to the community.',amount: 10, quantity: 6},
+    {name: 'Post your referral link',description: 'Publicly support us and post your referral link to your timeline on Facebook.',amount: 15, quantity: 9}],
+    count: 2}
+  };
+}

@@ -182,7 +182,9 @@ class Proposals extends React.Component {
                           {tile.purchasedOffer.images ? tile.purchasedOffer.images[0] ? tile.purchasedOffer.images[0].url : "" : ""}
                           alt={tile.title} />
                         <GridListTileBar
-                          title={tile.purchasedOffer.title}
+                          title={
+                            <Link style={{ padding: "0" }} to={`/offers/${tile.offerId}`} className="navbar-item"><i className="fa"></i>{tile.purchasedOffer.title}</Link>       
+                          }
                           subtitle={<span>by: {tile.proposer.name}</span>}
                           actionIcon={
 

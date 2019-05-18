@@ -113,7 +113,7 @@ class CoopiesAccount extends React.Component {
               <h2 style={{textAlign: 'center'}}> Transactions </h2>
 
               <div className="field" >
-                <label className="label" htmlFor="name">Available Coopies (CPI): {balance / 1000}</label>
+                <label className="label" htmlFor="name">Available Coopies (CPI): {balance}</label>
               </div> 
 
           <ReactTable

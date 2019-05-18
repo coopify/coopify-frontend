@@ -1,13 +1,14 @@
 import { put } from 'redux-saga/effects';
-import { LOGIN_SUCCESS,
+import {
+  LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  SIGNUP_FAILURE, 
-  SIGNUP_SUCCESS, 
-  SOCIAL_SIGNUP_FAILURE, 
-  LOGOUT_SUCCESS, 
-  PROFILE_SUCCESS, 
-  PROFILE_FAILURE, 
-  LOAD_SUCCESS, 
+  SIGNUP_FAILURE,
+  SIGNUP_SUCCESS,
+  SOCIAL_SIGNUP_FAILURE,
+  LOGOUT_SUCCESS,
+  PROFILE_SUCCESS,
+  PROFILE_FAILURE,
+  LOAD_SUCCESS,
   SOCIAL_SIGNUP_SUCCESS,
   CHECKBALANCE_SUCCESS,
   CHECKBALANCE_FAILURE,
@@ -40,10 +41,12 @@ import { LOGIN_SUCCESS,
   GET_CONVERSATION_PROPOSAL_SUCCESS,
 } from '../reducers';
 
-import { logInAPICall, 
-  signUpAPICall, 
-  socialSignUpAPICall, 
-  profileAPICall, 
+import {
+  resetAuthHeader,
+  logInAPICall,
+  signUpAPICall,
+  socialSignUpAPICall,
+  profileAPICall,
   socialLogInAPICall,
   checkBalanceAPICall,
   checkTransactionsAPICall,
@@ -67,16 +70,16 @@ import { logInAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
-    const result = yield logInAPICall(payload.payload);
-    if (result.status == 200) {
+  const result = yield logInAPICall(payload.payload);
+  if (result.status == 200) {
 
-      localStorage.setItem("loggedUser", JSON.stringify(result.data.user));
-      localStorage.setItem("token", result.data.accessToken);
+    localStorage.setItem("loggedUser", JSON.stringify(result.data.user));
+    localStorage.setItem("token", result.data.accessToken);
 
-      yield put({ type: LOGIN_SUCCESS, data: result.data })
-    } else {
-      yield put({ type: LOGIN_FAILURE, data: result.data })
-    }
+    yield put({ type: LOGIN_SUCCESS, data: result.data })
+  } else {
+    yield put({ type: LOGIN_FAILURE, data: result.data })
+  }
 }
 
 export function* signUpAsync(payload) {
@@ -103,10 +106,10 @@ export function* socialSignUpAsync(payload) {
   }
 }
 
-export function* logoutAsync(){
-
+export function* logoutAsync() {
+  resetAuthHeader();
   localStorage.removeItem("loggedUser");
-  localStorage.removeItem("token")
+  localStorage.removeItem("token");
   yield put({ type: LOGOUT_SUCCESS })
 }
 
@@ -119,17 +122,17 @@ export function* profileAsync(payload) {
   }
 }
 
-export function* loadStateFromCookies(){
-  
+export function* loadStateFromCookies() {
+
   var user = JSON.parse(localStorage.getItem("loggedUser"));
   var userIsLogged = "loggedUser" in localStorage;
 
-  var cookieData = 
+  var cookieData =
   {
     user: user,
     isLogged: userIsLogged
   }
-  yield put({type: LOAD_SUCCESS, cookieData});
+  yield put({ type: LOAD_SUCCESS, cookieData });
 }
 
 export function* socialLoginAsync(payload) {
@@ -163,7 +166,7 @@ export function* checkTransactionsAsync(payload) {
 export function* checkOffersAsync(payload) {
   const result = yield checkOffersPagedAPICall(payload.payload);
   if (result.status == 200) {
-    yield put({ type: OFFERS_SUCCESS, responseOffers: result.responseOffers})
+    yield put({ type: OFFERS_SUCCESS, responseOffers: result.responseOffers })
   } else {
     yield put({ type: OFFERS_FAILURE, errorMessage: result.errorMessage })
   }
@@ -248,7 +251,7 @@ export function* makeProposalAsync(payload) {
   if (result.status == 200) {
     yield put({ type: MAKE_PROPOSAL_SUCCESS, proposal: result.proposal })
   }
-  else{
+  else {
     yield put({ type: MAKE_PROPOSAL_FAILURE, errorMessage: result.errorMessage })
   }
 }
@@ -263,9 +266,9 @@ export function* geteUsersOffers(payload) {
 export function* getProposalsAsync(payload) {
   const result = yield getProposalsAPICall(payload.payload);
   if (result.status == 200) {
-    yield put({ type: GET_PROPOSALS_SUCCESS, proposals: result.responseProposals.proposals})//Pedir que BE devuelva count
+    yield put({ type: GET_PROPOSALS_SUCCESS, proposals: result.responseProposals.proposals })//Pedir que BE devuelva count
   }
-  else{
+  else {
     yield put({ type: GET_PROPOSALS_FAILURE, errorMessage: result.errorMessage })
   }
 }

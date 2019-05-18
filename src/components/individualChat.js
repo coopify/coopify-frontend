@@ -257,6 +257,13 @@ class Chat extends React.Component {
 
   handleMakeOfferProposal(e){
     this.handleReset(e);
+
+    this.setState({
+      ...this.state,
+      modalOpen: false,
+      activeStep: 0
+  }); 
+
     const token = localStorage.getItem("token");
     const { selectedService, exchangeMethodSelected, myExchangeService, exchangeInstanceSelected, coopiValue } = this.state;
     const { dispatch } = this.props;

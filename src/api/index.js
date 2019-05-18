@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { stringify } from 'query-string';
 
+export function resetAuthHeader(){
+  axios.defaults.headers.common.Authorization = undefined;
+}
+
 export function logInAPICall(payload) {
     return axios.post(
         `${global.API_URL}/api/users/login`,
@@ -563,3 +567,4 @@ export function getConversationProposalAPICall(payload){
         proposal: {},
     }});
 }
+

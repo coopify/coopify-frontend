@@ -98,7 +98,7 @@ class Goals extends React.Component {
             <div className="row">
                 <div className="col-sm-8"><p> {props.original.description}</p></div>
                 <div className="col-sm-2" style={{fontSize: 'x-large'}}><p> {props.original.amount} C</p></div>
-                <div className="col-sm-2"><p> {props.original.quantity} ({props.original.amount * props.original.quantity} C)</p></div>
+                <div className="col-sm-2"><p> x{props.original.quantity} ({props.original.amount * props.original.quantity} C)</p></div>
             </div>
           </div>
         </div>

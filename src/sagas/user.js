@@ -43,6 +43,8 @@ import {
   GET_GOALS_FAILURE,
   GET_GOALSUSER_SUCCESS,
   GET_GOALSUSER_FAILURE,
+  SYNC_FB_SUCCESS,
+  SYNC_FB_FAILURE,
 } from '../reducers';
 
 import {
@@ -73,6 +75,7 @@ import {
   getConversationProposalAPICall,
   getGoalsAPICall,
   getGoalsUserAPICall,
+  syncFBApiCall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -314,6 +317,7 @@ export function* getGoalsAsync() {
     yield put({ type: GET_GOALS_FAILURE, errorMessage: result.errorMessage })
   }
 }
+
 export function* getGoalsUserAsync(payload) {
   const result = yield getGoalsUserAPICall(payload.payload);
   if (result.status == 200) {
@@ -321,5 +325,15 @@ export function* getGoalsUserAsync(payload) {
   }
   else {
     yield put({ type: GET_GOALSUSER_FAILURE, errorMessage: result.errorMessage })
+  }
+}
+
+export function* syncFacebookAsync(payload) {
+  const result = yield syncFBApiCall(payload.payload);
+  if (result.status == 200) {
+    yield put({ type: SYNC_FB_SUCCESS, user: result.user })
+  }
+  else {
+    yield put({ type: SYNC_FB_FAILURE, errorMessage: result.errorMessage })
   }
 }

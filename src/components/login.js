@@ -11,7 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import {Link} from 'react-router-dom'
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import GoogleLogin from 'react-google-login';
 import Protected from './protected';
 import SingletonPusher from './singletonPusher';
@@ -171,8 +171,30 @@ class Login extends React.Component {
                       </div>
 
                 <div className="social-login-buttons">
-                <FacebookLogin appId={global.FB_APP_ID} autoLoad={false} ccsClass="btn btn-link-1 btn-link-1-facebook" callback={this.responseFacebook} />
-                <GoogleLogin clientId={global.GOOGLE_APP_ID} autoLoad={false} buttonText="Login" onSuccess={this.responseGoogle} onFailure={this.errorGoogle} />
+
+                <FacebookLogin
+                  appId={global.FB_APP_ID}
+                  autoLoad={false}
+                  ccsClass="btn btn-link-1 btn-link-1-facebook"
+                  callback={this.responseFacebook}
+                  render={renderProps => (
+                    <button className="btn btn-link-1 btn-link-1-facebook" value="facebook" onClick={renderProps.onClick}>
+                    <i className="fa fa-facebook"></i> Facebook
+                    </button>
+                )}/>
+
+                <GoogleLogin
+                  clientId={global.GOOGLE_APP_ID}
+                  autoLoad={false}
+                  buttonText="Login" 
+                  onSuccess={this.responseGoogle} 
+                  onFailure={this.errorGoogle}
+                  render={renderProps => (
+                    <button className="btn btn-link-1 btn-link-1-google-plus" value="google" onClick={renderProps.onClick}>
+                    <i className="fa fa-google-plus"></i> Google
+                    </button>
+                  )}/>
+
                 </div>
               </div>
               <div>

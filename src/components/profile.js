@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie';
 import Authenticator from './fake-authenticator';
-import { attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetError } from '../actions/user';
+import { attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetError, attemptSyncFB } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -18,6 +18,7 @@ import Protected from './protected';
 import { Link } from 'react-router-dom';
 import {loadScript} from "@pawjs/pawjs/src/utils/utils";
 import LoadingScreen from 'react-loading-screen';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
 export default @connect(state => ({
   loggedUser: state.user, //el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
@@ -50,6 +51,7 @@ class Profile extends React.Component {
       error: '',
       checked: false
     };
+    this.handleIntegrateFBBtnClick = this.handleIntegrateFBBtnClick.bind(this);
   }
 
 
@@ -164,6 +166,21 @@ class Profile extends React.Component {
   }
   }
 
+  handleIntegrateFBBtnClick(response){
+    const { dispatch } = this.props;
+
+    const fbToken = response.accessToken;
+    const userToken = localStorage.getItem("token");
+
+    const payload = 
+    {
+      userToken: userToken,
+      fbToken: fbToken
+    };
+
+    dispatch(attemptSyncFB(payload));
+  }
+
   render() {
     const { loading, error, loggedUser } = this.props
     if(error.length > 0) this.notify(error, true)
@@ -171,6 +188,7 @@ class Profile extends React.Component {
     const edition = !this.state.checked;
     const focusable = !this.state.checked ? 'disabled' : '';
     const dateBirth = loggedUser.birthdate ? loggedUser.birthdate.substring(0,10) : new Date(Date.now()).toISOString().substring(0,10);
+    const displayFBBtn = true ? "inline-block" : "none"; //TODO cambiar a loggedUser.integrated
 
     return (
       <Protected>
@@ -189,7 +207,22 @@ class Profile extends React.Component {
             <Col sm={12}>
 
               <h2 style={{textAlign: 'center'}}> Profile </h2>
-                
+              
+              <div style={{textAlign: "center"}}>
+
+            <FacebookLogin
+             appId={global.FB_APP_ID}
+             autoLoad={false} 
+             callback={this.handleIntegrateFBBtnClick}
+             render={renderProps => (
+              <Button onClick={renderProps.onClick} style={{display: displayFBBtn, backgroundColor: "transparent", color: "black" }}>
+              Sync with Facebook <i className="fa fa-facebook-square"></i>
+              </Button>
+            )} />
+
+            </div>
+
+
                 Edit Mode <Switch
                   checked={this.state.checked}
                   onChange={e => this.handleSwitchChange(e)}

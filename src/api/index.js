@@ -615,3 +615,27 @@ export function getGoalsUserAPICall(payload){
   //   count: 2}
   // };
 }
+
+export function syncFBApiCall(payload){
+  const userToken = payload.userToken;
+  const code = 
+  {
+    code: payload.fbToken
+  };
+ 
+  axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
+
+  return axios.post(
+    `${global.API_URL}/api/users/facebook/sync`, code).  
+    then((response) => {
+      return {       
+        status: response.status,
+        user: response.data.user
+      }
+    }).catch((e) => { 
+      console.log("syncFBApiCall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+}

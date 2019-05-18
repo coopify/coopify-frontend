@@ -76,6 +76,9 @@ import { user, initialUserState,
     GET_GOALSUSER_ATTEMPT,
     GET_GOALSUSER_SUCCESS,
     GET_GOALSUSER_FAILURE,
+    SYNC_FB_ATTEMPT,
+    SYNC_FB_SUCCESS,
+    SYNC_FB_FAILURE,
 
  } from './userReducer';
 //import { serviceReducers, initialServiceState } from './serviceReducer';
@@ -168,6 +171,9 @@ const Actions = {
     GET_GOALSUSER_ATTEMPT,
     GET_GOALSUSER_SUCCESS,
     GET_GOALSUSER_FAILURE,
+    SYNC_FB_ATTEMPT,
+    SYNC_FB_SUCCESS,
+    SYNC_FB_FAILURE,
 }
 
 export {
@@ -252,4 +258,7 @@ export {
     GET_GOALSUSER_ATTEMPT,
     GET_GOALSUSER_SUCCESS,
     GET_GOALSUSER_FAILURE,
+    SYNC_FB_ATTEMPT,
+    SYNC_FB_SUCCESS,
+    SYNC_FB_FAILURE,
 }

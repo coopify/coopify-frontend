@@ -17,6 +17,7 @@ import LoadingScreen from 'react-loading-screen';
 import { getUrlConversation } from '../api';
 import Divider from '@material-ui/core/Divider';
 import { FacebookShareButton, FacebookIcon } from "react-share";
+import MetaTags from 'react-meta-tags';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -165,6 +166,13 @@ class IndividualOffer extends React.Component {
 
     return (
       <Protected>
+
+      <MetaTags>
+        <meta name="description" content={readOnlyOffer.description} />
+        <meta property="og:title" content={readOnlyOffer.title} />
+        <meta property="og:image" content={pictureUrl} />
+      </MetaTags>
+
         <GuestLayout>
 
         <LoadingScreen

@@ -68,6 +68,7 @@
     "react-google-login": "^5.0.2",
     "react-loader-spinner": "^2.3.0",
     "react-loading-screen": "^0.0.17",
+    "react-meta-tags": "^0.7.4",
     "react-multistep": "^3.3.5",
     "react-radio-buttons": "^1.2.2",
     "react-router-config": "^4.4.0-beta.6",

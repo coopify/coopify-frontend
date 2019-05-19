@@ -666,15 +666,16 @@ export function getShareCount(payload){
 
 export function sendRewardApiCall(payload){
   const userToken = payload.userToken;
+  const userId = payload.userId;
   const offer =
   { 
-    offer: payload.offerId 
+    offerId: payload.offerId 
   };
  
   axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
 
   return axios.post(
-    `${global.API_URL}/api/users/rewards`, offer).  
+    `${global.API_URL}/api/users/${userId}/share`, offer).  
     then((response) => {
       return {       
         status: response.status,

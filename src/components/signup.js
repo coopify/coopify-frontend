@@ -21,7 +21,8 @@ export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
   loading: state.loading,
-  userDidSignUp: state.userDidSignUp
+  userDidSignUp: state.userDidSignUp,
+  referalCode: state.referalCode,
 }))
 
 class Signup extends React.Component {
@@ -30,7 +31,8 @@ class Signup extends React.Component {
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
     error: PropTypes.string,
-    userDidSignUp: PropTypes.bool
+    userDidSignUp: PropTypes.bool,
+    referalCode: PropTypes.string,
   };
 
   static defaultProps = {
@@ -39,7 +41,8 @@ class Signup extends React.Component {
     loggedUser: {},
     loading: false,
     error: '',
-    userDidSignUp: false
+    userDidSignUp: false,
+    referalCode: "",
   };
 
   onLoginRedirectUrl = '/home';
@@ -74,14 +77,27 @@ class Signup extends React.Component {
     const email = signUpData.get('email');
     const password = signUpData.get('password');
     const repeatedPassword = signUpData.get('repeatPassword');
+    const referalCode = signUpData.get('refCode');
 
-    const userSignUpData = 
+    let userSignUpData = 
     {
       name: name,
       email: email,
       password: password,
       repeatedPassword: repeatedPassword
     };
+
+    if(referalCode.length > 0){
+
+      userSignUpData =
+      {
+        name: name,
+        email: email,
+        password: password,
+        repeatedPassword: repeatedPassword,
+        referalCode: referalCode
+      };
+    }
 
     dispatch(attemptSignUpAction(userSignUpData));
   }
@@ -94,13 +110,14 @@ class Signup extends React.Component {
   }
 
   render() {
-    const {error, userDidSignUp, loggedUser, dispatch} = this.props
+    const {error, userDidSignUp, loggedUser, dispatch, referalCode } = this.props
     if(error.length > 0) this.notify(error, true)
     if(userDidSignUp) {
       this.notify("El usuario se ha registrado exitosamente, se enviara un mail de confirmacion en breve.", false)
       SingletonPusher.getInstance().createPusherChannel(loggedUser, dispatch);
       return <Redirect to='/home'/>
     }
+    const refCode = referalCode.length > 0 ? referalCode : null;
 
     return (
         <GuestLayout>
@@ -179,6 +196,23 @@ class Signup extends React.Component {
                     </div>
                   </label>
                 </div>
+
+                <div className="field">
+                  <label className="label" htmlFor="refCode">
+                    Referal Code
+                    <div className="control">
+                      <input
+                        id="refCode"
+                        name="refCode"
+                        className={`input`}
+                        type="text"
+                        placeholder="Referal Code..."
+                        value={refCode}
+                      />
+                    </div>
+                  </label>
+                </div>
+
                 <div className="field is-grouped">
                   <div className="control">
                     <button type="submit" className="button is-link">Sign Up</button>

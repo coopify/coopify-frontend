@@ -81,6 +81,7 @@ export const SYNC_FB_ATTEMPT = 'SYNC_FB_ATTEMPT'
 export const SYNC_FB_SUCCESS = 'SYNC_FB_SUCCESS'
 export const SYNC_FB_FAILURE = 'SYNC_FB_FAILURE'
 export const SEND_REWARD = 'SEND_REWARD'
+export const SEND_REF_CODE = 'SEND_REF_CODE'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -116,7 +117,8 @@ export const user = (state = initialUserState, action) => {
         loading: false,
         user: action.user,
         error: '',
-        userDidSignUp: true
+        userDidSignUp: true,
+        referalCode: "",
       });
     case SIGNUP_ATTEMPT:
       return _.assignIn({}, state, {
@@ -148,7 +150,8 @@ export const user = (state = initialUserState, action) => {
         user: action.user,
         error: '',
         socialUserDidSignUp: true,
-        userDidLog: true
+        userDidLog: true,
+        referalCode: "",
       });
 
       case LOGOUT_ATTEMPT:
@@ -162,7 +165,8 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         loading: false,
         userDidSignUp: false,
-        userDidLog: false
+        userDidLog: false,
+        referalCode: "",
       });
       case PROFILE_ATTEMPT:
       return _.assignIn({}, state, {
@@ -550,6 +554,12 @@ export const user = (state = initialUserState, action) => {
           error: '',
           loading: false,
           user: action.user
+        });
+   
+      case SEND_REF_CODE:
+        return _.assignIn({}, state, {
+          error: '',
+          referalCode: action.payload.codeFromUrl
         });
 
     default:

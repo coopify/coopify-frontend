@@ -1,7 +1,7 @@
 
 import React from 'react';
 import GuestLayout from './guest-layout';
-import { resetError, attemptShowOffer, getShareCount, attemptSendReward } from '../actions/user';
+import { resetError, attemptShowOffer, getShareCount, attemptSendReward, saveRefCode } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
@@ -97,6 +97,8 @@ class IndividualOffer extends React.Component {
 
     const { dispatch } = this.props;
 
+    this.verifyRefCode();
+
     const token = localStorage.getItem("token");
     const offerId = this.props.match.params.id;
 
@@ -106,6 +108,18 @@ class IndividualOffer extends React.Component {
     }
 
     dispatch(attemptShowOffer(payload));
+  }
+
+  verifyRefCode() {
+
+    const { dispatch } = this.props;
+    const urlParams = new URLSearchParams(window.location.search);
+    const codeFromUrl = urlParams.get('referalCode');
+    
+    if (codeFromUrl && codeFromUrl.length > 0) {
+      dispatch(saveRefCode(codeFromUrl));
+    }
+   
   }
 
   async setShareCount(e){
@@ -132,6 +146,7 @@ class IndividualOffer extends React.Component {
 
     const token = localStorage.getItem("token");
     const offerId = this.props.match.params.id;
+    const userId = loggedUser.id;
 
     const shareData = 
     {
@@ -147,6 +162,7 @@ class IndividualOffer extends React.Component {
 
     if(validations){
       const payload = {
+        userId: userId,
         userToken: token,
         offerId: offerId
       }
@@ -161,7 +177,7 @@ class IndividualOffer extends React.Component {
     const pictureUrl = readOnlyOffer && readOnlyOffer.images && readOnlyOffer.images.length > 0 ? readOnlyOffer.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
     const displayOwnerOnly  = loggedUser.id === readOnlyOffer.userId ? 'none' : 'block';
     const marginBetween = "5%";
-    const shareUrl = `${global.URL}/offers/${readOnlyOffer.id}`;
+    const shareUrl = `${global.URL}/offers/${readOnlyOffer.id}?referalCode=${loggedUser.referalCode}`;
     const showBtnShareFB = loggedUser.FBSync ? "inline-block" : "none";
 
     return (

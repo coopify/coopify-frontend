@@ -162,7 +162,7 @@ class IndividualOffer extends React.Component {
     const displayOwnerOnly  = loggedUser.id === readOnlyOffer.userId ? 'none' : 'block';
     const marginBetween = "5%";
     const shareUrl = `${global.URL}/offers/${readOnlyOffer.id}`;
-    const showBtnShareFB = true ? "inline-block" : "none"; //TODO cambiar a loggedUser.FBSync
+    const showBtnShareFB = loggedUser.FBSync ? "inline-block" : "none";
 
     return (
       <Protected>

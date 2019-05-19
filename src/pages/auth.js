@@ -12,6 +12,7 @@ import { FilterOffers } from '../components/filterOffers';
 import { ConversationList } from '../components/conversations';
 import { Chat } from '../components/individualChat';
 import { Proposals } from '../components/proposals';
+import { Goals } from '../components/goals'
 
 export default [
   {
@@ -153,6 +154,16 @@ export default [
     component: import('../components/home'),
     seo: {
       title: 'User homerpage',
+    },
+  },
+  {
+    path: '/goals',
+    exact: true,
+    component: Goals,
+    seo: {
+      title: 'Goals',
+      description: 'Goals',
+      image: LoginImage,
     },
   },
 ];

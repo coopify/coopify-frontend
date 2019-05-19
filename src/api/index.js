@@ -639,3 +639,47 @@ export function syncFBApiCall(payload){
         errorMessage: e.response.data.message
     }});
 }
+
+export function getShareCount(payload){
+  const token = payload.userToken;
+  const url = payload.url;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+  return axios.get(
+    `${global.API_URL}/api/users/facebook/count`).
+    then((response) => {
+      return {       
+        status: response.status,
+        count: response.data.count,
+      }
+    }).catch((e) => { 
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+} 
+
+export function sendRewardApiCall(payload){
+  const userToken = payload.userToken;
+  const offer =
+  { 
+    offer: payload.offerId 
+  };
+ 
+  axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
+
+  return axios.post(
+    `${global.API_URL}/api/users/rewards`, offer).  
+    then((response) => {
+      return {       
+        status: response.status,
+        data: response.status
+      }
+    }).catch((e) => { 
+      console.log("sendRewardApiCall Error: " + JSON.stringify(e) + "  " + e);
+      return {
+        status: e.response.status,
+        errorMessage: e.response.data.message
+    }});
+}

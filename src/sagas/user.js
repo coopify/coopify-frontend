@@ -76,6 +76,7 @@ import {
   getGoalsAPICall,
   getGoalsUserAPICall,
   syncFBApiCall,
+  sendRewardApiCall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -336,4 +337,8 @@ export function* syncFacebookAsync(payload) {
   else {
     yield put({ type: SYNC_FB_FAILURE, errorMessage: result.errorMessage })
   }
+}
+
+export function* sendRewardAsync(payload) {
+  const result = yield sendRewardApiCall(payload.payload);
 }

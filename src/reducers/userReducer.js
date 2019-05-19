@@ -80,6 +80,7 @@ export const GET_GOALSUSER_FAILURE = 'GET_GOALSUSER_FAILURE'
 export const SYNC_FB_ATTEMPT = 'SYNC_FB_ATTEMPT'
 export const SYNC_FB_SUCCESS = 'SYNC_FB_SUCCESS'
 export const SYNC_FB_FAILURE = 'SYNC_FB_FAILURE'
+export const SEND_REWARD = 'SEND_REWARD'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -543,7 +544,7 @@ export const user = (state = initialUserState, action) => {
           error: action.errorMessage,
           loading: false,
         });
-        
+
       case SYNC_FB_SUCCESS:
         return _.assignIn({}, state, {
           error: '',

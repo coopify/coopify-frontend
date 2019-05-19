@@ -79,6 +79,7 @@ import { user, initialUserState,
     SYNC_FB_ATTEMPT,
     SYNC_FB_SUCCESS,
     SYNC_FB_FAILURE,
+    SEND_REWARD,
 
  } from './userReducer';
 //import { serviceReducers, initialServiceState } from './serviceReducer';
@@ -174,6 +175,7 @@ const Actions = {
     SYNC_FB_ATTEMPT,
     SYNC_FB_SUCCESS,
     SYNC_FB_FAILURE,
+    SEND_REWARD,
 }
 
 export {
@@ -261,4 +263,5 @@ export {
     SYNC_FB_ATTEMPT,
     SYNC_FB_SUCCESS,
     SYNC_FB_FAILURE,
+    SEND_REWARD,
 }

@@ -170,3 +170,8 @@ export const attemptSyncFB = (payload) => ({
     type: Actions.SYNC_FB_ATTEMPT,
     payload
 });
+
+export const attemptSendReward = (payload) => ({
+    type: Actions.SEND_REWARD,
+    payload
+});

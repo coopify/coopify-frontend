@@ -208,6 +208,7 @@ class Signup extends React.Component {
                         type="text"
                         placeholder="Referal Code..."
                         value={refCode}
+                        enabled={refCode == null}
                       />
                     </div>
                   </label>

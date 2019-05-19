@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie';
 import Authenticator from './fake-authenticator';
-import { attemptSocialSignUpAction } from '../actions/user';
+import { attemptSocialSignUpAction, attemptSyncFB } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -58,20 +58,42 @@ class FacebookSignUp extends React.Component {
 
   verifyAuthCode() {
 
-    const { dispatch, loggedUser } = this.props;
+    const { dispatch } = this.props;
     let { gotCode } = this.props;
     const urlParams = new URLSearchParams(window.location.search);
     const codeFromUrl = urlParams.get('code');
+    const userToken = localStorage.getItem("token");
     
     if (!gotCode && codeFromUrl) {
       gotCode = true
-      const payload = {
-        code: codeFromUrl,
-        provider: 'facebook'
-      };
-      dispatch(attemptSocialSignUpAction(payload));
+
+      if(userToken && userToken.length > 0){    
+        this.handleSyncFB(codeFromUrl);
+      }
+      else{
+        this.handleCreateNewUser(codeFromUrl);
+      }
     }
-   
+  }
+
+  handleSyncFB(code){
+    const { dispatch } = this.props;
+    const userToken = localStorage.getItem("token");
+    const payload = {
+      userToken: userToken,
+      fbToken: code
+    };
+
+    dispatch(attemptSyncFB(payload));
+  }
+
+  handleCreateNewUser(code){
+    const { dispatch } = this.props;
+    const payload = {
+      code: code,
+      provider: 'facebook'
+    };
+    dispatch(attemptSocialSignUpAction(payload));
   }
 
   render() {

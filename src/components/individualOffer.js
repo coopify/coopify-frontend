@@ -1,7 +1,8 @@
 
 import React from 'react';
 import GuestLayout from './guest-layout';
-import { resetError, attemptShowOffer, getShareCount, attemptSendReward, saveRefCode } from '../actions/user';
+import { resetError, attemptShowOffer, attemptSendReward, saveRefCode } from '../actions/user';
+import { getShareCount } from '../api';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';

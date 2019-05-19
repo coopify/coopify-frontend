@@ -642,12 +642,16 @@ export function syncFBApiCall(payload){
 
 export function getShareCount(payload){
   const token = payload.userToken;
-  const url = payload.url;
+  const params = {
+    params: {
+      uri: payload.url
+    }
+  };
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
   return axios.get(
-    `${global.API_URL}/api/users/facebook/count`).
+    `${global.API_URL}/api/offers/count`, params).
     then((response) => {
       return {       
         status: response.status,

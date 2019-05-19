@@ -8,12 +8,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import styles from '../css/profile.scss';
-import Protected from './protected';
 import ReactTable from "react-table";
 import 'react-table/react-table.css'
 import { Link } from 'react-router-dom';
-import LoadingScreen from 'react-loading-screen';
-import guestLayout from './guest-layout';
 
 export default @connect(state => ({
   error: state.error,

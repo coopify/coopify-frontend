@@ -1,7 +1,7 @@
 
 import React from 'react';
 import GuestLayout from './guest-layout';
-import { resetError, attemptShowOffer } from '../actions/user';
+import { resetError, attemptShowOffer, getShareCount, attemptSendReward } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
@@ -16,7 +16,8 @@ import { GeneralQuestions } from './generalQuestions'
 import LoadingScreen from 'react-loading-screen';
 import { getUrlConversation } from '../api';
 import Divider from '@material-ui/core/Divider';
-
+import { FacebookShareButton, FacebookIcon } from "react-share";
+import MetaTags from 'react-meta-tags';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -54,8 +55,10 @@ class IndividualOffer extends React.Component {
       error: '',
       offer: {},
       readOnlyOffer: {},
+      shareCount: 0,
     };
     this.delay = this.delay.bind(this);
+    this.setShareCount = this.setShareCount.bind(this);
   }
 
   notify(message, isError) {
@@ -105,6 +108,52 @@ class IndividualOffer extends React.Component {
     dispatch(attemptShowOffer(payload));
   }
 
+  async setShareCount(e){
+    const { readOnlyOffer } = this.props;
+    const token = localStorage.getItem("token");
+    const shareData = 
+    {
+      userToken: token,
+      url: `${global.URL}/offers/${readOnlyOffer.id}`
+    };
+
+    const response = await getShareCount(shareData);
+    const newCount = response.count;
+
+    this.setState({
+      ...this.state,
+      shareCount: newCount
+    });
+  }
+
+  async handleShareComplete(e){
+    const { dispatch, readOnlyOffer, loggedUser } = this.props;
+    const { shareCount } = this.state;
+
+    const token = localStorage.getItem("token");
+    const offerId = this.props.match.params.id;
+
+    const shareData = 
+    {
+      userToken: token,
+      url: `${global.URL}/offers/${readOnlyOffer.id}`
+    };
+    const response = await getShareCount(shareData);
+    const newCount = response.count;
+
+    const userIsOwner = loggedUser.id === readOnlyOffer.userId;
+    const sharedOffer = newCount > shareCount;
+    const validations = userIsOwner && sharedOffer;
+
+    if(validations){
+      const payload = {
+        userToken: token,
+        offerId: offerId
+      }
+      dispatch(attemptSendReward(payload));
+    }
+  }
+
 
   render() {
     const { error, loggedUser, balance, readOnlyOffer } = this.props
@@ -112,9 +161,18 @@ class IndividualOffer extends React.Component {
     const pictureUrl = readOnlyOffer && readOnlyOffer.images && readOnlyOffer.images.length > 0 ? readOnlyOffer.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
     const displayOwnerOnly  = loggedUser.id === readOnlyOffer.userId ? 'none' : 'block';
     const marginBetween = "5%";
+    const shareUrl = `${global.URL}/offers/${readOnlyOffer.id}`;
+    const showBtnShareFB = loggedUser.FBSync ? "inline-block" : "none";
 
     return (
       <Protected>
+
+      <MetaTags>
+        <meta name="description" content={readOnlyOffer.description} />
+        <meta property="og:title" content={readOnlyOffer.title} />
+        <meta property="og:image" content={pictureUrl} />
+      </MetaTags>
+
         <GuestLayout>
 
         <LoadingScreen
@@ -144,7 +202,17 @@ class IndividualOffer extends React.Component {
 
               <Row style={{display: "block", marginTop: marginBetween, marginBottom: marginBetween}}>
 
-              <h1 className="title">{readOnlyOffer.title}</h1>
+              <h1 style={{display: "inline-block"}} className="title">{readOnlyOffer.title}</h1> 
+
+              <FacebookShareButton
+              style = {{display: showBtnShareFB, marginLeft: "4%"}}
+              url={shareUrl}
+              quote={readOnlyOffer.title}
+              beforeOnClick = {e => this.setShareCount(e)}
+              onShareWindowClose={e => this.handleShareComplete(e)}>
+              <FacebookIcon
+                size={32}>Share with Facebook</FacebookIcon>
+            </FacebookShareButton>
 
             <Button onClick={e => this.handleContactClick(e)} style={{display: displayOwnerOnly, backgroundColor: "transparent", color: "black" }}>
             Contact {readOnlyOffer.by} <i className="fa fa-comment"></i>
@@ -206,6 +274,7 @@ class IndividualOffer extends React.Component {
                   shrink: true,
                 }}
               />
+
   </Row>
   </Col>
 </Row>

@@ -27,6 +27,8 @@ import { loginAsync,
   getConversationProposalAsync,
   getGoalsAsync,
   getGoalsUserAsync,
+  syncFacebookAsync,
+  sendRewardAsync,
 } from './user'
 
 export default function* rootSaga() {
@@ -60,5 +62,7 @@ export default function* rootSaga() {
     takeEvery('GET_CONVERSATION_PROPOSAL_ATTEMPT', getConversationProposalAsync),
     takeEvery('GET_GOALS_ATTEMPT', getGoalsAsync),
     takeEvery('GET_GOALSUSER_ATTEMPT', getGoalsUserAsync),
+    takeEvery('SYNC_FB_ATTEMPT', syncFacebookAsync),
+    takeEvery('SEND_REWARD', sendRewardAsync),
   ]);
 }

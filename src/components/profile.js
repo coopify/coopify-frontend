@@ -188,7 +188,7 @@ class Profile extends React.Component {
     const edition = !this.state.checked;
     const focusable = !this.state.checked ? 'disabled' : '';
     const dateBirth = loggedUser.birthdate ? loggedUser.birthdate.substring(0,10) : new Date(Date.now()).toISOString().substring(0,10);
-    const displayFBBtn = loggedUser.FBSync ? "inline-block" : "none";
+    const displayFBBtn = loggedUser.FBSync ? "none" : "inline-block";
 
     return (
       <Protected>

@@ -127,6 +127,8 @@ class Goals extends React.Component {
                 onPageSizeChange={e => this.changeSize(e)}
                 noDataText = 'No goals'
                 manual
+                showPagination = {false}
+                minRows = {0}
             />
             </form>
             <ToastContainer autoClose={3000} />

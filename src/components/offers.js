@@ -179,6 +179,7 @@ class Offers extends React.Component {
                 pages={ this.state.limit != 0 ? Math.ceil(countOffers / this.state.limit) : countOffers }
                 noDataText = 'No offers for the selected filters'
                 manual
+                minRows = {0}
               />
 
             </form>

@@ -74,6 +74,9 @@ export const GET_CONVERSATION_PROPOSAL_SUCCESS = 'GET_CONVERSATION_PROPOSAL_SUCC
 export const GET_GOALS_ATTEMPT = 'GET_GOALS_ATTEMPT'
 export const GET_GOALS_SUCCESS = 'GET_GOALS_SUCCESS'
 export const GET_GOALS_FAILURE = 'GET_GOALS_FAILURE'
+export const GET_GOALSUSER_ATTEMPT = 'GET_GOALSUSER_ATTEMPT'
+export const GET_GOALSUSER_SUCCESS = 'GET_GOALSUSER_SUCCESS'
+export const GET_GOALSUSER_FAILURE = 'GET_GOALSUSER_FAILURE'
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -504,9 +507,27 @@ export const user = (state = initialUserState, action) => {
         return _.assignIn({}, state, {
           error: '',
           goals: action.responseGoals.goals,
-          countGoals: action.responseGoals.count,
           loading: false,
         });
+
+        case GET_GOALSUSER_ATTEMPT:
+          return _.assignIn({}, state, {
+            error: '',
+            loading: true,
+          });
+    
+        case GET_GOALSUSER_FAILURE:
+          return _.assignIn({}, state, {
+            error: action.errorMessage,
+            loading: false,
+          });
+    
+        case GET_GOALSUSER_SUCCESS:
+          return _.assignIn({}, state, {
+            error: '',
+            goalsUser: action.responseGoals.goalsUser,
+            loading: false,
+          });
 
     default:
       return state

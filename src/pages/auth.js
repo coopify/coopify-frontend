@@ -157,7 +157,7 @@ export default [
     },
   },
   {
-    path: '/user/goals',
+    path: '/goals',
     exact: true,
     component: Goals,
     seo: {

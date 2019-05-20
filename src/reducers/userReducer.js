@@ -559,7 +559,7 @@ export const user = (state = initialUserState, action) => {
       case SEND_REF_CODE:
         return _.assignIn({}, state, {
           error: '',
-          referalCode: action.payload.codeFromUrl
+          referalCode: action.payload.code
         });
 
     default:

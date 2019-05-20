@@ -60,6 +60,7 @@ class IndividualOffer extends React.Component {
     };
     this.delay = this.delay.bind(this);
     this.setShareCount = this.setShareCount.bind(this);
+    this.verifyRefCode();
   }
 
   notify(message, isError) {
@@ -98,8 +99,6 @@ class IndividualOffer extends React.Component {
 
     const { dispatch } = this.props;
 
-    this.verifyRefCode();
-
     const token = localStorage.getItem("token");
     const offerId = this.props.match.params.id;
 
@@ -118,7 +117,9 @@ class IndividualOffer extends React.Component {
     const codeFromUrl = urlParams.get('referalCode');
     
     if (codeFromUrl && codeFromUrl.length > 0) {
-      dispatch(saveRefCode(codeFromUrl));
+
+      const payload = { code: codeFromUrl };
+      dispatch(saveRefCode(payload));
     }
    
   }

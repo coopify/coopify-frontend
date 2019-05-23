@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
 import cookie from '../libs/cookie';
 import Authenticator from './fake-authenticator';
-import { attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetError, attemptSyncFB } from '../actions/user';
+import { attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetError } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import {loadScript} from "@pawjs/pawjs/src/utils/utils";
 import LoadingScreen from 'react-loading-screen';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import { getUrlSocialAPICall } from '../api';
 
 export default @connect(state => ({
   loggedUser: state.user, //el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
@@ -166,19 +167,11 @@ class Profile extends React.Component {
   }
   }
 
-  handleIntegrateFBBtnClick(response){
-    const { dispatch } = this.props;
-
-    const fbToken = response.accessToken;
-    const userToken = localStorage.getItem("token");
-
-    const payload = 
-    {
-      userToken: userToken,
-      fbToken: fbToken
-    };
-
-    dispatch(attemptSyncFB(payload));
+  async handleIntegrateFBBtnClick(e){
+    const socialSelected = "facebook";
+    const res = await getUrlSocialAPICall(socialSelected);
+    const url = res.data;
+    window.location = url;
   }
 
   render() {
@@ -210,15 +203,9 @@ class Profile extends React.Component {
               
               <div style={{textAlign: "center"}}>
 
-            <FacebookLogin
-             appId={global.FB_APP_ID}
-             autoLoad={false} 
-             callback={this.handleIntegrateFBBtnClick}
-             render={renderProps => (
-              <Button onClick={renderProps.onClick} style={{display: displayFBBtn, backgroundColor: "transparent", color: "black" }}>
+              <Button onClick={this.handleIntegrateFBBtnClick} style={{display: displayFBBtn, backgroundColor: "transparent", color: "black" }}>
               Sync with Facebook <i className="fa fa-facebook-square"></i>
               </Button>
-            )} />
 
             </div>
 

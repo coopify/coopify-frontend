@@ -1,7 +1,8 @@
 
 import React from 'react';
 import GuestLayout from './guest-layout';
-import { resetError, attemptShowOffer, getShareCount, attemptSendReward } from '../actions/user';
+import { resetError, attemptShowOffer, attemptSendReward, saveRefCode } from '../actions/user';
+import { getShareCount } from '../api';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
@@ -59,6 +60,7 @@ class IndividualOffer extends React.Component {
     };
     this.delay = this.delay.bind(this);
     this.setShareCount = this.setShareCount.bind(this);
+    this.verifyRefCode();
   }
 
   notify(message, isError) {
@@ -108,13 +110,27 @@ class IndividualOffer extends React.Component {
     dispatch(attemptShowOffer(payload));
   }
 
+  verifyRefCode() {
+
+    const { dispatch } = this.props;
+    const urlParams = new URLSearchParams(window.location.search);
+    const codeFromUrl = urlParams.get('referalCode');
+    
+    if (codeFromUrl && codeFromUrl.length > 0) {
+
+      const payload = { code: codeFromUrl };
+      dispatch(saveRefCode(payload));
+    }
+   
+  }
+
   async setShareCount(e){
-    const { readOnlyOffer } = this.props;
+    const { readOnlyOffer, loggedUser } = this.props;
     const token = localStorage.getItem("token");
     const shareData = 
     {
       userToken: token,
-      url: `${global.URL}/offers/${readOnlyOffer.id}`
+      url: `${global.URL}/offers/${readOnlyOffer.id}?referalCode=${loggedUser.referalCode}`
     };
 
     const response = await getShareCount(shareData);
@@ -132,11 +148,12 @@ class IndividualOffer extends React.Component {
 
     const token = localStorage.getItem("token");
     const offerId = this.props.match.params.id;
+    const userId = loggedUser.id;
 
     const shareData = 
     {
       userToken: token,
-      url: `${global.URL}/offers/${readOnlyOffer.id}`
+      url: `${global.URL}/offers/${readOnlyOffer.id}?referalCode=${loggedUser.referalCode}`
     };
     const response = await getShareCount(shareData);
     const newCount = response.count;
@@ -147,6 +164,7 @@ class IndividualOffer extends React.Component {
 
     if(validations){
       const payload = {
+        userId: userId,
         userToken: token,
         offerId: offerId
       }
@@ -161,8 +179,8 @@ class IndividualOffer extends React.Component {
     const pictureUrl = readOnlyOffer && readOnlyOffer.images && readOnlyOffer.images.length > 0 ? readOnlyOffer.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
     const displayOwnerOnly  = loggedUser.id === readOnlyOffer.userId ? 'none' : 'block';
     const marginBetween = "5%";
-    const shareUrl = `${global.URL}/offers/${readOnlyOffer.id}`;
-    const showBtnShareFB = loggedUser.FBSync ? "inline-block" : "none";
+    const shareUrl = `${global.URL}/offers/${readOnlyOffer.id}?referalCode=${loggedUser.referalCode}`;
+    const showBtnShareFB = true ? "inline-block" : "none";
 
     return (
       <Protected>

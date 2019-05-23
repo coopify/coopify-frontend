@@ -332,6 +332,9 @@ export function* getGoalsUserAsync(payload) {
 export function* syncFacebookAsync(payload) {
   const result = yield syncFBApiCall(payload.payload);
   if (result.status == 200) {
+
+    localStorage.setItem("loggedUser", JSON.stringify(result.user));
+
     yield put({ type: SYNC_FB_SUCCESS, user: result.user })
   }
   else {

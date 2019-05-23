@@ -175,3 +175,8 @@ export const attemptSendReward = (payload) => ({
     type: Actions.SEND_REWARD,
     payload
 });
+
+export const saveRefCode = (payload) => ({
+    type: Actions.SEND_REF_CODE,
+    payload
+});

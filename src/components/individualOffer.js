@@ -125,12 +125,12 @@ class IndividualOffer extends React.Component {
   }
 
   async setShareCount(e){
-    const { readOnlyOffer } = this.props;
+    const { readOnlyOffer, loggedUser } = this.props;
     const token = localStorage.getItem("token");
     const shareData = 
     {
       userToken: token,
-      url: `${global.URL}/offers/${readOnlyOffer.id}`
+      url: `${global.URL}/offers/${readOnlyOffer.id}?referalCode=${loggedUser.referalCode}`
     };
 
     const response = await getShareCount(shareData);
@@ -153,7 +153,7 @@ class IndividualOffer extends React.Component {
     const shareData = 
     {
       userToken: token,
-      url: `${global.URL}/offers/${readOnlyOffer.id}`
+      url: `${global.URL}/offers/${readOnlyOffer.id}?referalCode=${loggedUser.referalCode}`
     };
     const response = await getShareCount(shareData);
     const newCount = response.count;
@@ -180,7 +180,7 @@ class IndividualOffer extends React.Component {
     const displayOwnerOnly  = loggedUser.id === readOnlyOffer.userId ? 'none' : 'block';
     const marginBetween = "5%";
     const shareUrl = `${global.URL}/offers/${readOnlyOffer.id}?referalCode=${loggedUser.referalCode}`;
-    const showBtnShareFB = loggedUser.FBSync ? "inline-block" : "none";
+    const showBtnShareFB = true ? "inline-block" : "none";
 
     return (
       <Protected>

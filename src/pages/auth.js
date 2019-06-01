@@ -13,7 +13,7 @@ import { ConversationList } from '../components/conversations';
 import { Chat } from '../components/individualChat';
 import { Proposals } from '../components/proposals';
 import { Goals } from '../components/goals'
-import { Logout } from '../components/logout';
+import Logout from '../components/logout';
 
 export default [
   {

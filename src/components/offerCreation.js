@@ -2,7 +2,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import GuestLayout from './guest-layout';
-import cookie from '../libs/cookie/server';
 import Authenticator from './fake-authenticator';
 import { resetError, attemptPublishOffer } from '../actions/user';
 import PropTypes from 'prop-types';

@@ -1,12 +1,10 @@
 import React from 'react';
-import GuestLayout from './guest-layout';
-import { resetError, attemptQuestion, attemptGetQuestionsAndAnswer, attemptSendReply } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-bootstrap';
+import * as reactBootstrap from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/style.css'
 import '../css/form-elements.css'
@@ -19,8 +17,8 @@ import StarRatingComponent from 'react-star-rating-component';
 import { Link } from 'react-router-dom';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
-import { Button } from 'react-bootstrap';
 import LoadingScreen from 'react-loading-screen';
+import { attemptGetQuestionsAndAnswer, attemptSendReply } from '../actions/user';
 
 export default @connect(state => ({
   error: state.error,
@@ -177,7 +175,7 @@ handleReplyClick(e){
           <br/>
 
           <input type="text" style={{display: "none"}} name="conversation" value={props.original.id}/>
-        <Button onClick={e => this.handleReplyClick(e)} style={{backgroundColor: "transparent", color: "black", borderColor: "transparent", float: "right", display: displayReplyButton}}>Reply <i class="fa fa-reply"></i></Button>
+        <reactBootstrap.Button onClick={e => this.handleReplyClick(e)} style={{backgroundColor: "transparent", color: "black", borderColor: "transparent", float: "right", display: displayReplyButton}}>Reply <i class="fa fa-reply"></i></reactBootstrap.Button>
       <br/>
       <i class="fa fa-comments"></i>&nbsp;
         <TextField
@@ -206,9 +204,9 @@ handleReplyClick(e){
                     onChange={e => this.handleQuestionChange(e)}
                     value = {this.state.question}
                 />
-                <Button onClick={e => this.handleSendQuestion(e)} style={{marginTop: "2%"}}>
+                <reactBootstrap.Button onClick={e => this.handleSendQuestion(e)} style={{marginTop: "2%"}}>
                   Send question
-                </Button>
+                </reactBootstrap.Button>
             </div>
             <div>
             <h4 style={{ textAlign: 'center' }}> Questions </h4>

@@ -18,7 +18,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
 
-export default @connect(state => ({
+
+export default @connect(state => ({ // eslint-disable-line
     loggedUser: state.user,
     error: state.error,
     loading: state.loading,

@@ -162,12 +162,8 @@ export const user = (state = initialUserState, action) => {
       });
 
       case LOGOUT_SUCCESS:
-      return _.assignIn({}, state, {
-        loading: false,
-        userDidSignUp: false,
-        userDidLog: false,
-        referalCode: "",
-      });
+      return {};
+      
       case PROFILE_ATTEMPT:
       return _.assignIn({}, state, {
         loading: true,

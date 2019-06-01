@@ -1,18 +1,13 @@
 import React from 'react';
-import GuestLayout from './guest-layout';
-import { resetError, attemptProposalsAction } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import styles from '../css/profile.scss';
-import Protected from './protected';
-import ReactTable from "react-table";
-import 'react-table/react-table.css'
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
 import { Link } from 'react-router-dom';
-import { Proposal } from './proposal';
 
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -21,6 +16,11 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import LoadingScreen from 'react-loading-screen';
+import { Proposal } from './proposal';
+import Protected from './protected';
+import styles from '../css/profile.scss';
+import { resetError, attemptProposalsAction } from '../actions/user';
+import GuestLayout from './guest-layout';
 
 export default @connect(state => ({
   error: state.error,
@@ -31,7 +31,6 @@ export default @connect(state => ({
 }))
 
 class Proposals extends React.Component {
-
   static propTypes = {
     dispatch: PropTypes.func,
     error: PropTypes.string,
@@ -54,7 +53,7 @@ class Proposals extends React.Component {
     this.state = {
       proposals: [],
       error: '',
-      limit: 10
+      limit: 10,
     };
   }
 
@@ -63,32 +62,31 @@ class Proposals extends React.Component {
     if (isError) {
       toast.error(message);
       dispatch(resetError());
-    }
-    else {
-      toast.success(message)
+    } else {
+      toast.success(message);
     }
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
-    const userToken = localStorage.getItem("token");
+    const userToken = localStorage.getItem('token');
     const reqAttributes = {
       limit: this.state.limit,
       page: 0,
       token: userToken,
-    }
+    };
 
     dispatch(attemptProposalsAction(reqAttributes));
   }
 
   changePage(pageIndex) {
     const { dispatch } = this.props;
-    const userToken = localStorage.getItem("token");
+    const userToken = localStorage.getItem('token');
     const reqAttributes = {
       limit: this.state.limit,
       page: pageIndex,
       token: userToken,
-    }
+    };
 
     dispatch(attemptProposalsAction(reqAttributes));
   }
@@ -105,32 +103,55 @@ class Proposals extends React.Component {
   //   }
 
   changeSize(pageSize) {
-    this.setState((state) => {
-      return { ...state, limit: pageSize }
-    })
+    this.setState(state => ({ ...state, limit: pageSize }));
   }
 
   render() {
     const TheadComponent = props => null;
-    const { error, proposals, countProposals } = this.props
-    const data = proposals
+    const { error, proposals, countProposals } = this.props;
+    const data = proposals;
     const columns = [{
       accessor: 'proposals',
       Cell: props => (
         <div>
           <div className="container" style={{ textAlign: 'left' }}>
             <div className="row">
-              <div className="col-sm-8">{props.original.proposer.name} proposed for the following:
-                    <Link style={{ padding: "0" }} to={`/offers/${props.original.offerId}`} className="navbar-item"><i className="fa"></i>Offer: {props.original.purchasedOffer.title}</Link></div>
+              <div className="col-sm-8">
+                {props.original.proposer.name}
+                {' '}
+proposed for the following:
+                <Link style={{ padding: '0' }} to={`/offers/${props.original.offerId}`} className="navbar-item">
+                  <i className="fa" />
+Offer:
+                  {' '}
+                  {props.original.purchasedOffer.title}
+                </Link>
+              </div>
             </div>
             <div className="row">
-              <div className="col-sm-4">Proposed Exchange Method: {props.original.exchangeMethod}</div>
+              <div className="col-sm-4">
+Proposed Exchange Method:
+                {props.original.exchangeMethod}
+              </div>
             </div>
             <div className="row">
-              {props.original.proposedPrice ? <div className="col-sm-4">Proposes {props.original.proposedPrice} Coopies per {props.original.exchangeInstance}</div> : ''}
+              {props.original.proposedPrice ? (
+                <div className="col-sm-4">
+Proposes
+                  {props.original.proposedPrice}
+                  {' '}
+Coopies per
+                  {props.original.exchangeInstance}
+                </div>
+              ) : ''}
             </div>
             <div className="row">
-              {props.original.exchangeMethod == 'Exchange' ? <div className="col-sm-4">Proposed Service: {props.original.proposedService.title}</div> : ''}
+              {props.original.exchangeMethod == 'Exchange' ? (
+                <div className="col-sm-4">
+Proposed Service:
+                  {props.original.proposedService.title}
+                </div>
+              ) : ''}
             </div>
             <div>
               <Proposal
@@ -140,8 +161,8 @@ class Proposals extends React.Component {
             </div>
           </div>
         </div>
-      )
-    }]
+      ),
+    }];
 
     return (
       <Protected>
@@ -149,13 +170,14 @@ class Proposals extends React.Component {
 
           <LoadingScreen
             loading={this.props.loading}
-            bgColor='rgba(255, 255, 255, .5)'
-            spinnerColor='#BE1931'
-            textColor='#BE1931'
-            text={"Loading..."}>
+            bgColor="rgba(255, 255, 255, .5)"
+            spinnerColor="#BE1931"
+            textColor="#BE1931"
+            text="Loading..."
+          >
 
             <div className={styles.container}>
-              <form >
+              <form>
 
                 <h2 style={{ textAlign: 'center' }}> Proposals </h2>
 
@@ -171,29 +193,40 @@ class Proposals extends React.Component {
                 manual
               /> */}
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white' }}>
+                <div style={{
+                  display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
+                }}
+                >
                   <GridList cellHeight={180} style={{ height: '80%', width: '100%' }}>
                     <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
                       <ListSubheader component="div">Proposals</ListSubheader>
                     </GridListTile>
                     {proposals.map(tile => (
                       <GridListTile>
-                        <img src=
-                          {tile.purchasedOffer.images ? tile.purchasedOffer.images[0] ? tile.purchasedOffer.images[0].url : "" : ""}
-                          alt={tile.title} />
+                        <img
+                          src={tile.purchasedOffer.images ? tile.purchasedOffer.images[0] ? tile.purchasedOffer.images[0].url : '' : ''}
+                          alt={tile.title}
+                        />
                         <GridListTileBar
-                          title={
-                            <Link style={{ padding: "0" }} to={`/offers/${tile.offerId}`} className="navbar-item"><i className="fa"></i>{tile.purchasedOffer.title}</Link>       
-                          }
-                          subtitle={<span>by: {tile.proposer.name}</span>}
-                          actionIcon={
-
+                          title={(
+                            <Link style={{ padding: '0' }} to={`/offers/${tile.offerId}`} className="navbar-item">
+                              <i className="fa" />
+                              {tile.purchasedOffer.title}
+                            </Link>
+)}
+                          subtitle={(
+                            <span>
+by:
+                              {tile.proposer.name}
+                            </span>
+)}
+                          actionIcon={(
                             <Proposal
                               proposal={tile}
                               buttonText={<InfoIcon />}
-                              isInfo={true} />
-
-                          }
+                              isInfo
+                            />
+)}
                         />
 
                       </GridListTile>
@@ -212,4 +245,4 @@ class Proposals extends React.Component {
   }
 }
 
-export { Proposals }
+export { Proposals };

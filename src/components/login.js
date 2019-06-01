@@ -1,37 +1,36 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import GuestLayout from './guest-layout';
-import Authenticator from './fake-authenticator';
-import { attemptLoginAction, attemptSocialLoginAction } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import {Link} from 'react-router-dom'
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import { Link } from 'react-router-dom';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import GoogleLogin from 'react-google-login';
+import LoadingScreen from 'react-loading-screen';
 import Protected from './protected';
 import SingletonPusher from './singletonPusher';
-import LoadingScreen from 'react-loading-screen';
+import { attemptLoginAction, attemptSocialLoginAction } from '../actions/user';
+import Authenticator from './fake-authenticator';
+import GuestLayout from './guest-layout';
 
 export default @connect(state => ({
   userDidLog: state.userDidLog,
-  loggedUser: state.user, //el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
+  loggedUser: state.user, // el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
   error: state.error,
   loading: state.loading,
-  userDidLog: state.userDidLog
+  userDidLog: state.userDidLog,
 }))
 
 class Login extends React.Component {
-
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
     error: PropTypes.string,
-    userDidLog: PropTypes.bool
+    userDidLog: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -40,7 +39,7 @@ class Login extends React.Component {
     loggedUser: {},
     loading: false,
     error: '',
-    userDidLog: false
+    userDidLog: false,
   };
 
   onLoginRedirectUrl = '/home';
@@ -51,31 +50,30 @@ class Login extends React.Component {
       loggedUser: {},
       loading: false,
       error: '',
-      userDidLog: false
+      userDidLog: false,
     };
   }
 
-  notify(message, isError){
-    if(isError){
+  notify(message, isError) {
+    if (isError) {
       toast.error(message);
-    }
-    else{
-      toast.success(message)
+    } else {
+      toast.success(message);
     }
   }
 
   responseFacebook = (response) => {
     const { dispatch } = this.props;
-    dispatch(attemptSocialLoginAction({provider: 'facebook', facebookId: response.id }));
+    dispatch(attemptSocialLoginAction({ provider: 'facebook', facebookId: response.id }));
   }
 
   responseGoogle = (response) => {
     const { dispatch } = this.props;
-    dispatch(attemptSocialLoginAction({provider: 'google', googleId: response.googleId }));
+    dispatch(attemptSocialLoginAction({ provider: 'google', googleId: response.googleId }));
   }
 
   errorGoogle = (response) => {
-    console.log(response)
+    console.log(response);
   }
 
   handleSubmit(e) {
@@ -87,22 +85,23 @@ class Login extends React.Component {
     const username = loginData.get('username');
     const password = loginData.get('password');
 
-    const userLoginData = 
-    {
+    const userLoginData = {
       email: username,
-      password: password
+      password,
     };
 
     dispatch(attemptLoginAction(userLoginData));
   }
 
   render() {
-    const { loading, error, loggedUser, userDidLog, dispatch } = this.props
-    if(error.length > 0) this.notify(error, true)
+    const {
+      loading, error, loggedUser, userDidLog, dispatch,
+    } = this.props;
+    if (error.length > 0) this.notify(error, true);
     if (loading) {
-      //show spinner
+      // show spinner
     } else {
-      //hide spinner
+      // hide spinner
     }
     if (userDidLog) {
       SingletonPusher.getInstance().createPusherChannel(loggedUser, dispatch);
@@ -112,97 +111,108 @@ class Login extends React.Component {
     return (
       <GuestLayout>
 
-          <LoadingScreen
+        <LoadingScreen
           loading={this.props.loading}
-          bgColor='rgba(255, 255, 255, .5)'
-          spinnerColor='#BE1931'
-          textColor='#BE1931'
-          text= {"Loading..."}> 
+          bgColor="rgba(255, 255, 255, .5)"
+          spinnerColor="#BE1931"
+          textColor="#BE1931"
+          text="Loading..."
+        >
 
-        <div className="columns is-centered p-t-xl p-r-md p-l-md">
-          <div className="column is-half">
-            <div className="box">
+          <div className="columns is-centered p-t-xl p-r-md p-l-md">
+            <div className="column is-half">
+              <div className="box">
 
 
-              <h1 className="title">Login</h1>
-              <form onSubmit={e => this.handleSubmit(e)}>
-                <div className="field">
-                  <label className="label" htmlFor="username">
+                <h1 className="title">Login</h1>
+                <form onSubmit={e => this.handleSubmit(e)}>
+                  <div className="field">
+                    <label className="label" htmlFor="username">
+
                     Email
-                    <div className="control">
-                      <input
-                        id="username"
-                        name="username"
-                        className={`input`}
-                        type="text"
-                        placeholder="Username input"
-                      />
-                    </div>
-                  </label>
-                </div>
-                <div className="field">
-                  <label className="label" htmlFor="password">
-                    Password
-                    <div className="control">
-                      <input
-                        id="password"
-                        name="password"
-                        className={`input`}
-                        type="password"
-                        placeholder="********"
-                      />
-                    </div>
-                  </label>
-                </div>
-                <div className="field is-grouped">
-                  <div className="control"> 
-                    <button type="submit" className="button is-link">Login</button>
+                      <div className="control">
+                        <input
+                          id="username"
+                          name="username"
+                          className="input"
+                          type="text"
+                          placeholder="Username input"
+                        />
+                      </div>
+                    </label>
                   </div>
-                </div>
-              </form>
+                  <div className="field">
+                    <label className="label" htmlFor="password">
+
+                    Password
+                      <div className="control">
+                        <input
+                          id="password"
+                          name="password"
+                          className="input"
+                          type="password"
+                          placeholder="********"
+                        />
+                      </div>
+                    </label>
+                  </div>
+                  <div className="field is-grouped">
+                    <div className="control">
+                      <button type="submit" className="button is-link">Login</button>
+                    </div>
+                  </div>
+                </form>
 
                 <div className="social-login">
 
-                      <div className="d-flex">
-                          <hr className="my-auto flex-grow-1"/>
-                          <div className="px-4">or login with:</div>
-                          <hr className="my-auto flex-grow-1"/>
-                      </div>
+                  <div className="d-flex">
+                    <hr className="my-auto flex-grow-1" />
+                    <div className="px-4">or login with:</div>
+                    <hr className="my-auto flex-grow-1" />
+                  </div>
 
-                <div className="social-login-buttons">
+                  <div className="social-login-buttons">
 
-                <FacebookLogin
-                  appId={global.FB_APP_ID}
-                  autoLoad={false}
-                  ccsClass="btn btn-link-1 btn-link-1-facebook"
-                  callback={this.responseFacebook}
-                  render={renderProps => (
-                    <button className="btn btn-link-1 btn-link-1-facebook" value="facebook" onClick={renderProps.onClick}>
-                    <i className="fa fa-facebook"></i> Facebook
-                    </button>
-                )}/>
+                    <FacebookLogin
+                      appId={global.FB_APP_ID}
+                      autoLoad={false}
+                      ccsClass="btn btn-link-1 btn-link-1-facebook"
+                      callback={this.responseFacebook}
+                      render={renderProps => (
+                        <button className="btn btn-link-1 btn-link-1-facebook" value="facebook" onClick={renderProps.onClick}>
+                          <i className="fa fa-facebook" />
+                          {' '}
+Facebook
+                        </button>
+                      )}
+                    />
 
-                <GoogleLogin
-                  clientId={global.GOOGLE_APP_ID}
-                  autoLoad={false}
-                  buttonText="Login" 
-                  onSuccess={this.responseGoogle} 
-                  onFailure={this.errorGoogle}
-                  render={renderProps => (
-                    <button className="btn btn-link-1 btn-link-1-google-plus" value="google" onClick={renderProps.onClick}>
-                    <i className="fa fa-google-plus"></i> Google
-                    </button>
-                  )}/>
+                    <GoogleLogin
+                      clientId={global.GOOGLE_APP_ID}
+                      autoLoad={false}
+                      buttonText="Login"
+                      onSuccess={this.responseGoogle}
+                      onFailure={this.errorGoogle}
+                      render={renderProps => (
+                        <button className="btn btn-link-1 btn-link-1-google-plus" value="google" onClick={renderProps.onClick}>
+                          <i className="fa fa-google-plus" />
+                          {' '}
+Google
+                        </button>
+                      )}
+                    />
 
+                  </div>
+                </div>
+                <div>
+
+                Don't have an account?
+                  <Link to="/signup">Register here</Link>
                 </div>
               </div>
-              <div>
-                Don't have an account? <Link to='/signup'>Register here</Link>
-                </div>
+              <ToastContainer autoClose={3000} />
             </div>
-            <ToastContainer autoClose={3000}/>
           </div>
-        </div>
 
         </LoadingScreen>
       </GuestLayout>
@@ -210,4 +220,4 @@ class Login extends React.Component {
   }
 }
 
-export { Login }
+export { Login };

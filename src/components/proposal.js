@@ -1,27 +1,20 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import GuestLayout from './guest-layout';
-import Authenticator from './fake-authenticator';
-import { attemptAcceptProposal, attemptRejectProposal, attemptCancelProposal } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import styles from '../css/profile.scss';
-import Switch from "react-switch";
-import Protected from './protected';
+import Switch from 'react-switch';
 import { Link } from 'react-router-dom';
-import {loadScript} from "@pawjs/pawjs/src/utils/utils";
-import StepZilla from "react-stepzilla";
-import {loadStyle} from "@pawjs/pawjs/src/utils/utils";
-import BasicData from './offerCreation/basicData.js';
-import ExchangeMethod from './offerCreation/exchangeMethod.js';
-import { ChatList } from 'react-chat-elements'
-import { MessageList } from 'react-chat-elements'
-import { Input } from 'react-chat-elements'
-import { Button } from 'react-chat-elements'
+import { loadScript } from '@pawjs/pawjs/src/utils/utils';
+import StepZilla from 'react-stepzilla';
+import { loadStyle } from '@pawjs/pawjs/src/utils/utils';
+import { ChatList } from 'react-chat-elements';
+import { MessageList } from 'react-chat-elements';
+import { Input } from 'react-chat-elements';
+import { Button } from 'react-chat-elements';
 
 import CommonButton from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -40,7 +33,14 @@ import StepContent from '@material-ui/core/StepContent';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
-import { MessageBox } from 'react-chat-elements'
+import { MessageBox } from 'react-chat-elements';
+import ExchangeMethod from './offerCreation/exchangeMethod.js';
+import BasicData from './offerCreation/basicData.js';
+import Protected from './protected';
+import styles from '../css/profile.scss';
+import { attemptAcceptProposal, attemptRejectProposal, attemptCancelProposal } from '../actions/user';
+import Authenticator from './fake-authenticator';
+import GuestLayout from './guest-layout';
 
 import { getConversation } from '../api';
 
@@ -53,11 +53,10 @@ export default @connect(state => ({
   messages: state.messages,
   myOffers: state.myOffers,
   userOffers: state.userOffers,
- // proposal: state.proposal,
+  // proposal: state.proposal,
 }))
 
 class Proposal extends React.Component {
-
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
@@ -94,8 +93,8 @@ class Proposal extends React.Component {
       offer: {},
       modalOpen: false,
       activeStep: 0,
-      exchangeMethodSelected: "Coopy",
-      exchangeInstanceSelected: "Hour",
+      exchangeMethodSelected: 'Coopy',
+      exchangeInstanceSelected: 'Hour',
       selectedService: '',
       myExchangeService: '',
       coopiValue: 0,
@@ -109,153 +108,170 @@ class Proposal extends React.Component {
     this.handleCancel = this.handleCancel.bind(this);
   }
 
- 
+
   handleClickOpen = () => {
     this.setState({
-        ...this.state,
-        modalOpen: true 
+      ...this.state,
+      modalOpen: true,
     });
   };
 
   handleClose = () => {
     this.setState({
-        ...this.state,
-        modalOpen: false
-    }); 
+      ...this.state,
+      modalOpen: false,
+    });
+  };
+
+  handleAccept() {
+    const token = localStorage.getItem('token');
+    const { dispatch, proposal } = this.props;
+
+    const payload = {
+      token,
+      proposalId: proposal.id,
     };
 
-    handleAccept(){
-        const token = localStorage.getItem("token");
-        const { dispatch, proposal } = this.props;
-        
-        const payload = 
-        {
-          token: token,
-          proposalId: proposal.id,
-        };
-    
-        dispatch(attemptAcceptProposal(payload));
-    
-        this.handleClose();
-    }
+    dispatch(attemptAcceptProposal(payload));
 
-    handleDecline(){
-        const token = localStorage.getItem("token");
-        const { dispatch, proposal } = this.props;
-        
-        const payload = 
-        {
-          token: token,
-          proposalId: proposal.id,
-        };
-    
-        dispatch(attemptRejectProposal(payload));
-    
-        this.handleClose();
-    }
+    this.handleClose();
+  }
 
-    handleCancel(){
-        const token = localStorage.getItem("token");
-        const { dispatch, proposal } = this.props;
-        
-        const payload = 
-        {
-          token: token,
-          proposalId: proposal.id,
-        };
-    
-        dispatch(attemptCancelProposal(payload));
-    
-        this.handleClose();
-    }
+  handleDecline() {
+    const token = localStorage.getItem('token');
+    const { dispatch, proposal } = this.props;
+
+    const payload = {
+      token,
+      proposalId: proposal.id,
+    };
+
+    dispatch(attemptRejectProposal(payload));
+
+    this.handleClose();
+  }
+
+  handleCancel() {
+    const token = localStorage.getItem('token');
+    const { dispatch, proposal } = this.props;
+
+    const payload = {
+      token,
+      proposalId: proposal.id,
+    };
+
+    dispatch(attemptCancelProposal(payload));
+
+    this.handleClose();
+  }
 
   render() {
-    const { proposal, buttonText, loggedUser, isInfo } = this.props
-    const { modalOpen } = this.state
+    const {
+      proposal, buttonText, loggedUser, isInfo,
+    } = this.props;
+    const { modalOpen } = this.state;
 
-    const stylesInfo = isInfo ? {color: 'rgba(255, 255, 255, 0.54)'} : {width: "100%" };
-    const styleProposalIcon = isInfo ? "" : <i className="fa fa-handshake-o" aria-hidden="true"></i>;
+    const stylesInfo = isInfo ? { color: 'rgba(255, 255, 255, 0.54)' } : { width: '100%' };
+    const styleProposalIcon = isInfo ? '' : <i className="fa fa-handshake-o" aria-hidden="true" />;
     return (
 
-        <div>
+      <div>
         <CommonButton style={stylesInfo} onClick={e => this.handleClickOpen(e)}>
-        {buttonText} {styleProposalIcon}
+          {buttonText}
+          {' '}
+          {styleProposalIcon}
         </CommonButton>
 
 
-            <Dialog
-            open={modalOpen}
-            onClose={this.handleClose}
-            aria-labelledby="form-dialog-title"
-          >
-            <DialogTitle id="form-dialog-title">Offer proposal</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
+        <Dialog
+          open={modalOpen}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Offer proposal</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+
                 You have the following offer proposal:
 
               <Paper>
                 <Typography variant="h5" component="h3">
                   {proposal.purchasedOffer.title}
                 </Typography>
-    
-            {
-              proposal.exchangeMethod == 'Coopy' ?
-              (
-                <Typography component="p">
-                  for <br/>
-                  {proposal.proposedPrice} COOPI / {proposal.exchangeInstance}
-                </Typography>
-              ) : 
-              (
-                <Typography component="p">
-                for <br/>
-                {proposal.proposedService.title}
-              </Typography>
-              )}
-    
+
+                {
+              proposal.exchangeMethod == 'Coopy'
+                ? (
+                  <Typography component="p">
+
+                  for
+                    <br />
+                    {proposal.proposedPrice}
+                    {' '}
+COOPI /
+                    {proposal.exchangeInstance}
+                  </Typography>
+                )
+                : (
+                  <Typography component="p">
+
+                for
+                    <br />
+                    {proposal.proposedService.title}
+                  </Typography>
+                )}
+
               </Paper>
-              </DialogContentText>
+            </DialogContentText>
 
-          <div>
+            <div>
 
-{
-    (proposal.proposerId != loggedUser.id) && (proposal.status == "Waiting") ?
-    (
+              {
+    (proposal.proposerId != loggedUser.id) && (proposal.status == 'Waiting')
+      ? (
         <div>
-        <CommonButton onClick={this.handleDecline} color="primary">
-        <i class="fa fa-times"></i> &nbsp; Decline
+          <CommonButton onClick={this.handleDecline} color="primary">
+            <i className="fa fa-times" />
+            {' '}
+&nbsp; Decline
           </CommonButton>
           <CommonButton onClick={this.handleAccept} color="primary">
-          <i class="fa fa-check"></i> &nbsp; Accept
+            <i className="fa fa-check" />
+            {' '}
+&nbsp; Accept
           </CommonButton>
-          </div>
-    ) :
-    'Stauts: ' + proposal.status
+        </div>
+      )
+      : `Stauts: ${proposal.status}`
 }
 
-{
-    (proposal.proposerId == loggedUser.id) && (proposal.status == "Waiting") ?
-    (
+              {
+    (proposal.proposerId == loggedUser.id) && (proposal.status == 'Waiting')
+      ? (
         <div>
-        <CommonButton onClick={this.handleCancel} color="primary">
-        <i class="fa fa-ban"></i> &nbsp; Cancel this proposal
-        </CommonButton>
+          <CommonButton onClick={this.handleCancel} color="primary">
+            <i className="fa fa-ban" />
+            {' '}
+&nbsp; Cancel this proposal
+          </CommonButton>
         </div>
-    ) :
-    ""
+      )
+      : ''
 }
-            <div>
-              <CommonButton onClick={this.handleClose} color="primary">
-              <i class="fa fa-arrow-circle-left"></i> &nbsp; Go back
-              </CommonButton>
+              <div>
+                <CommonButton onClick={this.handleClose} color="primary">
+                  <i className="fa fa-arrow-circle-left" />
+                  {' '}
+&nbsp; Go back
+                </CommonButton>
               </div>
-          </div>
+            </div>
 
-            </DialogContent>
-          </Dialog>
-        </div>
+          </DialogContent>
+        </Dialog>
+      </div>
     );
   }
 }
 
-export { Proposal } 
+export { Proposal };

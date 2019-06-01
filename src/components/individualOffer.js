@@ -1,34 +1,37 @@
 
 import React from 'react';
-import GuestLayout from './guest-layout';
-import { resetError, attemptShowOffer, attemptSendReward, saveRefCode } from '../actions/user';
-import { getShareCount } from '../api';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import { Button, Input, Row, Col } from 'react-bootstrap';
-import Protected from './protected';
+import {
+  Button, Input, Row, Col,
+} from 'react-bootstrap';
 import Chip from '@material-ui/core/Chip';
 import TextField from '@material-ui/core/TextField';
 import * as moment from 'moment';
-import { GeneralQuestions } from './generalQuestions'
 import LoadingScreen from 'react-loading-screen';
-import { getUrlConversation } from '../api';
 import Divider from '@material-ui/core/Divider';
-import { FacebookShareButton, FacebookIcon } from "react-share";
+import { FacebookShareButton, FacebookIcon } from 'react-share';
 import MetaTags from 'react-meta-tags';
+import { getUrlConversation } from '../api';
+import { GeneralQuestions } from './generalQuestions';
+import Protected from './protected';
+import { getShareCount } from '../api';
+import {
+  resetError, attemptShowOffer, attemptSendReward, saveRefCode,
+} from '../actions/user';
+import GuestLayout from './guest-layout';
 
 export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
   loading: state.loading,
-  readOnlyOffer: state.offer
+  readOnlyOffer: state.offer,
 }))
 
 class IndividualOffer extends React.Component {
-
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
@@ -68,69 +71,61 @@ class IndividualOffer extends React.Component {
     if (isError) {
       toast.error(message);
       dispatch(resetError());
-    }
-    else {
-      toast.success(message)
+    } else {
+      toast.success(message);
     }
   }
 
   delay = ms => new Promise(res => setTimeout(res, ms));
 
-  async handleContactClick(e){
-
+  async handleContactClick(e) {
     const { dispatch, readOnlyOffer, loggedUser } = this.props;
 
-    this.setState({...this.state, loading: true});
-    //await this.delay(5000);
-    const payload = 
-    {
-      token: localStorage.getItem("token"),
-      toUser: readOnlyOffer.userId
+    this.setState({ ...this.state, loading: true });
+    // await this.delay(5000);
+    const payload = {
+      token: localStorage.getItem('token'),
+      toUser: readOnlyOffer.userId,
     };
 
     const response = await getUrlConversation(payload);
-    this.setState({...this.state, loading: false});
+    this.setState({ ...this.state, loading: false });
 
     const conversationId = response.conversation.id;
     this.props.history.push(`/user/conversations/${conversationId}`);
   }
 
   componentDidMount() {
-
     const { dispatch } = this.props;
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     const offerId = this.props.match.params.id;
 
     const payload = {
       userToken: token,
-      offerId: offerId
-    }
+      offerId,
+    };
 
     dispatch(attemptShowOffer(payload));
   }
 
   verifyRefCode() {
-
     const { dispatch } = this.props;
     const urlParams = new URLSearchParams(window.location.search);
     const codeFromUrl = urlParams.get('referalCode');
-    
-    if (codeFromUrl && codeFromUrl.length > 0) {
 
+    if (codeFromUrl && codeFromUrl.length > 0) {
       const payload = { code: codeFromUrl };
       dispatch(saveRefCode(payload));
     }
-   
   }
 
-  async setShareCount(e){
+  async setShareCount(e) {
     const { readOnlyOffer, loggedUser } = this.props;
-    const token = localStorage.getItem("token");
-    const shareData = 
-    {
+    const token = localStorage.getItem('token');
+    const shareData = {
       userToken: token,
-      url: `${global.URL}/offers/${readOnlyOffer.id}?referalCode=${loggedUser.referalCode}`
+      url: `${global.URL}/offers/${readOnlyOffer.id}?referalCode=${loggedUser.referalCode}`,
     };
 
     const response = await getShareCount(shareData);
@@ -138,22 +133,21 @@ class IndividualOffer extends React.Component {
 
     this.setState({
       ...this.state,
-      shareCount: newCount
+      shareCount: newCount,
     });
   }
 
-  async handleShareComplete(e){
+  async handleShareComplete(e) {
     const { dispatch, readOnlyOffer, loggedUser } = this.props;
     const { shareCount } = this.state;
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     const offerId = this.props.match.params.id;
     const userId = loggedUser.id;
 
-    const shareData = 
-    {
+    const shareData = {
       userToken: token,
-      url: `${global.URL}/offers/${readOnlyOffer.id}?referalCode=${loggedUser.referalCode}`
+      url: `${global.URL}/offers/${readOnlyOffer.id}?referalCode=${loggedUser.referalCode}`,
     };
     const response = await getShareCount(shareData);
     const newCount = response.count;
@@ -162,146 +156,180 @@ class IndividualOffer extends React.Component {
     const sharedOffer = newCount > shareCount;
     const validations = userIsOwner && sharedOffer;
 
-    if(validations){
+    if (validations) {
       const payload = {
-        userId: userId,
+        userId,
         userToken: token,
-        offerId: offerId
-      }
+        offerId,
+      };
       dispatch(attemptSendReward(payload));
     }
   }
 
 
   render() {
-    const { error, loggedUser, balance, readOnlyOffer } = this.props
-    const { offer , loading } = this.state
+    const {
+      error, loggedUser, balance, readOnlyOffer,
+    } = this.props;
+    const { offer, loading } = this.state;
     const pictureUrl = readOnlyOffer && readOnlyOffer.images && readOnlyOffer.images.length > 0 ? readOnlyOffer.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
-    const displayOwnerOnly  = loggedUser.id === readOnlyOffer.userId ? 'none' : 'block';
-    const marginBetween = "5%";
+    const displayOwnerOnly = loggedUser.id === readOnlyOffer.userId ? 'none' : 'block';
+    const marginBetween = '5%';
     const shareUrl = `${global.URL}/offers/${readOnlyOffer.id}?referalCode=${loggedUser.referalCode}`;
-    const showBtnShareFB = true ? "inline-block" : "none";
+    const showBtnShareFB = true ? 'inline-block' : 'none';
 
     return (
       <Protected>
 
-      <MetaTags>
-        <meta name="description" content={readOnlyOffer.description} />
-        <meta property="og:title" content={readOnlyOffer.title} />
-        <meta property="og:image" content={pictureUrl} />
-      </MetaTags>
+        <MetaTags>
+          <meta name="description" content={readOnlyOffer.description} />
+          <meta property="og:title" content={readOnlyOffer.title} />
+          <meta property="og:image" content={pictureUrl} />
+        </MetaTags>
 
         <GuestLayout>
 
-        <LoadingScreen
-          loading={loading}
-          bgColor='rgba(255, 255, 255, .5)'
-          spinnerColor='#BE1931'
-          textColor='#BE1931'
-          text= {"Loading..."}> 
-
           <LoadingScreen
-          loading={this.props.loading}
-          bgColor='rgba(255, 255, 255, .5)'
-          spinnerColor='#BE1931'
-          textColor='#BE1931'
-          text= {"Loading..."}> 
+            loading={loading}
+            bgColor="rgba(255, 255, 255, .5)"
+            spinnerColor="#BE1931"
+            textColor="#BE1931"
+            text="Loading..."
+          >
 
-          <div className="">
+            <LoadingScreen
+              loading={this.props.loading}
+              bgColor="rgba(255, 255, 255, .5)"
+              spinnerColor="#BE1931"
+              textColor="#BE1931"
+              text="Loading..."
+            >
 
-            <div className="">        
+              <div className="">
 
-<Row>
-              <Col sm="4">
-                <img name="picture" src={pictureUrl} style={{position: "relative", top: "50%", transform: "translateY(-50%)"}} />
-              </Col>
+                <div className="">
 
-              <Col sm="8" style={{textAlign: "center"}}>
+                  <Row>
+                    <Col sm="4">
+                      <img name="picture" src={pictureUrl} style={{ position: 'relative', top: '50%', transform: 'translateY(-50%)' }} />
+                    </Col>
 
-              <Row style={{display: "block", marginTop: marginBetween, marginBottom: marginBetween}}>
+                    <Col sm="8" style={{ textAlign: 'center' }}>
 
-              <h1 style={{display: "inline-block"}} className="title">{readOnlyOffer.title}</h1> 
+                      <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
 
-              <FacebookShareButton
-              style = {{display: showBtnShareFB, marginLeft: "4%"}}
-              url={shareUrl}
-              quote={readOnlyOffer.title}
-              beforeOnClick = {e => this.setShareCount(e)}
-              onShareWindowClose={e => this.handleShareComplete(e)}>
-              <FacebookIcon
-                size={32}>Share with Facebook</FacebookIcon>
-            </FacebookShareButton>
+                        <h1 style={{ display: 'inline-block' }} className="title">{readOnlyOffer.title}</h1>
 
-            <Button onClick={e => this.handleContactClick(e)} style={{display: displayOwnerOnly, backgroundColor: "transparent", color: "black" }}>
-            Contact {readOnlyOffer.by} <i className="fa fa-comment"></i>
-            </Button>
+                        <FacebookShareButton
+                          style={{ display: showBtnShareFB, marginLeft: '4%' }}
+                          url={shareUrl}
+                          quote={readOnlyOffer.title}
+                          beforeOnClick={e => this.setShareCount(e)}
+                          onShareWindowClose={e => this.handleShareComplete(e)}
+                        >
+                          <FacebookIcon
+                            size={32}
+                          >
+Share with Facebook
+                          </FacebookIcon>
+                        </FacebookShareButton>
 
-              <p>{readOnlyOffer.description}</p>
+                        <Button onClick={e => this.handleContactClick(e)} style={{ display: displayOwnerOnly, backgroundColor: 'transparent', color: 'black' }}>
 
-                </Row>
-                <Divider />
-              <Row style={{display: "block", marginTop: marginBetween, marginBottom: marginBetween}}>
-              <div>
-                <h4>Categories: </h4>
+            Contact
+                          {readOnlyOffer.by}
+                          {' '}
+                          <i className="fa fa-comment" />
+                        </Button>
 
-              {readOnlyOffer.categories != undefined ? (
-                readOnlyOffer.categories.map(c => {
-              return (
-                <Chip
-                  key={c.name}
-                  label={c.name}
-                />
-              );
-            })): ''}
+                        <p>{readOnlyOffer.description}</p>
 
-              </div>
+                      </Row>
+                      <Divider />
+                      <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
+                        <div>
+                          <h4>Categories: </h4>
 
-              </Row>
-              <Divider />
-<Row style={{display: "block", marginTop: marginBetween, marginBottom: marginBetween}}>
-              <div>
-              <h4>Payment Method: </h4>
-                <Chip label={readOnlyOffer.paymentMethod} />
-              </div>
+                          {readOnlyOffer.categories != undefined ? (
+                            readOnlyOffer.categories.map(c => (
+                              <Chip
+                                key={c.name}
+                                label={c.name}
+                              />
+                            ))) : ''}
 
-                <div>
-                  {readOnlyOffer.hourPrice && readOnlyOffer.hourPrice != "0" ? <div className="col-sm-12"><span>{readOnlyOffer.hourPrice} Coopies x hour</span></div> : ''}
-                  {readOnlyOffer.sessionPrice && readOnlyOffer.sessionPrice != "0" ? <div className="col-sm-12"><span>{readOnlyOffer.sessionPrice} Coopies x session</span></div> : ''}
-                  {readOnlyOffer.finalProductPrice && readOnlyOffer.finalProductPrice != "0" ? <div className="col-sm-12"><span>{readOnlyOffer.finalProductPrice} Coopies x final product</span></div> : ''}
+                        </div>
+
+                      </Row>
+                      <Divider />
+                      <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
+                        <div>
+                          <h4>Payment Method: </h4>
+                          <Chip label={readOnlyOffer.paymentMethod} />
+                        </div>
+
+                        <div>
+                          {readOnlyOffer.hourPrice && readOnlyOffer.hourPrice != '0' ? (
+                            <div className="col-sm-12">
+                              <span>
+                                {readOnlyOffer.hourPrice}
+                                {' '}
+Coopies x hour
+                              </span>
+                            </div>
+                          ) : ''}
+                          {readOnlyOffer.sessionPrice && readOnlyOffer.sessionPrice != '0' ? (
+                            <div className="col-sm-12">
+                              <span>
+                                {readOnlyOffer.sessionPrice}
+                                {' '}
+Coopies x session
+                              </span>
+                            </div>
+                          ) : ''}
+                          {readOnlyOffer.finalProductPrice && readOnlyOffer.finalProductPrice != '0' ? (
+                            <div className="col-sm-12">
+                              <span>
+                                {readOnlyOffer.finalProductPrice}
+                                {' '}
+Coopies x final product
+                              </span>
+                            </div>
+                          ) : ''}
+                        </div>
+
+                      </Row>
+                      <Divider />
+                      <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
+                        <TextField
+                          label="Start Date"
+                          type="date"
+                          disabled
+                          defaultValue={moment(readOnlyOffer.startDate).format('YYYY-MM-DD')}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+
+                        <TextField
+                          label="Finish Date"
+                          type="date"
+                          disabled
+                          defaultValue={moment(readOnlyOffer.endDate).format('YYYY-MM-DD')}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+
+                      </Row>
+                    </Col>
+                  </Row>
+
+                  <GeneralQuestions offerId={this.props.match.params.id} />
                 </div>
+              </div>
 
-</Row>
-<Divider />
-<Row style={{display: "block", marginTop: marginBetween, marginBottom: marginBetween}}>
-              <TextField
-                label="Start Date"
-                type="date"
-                disabled
-                defaultValue={moment(readOnlyOffer.startDate).format('YYYY-MM-DD')}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-
-              <TextField
-                label="Finish Date"
-                type="date"
-                disabled
-                defaultValue={moment(readOnlyOffer.endDate).format('YYYY-MM-DD')}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-
-  </Row>
-  </Col>
-</Row>
-
-              <GeneralQuestions offerId={this.props.match.params.id}/>
-            </div>
-          </div>
-
-          </LoadingScreen>
+            </LoadingScreen>
           </LoadingScreen>
         </GuestLayout>
       </Protected>
@@ -309,4 +337,4 @@ class IndividualOffer extends React.Component {
   }
 }
 
-export { IndividualOffer }
+export { IndividualOffer };

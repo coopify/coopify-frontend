@@ -1,44 +1,43 @@
 
 import React from 'react';
-import GuestLayout from './guest-layout';
-import { resetError, attemptOffersAction } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import styles from '../css/profile.scss';
-import Protected from './protected';
-import ReactTable from "react-table";
-import 'react-table/react-table.css'
+import ReactTable from 'react-table';
+import 'react-table/react-table.css';
 import StarRatingComponent from 'react-star-rating-component';
 import { Link } from 'react-router-dom';
 import LoadingScreen from 'react-loading-screen';
+import Protected from './protected';
+import styles from '../css/profile.scss';
+import { resetError, attemptOffersAction } from '../actions/user';
+import GuestLayout from './guest-layout';
 
 export default @connect(state => ({
   error: state.error,
   loading: state.loading,
   offers: state.offers,
   countOffers: state.countOffers,
-  filters: state.filters
+  filters: state.filters,
 }))
 
 class Offers extends React.Component {
-
   static propTypes = {
     dispatch: PropTypes.func,
     error: PropTypes.string,
     offers: PropTypes.array,
     countOffers: PropTypes.number,
-    filters: PropTypes.object
+    filters: PropTypes.object,
   };
 
   static defaultProps = {
     dispatch: () => {
     },
     offers: [],
-    error: ''
+    error: '',
   };
 
   constructor(props) {
@@ -46,7 +45,7 @@ class Offers extends React.Component {
     this.state = {
       offers: [],
       error: '',
-      limit: 10
+      limit: 10,
     };
   }
 
@@ -55,9 +54,8 @@ class Offers extends React.Component {
     if (isError) {
       toast.error(message);
       dispatch(resetError());
-    }
-    else {
-      toast.success(message)
+    } else {
+      toast.success(message);
     }
   }
 
@@ -66,8 +64,8 @@ class Offers extends React.Component {
     const reqAttributes = {
       limit: this.state.limit,
       page: 0,
-      filters: this.props.isHome ? {} : this.props.filters
-    }
+      filters: this.props.isHome ? {} : this.props.filters,
+    };
 
     dispatch(attemptOffersAction(reqAttributes));
   }
@@ -77,8 +75,8 @@ class Offers extends React.Component {
     const reqAttributes = {
       limit: this.state.limit,
       page: pageIndex,
-      filters: this.props.filters
-    }
+      filters: this.props.filters,
+    };
 
     dispatch(attemptOffersAction(reqAttributes));
   }
@@ -89,31 +87,29 @@ class Offers extends React.Component {
       const reqAttributes = {
         limit: this.state.limit,
         page: 0,
-        filters: this.props.filters
-      }
+        filters: this.props.filters,
+      };
 
       dispatch(attemptOffersAction(reqAttributes));
-      }
+    }
   }
 
   changeSize(pageSize) {
-    this.setState((state) => {
-      return { ...state, limit: pageSize }
-    })
+    this.setState(state => ({ ...state, limit: pageSize }));
   }
 
   render() {
     const TheadComponent = props => null; // a component returning null (to hide) or you could write as per your requirement
-    const { error, offers, countOffers } = this.props
-    const data = offers
+    const { error, offers, countOffers } = this.props;
+    const data = offers;
     const columns = [{
       accessor: 'image',
       Cell: props => (
         <div style={{ textAlign: 'right' }}>
-          <img src={props.original.images && props.original.images.length > 0 ? props.original.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg'} alt="offer image" height="200" width="200"></img>
+          <img src={props.original.images && props.original.images.length > 0 ? props.original.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg'} alt="offer image" height="200" width="200" />
         </div>
       ),
-      maxWidth: 200
+      maxWidth: 200,
     }, {
       accessor: 'description',
       Cell: props => (
@@ -121,8 +117,20 @@ class Offers extends React.Component {
           <div className="container" style={{ textAlign: 'left' }}>
             <div className="row">
 
-              <div className="col-sm-4"><h2><Link to={`/offers/${props.original.id}`} className="navbar-item"><i className="fa"></i>{props.original.title}</Link></h2></div>
-              <div className="col-sm-4"><h4>By {props.original.by}</h4></div>
+              <div className="col-sm-4">
+                <h2>
+                  <Link to={`/offers/${props.original.id}`} className="navbar-item">
+                    <i className="fa" />
+                    {props.original.title}
+                  </Link>
+                </h2>
+              </div>
+              <div className="col-sm-4">
+                <h4>
+By
+                  {props.original.by}
+                </h4>
+              </div>
               <div className="col-sm-4">
                 <StarRatingComponent
                   name="rate2"
@@ -140,54 +148,79 @@ class Offers extends React.Component {
             </div>
             <div className="row">
 
-              {props.original.paymentMethod == "Coopy" ?
+              {props.original.paymentMethod == 'Coopy' ? (
                 <div>
-                  {props.original.hourPrice && props.original.hourPrice != "0" ? <div className="col-sm-12"><span>{props.original.hourPrice} Coopies x hour</span></div> : ''}
-                  {props.original.sessionPrice && props.original.sessionPrice != "0" ? <div className="col-sm-12"><span>{props.original.sessionPrice} Coopies x session</span></div> : ''}
-                  {props.original.finalProductPrice && props.original.finalProductPrice != "0" ? <div className="col-sm-12"><span>{props.original.finalProductPrice} Coopies x Final Product</span></div> : ''}
+                  {props.original.hourPrice && props.original.hourPrice != '0' ? (
+                    <div className="col-sm-12">
+                      <span>
+                        {props.original.hourPrice}
+                        {' '}
+Coopies x hour
+                      </span>
+                    </div>
+                  ) : ''}
+                  {props.original.sessionPrice && props.original.sessionPrice != '0' ? (
+                    <div className="col-sm-12">
+                      <span>
+                        {props.original.sessionPrice}
+                        {' '}
+Coopies x session
+                      </span>
+                    </div>
+                  ) : ''}
+                  {props.original.finalProductPrice && props.original.finalProductPrice != '0' ? (
+                    <div className="col-sm-12">
+                      <span>
+                        {props.original.finalProductPrice}
+                        {' '}
+Coopies x Final Product
+                      </span>
+                    </div>
+                  ) : ''}
                 </div>
-                :
-                <div className="col-sm-12"><span>Barter</span></div>
+              )
+                : <div className="col-sm-12"><span>Barter</span></div>
               }
 
             </div>
           </div>
         </div>
-      )
-    }]
+      ),
+    }];
 
     return (
       <LoadingScreen
-      loading={this.props.loading}
-      bgColor='rgba(255, 255, 255, .5)'
-      spinnerColor='#BE1931'
-      textColor='#BE1931'
-      text= {"Loading..."}> 
+        loading={this.props.loading}
+        bgColor="rgba(255, 255, 255, .5)"
+        spinnerColor="#BE1931"
+        textColor="#BE1931"
+        text="Loading..."
+      >
 
-          <div className={styles.container}>
-            <form >
+        <div className={styles.container}>
+          <form>
 
-              <h2 style={{ textAlign: 'center' }}> Offers </h2>
+            <h2 style={{ textAlign: 'center' }}> Offers </h2>
 
-              <ReactTable
-                defaultPageSize={this.state.limit}
-                data={data}
-                columns={columns}
-                TheadComponent={TheadComponent}
-                onPageChange={e => this.changePage(e)}
-                onPageSizeChange={e => this.changeSize(e)}
-                pages={ this.state.limit != 0 ? Math.ceil(countOffers / this.state.limit) : countOffers }
-                noDataText = 'No offers for the selected filters'
-                manual
-                minRows = {0}
-              />
+            <ReactTable
+              defaultPageSize={this.state.limit}
+              data={data}
+              columns={columns}
+              TheadComponent={TheadComponent}
+              onPageChange={e => this.changePage(e)}
+              onPageSizeChange={e => this.changeSize(e)}
+              pages={this.state.limit != 0 ? Math.ceil(countOffers / this.state.limit) : countOffers}
+              noDataText="No offers for the selected filters"
+              manual
+              minRows={0}
+            />
 
-            </form>
-            <ToastContainer autoClose={3000} />
-          </div>
-          </LoadingScreen>
+          </form>
+          <ToastContainer autoClose={3000} />
+        </div>
+      </LoadingScreen>
     );
   }
 }
 
-export { Offers }
+export { Offers };

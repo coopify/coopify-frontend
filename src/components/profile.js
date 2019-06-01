@@ -1,38 +1,41 @@
 
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import GuestLayout from './guest-layout';
-import Authenticator from './fake-authenticator';
-import { attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetError } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import styles from '../css/profile.scss';
-import { Button, Input, Row, Col } from 'react-bootstrap';
-import Switch from "react-switch";
-import Protected from './protected';
+import {
+  Button, Input, Row, Col,
+} from 'react-bootstrap';
+import Switch from 'react-switch';
 import { Link } from 'react-router-dom';
-import {loadScript} from "@pawjs/pawjs/src/utils/utils";
+import { loadScript } from '@pawjs/pawjs/src/utils/utils';
 import LoadingScreen from 'react-loading-screen';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import Protected from './protected';
+import styles from '../css/profile.scss';
+import {
+  attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetError,
+} from '../actions/user';
+import Authenticator from './fake-authenticator';
+import GuestLayout from './guest-layout';
 import { getUrlSocialAPICall } from '../api';
 
 export default @connect(state => ({
-  loggedUser: state.user, //el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
+  loggedUser: state.user, // el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
   error: state.error,
-  loading: state.loading
+  loading: state.loading,
 }))
 
 class Profile extends React.Component {
-
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
-    error: PropTypes.string
+    error: PropTypes.string,
   };
 
   static defaultProps = {
@@ -40,7 +43,7 @@ class Profile extends React.Component {
     },
     loggedUser: {},
     loading: false,
-    error: ''
+    error: '',
   };
 
   constructor(props) {
@@ -49,7 +52,7 @@ class Profile extends React.Component {
       loggedUser: {},
       loading: false,
       error: '',
-      checked: false
+      checked: false,
     };
     this.handleIntegrateFBBtnClick = this.handleIntegrateFBBtnClick.bind(this);
   }
@@ -70,51 +73,49 @@ class Profile extends React.Component {
     const picture = loggedUser.pictureURL;
 
     const interests = data.get('interests');
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
-    const userProfileData = 
-    {
+    const userProfileData = {
       pictureURL: picture,
-      name : name,
-      lastName : lastname,
-      address : direction,
-      phone : tel,
-      birthdate : dateBorn,
-      bio : biography,
-      interests : [] //interests //[{ name: string, selected: boolean  }]
+      name,
+      lastName: lastname,
+      address: direction,
+      phone: tel,
+      birthdate: dateBorn,
+      bio: biography,
+      interests: [], // interests //[{ name: string, selected: boolean  }]
     };
 
     const reqAttributes = {
       userId: loggedUser.id,
       userToken: token,
-      attributes: userProfileData
-    }
+      attributes: userProfileData,
+    };
 
     dispatch(attemptProfileAction(reqAttributes));
   }
 
-  notify(message, isError){
-    const {dispatch} = this.props;
-    if(isError){
+  notify(message, isError) {
+    const { dispatch } = this.props;
+    if (isError) {
       toast.error(message);
       dispatch(resetError());
-    }
-    else{
-      toast.success(message)
+    } else {
+      toast.success(message);
     }
   }
 
-  componentDidMount(){
-    loadScript("//widget.cloudinary.com/global/all.js").then((res) => {} ).catch(err => {});
+  componentDidMount() {
+    loadScript('//widget.cloudinary.com/global/all.js').then((res) => {}).catch((err) => {});
   }
 
   handleSwitchChange(e) {
     this.setState(prevState => ({
-      checked: !prevState.checked
-  }))
+      checked: !prevState.checked,
+    }));
   }
 
-  handleOnChange(e){
+  handleOnChange(e) {
     const { dispatch } = this.props;
     const data = new FormData(e.target.form);
     const name = data.get('name');
@@ -125,230 +126,235 @@ class Profile extends React.Component {
     const biography = data.get('biography');
     const interests = data.get('interests');
 
-    const user =
-    {
-      name : name,
-      lastName : lastname,
-      address : direction,
-      phone : tel,
-      birthdate : dateBorn,
-      bio : biography,
-      interests : interests
+    const user = {
+      name,
+      lastName: lastname,
+      address: direction,
+      phone: tel,
+      birthdate: dateBorn,
+      bio: biography,
+      interests,
     };
     dispatch(onChangeProfileInputAction(user));
   }
 
   changeImage(e) {
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
     const edition = this.state.checked;
 
-    if(edition){
+    if (edition) {
+      const options = {
+        cloud_name: 'coopify-media',
+        upload_preset: 'coopify-media',
+        multiple: true,
+        returnJustUrl: true,
+      };
 
-          let options = {
-            cloud_name: "coopify-media",
-            upload_preset: "coopify-media",
-            multiple: true,
-            returnJustUrl: true
-        };
+      cloudinary.openUploadWidget({ cloud_name: 'coopify-media', upload_preset: 'coopify-media' }, (error, result) => {
+        if (result && result.length > 0) {
+          const img = {
+            url: result[0].secure_url,
+          };
 
-        cloudinary.openUploadWidget({
-          cloud_name: "coopify-media", upload_preset: "coopify-media" }, (error, result) =>
-          { 
-              if(result && result.length > 0){
-                const img = {
-                  url: result[0].secure_url
-                };
-
-                dispatch(changeProfileImage(img));
-              }
-          }
-        );
-  }
+          dispatch(changeProfileImage(img));
+        }
+      });
+    }
   }
 
-  async handleIntegrateFBBtnClick(e){
-    const socialSelected = "facebook";
+  async handleIntegrateFBBtnClick(e) {
+    const socialSelected = 'facebook';
     const res = await getUrlSocialAPICall(socialSelected);
     const url = res.data;
     window.location = url;
   }
 
   render() {
-    const { loading, error, loggedUser } = this.props
-    if(error.length > 0) this.notify(error, true)
+    const { loading, error, loggedUser } = this.props;
+    if (error.length > 0) this.notify(error, true);
     const genders = ['Male', 'Female', 'Other', 'Unespecified'];
     const edition = !this.state.checked;
     const focusable = !this.state.checked ? 'disabled' : '';
-    const dateBirth = loggedUser.birthdate ? loggedUser.birthdate.substring(0,10) : new Date(Date.now()).toISOString().substring(0,10);
-    const displayFBBtn = loggedUser.FBSync ? "none" : "inline-block";
+    const dateBirth = loggedUser.birthdate ? loggedUser.birthdate.substring(0, 10) : new Date(Date.now()).toISOString().substring(0, 10);
+    const displayFBBtn = loggedUser.FBSync ? 'none' : 'inline-block';
 
     return (
       <Protected>
-      <GuestLayout>
+        <GuestLayout>
 
           <LoadingScreen
-          loading={this.props.loading}
-          bgColor='rgba(255, 255, 255, .5)'
-          spinnerColor='#BE1931'
-          textColor='#BE1931'
-          text= {"Loading..."}> 
+            loading={this.props.loading}
+            bgColor="rgba(255, 255, 255, .5)"
+            spinnerColor="#BE1931"
+            textColor="#BE1931"
+            text="Loading..."
+          >
 
-        <div className={styles.container}>
-        <form onSubmit={e => this.handleSubmit(e)}>
-        <Row>
-            <Col sm={12}>
+            <div className={styles.container}>
+              <form onSubmit={e => this.handleSubmit(e)}>
+                <Row>
+                  <Col sm={12}>
 
-              <h2 style={{textAlign: 'center'}}> Profile </h2>
-              
-              <div style={{textAlign: "center"}}>
+                    <h2 style={{ textAlign: 'center' }}> Profile </h2>
 
-              <Button onClick={this.handleIntegrateFBBtnClick} style={{display: displayFBBtn, backgroundColor: "transparent", color: "black" }}>
-              Sync with Facebook <i className="fa fa-facebook-square"></i>
-              </Button>
+                    <div style={{ textAlign: 'center' }}>
 
-            </div>
+                      <Button onClick={this.handleIntegrateFBBtnClick} style={{ display: displayFBBtn, backgroundColor: 'transparent', color: 'black' }}>
+
+              Sync with Facebook
+                        <i className="fa fa-facebook-square" />
+                      </Button>
+
+                    </div>
 
 
-                Edit Mode <Switch
-                  checked={this.state.checked}
-                  onChange={e => this.handleSwitchChange(e)}
-                  onColor="#86d3ff"
-                  onHandleColor="#2693e6"
-                  handleDiameter={30}
-                  uncheckedIcon={
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100%",
-                        fontSize: 15,
-                        color: "orange",
-                        paddingRight: 2
-                      }}
-                    >
+                Edit Mode
+                    <Switch
+                      checked={this.state.checked}
+                      onChange={e => this.handleSwitchChange(e)}
+                      onColor="#86d3ff"
+                      onHandleColor="#2693e6"
+                      handleDiameter={30}
+                      uncheckedIcon={(
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: '100%',
+                            fontSize: 15,
+                            color: 'orange',
+                            paddingRight: 2,
+                          }}
+                        >
+
                       Off
-                    </div>
-                  }
-                  checkedIcon={
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100%",
-                        fontSize: 15,
-                        color: "white",
-                        paddingRight: 2,
-                        paddingLeft: 10
-                      }}
-                    >
+                        </div>
+)}
+                      checkedIcon={(
+                        <div
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: '100%',
+                            fontSize: 15,
+                            color: 'white',
+                            paddingRight: 2,
+                            paddingLeft: 10,
+                          }}
+                        >
+
                       On
+                        </div>
+)}
+
+                      boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                      activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                      height={20}
+                      width={62}
+                      className="react-switch"
+                      id="material-switch"
+                    />
+                  </Col>
+                </Row>
+
+                <Row style={{ marginTop: '2%' }}>
+                  <Col sm={2} style={{ marginLeft: '10%' }}>
+                    <div style={{ borderColor: 'red' }} onClick={e => this.changeImage(e)}>
+                      <img className={styles.picture} name="picture" src={loggedUser.pictureURL} />
+                    </div>
+                  </Col>
+                  <Col sm={3}>
+
+                    <div className="field">
+                      <label className="label" htmlFor="name">First name</label>
+                      <div className="control">
+                        <input name="name" value={loggedUser.name} onChange={e => this.handleOnChange(e)} placeholder="Name" className="form-control" readOnly={edition} disabled={focusable} />
+                      </div>
                     </div>
 
-                  }
-                
-                  boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                  activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                  height={20}
-                  width={62}
-                  className="react-switch"
-                  id="material-switch"
-                />
-            </Col>
-          </Row>
 
-          <Row style={{marginTop: '2%'}}>
-            <Col sm={2} style={{marginLeft: '10%'}}>
-            <div style={{borderColor: 'red'}} onClick={e => this.changeImage(e)}>
-              <img className={styles.picture} name="picture" src={loggedUser.pictureURL} />
-              </div>
-            </Col>
-            <Col sm={3}>
+                    <div className="field">
+                      <label className="label" htmlFor="lastname">Last name</label>
+                      <div className="control">
+                        <input name="lastname" value={loggedUser.lastName} onChange={e => this.handleOnChange(e)} placeholder="Last name" className="form-control" readOnly={edition} disabled={focusable} />
+                      </div>
+                    </div>
 
-              <div className="field">
-                <label className="label" htmlFor="name">First name</label>
-                <div className="control">
-                  <input name="name" value={loggedUser.name} onChange={e => this.handleOnChange(e)} placeholder="Name" className="form-control" readOnly={edition} disabled={focusable}></input>  
-                </div> 
-              </div> 
+                    <div className="field">
+                      <label className="label" htmlFor="direction">Address</label>
+                      <div className="control">
+                        <input name="direction" value={loggedUser.address} onChange={e => this.handleOnChange(e)} placeholder="Direction" className="form-control" readOnly={edition} disabled={focusable} />
+                      </div>
+                    </div>
 
+                    <div className="field">
+                      <label className="label" htmlFor="tel">Phone</label>
+                      <div className="control">
+                        <input type="number" name="tel" value={loggedUser.phone} onChange={e => this.handleOnChange(e)} placeholder="Tel" className="form-control" readOnly={edition} disabled={focusable} />
+                      </div>
+                    </div>
 
-              <div className="field">
-                <label className="label" htmlFor="lastname">Last name</label>
-                <div className="control">
-              <input name="lastname" value={loggedUser.lastName} onChange={e => this.handleOnChange(e)} placeholder="Last name" className="form-control" readOnly={edition} disabled={focusable}></input>    
-              </div> 
-              </div> 
+                  </Col>
 
-              <div className="field">
-                <label className="label" htmlFor="direction">Address</label>
-                <div className="control">
-              <input name="direction" value={loggedUser.address} onChange={e => this.handleOnChange(e)} placeholder="Direction" className="form-control" readOnly={edition} disabled={focusable}></input>    
-              </div> 
-              </div> 
+                  <Col sm={3}>
 
-              <div className="field">
-                <label className="label" htmlFor="tel">Phone</label>
-                <div className="control">
-              <input type="number" name="tel" value={loggedUser.phone} onChange={e => this.handleOnChange(e)} placeholder="Tel" className="form-control" readOnly={edition} disabled={focusable}></input>    
-              </div> 
-              </div>
+                    <div className="field">
+                      <label className="label" htmlFor="dateBorn">Birthdate</label>
+                      <div className="control">
+                        <input name="dateBorn" type="date" onChange={e => this.handleOnChange(e)} className="form-control" value={dateBirth} readOnly={edition} disabled={focusable} />
+                      </div>
+                    </div>
 
-            </Col>
+                    {/* <DropDown name="gender" label={loggedUser.gender} field={loggedUser.gender} values={genders} /> */}
 
-              <Col sm={3}>
+                    <div className="field">
+                      <label className="label" htmlFor="biography">Biography</label>
+                      <div className="control">
+                        <input name="biography" type="textarea" onChange={e => this.handleOnChange(e)} value={loggedUser.bio} placeholder="Biography" className="form-control" readOnly={edition} disabled={focusable} />
+                      </div>
+                    </div>
 
-                <div className="field">
-                    <label className="label" htmlFor="dateBorn">Birthdate</label>
-                  <div className="control">
-              <input name="dateBorn" type="date" onChange={e => this.handleOnChange(e)} className="form-control" value={dateBirth} readOnly={edition} disabled={focusable}></input>  
-              </div> 
-              </div> 
+                    <div className="field">
+                      <label className="label" htmlFor="interests">Interests</label>
+                      <div className="control">
+                        <input name="interests" type="textarea" onChange={e => this.handleOnChange(e)} value={loggedUser.interests} placeholder="Interests" className="form-control" readOnly={edition} disabled={focusable} />
+                      </div>
+                    </div>
 
-              {/* <DropDown name="gender" label={loggedUser.gender} field={loggedUser.gender} values={genders} /> */} 
-
-              <div className="field">
-                <label className="label" htmlFor="biography">Biography</label>
-                <div className="control">
-              <input name="biography" type="textarea" onChange={e => this.handleOnChange(e)} value={loggedUser.bio} placeholder="Biography" className="form-control" readOnly={edition} disabled={focusable}></input> 
-                </div> 
-              </div> 
-
-              <div className="field">
-                <label className="label" htmlFor="interests">Interests</label>
-                <div className="control">
-                <input name="interests" type="textarea" onChange={e => this.handleOnChange(e)} value={loggedUser.interests} placeholder="Interests" className="form-control" readOnly={edition} disabled={focusable}></input> 
-                </div> 
-              </div> 
-
-              </Col>
-          </Row>
-          <Row style={{marginTop: '2%'}}>
-            <Col sm={12}>
-            { !edition ?  <Button
-              bsstyle="primary"
-              type="submit"
-            > Accept
-            </Button> : ""
+                  </Col>
+                </Row>
+                <Row style={{ marginTop: '2%' }}>
+                  <Col sm={12}>
+                    { !edition ? (
+                      <Button
+                        bsstyle="primary"
+                        type="submit"
+                      >
+                        {' '}
+Accept
+                      </Button>
+                    ) : ''
             }
+
 
             &nbsp;
 
-            { !edition ?  <Link className="button is-light" to="/home">Cancel</Link> : "" }
+                    { !edition ? <Link className="button is-light" to="/home">Cancel</Link> : '' }
 
-              
-            </Col>
-          </Row>
-        </form>
-        </div>
-        <ToastContainer autoClose={3000}/>
 
-        </LoadingScreen>
-      </GuestLayout>
+                  </Col>
+                </Row>
+              </form>
+            </div>
+            <ToastContainer autoClose={3000} />
+
+          </LoadingScreen>
+        </GuestLayout>
       </Protected>
     );
   }
 }
 
-export { Profile }
+export { Profile };

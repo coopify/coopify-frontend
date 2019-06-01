@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 
 export default @connect(state => ({
-  allow: state.userDidLog
+  allow: state.userDidLog,
 }))
 
 class Protected extends React.Component {
@@ -13,13 +13,13 @@ class Protected extends React.Component {
 
   static propTypes = {
     dispatch: PropTypes.func,
-    allow: PropTypes.bool
+    allow: PropTypes.bool,
   };
 
   static defaultProps = {
     dispatch: () => {
     },
-    allow: false
+    allow: false,
   };
 
   constructor(props) {
@@ -50,4 +50,4 @@ class Protected extends React.Component {
   }
 }
 
-export { Protected }
+export { Protected };

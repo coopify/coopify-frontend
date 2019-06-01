@@ -1,30 +1,27 @@
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import {
-  Form, Row, Col, Button,
+  Form,
+  Row,
+  Col,
+  Button,
 } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
 import { loadScript } from '@pawjs/pawjs/src/utils/utils';
-import { loadStyle } from '@pawjs/pawjs/src/utils/utils';
 import _ from 'lodash';
-import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
-import { attemptSignUpAction, attemptCategoriesAction } from '../../actions/user';
+import { attemptCategoriesAction } from '../../actions/user';
 
 
-export default @connect(state => ({ // eslint-disable-line
-  loggedUser: state.user,
+export default @connect(state => ({
   error: state.error,
-  loading: state.loading,
   userDidSignUp: state.userDidSignUp,
   categories: state.categories,
 }))
@@ -32,21 +29,20 @@ export default @connect(state => ({ // eslint-disable-line
 class BasicData extends React.Component {
     static propTypes = {
       dispatch: PropTypes.func,
-      loggedUser: PropTypes.object,
-      loading: PropTypes.bool,
-      error: PropTypes.string,
-      userDidSignUp: PropTypes.bool,
-      categories: PropTypes.array,
+      categories: PropTypes.arrayOf(PropTypes.string),
+      onOfferImageChange: PropTypes.func,
+      onOfferInputChangeStep1: PropTypes.func,
+      onCategoriesChange: PropTypes.func,
+      offer: PropTypes.objectOf(PropTypes.object),
     };
 
     static defaultProps = {
-      dispatch: () => {
-      },
-      loggedUser: {},
-      loading: false,
-      error: '',
-      userDidSignUp: false,
+      dispatch: () => {},
       categories: [],
+      onOfferImageChange: () => {},
+      onOfferInputChangeStep1: () => {},
+      onCategoriesChange: () => {},
+      offer: {},
     };
 
     onLoginRedirectUrl = '/home';
@@ -54,45 +50,31 @@ class BasicData extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        loggedUser: {},
-        loading: false,
-        error: '',
-        userDidSignUp: false,
-        categories: [],
+        categoriesSelected: [],
       };
     }
 
     componentDidMount() {
-      loadScript('//widget.cloudinary.com/global/all.js').then((res) => { }).catch((err) => { });
+      loadScript('//widget.cloudinary.com/global/all.js');
       const { dispatch } = this.props;
       dispatch(attemptCategoriesAction());
     }
 
-    changeImage(e) {
-      const { dispatch } = this.props;
-
-      const options = {
-        cloud_name: 'coopify-media',
-        upload_preset: 'coopify-media',
-        multiple: true,
-        returnJustUrl: true,
-      };
-
+    changeImage() {
       cloudinary.openUploadWidget({
         cloud_name: 'coopify-media', upload_preset: 'coopify-media',
-      }, (error, result) => {
+      }, (result) => {
         if (result && result.length > 0) {
           const img = {
             url: result[0].secure_url,
           };
-
-          const newState = _.assignIn({}, this.state, {
-            offer: {
-              ...this.state.offer,
-              pictureURL: img.url,
-            },
+          const { offer } = this.state;
+          offer.pictureURL = img.url;
+          _.assignIn({}, this.state, {
+            offer,
           });
-          this.props.onOfferImageChange(img.url);
+          const { onOfferImageChange } = this.props;
+          onOfferImageChange(img.url);
         }
       });
     }
@@ -106,29 +88,27 @@ class BasicData extends React.Component {
         title,
         description,
       };
-
-      this.props.onOfferInputChangeStep1(newOffer);
+      const { onOfferInputChangeStep1 } = this.props;
+      onOfferInputChangeStep1(newOffer);
     }
 
     handleOnCategoryChange(e) {
       const newCategories = e.target.value;
+      const { state } = this.state;
       this.setState({
-        ...this.state,
-        categories: newCategories,
+        state,
+        categoriesSelected: newCategories,
       });
-
-      this.props.onCategoriesChange(newCategories);
+      const { onCategoriesChange } = this.props;
+      onCategoriesChange(newCategories);
     }
 
     render() {
-      const { error, offer } = this.props;
-
-      const title = offer.title;
-      const description = offer.description;
+      const { offer, categories } = this.props;
+      const { categoriesSelected } = this.state;
+      const { title, description } = offer;
 
       const pictureURL = offer && offer.images && offer.images[0] ? offer.images[0].url : '';
-
-      const category = offer.category;
 
       return (
 
@@ -138,38 +118,27 @@ class BasicData extends React.Component {
 
             <Form>
               <Form.Group as={Row} controlId="formPlaintextEmail">
-                <Form.Label column sm="2">
-
-                                Title
-                </Form.Label>
+                <Form.Label column sm="2"> Title </Form.Label>
                 <Col sm="10">
                   <Form.Control type="textarea" name="title" onChange={e => this.handleOnChange(e)} value={title} />
                 </Col>
               </Form.Group>
 
               <Form.Group as={Row} controlId="formPlaintextPassword">
-                <Form.Label column sm="2">
-
-                                Description
-                </Form.Label>
+                <Form.Label column sm="2"> Description </Form.Label>
                 <Col sm="10">
                   <Form.Control as="textarea" name="description" rows="8" onChange={e => this.handleOnChange(e)} value={description} />
                 </Col>
               </Form.Group>
 
               <Form.Group as={Row} controlId="formPlaintextEmail">
-                <Form.Label column sm="2">
-
-                                Image
-                </Form.Label>
+                <Form.Label column sm="2"> Image </Form.Label>
                 <Col sm="10">
-                  <div onClick={e => this.changeImage(e)}>
+                  <Button onClick={e => this.changeImage(e)} onKeyDown={e => this.changeImage(e)} role="button">
                     {
-                                        pictureURL ? <img name="picture" src={pictureURL} />
-                                          : 'Upload Image'
-                                    }
-
-                  </div>
+                      pictureURL ? <img name="picture" src={pictureURL} alt="Profile" /> : 'Upload Image'
+                    }
+                  </Button>
                 </Col>
               </Form.Group>
 
@@ -179,7 +148,7 @@ class BasicData extends React.Component {
                 <Select
                   name="categories"
                   multiple
-                  value={this.state.categories}
+                  value={categoriesSelected}
                   onChange={e => this.handleOnCategoryChange(e)}
                   input={<Input id="select-multiple-chip" />}
                   renderValue={selected => (
@@ -190,7 +159,7 @@ class BasicData extends React.Component {
                     </div>
                   )}
                 >
-                  {this.props.categories.map(name => (
+                  {categories.map(name => (
                     <MenuItem key={name} value={name}>
                       {name}
                     </MenuItem>

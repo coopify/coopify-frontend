@@ -18,7 +18,7 @@ import StepZilla from 'react-stepzilla';
 import { loadStyle } from '@pawjs/pawjs/src/utils/utils';
 import { ChatList } from 'react-chat-elements';
 import LoadingScreen from 'react-loading-screen';
-import BasicData from './offerCreation/basicData.js';
+import BasicData from './offerCreation/basicData';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import Protected from './protected';
 import styles from '../css/profile.scss';

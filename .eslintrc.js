@@ -6,5 +6,6 @@ module.exports = {
     "parser": "babel-eslint",
     "rules": {
         "linebreak-style": 0,
-    }
+    },
+    "globals": {"cloudinary": true}
 };

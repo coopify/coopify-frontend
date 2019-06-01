@@ -41,11 +41,11 @@ Column.propTypes = {
 
 export default () => (
   <Protected>
-  <GuestLayout>
-  
-  <Offers isHome={true}></Offers>
+    <GuestLayout>
 
-  </GuestLayout>
+      <Offers isHome />
+
+    </GuestLayout>
   </Protected>
 
 );

@@ -1,14 +1,14 @@
 import React from 'react';
-import ReduxServer from "@pawjs/redux/server";
+import ReduxServer from '@pawjs/redux/server';
 import createSagaMiddleware from 'redux-saga';
-import { user, InitialState } from './reducers'
+import { user, InitialState } from './reducers';
 import rootSaga from './sagas';
 
 
 export default class Server {
-  constructor({addPlugin}) {
+  constructor({ addPlugin }) {
     this.sagaMiddleware = createSagaMiddleware();
-    const reduxServer = new ReduxServer({addPlugin});
+    const reduxServer = new ReduxServer({ addPlugin });
     reduxServer.setReducers(user);
     reduxServer.addMiddleware(this.sagaMiddleware);
     addPlugin(reduxServer);
@@ -18,11 +18,11 @@ export default class Server {
     serverHandler
       .hooks
       .reduxInitialState
-      .tapPromise('AppInitialState', async ({getInitialState, setInitialState}) => {
+      .tapPromise('AppInitialState', async ({ getInitialState, setInitialState }) => {
         const initialState = Object.assign({}, getInitialState(), InitialState);
         setInitialState(initialState);
       });
-    
+
     serverHandler
       .hooks
       .beforeAppRender
@@ -31,5 +31,5 @@ export default class Server {
       .hooks
       .beforeAppRender
       .tapPromise('AddReduxProvider', async () => (console.log('Server')));
-  };
+  }
 }

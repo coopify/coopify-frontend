@@ -9,7 +9,7 @@ export default () => (
             Welcome to Coopify
         </h1>
         <h2 className="subtitle">
-        
+
         Service exchange platform
         </h2>
         {/* <Link to="/home" className="button">Checkout the full demo</Link> */}

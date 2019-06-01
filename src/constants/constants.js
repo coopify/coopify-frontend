@@ -1,4 +1,4 @@
 
-export const FACEBOOK = "Facebook";
+export const FACEBOOK = 'Facebook';
 
-export const GOOGLE = "Google";
+export const GOOGLE = 'Google';

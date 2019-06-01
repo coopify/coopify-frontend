@@ -13,6 +13,7 @@ import { ConversationList } from '../components/conversations';
 import { Chat } from '../components/individualChat';
 import { Proposals } from '../components/proposals';
 import { Goals } from '../components/goals'
+import { Logout } from '../components/logout';
 
 export default [
   {
@@ -143,7 +144,7 @@ export default [
   {
     path: '/logout',
     exact: true,
-    component: import('../components/logout'),
+    component: Logout,
     seo: {
       title: 'Logging out...',
     },

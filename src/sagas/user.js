@@ -81,7 +81,7 @@ import {
 
 export function* loginAsync(payload) {
   const result = yield logInAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     localStorage.setItem('loggedUser', JSON.stringify(result.data.user));
     localStorage.setItem('token', result.data.accessToken);
 
@@ -93,11 +93,11 @@ export function* loginAsync(payload) {
 
 export function* signUpAsync(payload) {
   const result = yield signUpAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     localStorage.setItem('loggedUser', JSON.stringify(result.body.user));
     localStorage.setItem('token', result.body.accessToken);
 
-    yield put({ type: SIGNUP_SUCCESS, user: result.body.user });// estaba .user
+    yield put({ type: SIGNUP_SUCCESS, user: result.body.user });
   } else {
     yield put({ type: SIGNUP_FAILURE, data: result.body });
   }
@@ -105,7 +105,7 @@ export function* signUpAsync(payload) {
 
 export function* socialSignUpAsync(payload) {
   const result = yield socialSignUpAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     localStorage.setItem('loggedUser', JSON.stringify(result.body.user));
     localStorage.setItem('token', result.body.accessToken);
     yield put({ type: SOCIAL_SIGNUP_SUCCESS, user: result.body.user });
@@ -123,7 +123,7 @@ export function* logoutAsync() {
 
 export function* profileAsync(payload) {
   const result = yield profileAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: PROFILE_SUCCESS, user: result });
   } else {
     yield put({ type: PROFILE_FAILURE, errorMessage: result.errorMessage });
@@ -143,7 +143,7 @@ export function* loadStateFromCookies() {
 
 export function* socialLoginAsync(payload) {
   const result = yield socialLogInAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     localStorage.setItem('loggedUser', JSON.stringify(result.data.user));
     localStorage.setItem('token', result.data.accessToken);
 
@@ -154,7 +154,7 @@ export function* socialLoginAsync(payload) {
 }
 export function* checkBalanceAsync(payload) {
   const result = yield checkBalanceAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: CHECKBALANCE_SUCCESS, balance: result.balance });
   } else {
     yield put({ type: CHECKBALANCE_FAILURE, errorMessage: result.errorMessage });
@@ -162,7 +162,7 @@ export function* checkBalanceAsync(payload) {
 }
 export function* checkTransactionsAsync(payload) {
   const result = yield checkTransactionsAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: CHECKTRANSACTIONS_SUCCESS, transactions: result.transactions });
   } else {
     yield put({ type: CHECKTRANSACTIONS_FAILURE, errorMessage: result.errorMessage });
@@ -170,7 +170,7 @@ export function* checkTransactionsAsync(payload) {
 }
 export function* checkOffersAsync(payload) {
   const result = yield checkOffersPagedAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: OFFERS_SUCCESS, responseOffers: result.responseOffers });
   } else {
     yield put({ type: OFFERS_FAILURE, errorMessage: result.errorMessage });
@@ -179,7 +179,7 @@ export function* checkOffersAsync(payload) {
 
 export function* createOfferAsync(payload) {
   const result = yield createOfferAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: CREATE_OFFER_SUCCESS, message: result.message });
   } else {
     yield put({ type: CREATE_OFFER_FAILURE, errorMessage: result.errorMessage });
@@ -188,7 +188,7 @@ export function* createOfferAsync(payload) {
 
 export function* getOfferAsync(payload) {
   const result = yield getOfferAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: SHOW_OFFER_SUCCESS, offer: result.offer });
   } else {
     yield put({ type: SHOW_OFFER_FAILURE, errorMessage: result.errorMessage });
@@ -197,7 +197,7 @@ export function* getOfferAsync(payload) {
 
 export function* getCategoriesAsync() {
   const result = yield getCategoriesAPICall();
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: GET_CATEGORIES_SUCCESS, categories: result.categories });
   } else {
     yield put({ type: GET_CATEGORIES_FAILURE, errorMessage: result.errorMessage });
@@ -206,7 +206,7 @@ export function* getCategoriesAsync() {
 
 export function* postQuestionAsync(payload) {
   const result = yield postQuestionAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: POST_QUESTION_SUCCESS, message: result.message });
   } else {
     yield put({ type: POST_QUESTION_FAILURE, errorMessage: result.errorMessage });
@@ -215,7 +215,7 @@ export function* postQuestionAsync(payload) {
 
 export function* getQuestionAnswerAsync(payload) {
   const result = yield getQuestionAnswerAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: GET_QUESTION_ANSWER_SUCCESS, responseQuestions: result.responseQuestions });
   } else {
     yield put({ type: GET_QUESTION_ANSWER_FAILURE, errorMessage: result.errorMessage });
@@ -225,35 +225,35 @@ export function* getQuestionAnswerAsync(payload) {
 
 export function* sendReplyAsync(payload) {
   const result = yield sendReplyAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: SEND_QUESTION_REPLY_SUCCESS, reply: result.reply });
   }
 }
 
 export function* sendChatMessageAsync(payload) {
   const result = yield sendMessageAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: SEND_MESSAGE_SUCCESS, message: result.message });
   }
 }
 
 export function* getConversationsAsync(payload) {
   const result = yield getConversationsAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: GET_CONVERSATIONS_SUCCESS, conversations: result.conversations });
   }
 }
 
 export function* getMessagesAsync(payload) {
   const result = yield getMessagesAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: GET_MESSAGES_SUCCESS, messages: result.messages });
   }
 }
 
 export function* makeProposalAsync(payload) {
   const result = yield makeProposalAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: MAKE_PROPOSAL_SUCCESS, proposal: result.proposal });
   } else {
     yield put({ type: MAKE_PROPOSAL_FAILURE, errorMessage: result.errorMessage });
@@ -262,15 +262,15 @@ export function* makeProposalAsync(payload) {
 
 export function* geteUsersOffers(payload) {
   const result = yield getUsersOffersAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: GET_USERS_OFFERS_SUCCESS, usersOffers: result.usersOffers });
   }
 }
 
 export function* getProposalsAsync(payload) {
   const result = yield getProposalsAPICall(payload.payload);
-  if (result.status == 200) {
-    yield put({ type: GET_PROPOSALS_SUCCESS, proposals: result.responseProposals.proposals });// Pedir que BE devuelva count
+  if (result.status === 200) {
+    yield put({ type: GET_PROPOSALS_SUCCESS, proposals: result.responseProposals.proposals });
   } else {
     yield put({ type: GET_PROPOSALS_FAILURE, errorMessage: result.errorMessage });
   }
@@ -278,21 +278,21 @@ export function* getProposalsAsync(payload) {
 
 export function* acceptProposalAsync(payload) {
   const result = yield acceptProposalAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: ACCEPT_PROPOSAL_SUCCESS, proposal: result.proposal });
   }
 }
 
 export function* rejectProposalAsync(payload) {
   const result = yield rejectProposalAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: REJECT_PROPOSAL_SUCCESS, proposal: result.proposal });
   }
 }
 
 export function* cancelProposalAsync(payload) {
   const result = yield cancelProposalAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: CANCEL_PROPOSAL_SUCCESS, proposal: result.proposal });
   }
 }
@@ -304,7 +304,7 @@ export function* getConversationProposalAsync(payload) {
 
 export function* getGoalsAsync() {
   const result = yield getGoalsAPICall();
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: GET_GOALS_SUCCESS, responseGoals: result.responseGoals });
   } else {
     yield put({ type: GET_GOALS_FAILURE, errorMessage: result.errorMessage });
@@ -313,7 +313,7 @@ export function* getGoalsAsync() {
 
 export function* getGoalsUserAsync(payload) {
   const result = yield getGoalsUserAPICall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     yield put({ type: GET_GOALSUSER_SUCCESS, responseGoals: result.responseGoals });
   } else {
     yield put({ type: GET_GOALSUSER_FAILURE, errorMessage: result.errorMessage });
@@ -322,7 +322,7 @@ export function* getGoalsUserAsync(payload) {
 
 export function* syncFacebookAsync(payload) {
   const result = yield syncFBApiCall(payload.payload);
-  if (result.status == 200) {
+  if (result.status === 200) {
     localStorage.setItem('loggedUser', JSON.stringify(result.user));
 
     yield put({ type: SYNC_FB_SUCCESS, user: result.user });
@@ -332,5 +332,5 @@ export function* syncFacebookAsync(payload) {
 }
 
 export function* sendRewardAsync(payload) {
-  const result = yield sendRewardApiCall(payload.payload);
+  yield sendRewardApiCall(payload.payload);
 }

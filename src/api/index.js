@@ -41,13 +41,11 @@ export function signUpAPICall(payload) {
     .then(response => ({
       status: response.status,
       body: response.data,
-    })).catch((e) => {
-      console.log(`signUpAPICall Error: ${JSON.stringify(e)}  ${e}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         data: e.response,
-      };
-    });
+      }));
 }
 
 export function getUrlSocialAPICall(payload) {
@@ -58,13 +56,13 @@ export function getUrlSocialAPICall(payload) {
       status: response.status,
       data: response.data.url,
     })).catch(e => ({
-      status: response.status,
-      data: response.data.data.message,
+      status: e.response.status,
+      data: e.response.data.data.message,
     }));
 }
 
 
-export function socialSignUpAPICall(payload) { // TODO ver el endpoint en el backend exchange...
+export function socialSignUpAPICall(payload) {
   const code = payload;
 
   return axios.post(
@@ -74,21 +72,16 @@ export function socialSignUpAPICall(payload) { // TODO ver el endpoint en el bac
     .then(response => ({
       status: response.status,
       body: response.data,
-    })).catch((e) => {
-      console.log(`SocialSignUpAPICall Error${JSON.stringify(e)}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         data: e.response.data,
-      };
-    });
+      }));
 }
 
 export function profileAPICall(payload) {
-  const token = payload.userToken;
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  const userId = payload.userId;
-
-  const attributes = payload.attributes;
+  const { userToken, userId, attributes } = payload;
+  axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
 
   return axios.put(
     `${global.API_URL}/api/users/${userId}`, {
@@ -98,19 +91,17 @@ export function profileAPICall(payload) {
     .then(response => ({
       status: response.status,
       user: response.data.user,
-    })).catch((e) => {
-      console.log(`signUpAPICall Error: ${JSON.stringify(e)}  ${e}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         errorMessage: e.response.data.message,
-      };
-    });
+      }));
 }
 
 export function checkBalanceAPICall(payload) {
   const token = payload.userToken;
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  const userId = payload.userId;
+  const { userId } = payload;
 
   return axios.get(
     `${global.API_URL}/api/users/${userId}/balance`, {
@@ -120,21 +111,16 @@ export function checkBalanceAPICall(payload) {
     .then(response => ({
       status: response.status,
       balance: response.data.balance,
-    })).catch((e) => {
-      console.log(`checkBalance Error: ${JSON.stringify(e)}  ${e}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         errorMessage: e.response.data.message,
-      };
-    });
+      }));
 }
 
 export function checkTransactionsAPICall(payload) {
-  const token = payload.userToken;
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  const userId = payload.userId;
-
-  const attributes = payload.attributes;
+  const { userToken, userId, attributes } = payload;
+  axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
 
   return axios.get(
     `${global.API_URL}/api/users/${userId}/transactions`, {
@@ -144,37 +130,16 @@ export function checkTransactionsAPICall(payload) {
     .then(response => ({
       status: response.status,
       transactions: response.data,
-    })).catch((e) => {
-      console.log(`checkTransactions Error: ${JSON.stringify(e)}  ${e}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         errorMessage: e.response.data.message,
-      };
-    });
+      }));
 }
 
-// export function checkOffersAPICall(){
-
-//   return axios.get(
-//     `${global.API_URL}/api/offers/`).
-//     then((response) => {
-//       return {
-//         status: response.status,
-//         offers: response.data.offers
-//       }
-//     }).catch((e) => {
-//       console.log("checkOffers Error: " + JSON.stringify(e) + "  " + e);
-//       return {
-//         status: e.response.status,
-//         errorMessage: e.response.data.message
-//     }});
-// }
-
 export function checkOffersPagedAPICall(payload) {
-  const limit = payload.limit;
-  const skip = payload.page;
-  const filters = payload.filters;
-  const queryParams = stringify({ ...filters, limit, skip });
+  const { limit, page, filters } = payload;
+  const queryParams = stringify({ ...filters, limit, page });
 
   return axios.get(
     `${global.API_URL}/api/offers?${queryParams}`,
@@ -182,19 +147,16 @@ export function checkOffersPagedAPICall(payload) {
     .then(response => ({
       status: response.status,
       responseOffers: { offers: response.data.offers, countOffers: response.data.count },
-    })).catch((e) => {
-      console.log(`checkOffers Error: ${JSON.stringify(e)}  ${e}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         errorMessage: e.response.data.message,
-      };
-    });
+      }));
 }
 
 export function createOfferAPICall(payload) {
-  const token = payload.userToken;
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  const offer = payload.offer;
+  const { userToken, offer } = payload;
+  axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
 
   return axios.post(
     `${global.API_URL}/api/offers/`, offer,
@@ -202,20 +164,16 @@ export function createOfferAPICall(payload) {
     .then(response => ({
       status: response.status,
       message: response.status,
-    })).catch((e) => {
-      console.log(`createOfficeAPICall Error: ${JSON.stringify(e)}  ${e}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         errorMessage: e.response.data.message,
-      };
-    });
+      }));
 }
 
 export function getOfferAPICall(payload) {
-  const token = payload.userToken;
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-
-  const offerId = payload.offerId;
+  const { userToken, offerId } = payload;
+  axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
 
   return axios.get(
     `${global.API_URL}/api/offers/${offerId}`,
@@ -223,13 +181,11 @@ export function getOfferAPICall(payload) {
     .then(response => ({
       status: response.status,
       offer: response.data.offer,
-    })).catch((e) => {
-      console.log(`getOfferAPICall Error: ${JSON.stringify(e)}  ${e}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         errorMessage: e.response.data.message,
-      };
-    });
+      }));
 }
 
 export function getCategoriesAPICall() {
@@ -239,21 +195,15 @@ export function getCategoriesAPICall() {
     .then(response => ({
       status: response.status,
       categories: response.data.categories,
-    })).catch((e) => {
-      console.log(`getCategoriesAPICall Error: ${JSON.stringify(e)}  ${e}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         errorMessage: e.response.data.message,
-      };
-    });
-  // return {
-  //   status: 200,
-  //   categories: [{name: 'Musica'},{name: 'Tecnologia'},{name:'Otros'}]
-  // };
+      }));
 }
 
 export function postQuestionAPICall(payload) {
-  const offerId = payload.offerId;
+  const { offerId } = payload;
   const text = { text: payload.question };
   const userToken = payload.token;
 
@@ -265,22 +215,22 @@ export function postQuestionAPICall(payload) {
     .then(response => ({
       status: response.status,
       message: response.status,
-    })).catch((e) => {
-      console.log(`createOfficeAPICall Error: ${JSON.stringify(e)}  ${e}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         errorMessage: e.response.data.message,
-      };
-    });
+      }));
 }
 
 export function getQuestionAnswerAPICall(payload) {
-  const offerId = payload.offerId;
-  const token = payload.token;
-  const limit = payload.limit;
-  const skip = payload.page;
+  const {
+    offerId,
+    token,
+    limit,
+    page,
+  } = payload;
 
-  const queryParams = stringify({ limit, skip });
+  const queryParams = stringify({ limit, page });
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -290,40 +240,35 @@ export function getQuestionAnswerAPICall(payload) {
     .then(response => ({
       status: response.status,
       responseQuestions: response.data,
-    })).catch((e) => {
-      console.log(`getQuestionAnswerAPICall Error: ${JSON.stringify(e)}  ${e}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         errorMessage: e.response.data.message,
-      };
-    });
+      }));
 }
 
 export function sendReplyAPICall(payload) {
-  const questionId = payload.questionId;
-  const reply = { attributes: { response: payload.reply } };
-  const userToken = payload.token;
+  const { questionId, reply, token } = payload;
+  const replyJson = { attributes: { response: reply } };
 
-  axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
   return axios.put(
-    `${global.API_URL}/api/questions/${questionId}`, reply,
+    `${global.API_URL}/api/questions/${questionId}`, replyJson,
   )
     .then(response => ({
       status: response.status,
       reply: response.data.response,
-    })).catch((e) => {
-      console.log(`createOfficeAPICall Error: ${JSON.stringify(e)}  ${e}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         errorMessage: e.response.data.message,
-      };
-    });
+      }));
 }
 
 export function getUrlConversation(payload) {
-  const token = payload.token;
-  const toId = { toId: payload.toUser };
+  const { token, toUser } = payload;
+  const toId = { toId: toUser };
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -334,16 +279,13 @@ export function getUrlConversation(payload) {
       status: response.status,
       conversation: response.data.conversation,
     })).catch(e => ({
-      status: response.status,
-      data: response.data.data.message,
+      status: e.response.status,
+      data: e.response.data.data.message,
     }));
 }
 
 export function sendMessageAPICall(payload) {
-  const token = payload.token;
-  const message = payload.message;
-  const conversationId = payload.conversationId;
-
+  const { token, message, conversationId } = payload;
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
   return axios.post(
@@ -352,17 +294,15 @@ export function sendMessageAPICall(payload) {
     .then(response => ({
       status: response.status,
       message: response.data.message,
-    })).catch((e) => {
-      console.log(`createOfficeAPICall Error: ${JSON.stringify(e)}  ${e}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         errorMessage: e.response.data.message,
-      };
-    });
+      }));
 }
 
 export function getConversationsAPICall(payload) {
-  const token = payload.token;
+  const { token } = payload;
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -373,14 +313,13 @@ export function getConversationsAPICall(payload) {
       status: response.status,
       conversations: response.data.conversations,
     })).catch(e => ({
-      status: response.status,
-      data: response.data.data.message,
+      status: e.response.status,
+      data: e.response.data.data.message,
     }));
 }
 
 export function getMessagesAPICall(payload) {
-  const token = payload.token;
-  const conversationId = payload.conversationId;
+  const { token, conversationId } = payload;
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -391,27 +330,24 @@ export function getMessagesAPICall(payload) {
       status: response.status,
       messages: response.data.messages,
     })).catch(e => ({
-      status: response.status,
-      data: response.data.data.message,
+      status: e.response.status,
+      data: e.response.data.data.message,
     }));
 }
 
 export function getConversation(payload) {
-  const token = payload.token;
-  const conversationId = payload.conversationId;
+  const { token, conversationId } = payload;
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
   return axios.get(
     `${global.API_URL}/api/conversations/${conversationId}`,
   )
-    .then(response => response.data.conversation).catch(e => undefined);
+    .then(response => response.data.conversation);
 }
 
 export function makeProposalAPICall(payload) {
-  const token = payload.token;
-  const conversationId = payload.conversationId;
-  const proposal = payload.proposal;
+  const { token, conversationId, proposal } = payload;
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -422,23 +358,18 @@ export function makeProposalAPICall(payload) {
       status: response.status,
       proposal: response.data.proposal,
     })).catch(e => ({
-      status: response.status,
-      data: response.data.data.message,
+      status: e.response.status,
+      data: e.response.data.data.message,
     }));
 }
 
 export async function getUsersOffersAPICall(payload) {
-  const token = payload.token;
-  const conversationId = payload.conversationId;
-  const myUserId = payload.myUserId;
-  const serviceUserId = payload.serviceUserId;
+  const { token, myUserId, serviceUserId } = payload;
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
   const resultMyOffers = await axios.get(`${global.API_URL}/api/offers/user/${myUserId}`);
-  console.log(`MYoFFERS: ${JSON.stringify(resultMyOffers)}`);
   const resultServiceUserOffers = await axios.get(`${global.API_URL}/api/offers/user/${serviceUserId}`);
-  console.log(`other user offers: ${JSON.stringify(resultServiceUserOffers)}`);
 
   return {
     status: 200,
@@ -450,12 +381,7 @@ export async function getUsersOffersAPICall(payload) {
 }
 
 export function getProposalsAPICall(payload) {
-  // const offerId =  payload.offerId;
-  const token = payload.token;
-  // const limit = payload.limit;
-  // const skip = payload.page;
-
-  // const queryParams = stringify({limit,skip})
+  const { token } = payload.token;
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -472,8 +398,7 @@ export function getProposalsAPICall(payload) {
 }
 
 export async function acceptProposalAPICall(payload) {
-  const token = payload.token;
-  const proposalId = payload.proposalId;
+  const { token, proposalId } = payload;
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -484,14 +409,13 @@ export async function acceptProposalAPICall(payload) {
       status: response.status,
       proposal: response.data.proposal,
     })).catch(e => ({
-      status: response.status,
-      data: response.data.data.message,
+      status: e.response.status,
+      data: e.response.data.data.message,
     }));
 }
 
 export async function rejectProposalAPICall(payload) {
-  const token = payload.token;
-  const proposalId = payload.proposalId;
+  const { token, proposalId } = payload;
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -502,14 +426,13 @@ export async function rejectProposalAPICall(payload) {
       status: response.status,
       proposal: response.data.proposal,
     })).catch(e => ({
-      status: response.status,
-      data: response.data.data.message,
+      status: e.response.status,
+      data: e.response.data.data.message,
     }));
 }
 
 export async function cancelProposalAPICall(payload) {
-  const token = payload.token;
-  const proposalId = payload.proposalId;
+  const { token, proposalId } = payload;
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -520,14 +443,13 @@ export async function cancelProposalAPICall(payload) {
       status: response.status,
       proposal: response.data.proposal,
     })).catch(e => ({
-      status: response.status,
-      data: response.data.data.message,
+      status: e.response.status,
+      data: e.response.data.data.message,
     }));
 }
 
 export function getConversationProposalAPICall(payload) {
-  const token = payload.token;
-  const conversationId = payload.conversationId;
+  const { token, conversationId } = payload;
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -554,17 +476,10 @@ export function getGoalsAPICall() {
       status: e.response.status,
       goals: {},
     }));
-  //   return {
-  //   status: 200,
-  //   responseGoals: {goals: [{name: 'Offer a service',description: 'Post your first service and offer your talents to the community.',amount: 10, quantity: 6},
-  //   {name: 'Post your referral link',description: 'Publicly support us and post your referral link to your timeline on Facebook.',amount: 15, quantity: 9}],
-  //   count: 2}
-  // };
 }
 
 export function getGoalsUserAPICall(payload) {
-  const token = payload.token;
-  const userId = payload.userId;
+  const { token, userId } = payload;
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -578,18 +493,13 @@ export function getGoalsUserAPICall(payload) {
       status: e.response.status,
       goals: {},
     }));
-  //   return {
-  //   status: 200,
-  //   responseGoals: {goals: [{name: 'Offer a service',description: 'Post your first service and offer your talents to the community.',amount: 10, quantity: 6},
-  //   {name: 'Post your referral link',description: 'Publicly support us and post your referral link to your timeline on Facebook.',amount: 15, quantity: 9}],
-  //   count: 2}
-  // };
 }
 
 export function syncFBApiCall(payload) {
-  const userToken = payload.userToken;
+  const { userToken, fbToken } = payload;
+
   const code = {
-    code: payload.fbToken,
+    code: fbToken,
   };
 
   axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
@@ -600,13 +510,11 @@ export function syncFBApiCall(payload) {
     .then(response => ({
       status: response.status,
       user: response.data.user,
-    })).catch((e) => {
-      console.log(`syncFBApiCall Error: ${JSON.stringify(e)}  ${e}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         errorMessage: e.response.data.message,
-      };
-    });
+      }));
 }
 
 export function getShareCount(payload) {
@@ -632,10 +540,10 @@ export function getShareCount(payload) {
 }
 
 export function sendRewardApiCall(payload) {
-  const userToken = payload.userToken;
-  const userId = payload.userId;
+  const { userToken, userId, offerId } = payload;
+
   const offer = {
-    offerId: payload.offerId,
+    offerId,
   };
 
   axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
@@ -646,11 +554,9 @@ export function sendRewardApiCall(payload) {
     .then(response => ({
       status: response.status,
       data: response.status,
-    })).catch((e) => {
-      console.log(`sendRewardApiCall Error: ${JSON.stringify(e)}  ${e}`);
-      return {
+    })).catch(e => (
+      {
         status: e.response.status,
         errorMessage: e.response.data.message,
-      };
-    });
+      }));
 }

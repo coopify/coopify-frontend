@@ -1,20 +1,16 @@
 
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import LoadingScreen from 'react-loading-screen';
 import { ToastContainer, toast } from 'react-toastify';
 import GuestLayout from './guest-layout';
-import Authenticator from './fake-authenticator';
 import { attemptSignUpAction } from '../actions/user';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import { FACEBOOK, GOOGLE } from '../constants/constants';
 import { getUrlSocialAPICall } from '../api';
 import SingletonPusher from './singletonPusher';
-import LoadingScreen from 'react-loading-screen';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -27,7 +23,7 @@ export default @connect(state => ({
 class Signup extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    loggedUser: PropTypes.object,
+    loggedUser: PropTypes.objectOf(PropTypes.object),
     loading: PropTypes.bool,
     error: PropTypes.string,
     userDidSignUp: PropTypes.bool,
@@ -49,19 +45,22 @@ class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedUser: {},
-      loading: false,
-      error: '',
-      userDidSignUp: false,
     };
   }
 
-  notify(message, isError) {
+  notify = (message, isError) => {
     if (isError) {
       toast.error(message);
     } else {
       toast.success(message);
     }
+  }
+
+  handleSocialSignUp = async (e) => {
+    const socialSelected = e.target.value;
+    const response = await getUrlSocialAPICall(socialSelected);
+    const url = response.data;
+    window.location = url;
   }
 
   handleSubmit(e) {
@@ -97,16 +96,9 @@ class Signup extends React.Component {
     dispatch(attemptSignUpAction(userSignUpData));
   }
 
-  async handleSocialSignUp(e) {
-    const socialSelected = e.target.value;
-    const response = await getUrlSocialAPICall(socialSelected);
-    const url = response.data;
-    window.location = url;
-  }
-
   render() {
     const {
-      error, userDidSignUp, loggedUser, dispatch, referalCode,
+      error, userDidSignUp, loggedUser, dispatch, referalCode, loading,
     } = this.props;
     if (error.length > 0) this.notify(error, true);
     if (userDidSignUp) {
@@ -120,7 +112,7 @@ class Signup extends React.Component {
       <GuestLayout>
 
         <LoadingScreen
-          loading={this.props.loading}
+          loading={loading}
           bgColor="rgba(255, 255, 255, .5)"
           spinnerColor="#BE1931"
           textColor="#BE1931"
@@ -137,8 +129,7 @@ class Signup extends React.Component {
 
                   <div className="field">
                     <label className="label" htmlFor="username">
-
-                    Name
+                      <div>Name</div>
                       <div className="control">
                         <input
                           id="name"
@@ -153,8 +144,7 @@ class Signup extends React.Component {
 
                   <div className="field">
                     <label className="label" htmlFor="username">
-
-                    Email
+                      <div>Email</div>
                       <div className="control">
                         <input
                           id="email"
@@ -170,7 +160,7 @@ class Signup extends React.Component {
                   <div className="field">
                     <label className="label" htmlFor="password">
 
-                    Password
+                      <div>Password</div>
                       <div className="control">
                         <input
                           id="password"
@@ -186,7 +176,7 @@ class Signup extends React.Component {
                   <div className="field">
                     <label className="label" htmlFor="username">
 
-                    Repeat Password
+                      <div>Repeat Password</div>
                       <div className="control">
                         <input
                           id="repeatPassword"
@@ -202,7 +192,7 @@ class Signup extends React.Component {
                   <div className="field">
                     <label className="label" htmlFor="refCode">
 
-                    Referal Code
+                      <div>Referal Code</div>
                       <div className="control">
                         <input
                           id="refCode"
@@ -232,21 +222,21 @@ class Signup extends React.Component {
                   </div>
 
                   <div className="social-login-buttons">
-                    <button className="btn btn-link-1 btn-link-1-facebook" value="facebook" onClick={e => this.handleSocialSignUp(e)}>
+                    <button type="button" className="btn btn-link-1 btn-link-1-facebook" value="facebook" onClick={e => this.handleSocialSignUp(e)}>
                       <i className="fa fa-facebook" />
                       {' '}
-Facebook
+                      <div>Facebook</div>
                     </button>
-                    <button className="btn btn-link-1 btn-link-1-google-plus" value="google" onClick={e => this.handleSocialSignUp(e)}>
+                    <button type="button" className="btn btn-link-1 btn-link-1-google-plus" value="google" onClick={e => this.handleSocialSignUp(e)}>
                       <i className="fa fa-google-plus" />
                       {' '}
-Google
+                      <div>Google</div>
                     </button>
                   </div>
                 </div>
                 <div>
 
-                Already have an account?
+                  <div>Already have an account?</div>
                   <Link to="/login">Login here</Link>
                 </div>
 

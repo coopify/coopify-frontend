@@ -1,31 +1,27 @@
 
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-bootstrap';
 import {
-  Button, Input, Row, Col,
+  Button, Row, Col,
 } from 'react-bootstrap';
 import Switch from 'react-switch';
 import { Link } from 'react-router-dom';
 import { loadScript } from '@pawjs/pawjs/src/utils/utils';
 import LoadingScreen from 'react-loading-screen';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import Protected from './protected';
 import styles from '../css/profile.scss';
 import {
   attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetError,
 } from '../actions/user';
-import Authenticator from './fake-authenticator';
 import GuestLayout from './guest-layout';
 import { getUrlSocialAPICall } from '../api';
 
 export default @connect(state => ({
-  loggedUser: state.user, // el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
+  loggedUser: state.user,
   error: state.error,
   loading: state.loading,
 }))
@@ -33,7 +29,7 @@ export default @connect(state => ({
 class Profile extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    loggedUser: PropTypes.object,
+    loggedUser: PropTypes.objectOf(PropTypes.object),
     loading: PropTypes.bool,
     error: PropTypes.string,
   };
@@ -49,53 +45,16 @@ class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedUser: {},
-      loading: false,
-      error: '',
       checked: false,
     };
     this.handleIntegrateFBBtnClick = this.handleIntegrateFBBtnClick.bind(this);
   }
 
-
-  handleSubmit(e) {
-    if (e && e.preventDefault) {
-      e.preventDefault();
-    }
-    const { dispatch, loggedUser } = this.props;
-    const data = new FormData(e.target);
-    const name = data.get('name');
-    const lastname = data.get('lastname');
-    const direction = data.get('direction');
-    const tel = data.get('tel');
-    const dateBorn = data.get('dateBorn');
-    const biography = data.get('biography');
-    const picture = loggedUser.pictureURL;
-
-    const interests = data.get('interests');
-    const token = localStorage.getItem('token');
-
-    const userProfileData = {
-      pictureURL: picture,
-      name,
-      lastName: lastname,
-      address: direction,
-      phone: tel,
-      birthdate: dateBorn,
-      bio: biography,
-      interests: [], // interests //[{ name: string, selected: boolean  }]
-    };
-
-    const reqAttributes = {
-      userId: loggedUser.id,
-      userToken: token,
-      attributes: userProfileData,
-    };
-
-    dispatch(attemptProfileAction(reqAttributes));
+  componentDidMount() {
+    loadScript('//widget.cloudinary.com/global/all.js');
   }
 
-  notify(message, isError) {
+  notify = (message, isError) => {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
@@ -103,10 +62,6 @@ class Profile extends React.Component {
     } else {
       toast.success(message);
     }
-  }
-
-  componentDidMount() {
-    loadScript('//widget.cloudinary.com/global/all.js').then((res) => {}).catch((err) => {});
   }
 
   handleSwitchChange(e) {
@@ -140,41 +95,69 @@ class Profile extends React.Component {
 
   changeImage(e) {
     const { dispatch } = this.props;
-    const edition = this.state.checked;
+    const { checked } = this.state;
+    const edition = checked;
 
     if (edition) {
-      const options = {
-        cloud_name: 'coopify-media',
-        upload_preset: 'coopify-media',
-        multiple: true,
-        returnJustUrl: true,
-      };
-
       cloudinary.openUploadWidget({ cloud_name: 'coopify-media', upload_preset: 'coopify-media' }, (error, result) => {
         if (result && result.length > 0) {
           const img = {
             url: result[0].secure_url,
           };
-
           dispatch(changeProfileImage(img));
         }
       });
     }
   }
 
-  async handleIntegrateFBBtnClick(e) {
+  handleIntegrateFBBtnClick = async (e) => {
     const socialSelected = 'facebook';
     const res = await getUrlSocialAPICall(socialSelected);
     const url = res.data;
     window.location = url;
   }
 
+  handleSubmit(e) {
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
+    const { dispatch, loggedUser } = this.props;
+    const data = new FormData(e.target);
+    const name = data.get('name');
+    const lastname = data.get('lastname');
+    const direction = data.get('direction');
+    const tel = data.get('tel');
+    const dateBorn = data.get('dateBorn');
+    const biography = data.get('biography');
+    const picture = loggedUser.pictureURL;
+    const token = localStorage.getItem('token');
+
+    const userProfileData = {
+      pictureURL: picture,
+      name,
+      lastName: lastname,
+      address: direction,
+      phone: tel,
+      birthdate: dateBorn,
+      bio: biography,
+      interests: [],
+    };
+
+    const reqAttributes = {
+      userId: loggedUser.id,
+      userToken: token,
+      attributes: userProfileData,
+    };
+
+    dispatch(attemptProfileAction(reqAttributes));
+  }
+
   render() {
     const { loading, error, loggedUser } = this.props;
+    const { checked } = this.state;
     if (error.length > 0) this.notify(error, true);
-    const genders = ['Male', 'Female', 'Other', 'Unespecified'];
-    const edition = !this.state.checked;
-    const focusable = !this.state.checked ? 'disabled' : '';
+    const edition = !checked;
+    const focusable = !checked ? 'disabled' : '';
     const dateBirth = loggedUser.birthdate ? loggedUser.birthdate.substring(0, 10) : new Date(Date.now()).toISOString().substring(0, 10);
     const displayFBBtn = loggedUser.FBSync ? 'none' : 'inline-block';
 
@@ -183,7 +166,7 @@ class Profile extends React.Component {
         <GuestLayout>
 
           <LoadingScreen
-            loading={this.props.loading}
+            loading={loading}
             bgColor="rgba(255, 255, 255, .5)"
             spinnerColor="#BE1931"
             textColor="#BE1931"
@@ -201,16 +184,15 @@ class Profile extends React.Component {
 
                       <Button onClick={this.handleIntegrateFBBtnClick} style={{ display: displayFBBtn, backgroundColor: 'transparent', color: 'black' }}>
 
-              Sync with Facebook
+                        <div>Sync with Facebook</div>
                         <i className="fa fa-facebook-square" />
                       </Button>
 
                     </div>
 
-
-                Edit Mode
+                    <div>Edit Mode</div>
                     <Switch
-                      checked={this.state.checked}
+                      checked={checked}
                       onChange={e => this.handleSwitchChange(e)}
                       onColor="#86d3ff"
                       onHandleColor="#2693e6"
@@ -228,7 +210,7 @@ class Profile extends React.Component {
                           }}
                         >
 
-                      Off
+                          <div>Off</div>
                         </div>
 )}
                       checkedIcon={(
@@ -245,7 +227,7 @@ class Profile extends React.Component {
                           }}
                         >
 
-                      On
+                          {'On'}
                         </div>
 )}
 
@@ -307,13 +289,13 @@ class Profile extends React.Component {
                       </div>
                     </div>
 
-                    {/* <DropDown name="gender" label={loggedUser.gender} field={loggedUser.gender} values={genders} /> */}
-
                     <div className="field">
-                      <label className="label" htmlFor="biography">Biography</label>
-                      <div className="control">
-                        <input name="biography" type="textarea" onChange={e => this.handleOnChange(e)} value={loggedUser.bio} placeholder="Biography" className="form-control" readOnly={edition} disabled={focusable} />
-                      </div>
+                      <label className="label" htmlFor="biography">
+                        {'Biography'}
+                        <div className="control">
+                          <input name="biography" type="textarea" onChange={e => this.handleOnChange(e)} value={loggedUser.bio} placeholder="Biography" className="form-control" readOnly={edition} disabled={focusable} />
+                       </div>
+                      </label>
                     </div>
 
                     <div className="field">
@@ -333,13 +315,12 @@ class Profile extends React.Component {
                         type="submit"
                       >
                         {' '}
-Accept
+                        {'Accept'}
                       </Button>
                     ) : ''
             }
 
-
-            &nbsp;
+                    {'&nbsp;'}
 
                     { !edition ? <Link className="button is-light" to="/home">Cancel</Link> : '' }
 

@@ -12,7 +12,7 @@ import Switch from 'react-switch';
 import { Link } from 'react-router-dom';
 import { loadScript } from '@pawjs/pawjs/src/utils/utils';
 import LoadingScreen from 'react-loading-screen';
-import Protected from './protected';
+import { Protected } from './protected';
 import styles from '../css/profile.scss';
 import {
   attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetError,
@@ -64,10 +64,28 @@ class Profile extends React.Component {
     }
   }
 
-  handleSwitchChange(e) {
-    this.setState(prevState => ({
-      checked: !prevState.checked,
-    }));
+  handleIntegrateFBBtnClick = async () => {
+    const socialSelected = 'facebook';
+    const res = await getUrlSocialAPICall(socialSelected);
+    const url = res.data;
+    window.location = url;
+  }
+
+  changeImage() {
+    const { dispatch } = this.props;
+    const { checked } = this.state;
+    const edition = checked;
+
+    if (edition) {
+      cloudinary.openUploadWidget({ cloud_name: 'coopify-media', upload_preset: 'coopify-media' }, (error, result) => {
+        if (result && result.length > 0) {
+          const img = {
+            url: result[0].secure_url,
+          };
+          dispatch(changeProfileImage(img));
+        }
+      });
+    }
   }
 
   handleOnChange(e) {
@@ -93,28 +111,10 @@ class Profile extends React.Component {
     dispatch(onChangeProfileInputAction(user));
   }
 
-  changeImage(e) {
-    const { dispatch } = this.props;
-    const { checked } = this.state;
-    const edition = checked;
-
-    if (edition) {
-      cloudinary.openUploadWidget({ cloud_name: 'coopify-media', upload_preset: 'coopify-media' }, (error, result) => {
-        if (result && result.length > 0) {
-          const img = {
-            url: result[0].secure_url,
-          };
-          dispatch(changeProfileImage(img));
-        }
-      });
-    }
-  }
-
-  handleIntegrateFBBtnClick = async (e) => {
-    const socialSelected = 'facebook';
-    const res = await getUrlSocialAPICall(socialSelected);
-    const url = res.data;
-    window.location = url;
+  handleSwitchChange() {
+    this.setState(prevState => ({
+      checked: !prevState.checked,
+    }));
   }
 
   handleSubmit(e) {
@@ -158,7 +158,8 @@ class Profile extends React.Component {
     if (error.length > 0) this.notify(error, true);
     const edition = !checked;
     const focusable = !checked ? 'disabled' : '';
-    const dateBirth = loggedUser.birthdate ? loggedUser.birthdate.substring(0, 10) : new Date(Date.now()).toISOString().substring(0, 10);
+    const dateBirth = loggedUser.birthdate ? loggedUser.birthdate.substring(0, 10)
+      : new Date(Date.now()).toISOString().substring(0, 10);
     const displayFBBtn = loggedUser.FBSync ? 'none' : 'inline-block';
 
     return (
@@ -193,7 +194,7 @@ class Profile extends React.Component {
                     <div>Edit Mode</div>
                     <Switch
                       checked={checked}
-                      onChange={e => this.handleSwitchChange(e)}
+                      onChange={() => this.handleSwitchChange()}
                       onColor="#86d3ff"
                       onHandleColor="#2693e6"
                       handleDiameter={30}
@@ -243,39 +244,47 @@ class Profile extends React.Component {
 
                 <Row style={{ marginTop: '2%' }}>
                   <Col sm={2} style={{ marginLeft: '10%' }}>
-                    <div style={{ borderColor: 'red' }} onClick={e => this.changeImage(e)}>
-                      <img className={styles.picture} name="picture" src={loggedUser.pictureURL} />
+                    <div style={{ borderColor: 'red' }} onClick={() => this.changeImage()}>
+                      <img className={styles.picture} alt="profile" name="picture" src={loggedUser.pictureURL} />
                     </div>
                   </Col>
                   <Col sm={3}>
 
                     <div className="field">
-                      <label className="label" htmlFor="name">First name</label>
-                      <div className="control">
-                        <input name="name" value={loggedUser.name} onChange={e => this.handleOnChange(e)} placeholder="Name" className="form-control" readOnly={edition} disabled={focusable} />
-                      </div>
+                      <label className="label" htmlFor="name">
+                        {'First name'}
+                        <div className="control">
+                          <input name="name" value={loggedUser.name} onChange={e => this.handleOnChange(e)} placeholder="Name" className="form-control" readOnly={edition} disabled={focusable} />
+                        </div>
+                      </label>
                     </div>
 
 
                     <div className="field">
-                      <label className="label" htmlFor="lastname">Last name</label>
-                      <div className="control">
-                        <input name="lastname" value={loggedUser.lastName} onChange={e => this.handleOnChange(e)} placeholder="Last name" className="form-control" readOnly={edition} disabled={focusable} />
-                      </div>
+                      <label className="label" htmlFor="lastname">
+                        {'Last name'}
+                        <div className="control">
+                          <input name="lastname" value={loggedUser.lastName} onChange={e => this.handleOnChange(e)} placeholder="Last name" className="form-control" readOnly={edition} disabled={focusable} />
+                        </div>
+                      </label>
                     </div>
 
                     <div className="field">
-                      <label className="label" htmlFor="direction">Address</label>
-                      <div className="control">
-                        <input name="direction" value={loggedUser.address} onChange={e => this.handleOnChange(e)} placeholder="Direction" className="form-control" readOnly={edition} disabled={focusable} />
-                      </div>
+                      <label className="label" htmlFor="direction">
+                        {'Address'}
+                        <div className="control">
+                          <input name="direction" value={loggedUser.address} onChange={e => this.handleOnChange(e)} placeholder="Direction" className="form-control" readOnly={edition} disabled={focusable} />
+                        </div>
+                      </label>
                     </div>
 
                     <div className="field">
-                      <label className="label" htmlFor="tel">Phone</label>
-                      <div className="control">
-                        <input type="number" name="tel" value={loggedUser.phone} onChange={e => this.handleOnChange(e)} placeholder="Tel" className="form-control" readOnly={edition} disabled={focusable} />
-                      </div>
+                      <label className="label" htmlFor="tel">
+                        {'Phone'}
+                        <div className="control">
+                          <input type="number" name="tel" value={loggedUser.phone} onChange={e => this.handleOnChange(e)} placeholder="Tel" className="form-control" readOnly={edition} disabled={focusable} />
+                        </div>
+                      </label>
                     </div>
 
                   </Col>
@@ -283,10 +292,12 @@ class Profile extends React.Component {
                   <Col sm={3}>
 
                     <div className="field">
-                      <label className="label" htmlFor="dateBorn">Birthdate</label>
-                      <div className="control">
-                        <input name="dateBorn" type="date" onChange={e => this.handleOnChange(e)} className="form-control" value={dateBirth} readOnly={edition} disabled={focusable} />
-                      </div>
+                      <label className="label" htmlFor="dateBorn">
+                        {'Birthdate'}
+                        <div className="control">
+                          <input name="dateBorn" type="date" onChange={e => this.handleOnChange(e)} className="form-control" value={dateBirth} readOnly={edition} disabled={focusable} />
+                        </div>
+                      </label>
                     </div>
 
                     <div className="field">
@@ -294,15 +305,17 @@ class Profile extends React.Component {
                         {'Biography'}
                         <div className="control">
                           <input name="biography" type="textarea" onChange={e => this.handleOnChange(e)} value={loggedUser.bio} placeholder="Biography" className="form-control" readOnly={edition} disabled={focusable} />
-                       </div>
+                        </div>
                       </label>
                     </div>
 
                     <div className="field">
-                      <label className="label" htmlFor="interests">Interests</label>
-                      <div className="control">
-                        <input name="interests" type="textarea" onChange={e => this.handleOnChange(e)} value={loggedUser.interests} placeholder="Interests" className="form-control" readOnly={edition} disabled={focusable} />
-                      </div>
+                      <label className="label" htmlFor="interests">
+                        {'Interests'}
+                        <div className="control">
+                          <input name="interests" type="textarea" onChange={e => this.handleOnChange(e)} value={loggedUser.interests} placeholder="Interests" className="form-control" readOnly={edition} disabled={focusable} />
+                        </div>
+                      </label>
                     </div>
 
                   </Col>

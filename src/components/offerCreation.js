@@ -1,10 +1,6 @@
 
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import GuestLayout from './guest-layout';
-import cookie from '../libs/cookie/server';
-import Authenticator from './fake-authenticator';
-import { resetError, attemptPublishOffer } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -13,34 +9,38 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
-import styles from '../css/profile.scss';
-import { Button, Input, Row, Col } from 'react-bootstrap';
-import Switch from "react-switch";
-import Protected from './protected';
+import {
+  Button, Input, Row, Col,
+} from 'react-bootstrap';
+import Switch from 'react-switch';
 import { Link } from 'react-router-dom';
-import {loadScript} from "@pawjs/pawjs/src/utils/utils";
-import StepZilla from "react-stepzilla";
-import {loadStyle} from "@pawjs/pawjs/src/utils/utils";
+import { loadScript } from '@pawjs/pawjs/src/utils/utils';
+import StepZilla from 'react-stepzilla';
+import { loadStyle } from '@pawjs/pawjs/src/utils/utils';
+import LoadingScreen from 'react-loading-screen';
 import BasicData from './offerCreation/basicData.js';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
-import LoadingScreen from 'react-loading-screen';
+import Protected from './protected';
+import styles from '../css/profile.scss';
+import { resetError, attemptPublishOffer } from '../actions/user';
+import Authenticator from './fake-authenticator';
+import GuestLayout from './guest-layout';
 
 
 export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
   loading: state.loading,
-  categories: state.categories
+  categories: state.categories,
 }))
 
 class OfferCreation extends React.Component {
-
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
     error: PropTypes.string,
-    offer: PropTypes.object
+    offer: PropTypes.object,
   };
 
   static defaultProps = {
@@ -49,7 +49,7 @@ class OfferCreation extends React.Component {
     loggedUser: {},
     loading: false,
     error: '',
-    offer: {}
+    offer: {},
   };
 
   constructor(props) {
@@ -59,7 +59,7 @@ class OfferCreation extends React.Component {
       loading: false,
       error: '',
       offer: {},
-      categories: ['algo']
+      categories: ['algo'],
     };
     this.handleChangeStep1 = this.handleChangeStep1.bind(this);
     this.handleCategoriesChange = this.handleCategoriesChange.bind(this);
@@ -68,131 +68,128 @@ class OfferCreation extends React.Component {
     this.handleFinalSubmit = this.handleFinalSubmit.bind(this);
   }
 
-  notify(message, isError){
-    const {dispatch} = this.props;
-    if(isError){
+  notify(message, isError) {
+    const { dispatch } = this.props;
+    if (isError) {
       toast.error(message);
       dispatch(resetError());
-    }
-    else{
-      toast.success(message)
+    } else {
+      toast.success(message);
     }
   }
 
-  handleChangeStep1(e){
-
-    const offer = {...this.state.offer }
+  handleChangeStep1(e) {
+    const offer = { ...this.state.offer };
     offer.title = e.title;
     offer.description = e.description;
-    this.setState({offer});
+    this.setState({ offer });
   }
 
-  handleCategoriesChange(e){
-    const offer = {...this.state.offer }
+  handleCategoriesChange(e) {
+    const offer = { ...this.state.offer };
     const newCategories = e;
     offer.categories = newCategories;
-    this.setState({offer});
+    this.setState({ offer });
   }
 
-  handleImageChange(e){
-
-    const offer = {...this.state.offer }
-    const imgs = 
-    [
+  handleImageChange(e) {
+    const offer = { ...this.state.offer };
+    const imgs = [
       {
         url: e,
-        default: true
-      }
-    ]
+        default: true,
+      },
+    ];
     offer.images = imgs;
-    this.setState({offer});
-
+    this.setState({ offer });
   }
 
-  handleChangeStep2(e){
-
-    const offer = {...this.state.offer }
+  handleChangeStep2(e) {
+    const offer = { ...this.state.offer };
     offer.paymentMethod = e.paymentMethod;
     offer.prices = e.exchangeMethod;
     offer.startDate = e.startDate;
-    if (e.endDate !== "") { offer.finishDate = e.endDate; }
+    if (e.endDate !== '') { offer.finishDate = e.endDate; }
     offer.hourPrice = e.hourPrice;
     offer.sessionPrice = e.sessionPrice;
     offer.finalProductPrice = e.finalProductPrice;
-    offer.exchangeMethod = e.exchangeMethod.filter((em) => em.selected).map((em) => em.frequency)
+    offer.exchangeMethod = e.exchangeMethod.filter(em => em.selected).map(em => em.frequency);
     offer.status = 'Started';
     offer.images = offer.images ? offer.images : [];
-    this.setState({...this.state, offer});
-
+    this.setState({ ...this.state, offer });
   }
 
-  handleFinalSubmit(e){
+  handleFinalSubmit(e) {
     const offer = this.state.offer;
     const { dispatch, loggedUser } = this.props;
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     offer.userId = loggedUser.id;
-    this.setState({offer});
-    
+    this.setState({ offer });
+
     const payload = {
       userToken: token,
-      offer: offer
-    }
+      offer,
+    };
 
     dispatch(attemptPublishOffer(payload));
   }
 
 
   render() {
-    const { loading, error, loggedUser, balance } = this.props
-    const { offer, categories } = this.state
-    const steps =
-    [
-      { 
-        name: 'Basic data', 
-        component: 
-          <BasicData offer={offer} 
-          onOfferInputChangeStep1={this.handleChangeStep1}
-          onOfferImageChange={this.handleImageChange}
-          onCategoriesChange= {this.handleCategoriesChange}
-          isReadOnly = {false}>
-          </BasicData>
+    const {
+      loading, error, loggedUser, balance,
+    } = this.props;
+    const { offer, categories } = this.state;
+    const steps = [
+      {
+        name: 'Basic data',
+        component:
+  <BasicData
+    offer={offer}
+    onOfferInputChangeStep1={this.handleChangeStep1}
+    onOfferImageChange={this.handleImageChange}
+    onCategoriesChange={this.handleCategoriesChange}
+    isReadOnly={false}
+  />,
       },
       {
-        name: 'Exchange method', 
-        component: 
-          <ExchangeMethod offer={offer}
-          onOfferInputChangeStep2={this.handleChangeStep2}
-          onFinalStepSubmit={this.handleFinalSubmit}       
-          isReadOnly = {false}>
-          </ExchangeMethod>
-      }
-    ]
+        name: 'Exchange method',
+        component:
+  <ExchangeMethod
+    offer={offer}
+    onOfferInputChangeStep2={this.handleChangeStep2}
+    onFinalStepSubmit={this.handleFinalSubmit}
+    isReadOnly={false}
+  />,
+      },
+    ];
 
     return (
       <Protected>
-      <GuestLayout>
+        <GuestLayout>
 
-  <LoadingScreen
-          loading={this.props.loading}
-          bgColor='rgba(255, 255, 255, .5)'
-          spinnerColor='#BE1931'
-          textColor='#BE1931'
-          text= {"Loading..."}> 
+          <LoadingScreen
+            loading={this.props.loading}
+            bgColor="rgba(255, 255, 255, .5)"
+            spinnerColor="#BE1931"
+            textColor="#BE1931"
+            text="Loading..."
+          >
 
-      <div className='step-progress'>
-        <StepZilla
-              steps={steps}
-              preventEnterSubmission={true}
-              nextTextOnFinalActionStep={"Next"}
-          />
-      </div>
-      </LoadingScreen>
+            <div className="step-progress">
+              <StepZilla
+                steps={steps}
+                preventEnterSubmission
+                nextTextOnFinalActionStep="Next"
+              />
+            </div>
+          </LoadingScreen>
 
-      </GuestLayout>
-     </Protected>
+        </GuestLayout>
+      </Protected>
     );
   }
 }
 
-export { OfferCreation }
+export { OfferCreation };

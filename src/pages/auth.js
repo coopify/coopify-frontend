@@ -1,18 +1,19 @@
 import LoginImage from '../resources/img/seo/login.png';
-import { Login } from '../components/login'
-import { Signup } from '../components/signup'
-import{ FacebookSignUp } from '../components/facebookSignUp';
+import { Login } from '../components/login';
+import { Signup } from '../components/signup';
+import { FacebookSignUp } from '../components/facebookSignUp';
 import { GoogleSignUp } from '../components/googleSignUp';
-import {Profile} from '../components/profile';
-import {CoopiesAccount} from '../components/coopiesAccount';
-import {Offers} from '../components/offers';
+import { Profile } from '../components/profile';
+import { CoopiesAccount } from '../components/coopiesAccount';
+import { Offers } from '../components/offers';
 import { OfferCreation } from '../components/offerCreation';
 import { IndividualOffer } from '../components/individualOffer';
 import { FilterOffers } from '../components/filterOffers';
 import { ConversationList } from '../components/conversations';
 import { Chat } from '../components/individualChat';
 import { Proposals } from '../components/proposals';
-import { Goals } from '../components/goals'
+import { Goals } from '../components/goals';
+import Logout from '../components/logout';
 
 export default [
   {
@@ -143,7 +144,7 @@ export default [
   {
     path: '/logout',
     exact: true,
-    component: import('../components/logout'),
+    component: Logout,
     seo: {
       title: 'Logging out...',
     },

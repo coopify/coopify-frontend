@@ -1,18 +1,17 @@
 
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import GuestLayout from './guest-layout';
-import cookie from '../libs/cookie';
-import Authenticator from './fake-authenticator';
-import { attemptSocialSignUpAction, attemptSyncFB } from '../actions/user';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import LoadingScreen from 'react-loading-screen';
+import { attemptSocialSignUpAction, attemptSyncFB } from '../actions/user';
+import Authenticator from './fake-authenticator';
+import GuestLayout from './guest-layout';
 import SingletonPusher from './singletonPusher';
 
 export default @connect(state => ({
@@ -23,17 +22,16 @@ export default @connect(state => ({
 }))
 
 class FacebookSignUp extends React.Component {
-
-    componentDidMount(){
-        this.verifyAuthCode();
-    }
+  componentDidMount() {
+    this.verifyAuthCode();
+  }
 
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.object,
     loading: PropTypes.bool,
     error: PropTypes.string,
-    gotCode: PropTypes.bool
+    gotCode: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -42,7 +40,7 @@ class FacebookSignUp extends React.Component {
     loggedUser: {},
     loading: true,
     gotCode: false,
-    error: ''
+    error: '',
   };
 
   onLoginRedirectUrl = '/dashboard';
@@ -52,73 +50,71 @@ class FacebookSignUp extends React.Component {
     this.state = {
       loggedUser: {},
       loading: true,
-      error: ''
+      error: '',
     };
   }
 
   verifyAuthCode() {
-
     const { dispatch } = this.props;
     let { gotCode } = this.props;
     const urlParams = new URLSearchParams(window.location.search);
     const codeFromUrl = urlParams.get('code');
-    const userToken = localStorage.getItem("token");
-    
-    if (!gotCode && codeFromUrl) {
-      gotCode = true
+    const userToken = localStorage.getItem('token');
 
-      if(userToken && userToken.length > 0){    
+    if (!gotCode && codeFromUrl) {
+      gotCode = true;
+
+      if (userToken && userToken.length > 0) {
         this.handleSyncFB(codeFromUrl);
-      }
-      else{
+      } else {
         this.handleCreateNewUser(codeFromUrl);
       }
     }
   }
 
-  handleSyncFB(code){
+  handleSyncFB(code) {
     const { dispatch } = this.props;
-    const userToken = localStorage.getItem("token");
+    const userToken = localStorage.getItem('token');
     const payload = {
-      userToken: userToken,
-      fbToken: code
+      userToken,
+      fbToken: code,
     };
 
     dispatch(attemptSyncFB(payload));
   }
 
-  handleCreateNewUser(code){
+  handleCreateNewUser(code) {
     const { dispatch } = this.props;
     const payload = {
-      code: code,
-      provider: 'facebook'
+      code,
+      provider: 'facebook',
     };
     dispatch(attemptSocialSignUpAction(payload));
   }
 
   render() {
-    const { error, socialUserDidSignUp, loading } = this.props
-    if(socialUserDidSignUp && error.length > 0){
-        return <Redirect to='/signup'/>
+    const { error, socialUserDidSignUp, loading } = this.props;
+    if (socialUserDidSignUp && error.length > 0) {
+      return <Redirect to="/signup" />;
     }
-    else if(socialUserDidSignUp && error.length == 0){
+    if (socialUserDidSignUp && error.length == 0) {
       SingletonPusher.getInstance().createPusherChannel(loggedUser, dispatch);
-        return <Redirect to='/home'/>
+      return <Redirect to="/home" />;
     }
 
     return (
       <GuestLayout>
-          <LoadingScreen
-              loading={loading}
-              bgColor='rgba(255, 255, 255, .5)'
-              spinnerColor='#BE1931'
-              textColor='#BE1931'
+        <LoadingScreen
+          loading={loading}
+          bgColor="rgba(255, 255, 255, .5)"
+          spinnerColor="#BE1931"
+          textColor="#BE1931"
              // logoSrc='/logo.png'
-              text= {"Autenticando... Por favor, aguarde unos instantes."}> 
-            </LoadingScreen>
+          text="Autenticando... Por favor, aguarde unos instantes."
+        />
       </GuestLayout>
     );
   }
 }
 
-export { FacebookSignUp }
+export { FacebookSignUp };

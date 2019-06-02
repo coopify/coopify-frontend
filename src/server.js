@@ -1,4 +1,3 @@
-import React from 'react';
 import ReduxServer from '@pawjs/redux/server';
 import createSagaMiddleware from 'redux-saga';
 import { user, InitialState } from './reducers';

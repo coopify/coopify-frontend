@@ -1,9 +1,6 @@
 
 // Bulma CSS for light weight CSS. One can any css framework
-import ReduxClient from '@pawjs/redux/client';
-import createSagaMiddleware from 'redux-saga';
 import Pusher from 'pusher-js';
-import mySaga from '../sagas';
 import { attemptUpdateMessage, attemptDisplayToast } from '../actions/user';
 
 let instance = null;
@@ -25,8 +22,7 @@ export default class SingletonPusher {
     return instance;
   }
 
-
-  initializePusher() {
+  initializePusher = () => {
     const pusherAppKey = global.PUSHER_APP_KEY;
     const pusherCluster = global.PUSHER_APP_CLUSTER;
 
@@ -35,7 +31,7 @@ export default class SingletonPusher {
     });
   }
 
-  createPusherChannel(loggedUser, dispatch) {
+  createPusherChannel = (loggedUser, dispatch) => {
     if (loggedUser && loggedUser.id) {
       const channel = pusher.subscribe(loggedUser.id);
 
@@ -58,7 +54,7 @@ export default class SingletonPusher {
     }
   }
 
-  pusherDisconnect() {
+  pusherDisconnect = () => {
     pusher.disconnect();
   }
 }

@@ -12,7 +12,6 @@ export default () => (
 
         Service exchange platform
         </h2>
-        {/* <Link to="/home" className="button">Checkout the full demo</Link> */}
         <Link to="/login" className="button">Login</Link>
       </div>
     </div>

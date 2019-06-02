@@ -37,16 +37,6 @@ export default class Client {
     addPlugin(reduxClient);
   }
 
-  trackPageView() {
-    const { ga } = window;
-    if (typeof ga !== 'undefined' && ga) {
-      ga('send', {
-        hitType: 'pageview',
-        page: window.location.pathname,
-      });
-    }
-  }
-
   apply(clientHandler) {
     clientHandler
       .hooks

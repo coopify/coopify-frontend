@@ -1,4 +1,3 @@
-
 export const BARTER_PAYMENT = 'Exchange';
 export const COOPI_PAYMENT = 'Coopy';
 export const HOUR_EXCHANGE = 'Hour';

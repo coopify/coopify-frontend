@@ -19,13 +19,7 @@ const Column = (props) => {
             {description}
             {' '}
             {!!link.length && (
-              <a
-                href={link}
-                target="_blank"
-                rel="noreferrer noopener nofollow"
-              >
-                Read more
-              </a>
+              <a href={link} target="_blank" rel="noreferrer noopener nofollow"> Read more </a>
             )}
           </div>
         </div>

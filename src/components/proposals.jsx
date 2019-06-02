@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import { Link } from 'react-router-dom';
 
@@ -13,7 +11,6 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import LoadingScreen from 'react-loading-screen';
 import { Proposal } from './proposal';
@@ -33,31 +30,38 @@ export default @connect(state => ({
 class Proposals extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    error: PropTypes.string,
-    proposals: PropTypes.array,
-    countProposals: PropTypes.number,
-    loggedUser: PropTypes.object,
+    proposals: PropTypes.arrayOf(PropTypes.object),
+    loading: PropTypes.bool,
   };
 
   static defaultProps = {
     dispatch: () => {
     },
     proposals: [],
-    error: '',
-    loggedUser: {},
-    countProposals: 0,
+    loading: false,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      proposals: [],
-      error: '',
       limit: 10,
     };
   }
 
-  notify(message, isError) {
+  componentDidMount() {
+    const { dispatch } = this.props;
+    const { limit } = this.state;
+    const userToken = localStorage.getItem('token');
+    const reqAttributes = {
+      limit,
+      page: 0,
+      token: userToken,
+    };
+
+    dispatch(attemptProposalsAction(reqAttributes));
+  }
+
+  notify = (message, isError) => {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
@@ -67,23 +71,12 @@ class Proposals extends React.Component {
     }
   }
 
-  componentDidMount() {
-    const { dispatch } = this.props;
-    const userToken = localStorage.getItem('token');
-    const reqAttributes = {
-      limit: this.state.limit,
-      page: 0,
-      token: userToken,
-    };
-
-    dispatch(attemptProposalsAction(reqAttributes));
-  }
-
   changePage(pageIndex) {
     const { dispatch } = this.props;
+    const { limit } = this.state;
     const userToken = localStorage.getItem('token');
     const reqAttributes = {
-      limit: this.state.limit,
+      limit,
       page: pageIndex,
       token: userToken,
     };
@@ -91,85 +84,19 @@ class Proposals extends React.Component {
     dispatch(attemptProposalsAction(reqAttributes));
   }
 
-  // componentDidUpdate() {
-  //     const { dispatch } = this.props;
-  //     const userToken = localStorage.getItem("token");
-  //     const reqAttributes = {
-  //       limit: this.state.limit,
-  //       page: 0,
-  //       token: userToken,
-  //     }
-  //     dispatch(attemptProposalsAction(reqAttributes));
-  //   }
-
   changeSize(pageSize) {
     this.setState(state => ({ ...state, limit: pageSize }));
   }
 
   render() {
-    const TheadComponent = props => null;
-    const { error, proposals, countProposals } = this.props;
-    const data = proposals;
-    const columns = [{
-      accessor: 'proposals',
-      Cell: props => (
-        <div>
-          <div className="container" style={{ textAlign: 'left' }}>
-            <div className="row">
-              <div className="col-sm-8">
-                {props.original.proposer.name}
-                {' '}
-proposed for the following:
-                <Link style={{ padding: '0' }} to={`/offers/${props.original.offerId}`} className="navbar-item">
-                  <i className="fa" />
-Offer:
-                  {' '}
-                  {props.original.purchasedOffer.title}
-                </Link>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-sm-4">
-Proposed Exchange Method:
-                {props.original.exchangeMethod}
-              </div>
-            </div>
-            <div className="row">
-              {props.original.proposedPrice ? (
-                <div className="col-sm-4">
-Proposes
-                  {props.original.proposedPrice}
-                  {' '}
-Coopies per
-                  {props.original.exchangeInstance}
-                </div>
-              ) : ''}
-            </div>
-            <div className="row">
-              {props.original.exchangeMethod == 'Exchange' ? (
-                <div className="col-sm-4">
-Proposed Service:
-                  {props.original.proposedService.title}
-                </div>
-              ) : ''}
-            </div>
-            <div>
-              <Proposal
-                proposal={props.original}
-                buttonText="See proposal"
-              />
-            </div>
-          </div>
-        </div>
-      ),
-    }];
+    const { proposals, loading } = this.props;
 
     return (
       <Protected>
         <GuestLayout>
 
           <LoadingScreen
-            loading={this.props.loading}
+            loading={loading}
             bgColor="rgba(255, 255, 255, .5)"
             spinnerColor="#BE1931"
             textColor="#BE1931"
@@ -180,18 +107,6 @@ Proposed Service:
               <form>
 
                 <h2 style={{ textAlign: 'center' }}> Proposals </h2>
-
-                {/* <ReactTable
-                defaultPageSize={this.state.limit}
-                data={data}
-                columns={columns}
-                TheadComponent={TheadComponent}
-                onPageChange={e => this.changePage(e)}
-                onPageSizeChange={e => this.changeSize(e)}
-                pages={ this.state.limit != 0 ? Math.ceil(countProposals / this.state.limit) : countProposals }
-                noDataText = 'Has no proposals'
-                manual
-              /> */}
 
                 <div style={{
                   display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
@@ -204,7 +119,10 @@ Proposed Service:
                     {proposals.map(tile => (
                       <GridListTile>
                         <img
-                          src={tile.purchasedOffer.images ? tile.purchasedOffer.images[0] ? tile.purchasedOffer.images[0].url : '' : ''}
+                          src={
+                            tile.purchasedOffer.images && tile.purchasedOffer.images[0]
+                              ? tile.purchasedOffer.images[0].url : ''
+                          }
                           alt={tile.title}
                         />
                         <GridListTileBar
@@ -216,8 +134,7 @@ Proposed Service:
 )}
                           subtitle={(
                             <span>
-by:
-                              {tile.proposer.name}
+                              <div>by: {tile.proposer.name}</div>
                             </span>
 )}
                           actionIcon={(

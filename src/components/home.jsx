@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import GuestLayout from './guest-layout';
 import Protected from './protected';
 import Offers from './offers';
+import { Col, Row } from 'react-bootstrap';
 
 const Column = (props) => {
   const { title, description, link } = props;
@@ -36,7 +37,12 @@ Column.propTypes = {
 export default () => (
   <Protected>
     <GuestLayout>
-
+      {/* <Row style={{height: "40"}}>
+        <Col sm={3}><div>Intercambio de Servicios</div></Col>
+        <Col sm={3}><div>Transacciones</div></Col>
+        <Col sm={3}><div>Revisiones, pago grupal</div></Col>
+        <Col sm={3}><div>Comienza a generar Coopies</div></Col>
+      </Row> */}
       <Offers isHome />
 
     </GuestLayout>

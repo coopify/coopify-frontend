@@ -25,6 +25,7 @@ export default @connect(state => ({
   proposals: state.proposals,
   countProposals: state.countProposals,
   loggedUser: state.user,
+  width: state.width,
 }))
 
 class Proposals extends React.Component {
@@ -32,6 +33,7 @@ class Proposals extends React.Component {
     dispatch: PropTypes.func,
     proposals: PropTypes.arrayOf(PropTypes.object),
     loading: PropTypes.bool,
+    width: PropTypes.number,
   };
 
   static defaultProps = {
@@ -39,13 +41,16 @@ class Proposals extends React.Component {
     },
     proposals: [],
     loading: false,
+    width: 0,
   };
 
   constructor(props) {
     super(props);
     this.state = {
       limit: 10,
+      width: window.innerWidth,
     };
+    this.updateDimensions = this.updateDimensions.bind(this);
   }
 
   componentDidMount() {
@@ -59,6 +64,11 @@ class Proposals extends React.Component {
     };
 
     dispatch(attemptProposalsAction(reqAttributes));
+    window.addEventListener("resize", this.updateDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions);
   }
 
   notify = (message, isError) => {
@@ -69,6 +79,10 @@ class Proposals extends React.Component {
     } else {
       toast.success(message);
     }
+  }
+
+  updateDimensions() {
+    this.setState(state => ({ ...state, width: window.innerWidth }));
   }
 
   changePage(pageIndex) {
@@ -90,7 +104,8 @@ class Proposals extends React.Component {
 
   render() {
     const { proposals, loading } = this.props;
-
+    const { width } = this.state;
+    const colSize = width < 600 ? 2 : 3;
     return (
       <Protected>
         <GuestLayout>
@@ -112,10 +127,8 @@ class Proposals extends React.Component {
                   display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
                 }}
                 >
-                  <GridList cellHeight={180} style={{ height: '80%', width: '100%' }}>
-                    <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-                      <ListSubheader component="div">Proposals</ListSubheader>
-                    </GridListTile>
+                  <GridList cellHeight={180} cols={colSize} style={{ height: '80%', width: '100%' }}>
+
                     {proposals.map(tile => (
                       <GridListTile>
                         <img
@@ -131,19 +144,19 @@ class Proposals extends React.Component {
                               <i className="fa" />
                               {tile.purchasedOffer.title}
                             </Link>
-)}
+                          )}
                           subtitle={(
                             <span>
                               <div>by: {tile.proposer.name}</div>
                             </span>
-)}
+                          )}
                           actionIcon={(
                             <Proposal
                               proposal={tile}
                               buttonText={<InfoIcon />}
                               isInfo
                             />
-)}
+                          )}
                         />
 
                       </GridListTile>

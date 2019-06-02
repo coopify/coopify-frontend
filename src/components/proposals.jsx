@@ -50,7 +50,7 @@ class Proposals extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    const { limit } = this.sate;
+    const { limit } = this.state;
     const userToken = localStorage.getItem('token');
     const reqAttributes = {
       limit,

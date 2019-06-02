@@ -139,7 +139,8 @@ export function checkTransactionsAPICall(payload) {
 
 export function checkOffersPagedAPICall(payload) {
   const { limit, page, filters } = payload;
-  const queryParams = stringify({ ...filters, limit, page });
+  const skip = page;
+  const queryParams = stringify({ ...filters, limit, skip });
 
   return axios.get(
     `${global.API_URL}/api/offers?${queryParams}`,
@@ -229,8 +230,9 @@ export function getQuestionAnswerAPICall(payload) {
     limit,
     page,
   } = payload;
+  const skip = page;
 
-  const queryParams = stringify({ limit, page });
+  const queryParams = stringify({ limit, skip });
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
@@ -381,7 +383,7 @@ export async function getUsersOffersAPICall(payload) {
 }
 
 export function getProposalsAPICall(payload) {
-  const { token } = payload.token;
+  const { token } = payload;
 
   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 

@@ -4,6 +4,25 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import logo from '../assets/logo.png';
+import clsx from 'clsx';
+import { makeStyles, useTheme } from '@material-ui/styles';
+import Drawer from '@material-ui/core/Drawer';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import MailIcon from '@material-ui/icons/Mail';
+
 import {
   attemptLogoutAction, loadState, attemptUpdateMessage, resetError,
 } from '../actions/user';
@@ -15,7 +34,6 @@ export default @connect(state => ({
   status: state.status,
 }))
 
-
 class Header extends PureComponent {
   constructor(props) {
     super(props);
@@ -26,6 +44,9 @@ class Header extends PureComponent {
       isActive: false,
     };
     this.loadStateFromCookies();
+    this.useStyles = this.useStyles.bind(this);
+    this.handleDrawerClose = this.handleDrawerClose.bind(this);
+    this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
   }
 
   static propTypes = {
@@ -89,100 +110,162 @@ class Header extends PureComponent {
     dispatch(attemptLogoutAction());
   }
 
+  handleDrawerOpen() {
+    this.setState({
+      ...this.state,
+      open: true,
+    });
+  }
+
+  handleDrawerClose() {
+    this.setState({
+      ...this.state,
+      open: false,
+    });
+  }
+
+  drawerWidth = 240;
+
+  useStyles() {
+    return makeStyles(theme => ({
+
+      root: {
+        display: 'flex',
+      },
+      appBar: {
+        transition: theme.transitions.create(['margin', 'width'], {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.leavingScreen,
+        }),
+      },
+      appBarShift: {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
+        transition: theme.transitions.create(['margin', 'width'], {
+          easing: theme.transitions.easing.easeOut,
+          duration: theme.transitions.duration.enteringScreen,
+        }),
+      },
+      menuButton: {
+        marginRight: theme.spacing(2),
+      },
+      hide: {
+        display: 'none',
+      },
+      drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
+      },
+      drawerPaper: {
+        width: drawerWidth,
+      },
+      drawerHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 8px',
+        ...theme.mixins.toolbar,
+        justifyContent: 'flex-end',
+      },
+      content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        transition: theme.transitions.create('margin', {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: -drawerWidth,
+      },
+      contentShift: {
+        transition: theme.transitions.create('margin', {
+          easing: theme.transitions.easing.easeOut,
+          duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginLeft: 0,
+      },
+    }))
+  };
+
   render() {
     const { open } = this.state;
     const { userDidLog, loggedUser, status } = this.props;
     if (status && status.length > 0) this.notify(`Your proposal was ${status}`, false);
+    const classes = this.useStyles();
+    const links = [
+      {title: 'Offers', url: '/seeOffers'},
+      {title: 'Proposals', url: '/user/proposals'},
+    ];
 
     return (
-      <div>
-        <nav className="navbar" role="navigation" aria-label="main navigation">
-          <div className="navbar-brand">
-            <Link className="navbar-item" to="/">
-              <img src={logo} width="112" height="28" />
-            </Link>
 
-            <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" onClick={e => this.handleBurgerClick(e)}>
-              <span aria-hidden="true" />
-              <span aria-hidden="true" />
-              <span aria-hidden="true" />
-            </a>
-          </div>
-
-          <div id="navbarBasicExample" className={this.state.isActive ? 'navbar-menu is-active' : 'navbar-menu'}>
-            <div className="navbar-start">
-              <Link className="navbar-item" to="/home">Home</Link>
-              <Link to="/offer/create" className="navbar-item">
-                <i className="fa" />
-New Offer
-              </Link>
-              <Link to="/seeOffers" className="navbar-item">
-                <i className="fa" />
-Offers
-              </Link>
-              <Link to="/goals" className="navbar-item">
-                <i className="fa" />
-Goals
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar style={{backgroundColor: "#5d6065"}}
+          position="fixed"
+          className={clsx(classes.appBar, {
+            [classes.appBarShift]: open,
+          })}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              onClick={this.handleDrawerOpen}
+              edge="start"
+              className={clsx(classes.menuButton, open && classes.hide)}
+            >
+              <MenuIcon />
+            </IconButton>
+            <div className="navbar-brand">
+              <Link className="navbar-item" to="/">
+                <img src={logo} width="112" height="28" />
               </Link>
             </div>
-            { !userDidLog ? (
-              <div className="navbar-end">
-                <div className="navbar-item">
-                  <div className="buttons">
-                    <Link className="button is-primary" to="/signup"><strong>Sign up</strong></Link>
-                    <Link className="button is-light" to="/login">Log in </Link>
-                  </div>
-                </div>
-              </div>)
-              : (
-                <div className="navbar-end">
-                  <Link to="/user/conversations" className="navbar-item"><i className="fa fa-comments" /></Link>
-                  <div className="navbar-item has-dropdown is-hoverable">
-                    <a href="#" data-toggle="dropdown" className="navbar-link" aria-expanded="false">
-
-                      <img src={loggedUser.pictureURL} style={{ paddingRight: '5%' }} />
-
-                      {loggedUser.name}
-                      {' '}
-                      <b className="caret" />
-                    </a>
-
-                    <div className="navbar-dropdown">
-                      <Link to="/user/profile" className="navbar-item">
-                        <i className="fa fa-user-o" />
-                        {' '}
-Profile
-                      </Link>
-                      <Link to="/user/coopiesAccount" className="navbar-item">
-                        <i className="fa" />
-                        {' '}
-Transactions
-                      </Link>
-                      <Link to="/user/proposals" className="navbar-item">
-                        <i className="fa" />
-                        {' '}
-Proposals
-                      </Link>
-                      <Link to="/goals" className="navbar-item">
-                        <i className="fa" />
-                        {' '}
-Goals
-                      </Link>
-                      <hr className="navbar-divider" />
-                      <a href="#" onClick={e => this.handleLogout(e)} className="navbar-item">
-                        <i className="material-icons"></i>
-                        {' '}
-Logout
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              )
-            }
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          className={classes.drawer}
+          variant="persistent"
+          anchor="left"
+          open={open}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <div className={classes.drawerHeader}>
+            <IconButton onClick={this.handleDrawerClose}>
+              <ChevronLeftIcon />
+            </IconButton>
           </div>
-        </nav>
-        <ToastContainer autoClose={false} />
+          <Divider />
+          <List>
+            {links.map((text, index) => (
+               <Link to={text.url}>
+              <ListItem button key={text} >
+                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                <ListItemText primary={text.title} />
+              </ListItem>
+              </Link>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            {['All mail', 'Trash', 'Spam'].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+        <main
+          className={clsx(classes.content, {
+            [classes.contentShift]: open,
+          })}
+        >
+          <div className={classes.drawerHeader} />
+        </main>
       </div>
+
     );
   }
 }

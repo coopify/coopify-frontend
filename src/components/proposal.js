@@ -34,7 +34,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import { MessageBox } from 'react-chat-elements';
-import ExchangeMethod from './offerCreation/exchangeMethod.js';
+import ExchangeMethod from './offerCreation/exchangeMethod';
 import BasicData from './offerCreation/basicData';
 import Protected from './protected';
 import styles from '../css/profile.scss';

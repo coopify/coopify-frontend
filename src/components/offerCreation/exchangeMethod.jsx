@@ -1,24 +1,16 @@
 
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
+import { connect } from 'react-redux';
 import {
   Form, Row, Col, Button,
 } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom';
 import 'font-awesome/css/font-awesome.min.css';
-import _ from 'lodash';
-import { withStyles } from '@material-ui/core/styles';
-import Chip from '@material-ui/core/Chip';
-import TextField from '@material-ui/core/TextField';
-import * as moment from 'moment';
 import {
   BARTER_PAYMENT, COOPI_PAYMENT, HOUR_EXCHANGE, SESSION_EXCHANGE, PRODUCT_EXCHANGE,
 } from './offerEnums';
-import { attemptSignUpAction, attemptCategoriesAction } from '../../actions/user';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -28,32 +20,11 @@ export default @connect(state => ({
 }))
 
 class ExchangeMethod extends React.Component {
-  static propTypes = {
-    dispatch: PropTypes.func,
-    loggedUser: PropTypes.object,
-    loading: PropTypes.bool,
-    error: PropTypes.string,
-    userDidSignUp: PropTypes.bool,
-  };
-
-  static defaultProps = {
-    dispatch: () => {
-    },
-    loggedUser: {},
-    loading: false,
-    error: '',
-    userDidSignUp: false,
-  };
-
   onLoginRedirectUrl = '/home';
 
   constructor(props) {
     super(props);
     this.state = {
-      loggedUser: {},
-      loading: false,
-      error: '',
-      userDidSignUp: false,
       showEI: false,
       showHours: false,
       showSessions: false,
@@ -62,19 +33,19 @@ class ExchangeMethod extends React.Component {
   }
 
   handleInputChange(e) {
-    const isRadioButton = e.target.type == 'radio';
-    const isCheckbox = e.target.type == 'checkbox';
+    const isRadioButton = e.target.type === 'radio';
+    const isCheckbox = e.target.type === 'checkbox';
 
     if (isRadioButton) {
-      const canShow = e.target.id == COOPI_PAYMENT;
+      const canShow = e.target.id === COOPI_PAYMENT;
       this.setState({ showEI: canShow });
     }
     if (isCheckbox) {
-      if (e.target.name == HOUR_EXCHANGE) {
+      if (e.target.name === HOUR_EXCHANGE) {
         this.setState({ showHours: e.target.checked });
-      } else if (e.target.name == SESSION_EXCHANGE) {
+      } else if (e.target.name === SESSION_EXCHANGE) {
         this.setState({ showSessions: e.target.checked });
-      } else if (e.target.name == PRODUCT_EXCHANGE) {
+      } else if (e.target.name === PRODUCT_EXCHANGE) {
         this.setState({ showFinalProduct: e.target.checked });
       }
     }
@@ -109,25 +80,32 @@ class ExchangeMethod extends React.Component {
       finalProductPrice: showFinalProduct ? productCoopi : undefined,
     };
 
-    this.props.onOfferInputChangeStep2(newOffer);
+    const { onOfferInputChangeStep2 } = this.props;
+    onOfferInputChangeStep2(newOffer);
   }
 
   handleFinalSubmit(e) {
     if (e && e.preventDefault) {
       e.preventDefault();
     }
-    this.props.onFinalStepSubmit(e);
+    const { onFinalStepSubmit } = this.props;
+    onFinalStepSubmit(e);
   }
 
   render() {
-    const { error, offer } = this.props;
-    const showEI = this.state.showEI ? 'block' : 'none';
-    const showHours = this.state.showHours ? 'block' : 'none';
-    const showSessions = this.state.showSessions ? 'block' : 'none';
-    const showFinalProduct = this.state.showFinalProduct ? 'block' : 'none';
-
-    const placeHolderStartDate = offer.startDate ? offer.startDate.substring(0, 10) : new Date(Date.now()).toISOString().substring(0, 10);
-    const placeHolderEndDate = offer.finishDate ? offer.finishDate.substring(0, 10) : new Date(Date.now()).toISOString().substring(0, 10);
+    const { offer } = this.props;
+    const { state } = this.state;
+    const showEI = state.showEI ? 'block' : 'none';
+    const showHours = state.showHours ? 'block' : 'none';
+    const showSessions = state.showSessions ? 'block' : 'none';
+    const showFinalProduct = state.showFinalProduct ? 'block' : 'none';
+    let placeHolderStartDate;
+    if (offer.startDate) {
+      placeHolderStartDate = offer.startDate.substring(0, 10);
+    } else {
+      placeHolderStartDate = new Date(Date.now()).toISOString().substring(0, 10);
+    }
+    const placeHolderEndDate = offer.finishDate ? offer.finishDate.substring(0, 10) : '';
 
     return (
 
@@ -140,10 +118,7 @@ class ExchangeMethod extends React.Component {
             <fieldset>
 
               <Form.Group as={Row}>
-                <Form.Label as="legend" column sm={6} style={{ textAlign: 'left' }}>
-
-        Payment instance
-                </Form.Label>
+                <Form.Label as="legend" column sm={6} style={{ textAlign: 'left' }}> Payment instance </Form.Label>
               </Form.Group>
 
               <Form.Group as={Row}>
@@ -168,10 +143,7 @@ class ExchangeMethod extends React.Component {
 
             <fieldset style={{ display: showEI }}>
               <Form.Group as={Row}>
-                <Form.Label as="legend" column sm={6} style={{ textAlign: 'left' }}>
-
-        Exchange instance
-                </Form.Label>
+                <Form.Label as="legend" column sm={6} style={{ textAlign: 'left' }}> Exchange instance </Form.Label>
               </Form.Group>
 
               <Form.Group as={Row}>
@@ -181,8 +153,7 @@ class ExchangeMethod extends React.Component {
                     name={HOUR_EXCHANGE}
                     onChange={e => this.handleInputChange(e)}
                   />
-                  {' '}
-Hour
+                  { 'Hour' }
                 </Col>
                 <Col sm={4} style={{ display: showHours }}>
                   <Form.Control type="number" value={offer.prices != undefined ? offer.prices[0].price : 0} name="hoursCoopi" onChange={e => this.handleInputChange(e)} />
@@ -196,8 +167,7 @@ Hour
                     name={SESSION_EXCHANGE}
                     onChange={e => this.handleInputChange(e)}
                   />
-                  {' '}
-Session
+                  { 'Session' }
                 </Col>
                 <Col sm={4} style={{ display: showSessions }}>
                   <Form.Control type="number" value={offer.prices != undefined ? offer.prices[1].price : 0} name="sessionsCoopi" onChange={e => this.handleInputChange(e)} />
@@ -211,8 +181,8 @@ Session
                     name={PRODUCT_EXCHANGE}
                     onChange={e => this.handleInputChange(e)}
                   />
-                  {' '}
-Final Product
+                  { 'Final Product' }
+
                 </Col>
                 <Col sm={4} style={{ display: showFinalProduct }}>
                   <Form.Control type="number" value={offer.prices != undefined ? offer.prices[2].price : 0} name="productCoopi" onChange={e => this.handleInputChange(e)} />
@@ -222,8 +192,7 @@ Final Product
 
             <Form.Group as={Row} controlId="formHorizontalEmail">
               <Form.Label column sm={2}>
-
-      Start Date
+                { 'Start Date' }
               </Form.Label>
               <Col sm={10}>
                 <Form.Control type="date" name="startDate" value={placeHolderStartDate} onChange={e => this.handleInputChange(e)} />
@@ -233,10 +202,10 @@ Final Product
             <Form.Group as={Row} controlId="formHorizontalEmail">
               <Form.Label column sm={2}>
 
-      End Date
+                { 'End Date' }
               </Form.Label>
               <Col sm={10}>
-                <Form.Control type="date" name="endDate" value="" onChange={e => this.handleInputChange(e)} />
+                <Form.Control type="date" name="endDate" value={placeHolderEndDate} onChange={e => this.handleInputChange(e)} />
               </Col>
             </Form.Group>
 

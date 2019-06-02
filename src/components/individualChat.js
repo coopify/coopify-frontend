@@ -39,7 +39,7 @@ import LoadingScreen from 'react-loading-screen';
 import { Proposal } from './proposal';
 
 import { getConversation } from '../api';
-import ExchangeMethod from './offerCreation/exchangeMethod.js';
+import ExchangeMethod from './offerCreation/exchangeMethod';
 import BasicData from './offerCreation/basicData';
 import Protected from './protected';
 import styles from '../css/profile.scss';

@@ -14,6 +14,7 @@ import Protected from './protected';
 import SingletonPusher from './singletonPusher';
 import { attemptLoginAction, attemptSocialLoginAction } from '../actions/user';
 import GuestLayout from './guest-layout';
+import ReactJoyride from 'react-joyride';
 
 export default @connect(state => ({
   userDidLog: state.userDidLog,
@@ -107,8 +108,48 @@ class Login extends React.Component {
       return <Redirect push={false} to={this.onLoginRedirectUrl} />;
     }
 
+    const steps = [
+      {
+        target: '.traditional-login',
+        content: 'This is the traditional log in...',
+      },
+      {
+        target: '.social-login',
+        content: 'Here you can log in with social networks...',
+      },
+      {
+        target: '.btn-link-1-facebook',
+        content: 'You can use your Facebook account...',
+      },
+      {
+        target: '.btn-link-1-google-plus',
+        content: 'Or you can use your Google account.',
+      },
+    ]
+
     return (
       <GuestLayout>
+
+<ReactJoyride
+          continuous
+          steps={steps}
+          run={true}
+          scrollToFirstStep
+          showSkipButton
+          styles={{
+            options: {
+              arrowColor: '#fff',
+              backgroundColor: '#fff',
+              beaconSize: 36,
+              overlayColor: 'rgba(0, 0, 0, 0.5)',
+              primaryColor: '#499be7',
+              spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+              textColor: '#333',
+              width: undefined,
+              zIndex: 100,
+            }
+          }}
+        />
 
         <LoadingScreen
           loading={this.props.loading}
@@ -124,7 +165,7 @@ class Login extends React.Component {
 
 
                 <h1 className="title">Login</h1>
-                <form onSubmit={e => this.handleSubmit(e)}>
+                <form onSubmit={e => this.handleSubmit(e)} className="traditional-login">
                   <div className="field">
                     <label className="label" htmlFor="username">
 

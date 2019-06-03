@@ -10,6 +10,7 @@ export default function (props) {
   return (
     <div>
       <Header />
+      <div style={{paddingBottom: "60px"}}/>
       {children}
       <br />
       <Footer />

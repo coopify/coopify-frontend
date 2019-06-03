@@ -22,6 +22,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import ReactJoyride from 'react-joyride';
 
 import {
   attemptLogoutAction, loadState, attemptUpdateMessage, resetError,
@@ -195,9 +196,40 @@ class Header extends PureComponent {
       {title: 'Proposals', url: '/user/proposals'},
     ];
 
-    return (
+    const steps = [
+      {
+        target: '.hamburguerBtn',
+        content: 'This is the main menu where you can do all your tasks...',
+      },
+      {
+        target: '.transactions',
+        content: 'Here you can see your transactions. in the platform..',
+      },
+    ]
 
+    return (
       <div className={classes.root}>
+      <ReactJoyride
+          continuous
+          steps={steps}
+          run={true}
+          scrollToFirstStep
+          showSkipButton
+          styles={{
+            options: {
+              arrowColor: '#fff',
+              backgroundColor: '#fff',
+              beaconSize: 36,
+              overlayColor: 'rgba(0, 0, 0, 0.5)',
+              primaryColor: '#499be7',
+              spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+              textColor: '#333',
+              width: undefined,
+              zIndex: 100,
+            }
+          }}
+        />
+
         <CssBaseline />
         <AppBar style={{backgroundColor: "#5d6065"}}
           position="fixed"
@@ -211,7 +243,7 @@ class Header extends PureComponent {
               aria-label="Open drawer"
               onClick={this.handleDrawerOpen}
               edge="start"
-              className={clsx(classes.menuButton, open && classes.hide)}
+              className="hamburguerBtn"//{clsx(classes.menuButton, open && classes.hide)}
             >
               <MenuIcon />
             </IconButton>
@@ -247,10 +279,19 @@ class Header extends PureComponent {
               </Link>
             ))}
           </List>
+
+          <Divider />
+          <List>
+              <ListItem className=".transactions" button key={"transactions"}>
+                <ListItemIcon>{ <InboxIcon />}</ListItemIcon>
+                <ListItemText primary={"transactions"} />
+              </ListItem>
+          </List>
+
           <Divider />
           <List>
             {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
+              <ListItem className=".my-first-step" button key={text}>
                 <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>

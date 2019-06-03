@@ -20,6 +20,7 @@ import { Protected } from './protected';
 import styles from '../css/profile.scss';
 import { resetError, attemptChangeFilters, attemptCategoriesAction } from '../actions/user';
 import GuestLayout from './guest-layout';
+import ReactJoyride from 'react-joyride';
 
 
 export default @connect(state => ({
@@ -173,10 +174,57 @@ class FilterOffers extends React.Component {
 
       if (error.length > 0) this.notify(error, true);
 
+      
+    const steps = [
+      {
+        target: '.searchBar',
+        content: 'You can search your service by name here...',
+      },
+      {
+        target: '.paymentSearch',
+        content: 'You can also specify the payment instance here...',
+      },
+      {
+        target: '.categoriesSearch',
+        content: 'Or you can specifiy a category...',
+      },
+      {
+        target: '.sortByFilter',
+        content: 'Finally sort the result...',
+      },
+      {
+        target: '.offersFilter',
+        content: 'Done! The services will be displayed here.',
+        placement: 'bottom'
+      },
+    ]
+
 
       return (
         <Protected>
           <GuestLayout>
+
+          <ReactJoyride
+          continuous
+          steps={steps}
+          run={true}
+          scrollToFirstStep
+          showSkipButton
+          styles={{
+            options: {
+              arrowColor: '#fff',
+              backgroundColor: '#fff',
+              beaconSize: 36,
+              overlayColor: 'rgba(0, 0, 0, 0.5)',
+              primaryColor: '#499be7',
+              spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+              textColor: '#333',
+              width: undefined,
+              zIndex: 100,
+            }
+          }}
+        />
+
             <div className={styles.container}>
 
 
@@ -187,11 +235,13 @@ class FilterOffers extends React.Component {
                   <Input
                     type="text"
                     placeholder="Search offer..."
+                    className="searchBar"
                     onChange={e => this.handleSearchNameChange(e)}
                     value={searchName}
                     disableUnderline
                   />
 
+                <div className="paymentSearch">
                   <h4 style={{ color: 'black', marginTop: '10%' }}>Payment instance</h4>
 
                   <Form.Group style={{ textAlign: 'left', marginLeft: '20%' }}>
@@ -207,7 +257,7 @@ class FilterOffers extends React.Component {
                       {COOPI_PAYMENT}
                     </Form.Label>
                   </Form.Group>
-
+                  </div>
 
                   <h4 style={{ color: 'black', display: showEIDisplay }}>Exchange instance</h4>
 
@@ -238,6 +288,7 @@ class FilterOffers extends React.Component {
 
                   <Range min={0} max={100} defaultValue={prices} tipFormatter={value => `${value} Coopi`} allowCross={false} style={{ marginBottom: '10%', display: showEI }} onAfterChange={e => this.handlePricesChange(e)} />
 
+<div className="categoriesSearch"> 
                   <h4 style={{ color: 'black' }}>Categories</h4>
 
                   <FormControl style={{ display: 'block' }}>
@@ -261,7 +312,9 @@ class FilterOffers extends React.Component {
                       ))}
                     </Select>
                   </FormControl>
+</div>
 
+<div className="sortByFilter"> 
                   <h4 style={{ color: 'black', marginTop: '10%' }}>Sort By</h4>
 
                   <FormControl style={{ display: 'block' }}>
@@ -277,12 +330,14 @@ class FilterOffers extends React.Component {
 
                     </Select>
                   </FormControl>
-
+</div>
                   <Button style={{ marginTop: '10%' }} onClick={e => this.handleApplyFilter(e)}>Apply Filters</Button>
 
                 </Col>
                 <Col sm={9}>
+                  <div className="offersFilter">
                   <Offers isHome={false} />
+                  </div>
                 </Col>
 
               </Form.Group>

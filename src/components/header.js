@@ -23,6 +23,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import ReactJoyride from 'react-joyride';
+import Avatar from '@material-ui/core/Avatar';
 
 import {
   attemptLogoutAction, loadState, attemptUpdateMessage, resetError,
@@ -193,7 +194,9 @@ class Header extends PureComponent {
     const classes = this.useStyles();
     const links = [
       {title: 'Offers', url: '/seeOffers'},
-      {title: 'Proposals', url: '/user/proposals'},
+      {title: 'My Proposals', url: '/user/proposals'},
+      {title: 'My Goals', url: '/goals'},
+      {title: 'My Transactions', url: '/user/coopiesAccount'},
     ];
 
     const steps = [
@@ -209,7 +212,9 @@ class Header extends PureComponent {
 
     return (
       <div className={classes.root}>
-      <ReactJoyride
+        <CssBaseline />
+
+        <ReactJoyride
           continuous
           steps={steps}
           run={true}
@@ -230,7 +235,6 @@ class Header extends PureComponent {
           }}
         />
 
-        <CssBaseline />
         <AppBar style={{backgroundColor: "#5d6065"}}
           position="fixed"
           className={clsx(classes.appBar, {
@@ -243,7 +247,7 @@ class Header extends PureComponent {
               aria-label="Open drawer"
               onClick={this.handleDrawerOpen}
               edge="start"
-              className="hamburguerBtn"//{clsx(classes.menuButton, open && classes.hide)}
+              className="hamburguerBtn"
             >
               <MenuIcon />
             </IconButton>
@@ -269,6 +273,13 @@ class Header extends PureComponent {
             </IconButton>
           </div>
           <Divider />
+
+
+        <IconButton>
+          <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" style={{width: "60%", height: "60%"}}/>
+        </IconButton>
+        <h2>{loggedUser.name}</h2>
+          <Divider/>
           <List>
             {links.map((text, index) => (
                <Link to={text.url}>
@@ -279,23 +290,14 @@ class Header extends PureComponent {
               </Link>
             ))}
           </List>
-
           <Divider />
           <List>
-              <ListItem className=".transactions" button key={"transactions"}>
-                <ListItemIcon>{ <InboxIcon />}</ListItemIcon>
-                <ListItemText primary={"transactions"} />
-              </ListItem>
-          </List>
-
-          <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem className=".my-first-step" button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+              <Link to='#'>
+            <ListItem button key='logout' >
+              <ListItemIcon>{<InboxIcon />}</ListItemIcon>
+              <ListItemText primary='Logout' />
+            </ListItem>
+            </Link>
           </List>
         </Drawer>
         <main

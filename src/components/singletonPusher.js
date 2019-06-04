@@ -5,6 +5,7 @@ import { attemptUpdateMessage, attemptDisplayToast } from '../actions/user';
 
 let instance = null;
 let pusher = null;
+let initialized = false;
 
 export default class SingletonPusher {
   constructor() {
@@ -32,8 +33,9 @@ export default class SingletonPusher {
   }
 
   createPusherChannel = (loggedUser, dispatch) => {
-    if (loggedUser && loggedUser.id) {
+    if (loggedUser && loggedUser.id && !initialized) {
       const channel = pusher.subscribe(loggedUser.id);
+      initialized = true;
 
       channel.bind('message', (data) => {
         const payload = {

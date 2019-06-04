@@ -1,13 +1,9 @@
-
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import LoadingScreen from 'react-loading-screen';
 import { attemptSocialSignUpAction } from '../actions/user';
 import GuestLayout from './guest-layout';
@@ -21,13 +17,9 @@ export default @connect(state => ({
 }))
 
 class GoogleSignUp extends React.Component {
-  componentDidMount() {
-    this.verifyAuthCode();
-  }
-
   static propTypes = {
     dispatch: PropTypes.func,
-    loggedUser: PropTypes.object,
+    loggedUser: PropTypes.objectOf(PropTypes.object),
     loading: PropTypes.bool,
     error: PropTypes.string,
     gotCode: PropTypes.bool,
@@ -39,15 +31,17 @@ class GoogleSignUp extends React.Component {
     loggedUser: {},
     loading: true,
     error: '',
+    gotCode: false,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      loggedUser: {},
-      loading: true,
-      error: '',
     };
+  }
+
+  componentDidMount() {
+    this.verifyAuthCode();
   }
 
   verifyAuthCode() {
@@ -68,12 +62,13 @@ class GoogleSignUp extends React.Component {
 
   render() {
     const {
-      error, socialUserDidSignUp, loading, loggedUser, dispatch,
+      error, loading, loggedUser, dispatch,
     } = this.props;
+    const { socialUserDidSignUp } = this.state;
     if (socialUserDidSignUp && error.length > 0) {
       return <Redirect to="/signup" />;
     }
-    if (socialUserDidSignUp && error.length == 0) {
+    if (socialUserDidSignUp && error.length === 0) {
       SingletonPusher.getInstance().createPusherChannel(loggedUser, dispatch);
       return <Redirect to="/home" />;
     }

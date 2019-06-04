@@ -22,6 +22,12 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import ChatIcon from '@material-ui/icons/Chat';
+import ListIcon from '@material-ui/icons/List';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import RedeemIcon from '@material-ui/icons/Redeem';
+import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
+import BorderColorIcon from '@material-ui/icons/BorderColor';
 import ReactJoyride from 'react-joyride';
 import Avatar from '@material-ui/core/Avatar';
 
@@ -192,12 +198,19 @@ class Header extends PureComponent {
     const { userDidLog, loggedUser, status } = this.props;
     if (status && status.length > 0) this.notify(`Your proposal was ${status}`, false);
     const classes = this.useStyles();
-    const links = [
-      {title: 'Offers', url: '/seeOffers'},
-      {title: 'My Proposals', url: '/user/proposals'},
-      {title: 'My Goals', url: '/goals'},
-      {title: 'My Transactions', url: '/user/coopiesAccount'},
+    let links = [
+      {title: 'Offers', url: '/home', icon: <ListIcon/>},
+      {title: 'Goals', url: '/goals', icon: <RedeemIcon/>},
     ];
+    if(loggedUser && loggedUser.id){
+      links = [
+        {title: 'Offers', url: '/seeOffers', icon: <ListIcon/>},
+        {title: 'Transactions', url: '/user/coopiesAccount', icon: <SwapHorizIcon/>},
+        {title: 'Proposals', url: '/user/proposals', icon: <BorderColorIcon/>},
+        {title: 'Conversations', url: '/user/conversations', icon: <ChatIcon/>},
+        {title: 'My Goals', url: '/goals',  icon: <RedeemIcon/>},
+      ];
+    }
 
     const steps = [
       {
@@ -274,31 +287,43 @@ class Header extends PureComponent {
           </div>
           <Divider />
 
-
+{ loggedUser && loggedUser.id ? 
+  (
+        <div>
         <IconButton>
-          <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" style={{width: "60%", height: "60%"}}/>
+          <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{width: "60%", height: "60%"}}/>
         </IconButton>
-        <h2>{loggedUser.name}</h2>
+        <Link to="/user/profile"> <h2>{loggedUser.name}</h2></Link>
           <Divider/>
+        </div>
+  ) : ''
+}
           <List>
             {links.map((text, index) => (
                <Link to={text.url}>
               <ListItem button key={text} >
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                <ListItemIcon>{text.icon}</ListItemIcon>
                 <ListItemText primary={text.title} />
               </ListItem>
               </Link>
             ))}
           </List>
+
+{loggedUser && loggedUser.id ? 
+  (
+    <div> 
           <Divider />
           <List>
               <Link to='#'>
-            <ListItem button key='logout' >
-              <ListItemIcon>{<InboxIcon />}</ListItemIcon>
-              <ListItemText primary='Logout' />
+            <ListItem button key='logout' onClick={e => this.handleLogout(e)} >
+              <ListItemIcon>{<PowerSettingsNewIcon/>}</ListItemIcon>
+              <ListItemText primary='Logout' /> 
             </ListItem>
             </Link>
           </List>
+      </div>
+  ) : ''
+}
         </Drawer>
         <main
           className={clsx(classes.content, {

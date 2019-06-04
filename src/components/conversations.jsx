@@ -1,29 +1,14 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
-import {
-  Button, Input, Row, Col,
-} from 'react-bootstrap';
-import Switch from 'react-switch';
-import { Link } from 'react-router-dom';
-import { loadScript } from '@pawjs/pawjs/src/utils/utils';
-import StepZilla from 'react-stepzilla';
-import { loadStyle } from '@pawjs/pawjs/src/utils/utils';
 import { ChatList } from 'react-chat-elements';
 import LoadingScreen from 'react-loading-screen';
-import BasicData from './offerCreation/basicData.js';
-import ExchangeMethod from './offerCreation/exchangeMethod.js';
-import Protected from './protected';
-import styles from '../css/profile.scss';
-import { resetError, attemptGetUserConversations } from '../actions/user';
-import Authenticator from './fake-authenticator';
+import { Protected } from './protected';
+import { attemptGetUserConversations } from '../actions/user';
 import GuestLayout from './guest-layout';
 
 
@@ -37,11 +22,10 @@ export default @connect(state => ({
 class ConversationList extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    loggedUser: PropTypes.object,
+    loggedUser: PropTypes.objectOf(PropTypes.object),
     loading: PropTypes.bool,
-    error: PropTypes.string,
-    offer: PropTypes.object,
-    conversations: PropTypes.array,
+    conversations: PropTypes.arrayOf(PropTypes.object),
+    history: PropTypes.objectOf(PropTypes.object),
   };
 
   static defaultProps = {
@@ -49,23 +33,14 @@ class ConversationList extends React.Component {
     },
     loggedUser: {},
     loading: false,
-    error: '',
-    offer: {},
     conversations: [],
+    history: {},
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      loggedUser: {},
-      loading: false,
-      error: '',
-      offer: {},
     };
-  }
-
-  displayChat(e) {
-    this.props.history.push(`/user/conversations/${e.conversationId}`);
   }
 
   componentDidMount() {
@@ -79,24 +54,24 @@ class ConversationList extends React.Component {
     dispatch(attemptGetUserConversations(payload));
   }
 
-  render() {
-    const {
-      loading, error, loggedUser, conversations,
-    } = this.props;
-    const { offer, categories } = this.state;
+  displayChat(e) {
+    const { history } = this.props;
+    history.push(`/user/conversations/${e.conversationId}`);
+  }
 
+  render() {
+    const { loggedUser, conversations, loading } = this.props;
     return (
       <Protected>
         <GuestLayout>
 
           <LoadingScreen
-            loading={this.props.loading}
+            loading={loading}
             bgColor="rgba(255, 255, 255, .5)"
             spinnerColor="#BE1931"
             textColor="#BE1931"
             text="Loading..."
           >
-
 
             <ChatList
               className="chat-list"

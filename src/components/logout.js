@@ -1,6 +1,5 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import Authenticator from './fake-authenticator';
 import SingletonPusher from './singletonPusher';
 
 export default class Logout extends React.Component {
@@ -14,7 +13,6 @@ export default class Logout extends React.Component {
   }
 
   componentDidMount() {
-    Authenticator.logout();
     this.setState({
       logout: true,
     });

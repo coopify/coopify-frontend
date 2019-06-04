@@ -46,7 +46,6 @@ import styles from '../css/profile.scss';
 import {
   attemptSendMessage, attemptGetUserChat, attemptGetUsersOffers, attemptMakeProposal, attemptGetConversationProposals,
 } from '../actions/user';
-import Authenticator from './fake-authenticator';
 import GuestLayout from './guest-layout';
 
 

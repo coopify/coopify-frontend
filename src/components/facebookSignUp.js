@@ -10,7 +10,6 @@ import 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LoadingScreen from 'react-loading-screen';
 import { attemptSocialSignUpAction, attemptSyncFB } from '../actions/user';
-import Authenticator from './fake-authenticator';
 import GuestLayout from './guest-layout';
 import SingletonPusher from './singletonPusher';
 

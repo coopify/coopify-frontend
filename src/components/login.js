@@ -13,7 +13,6 @@ import LoadingScreen from 'react-loading-screen';
 import Protected from './protected';
 import SingletonPusher from './singletonPusher';
 import { attemptLoginAction, attemptSocialLoginAction } from '../actions/user';
-import Authenticator from './fake-authenticator';
 import GuestLayout from './guest-layout';
 
 export default @connect(state => ({

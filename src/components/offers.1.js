@@ -235,7 +235,7 @@ Coopies x Final Product
 
             <Tooltip title="Add" aria-label="Add">
               <Link to="/offer/create">
-              <Fab color="secondary" className="createOfferButton" style={{position: "fixed", bottom: "30px", right: "60px"}}>
+              <Fab color="secondary" className="createOfferButton" style={{position: "fixed", bottom: "30px", right: "60px", zIndex: "1"}}>
                 <AddIcon/>
               </Fab>
               </Link>

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as reactBootstrap from 'react-bootstrap';
@@ -11,14 +10,12 @@ import '../css/form-elements.css';
 import 'font-awesome/css/font-awesome.min.css';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import StarRatingComponent from 'react-star-rating-component';
-import { Link } from 'react-router-dom';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
-import LoadingScreen from 'react-loading-screen';
-import Protected from './protected';
 import styles from '../css/profile.scss';
-import { attemptGetQuestionsAndAnswer, attemptSendReply } from '../actions/user';
+import {
+  attemptGetQuestionsAndAnswer, attemptSendReply, attemptQuestion, resetError,
+} from '../actions/user';
 
 export default @connect(state => ({
   error: state.error,
@@ -33,33 +30,50 @@ class GeneralQuestions extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
     error: PropTypes.string,
-    questions: PropTypes.array,
+    questions: PropTypes.arrayOf(PropTypes.object),
     countQuestions: PropTypes.number,
     question: PropTypes.string,
-    loggedUser: PropTypes.object,
-    readOnlyOffer: PropTypes.offer,
+    loggedUser: PropTypes.objectOf(PropTypes.object),
+    readOnlyOffer: PropTypes.objectOf(PropTypes.object),
+    offerId: PropTypes.string,
   };
 
   static defaultProps = {
     dispatch: () => {
     },
     questions: [],
-    countCuestions: 0,
+    countQuestions: 0,
     question: '',
     error: '',
     loggedUser: {},
     readOnlyOffer: {},
+    offerId: '',
   };
 
   constructor(props) {
     super(props);
     this.state = {
       questions: [],
-      countCuestions: 0,
+      countQuestions: 0,
       question: '',
       error: '',
       limit: 5,
     };
+  }
+
+  componentDidMount() {
+    const { dispatch, offerId } = this.props;
+    const { limit } = this.state;
+    const userToken = localStorage.getItem('token');
+
+    const reqAttributes = {
+      token: userToken,
+      offerId,
+      limit,
+      page: 0,
+    };
+
+    dispatch(attemptGetQuestionsAndAnswer(reqAttributes));
   }
 
   notify(message, isError) {
@@ -72,21 +86,6 @@ class GeneralQuestions extends React.Component {
     }
   }
 
-  componentDidMount() {
-    const { dispatch } = this.props;
-    const offerId = this.props.offerId;
-    const userToken = localStorage.getItem('token');
-
-    const reqAttributes = {
-      token: userToken,
-      offerId,
-      limit: this.state.limit,
-      page: 0,
-    };
-
-    dispatch(attemptGetQuestionsAndAnswer(reqAttributes));
-  }
-
   handleQuestionChange(e) {
     const newQuestion = e.target.value;
     this.setState({
@@ -94,13 +93,14 @@ class GeneralQuestions extends React.Component {
     });
   }
 
-  handleSendQuestion(e) {
-    const { dispatch } = this.props;
+  handleSendQuestion() {
+    const { dispatch, offerId } = this.props;
+    const { question } = this.state;
     const userToken = localStorage.getItem('token');
 
     const reqAttributes = {
-      question: this.state.question,
-      offerId: this.props.offerId,
+      question,
+      offerId,
       token: userToken,
     };
 
@@ -114,12 +114,13 @@ class GeneralQuestions extends React.Component {
 
   changePage(pageIndex) {
     const { dispatch, offerId } = this.props;
+    const { limit } = this.state;
     const userToken = localStorage.getItem('token');
 
     const reqAttributes = {
       token: userToken,
       offerId,
-      limit: this.state.limit,
+      limit,
       page: pageIndex,
     };
 
@@ -145,9 +146,8 @@ class GeneralQuestions extends React.Component {
 
   render() {
     const TheadComponent = props => null;
-    const {
-      error, questions, loggedUser, readOnlyOffer,
-    } = this.props;
+    const { questions, loggedUser, readOnlyOffer, countQuestions } = this.props;
+    const { question, limit } = this.state;
     const displayReplyButton = loggedUser.id === readOnlyOffer.userId ? 'block' : 'none';
     const data = questions;
     const columns = [{
@@ -156,10 +156,8 @@ class GeneralQuestions extends React.Component {
         <div>
           <form>
             <i className="fa fa-comments-o" />
-            {' '}
-&nbsp;
             <TextField
-              disabled={(props.original.response != undefined && props.original.response != '') || (loggedUser.id != readOnlyOffer.userId)}
+              disabled={(props.original.response !== undefined && props.original.response !== '') || (loggedUser.id !== readOnlyOffer.userId)}
               fullWidth
               multiline
               type="text"
@@ -170,21 +168,20 @@ class GeneralQuestions extends React.Component {
             />
             <br />
 
-            <input type="text" style={{ display: 'none' }} name="conversation" value={props.original.id} />
+            <Input type="text" style={{ display: 'none' }} name="conversation" value={props.original.id} />
             <reactBootstrap.Button
               onClick={e => this.handleReplyClick(e)}
               style={{
                 backgroundColor: 'transparent', color: 'black', borderColor: 'transparent', float: 'right', display: displayReplyButton,
               }}
             >
-Reply
+              { 'Reply' }
               <i className="fa fa-reply" />
             </reactBootstrap.Button>
             <br />
             <i className="fa fa-comments" />
-&nbsp;
             <TextField
-              disabled={(props.original.response != undefined && props.original.response != '') || (loggedUser.id != readOnlyOffer.userId)}
+              disabled={(props.original.response !== undefined && props.original.response !== '') || (loggedUser.id !== readOnlyOffer.userId)}
               fullWidth
               multiline
               type="text"
@@ -207,22 +204,24 @@ Reply
               type="text"
               placeholder="write your question"
               onChange={e => this.handleQuestionChange(e)}
-              value={this.state.question}
+              value={question}
             />
-            <reactBootstrap.Button onClick={e => this.handleSendQuestion(e)} style={{ marginTop: '2%' }}>
-
-                  Send question
+            <reactBootstrap.Button
+              onClick={e => this.handleSendQuestion(e)}
+              style={{ marginTop: '2%' }}
+            >
+              { 'Send question' }
             </reactBootstrap.Button>
           </div>
           <div>
             <h4 style={{ textAlign: 'center' }}> Questions </h4>
 
             <ReactTable
-              defaultPageSize={this.state.limit}
+              defaultPageSize={limit}
               data={data}
               columns={columns}
               TheadComponent={TheadComponent}
-              pages={this.state.limit != 0 ? Math.ceil(this.props.countQuestions / this.state.limit) : this.props.countQuestions}
+              pages={limit !== 0 ? Math.ceil(countQuestions / limit) : countQuestions}
               noDataText="No questions"
               onPageChange={e => this.changePage(e)}
               onPageSizeChange={e => this.changeSize(e)}

@@ -3,14 +3,10 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import LoadingScreen from 'react-loading-screen';
 import { attemptSocialSignUpAction, attemptSyncFB } from '../actions/user';
-import Authenticator from './fake-authenticator';
 import GuestLayout from './guest-layout';
 import SingletonPusher from './singletonPusher';
 
@@ -22,13 +18,10 @@ export default @connect(state => ({
 }))
 
 class FacebookSignUp extends React.Component {
-  componentDidMount() {
-    this.verifyAuthCode();
-  }
 
   static propTypes = {
     dispatch: PropTypes.func,
-    loggedUser: PropTypes.object,
+    loggedUser: PropTypes.objectOf(PropTypes.object),
     loading: PropTypes.bool,
     error: PropTypes.string,
     gotCode: PropTypes.bool,
@@ -48,14 +41,14 @@ class FacebookSignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedUser: {},
-      loading: true,
-      error: '',
     };
   }
 
+  componentDidMount() {
+    this.verifyAuthCode();
+  }
+
   verifyAuthCode() {
-    const { dispatch } = this.props;
     let { gotCode } = this.props;
     const urlParams = new URLSearchParams(window.location.search);
     const codeFromUrl = urlParams.get('code');
@@ -93,11 +86,14 @@ class FacebookSignUp extends React.Component {
   }
 
   render() {
-    const { error, socialUserDidSignUp, loading } = this.props;
+    const {
+      error, loading, loggedUser, dispatch,
+    } = this.props;
+    const { socialUserDidSignUp } = this.state;
     if (socialUserDidSignUp && error.length > 0) {
       return <Redirect to="/signup" />;
     }
-    if (socialUserDidSignUp && error.length == 0) {
+    if (socialUserDidSignUp && error.length === 0) {
       SingletonPusher.getInstance().createPusherChannel(loggedUser, dispatch);
       return <Redirect to="/home" />;
     }

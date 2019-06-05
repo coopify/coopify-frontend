@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import { Link } from 'react-router-dom';
 import styles from '../css/profile.scss';
 import { resetError, attemptGoalsAction, attemptGoalsUserAction } from '../actions/user';
 import GuestLayout from './guest-layout';
@@ -25,10 +23,9 @@ class Goals extends React.Component {
 
   static propTypes = {
     dispatch: PropTypes.func,
-    error: PropTypes.string,
-    goals: PropTypes.array,
-    goalsUser: PropTypes.array,
-    loggedUser: PropTypes.object,
+    goals: PropTypes.arrayOf(PropTypes.object),
+    goalsUser: PropTypes.arrayOf(PropTypes.object),
+    loggedUser: PropTypes.objectOf(PropTypes.object),
   };
 
   static defaultProps = {
@@ -36,19 +33,30 @@ class Goals extends React.Component {
     },
     goals: [],
     goalsUser: [],
-    error: '',
     loggedUser: undefined,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      goals: [],
-      goalsUser: [],
-      error: '',
-      limit: 20,
-      loggedUser: {},
     };
+  }
+
+  componentDidMount() {
+    const { dispatch, loggedUser } = this.props;
+    const { limit } = this.state;
+    const token = localStorage.getItem('token');
+    let reqAttributes = {};
+    if (token) {
+      reqAttributes = {
+        limit,
+        page: 0,
+        userId: loggedUser.id,
+        token,
+      };
+      dispatch(attemptGoalsUserAction(reqAttributes));
+    }
+    dispatch(attemptGoalsAction());
   }
 
   notify(message, isError) {
@@ -61,30 +69,17 @@ class Goals extends React.Component {
     }
   }
 
-  componentDidMount() {
-    const { dispatch, loggedUser } = this.props;
-    const token = localStorage.getItem('token');
-    let reqAttributes = {};
-    if (token) {
-      reqAttributes = {
-        limit: this.state.limit,
-        page: 0,
-        userId: loggedUser.id,
-        token,
-      };
-      dispatch(attemptGoalsUserAction(reqAttributes));
-    }
-    dispatch(attemptGoalsAction());
-  }
-
   findGoalUser(goalId) {
-    this.goal = this.props.goalsUser.find(g => g.goalId === goalId);
-    return this.goal != undefined;
+    const { goalsUser } = this.props;
+    this.goal = goalsUser.find(g => g.goalId === goalId);
+    return this.goal !== undefined;
   }
 
   render() {
-    const TheadComponent = props => null; // a component returning null (to hide) or you could write as per your requirement
-    const { error, goals, loggedUser } = this.props;
+    // a component returning null (to hide) or you could write as per your requirement
+    const TheadComponent = props => null;
+    const { goals, loggedUser } = this.props;
+    const { limit } = this.state;
     const data = goals;
     const columns = [{
       accessor: 'description',
@@ -110,22 +105,17 @@ class Goals extends React.Component {
                   </div>
                   <div className="col-sm-2" style={{ fontSize: 'x-large' }}>
                     <p>
-                      {' '}
                       {props.original.amount}
-                      {' '}
-C
+                      {'C'}
                     </p>
                   </div>
                   <div className="col-sm-2">
                     <p>
-                      {' '}
-x
+                      {'x'}
                       {this.goal.quantity}
-                      {' '}
-(
+                      {'('}
                       {props.original.amount * this.goal.quantity}
-                      {' '}
-C)
+                      {'C)'}
                     </p>
                   </div>
                 </div>
@@ -134,16 +124,13 @@ C)
                 <div className="row">
                   <div className="col-sm-8">
                     <p>
-                      {' '}
                       {props.original.description}
                     </p>
                   </div>
                   <div className="col-sm-4" style={{ fontSize: 'x-large' }}>
                     <p>
-                      {' '}
                       {props.original.amount}
-                      {' '}
-C
+                      {'C'}
                     </p>
                   </div>
                 </div>
@@ -160,7 +147,7 @@ C
           <form>
             <h2 style={{ textAlign: 'center' }}> Goals </h2>
             <ReactTable
-              defaultPageSize={this.state.limit}
+              defaultPageSize={limit}
               data={data}
               columns={columns}
               TheadComponent={TheadComponent}

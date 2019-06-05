@@ -2,19 +2,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import ReactTable from 'react-table';
 import styles from '../css/profile.scss';
-import Protected from './protected';
+import { Protected } from './protected';
 import { resetError, attemptCheckBalanceAction, attemptCheckTransactionsAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 import 'react-table/react-table.css';
 
 export default @connect(state => ({
-  loggedUser: state.user, // el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
+  loggedUser: state.user,
   balance: state.balance,
   transactions: state.transactions,
   error: state.error,
@@ -24,18 +23,16 @@ export default @connect(state => ({
 class CoopiesAccount extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    loggedUser: PropTypes.object,
-    loading: PropTypes.bool,
+    loggedUser: PropTypes.objectOf(PropTypes.object),
     error: PropTypes.string,
     balance: PropTypes.string,
-    transactions: PropTypes.array,
+    transactions: PropTypes.arrayOf(PropTypes.object),
   };
 
   static defaultProps = {
     dispatch: () => {
     },
     loggedUser: {},
-    loading: false,
     balance: '-',
     transactions: [],
     error: '',
@@ -44,22 +41,7 @@ class CoopiesAccount extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedUser: {},
-      loading: false,
-      balance: '-',
-      transactions: [],
-      error: '',
     };
-  }
-
-  notify(message, isError) {
-    const { dispatch } = this.props;
-    if (isError) {
-      toast.error(message);
-      dispatch(resetError());
-    } else {
-      toast.success(message);
-    }
   }
 
   componentDidMount() {
@@ -76,11 +58,18 @@ class CoopiesAccount extends React.Component {
     }
   }
 
+  notify(message, isError) {
+    const { dispatch } = this.props;
+    if (isError) {
+      toast.error(message);
+      dispatch(resetError());
+    } else {
+      toast.success(message);
+    }
+  }
 
   render() {
-    const {
-      loading, error, loggedUser, balance, transactions,
-    } = this.props;
+    const { error, balance, transactions } = this.props;
     const data = transactions;
     const columns = [{
       Header: 'Date',
@@ -112,10 +101,10 @@ class CoopiesAccount extends React.Component {
               <h2 style={{ textAlign: 'center' }}> Transactions </h2>
 
               <div className="field">
-                <label className="label" htmlFor="name">
-Available Coopies (CPI):
+                <h2 className="label" htmlFor="name">
+                  { 'Available Coopies (CPI): ' }
                   {balance}
-                </label>
+                </h2>
               </div>
 
               <ReactTable

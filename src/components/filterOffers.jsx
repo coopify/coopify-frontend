@@ -1,31 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-bootstrap';
-import ReactTable from 'react-table';
-import 'react-table/react-table.css';
-import StarRatingComponent from 'react-star-rating-component';
-import { Link } from 'react-router-dom';
 import {
   Form, Row, Col, Button,
 } from 'react-bootstrap';
 import Slider from 'rc-slider';
-import makeAnimated from 'react-select/lib/animated';
-// import SearchField from 'react-search-field';
 import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
-import LoadingScreen from 'react-loading-screen';
 import {
   BARTER_PAYMENT, COOPI_PAYMENT, HOUR_EXCHANGE, SESSION_EXCHANGE, PRODUCT_EXCHANGE,
 } from './offerCreation/offerEnums';
 import { Offers } from './offers';
-import Protected from './protected';
+import { Protected } from './protected';
 import styles from '../css/profile.scss';
 import { resetError, attemptChangeFilters, attemptCategoriesAction } from '../actions/user';
 import GuestLayout from './guest-layout';
@@ -34,7 +25,6 @@ import GuestLayout from './guest-layout';
 export default @connect(state => ({
   error: state.error,
   loading: state.loading,
-  offers: state.offers,
   categories: state.categories,
 }))
 
@@ -42,14 +32,12 @@ class FilterOffers extends React.Component {
     static propTypes = {
       dispatch: PropTypes.func,
       error: PropTypes.string,
-      offers: PropTypes.array,
-      categories: PropTypes.array,
+      categories: PropTypes.arrayOf(PropTypes.string),
     };
 
     static defaultProps = {
       dispatch: () => {
       },
-      offers: [],
       error: '',
       categories: [],
     };
@@ -57,7 +45,6 @@ class FilterOffers extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        offers: [],
         error: '',
         page: 0,
         limit: 10,
@@ -73,6 +60,11 @@ class FilterOffers extends React.Component {
       };
     }
 
+    componentDidMount() {
+      const { dispatch } = this.props;
+      dispatch(attemptCategoriesAction());
+    }
+
     notify(message, isError) {
       const { dispatch } = this.props;
       if (isError) {
@@ -81,11 +73,6 @@ class FilterOffers extends React.Component {
       } else {
         toast.success(message);
       }
-    }
-
-    componentDidMount() {
-      const { dispatch } = this.props;
-      dispatch(attemptCategoriesAction());
     }
 
     handleSearchNameChange(e) {
@@ -98,19 +85,19 @@ class FilterOffers extends React.Component {
     handlePaymentChange(e) {
       const paymentMethod = e.target.name;
       const isChecked = e.target.checked;
-      const showExchangeInstance = (paymentMethod != COOPI_PAYMENT) || (paymentMethod == COOPI_PAYMENT);
+      const { paymentMethods, showEI } = this.state;
 
       if (isChecked) {
         this.setState({
           ...this.state,
-          paymentMethods: [...this.state.paymentMethods, paymentMethod],
-          showEI: paymentMethod == COOPI_PAYMENT ? isChecked : this.state.showEI,
+          paymentMethods: [...paymentMethods, paymentMethod],
+          showEI: paymentMethod === COOPI_PAYMENT ? isChecked : showEI,
         });
       } else {
         this.setState({
           ...this.state,
-          paymentMethods: this.state.paymentMethods.filter(item => item !== paymentMethod),
-          showEI: paymentMethod == COOPI_PAYMENT ? isChecked : this.state.showEI,
+          paymentMethods: paymentMethods.filter(item => item !== paymentMethod),
+          showEI: paymentMethod === COOPI_PAYMENT ? isChecked : showEI,
         });
       }
     }
@@ -118,14 +105,15 @@ class FilterOffers extends React.Component {
     handleExchangeChange(e) {
       const exchangeMethod = e.target.name;
       const isChecked = e.target.checked;
+      const { exchangeMethods } = this.state;
 
       if (isChecked) {
         this.setState({
-          ...this.state, exchangeMethods: [...this.state.exchangeMethods, exchangeMethod],
+          ...this.state, exchangeMethods: [...exchangeMethods, exchangeMethod],
         });
       } else {
         this.setState({
-          ...this.state, exchangeMethods: this.state.exchangeMethods.filter(item => item !== exchangeMethod),
+          ...this.state, exchangeMethods: exchangeMethods.filter(item => item !== exchangeMethod),
         });
       }
     }
@@ -154,17 +142,20 @@ class FilterOffers extends React.Component {
       });
     }
 
-    handleApplyFilter(e) {
+    handleApplyFilter() {
       const { dispatch } = this.props;
+      const {
+        searchName, paymentMethods, exchangeMethods, prices, categories, sortBy,
+      } = this.state;
 
       const filters = {
-        name: this.state.searchName,
-        paymentMethods: this.state.paymentMethods,
-        exchangeMethods: this.state.exchangeMethods,
-        lowerPrice: this.state.prices[0],
-        upperPrice: this.state.prices[1],
-        categories: this.state.categories,
-        orderBy: this.state.sortBy.toLowerCase(),
+        name: searchName,
+        paymentMethods,
+        exchangeMethods,
+        lowerPrice: prices[0],
+        upperPrice: prices[1],
+        categories,
+        orderBy: sortBy.toLowerCase(),
       };
 
       dispatch(attemptChangeFilters(filters));
@@ -172,12 +163,13 @@ class FilterOffers extends React.Component {
 
 
     render() {
-      const { error, offers, categories } = this.props;
-      const createSliderWithTooltip = Slider.createSliderWithTooltip;
-      const Range = createSliderWithTooltip(Slider.Range);
-      const { classes } = this.props;
+      const { error } = this.props;
+      const {
+        showEI, prices, sortBy, searchName,
+      } = this.state;
+      const Range = Slider.createSliderWithTooltip(Slider.Range);
       const sortOptions = ['Price', 'Date', 'Rate'];
-      const showEI = this.state.showEI ? 'block' : 'none';
+      const showEIDisplay = showEI ? 'block' : 'none';
 
       if (error.length > 0) this.notify(error, true);
 
@@ -196,7 +188,7 @@ class FilterOffers extends React.Component {
                     type="text"
                     placeholder="Search offer..."
                     onChange={e => this.handleSearchNameChange(e)}
-                    value={this.state.searchName}
+                    value={searchName}
                     disableUnderline
                   />
 
@@ -217,23 +209,23 @@ class FilterOffers extends React.Component {
                   </Form.Group>
 
 
-                  <h4 style={{ color: 'black', display: showEI }}>Exchange instance</h4>
+                  <h4 style={{ color: 'black', display: showEIDisplay }}>Exchange instance</h4>
 
-                  <Form.Group check style={{ textAlign: 'left', marginLeft: '20%', display: showEI }}>
+                  <Form.Group check style={{ textAlign: 'left', marginLeft: '20%', display: showEIDisplay }}>
                     <Form.Label check>
                       <input type="checkbox" name={HOUR_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
                       {HOUR_EXCHANGE}
                     </Form.Label>
                   </Form.Group>
 
-                  <Form.Group check style={{ textAlign: 'left', marginLeft: '20%', display: showEI }}>
+                  <Form.Group check style={{ textAlign: 'left', marginLeft: '20%', display: showEIDisplay }}>
                     <Form.Label check>
                       <input type="checkbox" name={SESSION_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
                       {SESSION_EXCHANGE}
                     </Form.Label>
                   </Form.Group>
 
-                  <Form.Group check style={{ textAlign: 'left', marginLeft: '20%', display: showEI }}>
+                  <Form.Group check style={{ textAlign: 'left', marginLeft: '20%', display: showEIDisplay }}>
                     <Form.Label check>
                       <input type="checkbox" name={PRODUCT_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
                       {PRODUCT_EXCHANGE}
@@ -241,10 +233,10 @@ class FilterOffers extends React.Component {
                   </Form.Group>
 
 
-                  <h4 style={{ color: 'black', display: showEI }}>Price range</h4>
+                  <h4 style={{ color: 'black', display: showEIDisplay }}>Price range</h4>
 
 
-                  <Range min={0} max={100} defaultValue={this.state.prices} tipFormatter={value => `${value} Coopi`} allowCross={false} style={{ marginBottom: '10%', display: showEI }} onAfterChange={e => this.handlePricesChange(e)} />
+                  <Range min={0} max={100} defaultValue={prices} tipFormatter={value => `${value} Coopi`} allowCross={false} style={{ marginBottom: '10%', display: showEI }} onAfterChange={e => this.handlePricesChange(e)} />
 
                   <h4 style={{ color: 'black' }}>Categories</h4>
 
@@ -274,7 +266,7 @@ class FilterOffers extends React.Component {
 
                   <FormControl style={{ display: 'block' }}>
                     <Select
-                      value={this.state.sortBy}
+                      value={sortBy}
                       onChange={e => this.handleSortByChange(e)}
                     >
                       {sortOptions.map(name => (

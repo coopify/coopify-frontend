@@ -23,7 +23,6 @@ import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import Protected from './protected';
 import styles from '../css/profile.scss';
 import { resetError, attemptPublishOffer } from '../actions/user';
-import Authenticator from './fake-authenticator';
 import GuestLayout from './guest-layout';
 
 

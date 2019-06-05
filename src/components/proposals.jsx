@@ -5,19 +5,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import 'react-table/react-table.css';
-import { Link } from 'react-router-dom';
-
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import InfoIcon from '@material-ui/icons/Info';
 import LoadingScreen from 'react-loading-screen';
 import { Proposal } from './proposal';
 import Protected from './protected';
 import styles from '../css/profile.scss';
 import { resetError, attemptProposalsAction } from '../actions/user';
 import GuestLayout from './guest-layout';
+import GridView from './gridview';
 
 export default @connect(state => ({
   error: state.error,
@@ -104,8 +98,7 @@ class Proposals extends React.Component {
 
   render() {
     const { proposals, loading } = this.props;
-    const { width } = this.state;
-    const colSize = width < 600 ? 2 : 3;
+    const getTitleFromElement = proposal => proposal.purchasedOffer.title;
     return (
       <Protected>
         <GuestLayout>
@@ -127,41 +120,24 @@ class Proposals extends React.Component {
                   display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
                 }}
                 >
-                  <GridList cellHeight={180} cols={colSize} style={{ height: '80%', width: '100%' }}>
-
-                    {proposals.map(tile => (
-                      <GridListTile>
-                        <img
-                          src={
-                            tile.purchasedOffer.images && tile.purchasedOffer.images[0]
-                              ? tile.purchasedOffer.images[0].url : ''
-                          }
-                          alt={tile.title}
-                        />
-                        <GridListTileBar
-                          title={(
-                            <Link style={{ padding: '0' }} to={`/offers/${tile.offerId}`} className="navbar-item">
-                              <i className="fa" />
-                              {tile.purchasedOffer.title}
-                            </Link>
-                          )}
-                          subtitle={(
-                            <span>
-                              <div>by: {tile.proposer.name}</div>
-                            </span>
-                          )}
-                          actionIcon={(
-                            <Proposal
-                              proposal={tile}
-                              buttonText={<InfoIcon />}
-                              isInfo
-                            />
-                          )}
-                        />
-
-                      </GridListTile>
-                    ))}
-                  </GridList>
+                  <GridView
+                    elements={proposals}
+                    getImageFromElement={proposal => (proposal.purchasedOffer.images
+                      && proposal.purchasedOffer.images[0]
+                      ? proposal.purchasedOffer.images[0].url : '')}
+                    getAlternativeTextForImageFromElement={p => p.purchasedOffer.title}
+                    getTitleFromElement={getTitleFromElement}
+                    getSubtitleFromElement={proposal => `by: ${proposal.proposer.name}`}
+                    shouldRedirect={false}
+                    selectItem={selectedProposal => (
+                      <Proposal
+                        proposal={selectedProposal}
+                        buttonText={selectedProposal.purchasedOffer.title}
+                        isInfo
+                      />
+                    )
+                    }
+                  />
                 </div>
 
               </form>

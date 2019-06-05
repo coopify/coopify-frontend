@@ -134,7 +134,6 @@ class Signup extends React.Component {
           continuous
           steps={steps}
           run={true}
-          scrollToFirstStep
           showSkipButton
           styles={{
             options: {
@@ -248,8 +247,8 @@ class Signup extends React.Component {
                   </div>
 
                   <div className="field is-grouped">
-                    <div className="control">
-                      <button type="submit" className="button is-link">Sign Up</button>
+                    <div className="control" style={{width: "100%"}}>
+                      <button type="submit" style={{width: "100%"}} className="button is-link">Sign Up</button>
                     </div>
                   </div>
                 </form>

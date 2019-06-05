@@ -208,7 +208,6 @@ class FilterOffers extends React.Component {
           continuous
           steps={steps}
           run={true}
-          scrollToFirstStep
           showSkipButton
           styles={{
             options: {

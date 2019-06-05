@@ -231,7 +231,6 @@ class Header extends PureComponent {
           continuous
           steps={steps}
           run={true}
-          scrollToFirstStep
           showSkipButton
           styles={{
             options: {

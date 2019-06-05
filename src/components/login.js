@@ -134,7 +134,6 @@ class Login extends React.Component {
           continuous
           steps={steps}
           run={true}
-          scrollToFirstStep
           showSkipButton
           styles={{
             options: {
@@ -164,7 +163,7 @@ class Login extends React.Component {
               <div className="box">
 
 
-                <h1 className="title">Login</h1>
+                <h1 className="title">Log In</h1>
                 <form onSubmit={e => this.handleSubmit(e)} className="traditional-login">
                   <div className="field">
                     <label className="label" htmlFor="username">
@@ -180,7 +179,7 @@ class Login extends React.Component {
                         />
                       </div>
                     </label>
-                  </div>
+                  </div>             
                   <div className="field">
                     <label className="label" htmlFor="password">
 
@@ -197,8 +196,8 @@ class Login extends React.Component {
                     </label>
                   </div>
                   <div className="field is-grouped">
-                    <div className="control">
-                      <button type="submit" className="button is-link">Login</button>
+                    <div className="control" style={{width: "100%"}}>
+                      <button type="submit" style={{width: "100%"}} className="button is-link">Login</button>
                     </div>
                   </div>
                 </form>
@@ -230,7 +229,7 @@ Facebook
                     <GoogleLogin
                       clientId={global.GOOGLE_APP_ID}
                       autoLoad={false}
-                      buttonText="Login"
+                      buttonText="Log In"
                       onSuccess={this.responseGoogle}
                       onFailure={this.errorGoogle}
                       render={renderProps => (

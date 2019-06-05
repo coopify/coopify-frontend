@@ -436,7 +436,6 @@ COOPI
                 continuous
                 steps={stepsTutorial}
                 run={true}
-                scrollToFirstStep
                 showSkipButton
                 styles={{
                   options: {

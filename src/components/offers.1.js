@@ -200,6 +200,7 @@ Coopies x Final Product
       {
         target: '.createOfferButton',
         content: 'You can publish your own by cicking here...',
+        placement: 'right',
       },
     ]
 
@@ -211,7 +212,6 @@ Coopies x Final Product
           continuous
           steps={steps}
           run={true}
-          scrollToFirstStep
           showSkipButton
           styles={{
             options: {

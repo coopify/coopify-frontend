@@ -70,6 +70,7 @@
     "react-facebook-auth": "^1.4.0",
     "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.0.2",
+    "react-id-swiper": "^2.1.2",
     "react-joyride": "^2.0.5",
     "react-loader-spinner": "^2.3.0",
     "react-loading-screen": "^0.0.17",
@@ -89,6 +90,7 @@
     "react-transition-group": "^2.6.0",
     "redux-saga": "^1.0.1",
     "snyk": "^1.124.1",
+    "swiper": "^4.5.0",
     "universal-fetch": "^1.0.0"
   },
   "snyk": true,

@@ -70,42 +70,47 @@ class GridView extends React.Component {
       getDetailRoute, shouldRedirect,
     } = this.props;
     const { width } = this.state;
-    const colSize = width < 600 ? 2 : 3;
+    // TODO Revisar los 600
+    const colSize = width < 600 ? Math.min(elements.length, 2) : Math.min(elements.length, 3);
     return (
       <div className={styles.container}>
-        <form>
 
-          { <h2 style={{ textAlign: 'center' }}> {colectionName} </h2> }
+        {
+          <h2 style={{ textAlign: 'center' }}>
+            {colectionName}
+          </h2> }
 
-          <div style={{
-            display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
-          }}
-          >
-            <GridList cellHeight={180} cols={colSize} style={{ height: '80%', width: '100%' }}>
+        <div style={{
+          display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
+        }}
+        >
+          <GridList cellHeight={180} cols={colSize} style={{ height: '80%', width: '100%' }}>
 
-              {elements.map(element => (
-                <GridListTile>
-                  <img
-                    src={getImageFromElement(element)}
-                    alt={getAlternativeTextForImageFromElement(element)}
-                  />
-                  <GridListTileBar
-                    title={shouldRedirect ? (
-                      <Link style={{ padding: '0' }}
-                      to={getDetailRoute(element)} className="navbar-item">
-                        <i className="fa" />
-                        {getTitleFromElement(element)}
-                      </Link>
-                    ) : selectItem(element)}
-                    subtitle={getSubtitleFromElement(element)}
-                  />
+            {elements.map(element => (
+              <GridListTile key={element.id}>
+                <img
+                  src={getImageFromElement(element)}
+                  alt={getAlternativeTextForImageFromElement(element)}
+                />
+                <GridListTileBar
+                  key={element.id}
+                  title={shouldRedirect ? (
+                    <Link
+                      style={{ padding: '0' }}
+                      to={getDetailRoute(element)}
+                      className="navbar-item"
+                    >
+                      <i className="fa" />
+                      {getTitleFromElement(element)}
+                    </Link>
+                  ) : selectItem(element)}
+                  subtitle={getSubtitleFromElement(element)}
+                />
 
-                </GridListTile>
-              ))}
-            </GridList>
-          </div>
-
-        </form>
+              </GridListTile>
+            ))}
+          </GridList>
+        </div>
         <ToastContainer autoClose={3000} />
       </div>
     );

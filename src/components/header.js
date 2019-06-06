@@ -199,12 +199,12 @@ class Header extends PureComponent {
     if (status && status.length > 0) this.notify(`Your proposal was ${status}`, false);
     const classes = this.useStyles();
     let links = [
-      {title: 'Offers', url: '/home', icon: <ListIcon/>},
+      {title: 'Home', url: '/home', icon: <ListIcon/>},
       {title: 'Goals', url: '/goals', icon: <RedeemIcon/>},
     ];
     if(loggedUser && loggedUser.id){
       links = [
-        {title: 'Offers', url: '/seeOffers', icon: <ListIcon/>},
+        {title: 'Services', url: '/seeOffers', icon: <ListIcon/>},
         {title: 'Transactions', url: '/user/coopiesAccount', icon: <SwapHorizIcon/>},
         {title: 'Proposals', url: '/user/proposals', icon: <BorderColorIcon/>},
         {title: 'Conversations', url: '/user/conversations', icon: <ChatIcon/>},

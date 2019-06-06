@@ -476,7 +476,7 @@ export function getGoalsAPICall() {
       responseGoals: { goals: response.data.goals },
     })).catch(e => ({
       status: e.response.status,
-      goals: {},
+      responseGoals: {},
     }));
 }
 
@@ -493,7 +493,7 @@ export function getGoalsUserAPICall(payload) {
       responseGoals: { goalsUser: response.data },
     })).catch(e => ({
       status: e.response.status,
-      goals: {},
+      responseGoals: {},
     }));
 }
 

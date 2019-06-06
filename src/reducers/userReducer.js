@@ -71,12 +71,6 @@ export const CANCEL_PROPOSAL_SUCCESS = 'CANCEL_PROPOSAL_SUCCESS';
 export const DISPLAY_TOAST_ATTEMPT = 'DISPLAY_TOAST_ATTEMPT';
 export const GET_CONVERSATION_PROPOSAL_ATTEMPT = 'GET_CONVERSATION_PROPOSAL_ATTEMPT';
 export const GET_CONVERSATION_PROPOSAL_SUCCESS = 'GET_CONVERSATION_PROPOSAL_SUCCESS';
-export const GET_GOALS_ATTEMPT = 'GET_GOALS_ATTEMPT';
-export const GET_GOALS_SUCCESS = 'GET_GOALS_SUCCESS';
-export const GET_GOALS_FAILURE = 'GET_GOALS_FAILURE';
-export const GET_GOALSUSER_ATTEMPT = 'GET_GOALSUSER_ATTEMPT';
-export const GET_GOALSUSER_SUCCESS = 'GET_GOALSUSER_SUCCESS';
-export const GET_GOALSUSER_FAILURE = 'GET_GOALSUSER_FAILURE';
 export const SYNC_FB_ATTEMPT = 'SYNC_FB_ATTEMPT';
 export const SYNC_FB_SUCCESS = 'SYNC_FB_SUCCESS';
 export const SYNC_FB_FAILURE = 'SYNC_FB_FAILURE';
@@ -494,44 +488,6 @@ export const user = (state = initialUserState, action) => {
         error: '',
         loading: false,
         proposal: action.proposal,
-      });
-
-    case GET_GOALS_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
-
-    case GET_GOALS_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-        loading: false,
-      });
-
-    case GET_GOALS_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        goals: action.responseGoals.goals,
-        loading: false,
-      });
-
-    case GET_GOALSUSER_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
-
-    case GET_GOALSUSER_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-        loading: false,
-      });
-
-    case GET_GOALSUSER_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        goalsUser: action.responseGoals.goalsUser,
-        loading: false,
       });
 
     case SYNC_FB_ATTEMPT:

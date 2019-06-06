@@ -26,11 +26,13 @@ import {
   rejectProposalAsync,
   cancelProposalAsync,
   getConversationProposalAsync,
-  getGoalsAsync,
-  getGoalsUserAsync,
   syncFacebookAsync,
   sendRewardAsync,
 } from './user';
+import {
+  getGoalsAsync,
+  getGoalsUserAsync,
+} from './goal';
 
 export default function* rootSaga() {
   yield all(

@@ -39,10 +39,6 @@ import {
   REJECT_PROPOSAL_SUCCESS,
   CANCEL_PROPOSAL_SUCCESS,
   GET_CONVERSATION_PROPOSAL_SUCCESS,
-  GET_GOALS_SUCCESS,
-  GET_GOALS_FAILURE,
-  GET_GOALSUSER_SUCCESS,
-  GET_GOALSUSER_FAILURE,
   SYNC_FB_SUCCESS,
   SYNC_FB_FAILURE,
 } from '../reducers';
@@ -73,8 +69,6 @@ import {
   acceptProposalAPICall,
   cancelProposalAPICall,
   getConversationProposalAPICall,
-  getGoalsAPICall,
-  getGoalsUserAPICall,
   syncFBApiCall,
   sendRewardApiCall,
 } from '../api';
@@ -300,24 +294,6 @@ export function* cancelProposalAsync(payload) {
 export function* getConversationProposalAsync(payload) {
   const result = yield getConversationProposalAPICall(payload.payload);
   yield put({ type: GET_CONVERSATION_PROPOSAL_SUCCESS, proposal: result.proposal });
-}
-
-export function* getGoalsAsync() {
-  const result = yield getGoalsAPICall();
-  if (result.status === 200) {
-    yield put({ type: GET_GOALS_SUCCESS, responseGoals: result.responseGoals });
-  } else {
-    yield put({ type: GET_GOALS_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* getGoalsUserAsync(payload) {
-  const result = yield getGoalsUserAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: GET_GOALSUSER_SUCCESS, responseGoals: result.responseGoals });
-  } else {
-    yield put({ type: GET_GOALSUSER_FAILURE, errorMessage: result.errorMessage });
-  }
 }
 
 export function* syncFacebookAsync(payload) {

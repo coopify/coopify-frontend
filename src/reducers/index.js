@@ -71,12 +71,6 @@ import {
   DISPLAY_TOAST_ATTEMPT,
   GET_CONVERSATION_PROPOSAL_ATTEMPT,
   GET_CONVERSATION_PROPOSAL_SUCCESS,
-  GET_GOALS_ATTEMPT,
-  GET_GOALS_SUCCESS,
-  GET_GOALS_FAILURE,
-  GET_GOALSUSER_ATTEMPT,
-  GET_GOALSUSER_SUCCESS,
-  GET_GOALSUSER_FAILURE,
   SYNC_FB_ATTEMPT,
   SYNC_FB_SUCCESS,
   SYNC_FB_FAILURE,
@@ -84,15 +78,27 @@ import {
   SEND_REF_CODE,
 
 } from './userReducer';
+import {
+  goal, initialGoalsState,
+  GET_GOALS_ATTEMPT,
+  GET_GOALS_SUCCESS,
+  GET_GOALS_FAILURE,
+  GET_GOALSUSER_ATTEMPT,
+  GET_GOALSUSER_SUCCESS,
+  GET_GOALSUSER_FAILURE,
+
+} from './goalsReducer';
 // import { serviceReducers, initialServiceState } from './serviceReducer';
 
 const AppReducers = {
   ...user,
+  ...goal,
   // ...serviceReducers
 };
 
 const InitialState = {
   ...initialUserState,
+  ...initialGoalsState,
   // ...initialServiceState
 };
 
@@ -186,6 +192,7 @@ export {
   InitialState,
   Actions,
   user,
+  goal,
   SOCIAL_LOGIN_ATTEMPT,
   LOGIN_SUCCESS,
   LOGIN_ATTEMPT,

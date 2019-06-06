@@ -194,15 +194,15 @@ class FilterOffers extends React.Component {
 
                   <h4 style={{ color: 'black', marginTop: '10%' }}>Payment instance</h4>
 
-                  <Form.Group check style={{ textAlign: 'left', marginLeft: '20%' }}>
-                    <Form.Label check>
+                  <Form.Group style={{ textAlign: 'left', marginLeft: '20%' }}>
+                    <Form.Label>
                       <input type="checkbox" name={BARTER_PAYMENT} onChange={e => this.handlePaymentChange(e)} />
                       {BARTER_PAYMENT}
                     </Form.Label>
                   </Form.Group>
 
-                  <Form.Group check style={{ textAlign: 'left', marginLeft: '20%' }}>
-                    <Form.Label check>
+                  <Form.Group style={{ textAlign: 'left', marginLeft: '20%' }}>
+                    <Form.Label>
                       <input type="checkbox" name={COOPI_PAYMENT} onChange={e => this.handlePaymentChange(e)} />
                       {COOPI_PAYMENT}
                     </Form.Label>
@@ -211,22 +211,22 @@ class FilterOffers extends React.Component {
 
                   <h4 style={{ color: 'black', display: showEIDisplay }}>Exchange instance</h4>
 
-                  <Form.Group check style={{ textAlign: 'left', marginLeft: '20%', display: showEIDisplay }}>
-                    <Form.Label check>
+                  <Form.Group style={{ textAlign: 'left', marginLeft: '20%', display: showEI }}>
+                    <Form.Label>
                       <input type="checkbox" name={HOUR_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
                       {HOUR_EXCHANGE}
                     </Form.Label>
                   </Form.Group>
 
-                  <Form.Group check style={{ textAlign: 'left', marginLeft: '20%', display: showEIDisplay }}>
-                    <Form.Label check>
+                  <Form.Group style={{ textAlign: 'left', marginLeft: '20%', display: showEI }}>
+                    <Form.Label>
                       <input type="checkbox" name={SESSION_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
                       {SESSION_EXCHANGE}
                     </Form.Label>
                   </Form.Group>
 
-                  <Form.Group check style={{ textAlign: 'left', marginLeft: '20%', display: showEIDisplay }}>
-                    <Form.Label check>
+                  <Form.Group style={{ textAlign: 'left', marginLeft: '20%', display: showEI }}>
+                    <Form.Label>
                       <input type="checkbox" name={PRODUCT_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
                       {PRODUCT_EXCHANGE}
                     </Form.Label>

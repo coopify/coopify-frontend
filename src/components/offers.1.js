@@ -200,7 +200,7 @@ Coopies x Final Product
         <div className={styles.container}>
           <form>
 
-            <h2 style={{ textAlign: 'center' }}> Offers </h2>
+            <h1 style={{ textAlign: 'center' }}> Services </h1>
 
             <ReactTable
               defaultPageSize={this.state.limit}

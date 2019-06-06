@@ -286,17 +286,19 @@ class Header extends PureComponent {
           </div>
           <Divider />
 
-{ loggedUser && loggedUser.id ? 
-  (
-        <div>
-        <IconButton>
-          <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{width: "60%", height: "60%"}}/>
-        </IconButton>
-        <Link to="/user/profile"> <h2>{loggedUser.name}</h2></Link>
-          <Divider/>
-        </div>
-  ) : ''
-}
+          { loggedUser && loggedUser.id ? 
+            (
+              <div>
+                <IconButton>
+                  <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{width: "60%", height: "60%"}}/>
+                </IconButton>
+                <Link to="/user/profile">
+                  <h2>{loggedUser.name}</h2>
+                </Link>
+                <Divider />
+              </div>
+            ) : ''
+          }
           <List>
             {links.map((text, index) => (
                <Link to={text.url}>
@@ -308,21 +310,21 @@ class Header extends PureComponent {
             ))}
           </List>
 
-{loggedUser && loggedUser.id ? 
-  (
-    <div> 
-          <Divider />
-          <List>
-              <Link to='#'>
-            <ListItem button key='logout' onClick={e => this.handleLogout(e)} >
-              <ListItemIcon>{<PowerSettingsNewIcon/>}</ListItemIcon>
-              <ListItemText primary='Logout' /> 
-            </ListItem>
-            </Link>
-          </List>
-      </div>
-  ) : ''
-}
+          {loggedUser && loggedUser.id ? 
+            (
+              <div> 
+                <Divider />
+                <List>
+                    <Link to='#'>
+                  <ListItem button key='logout' onClick={e => this.handleLogout(e)} >
+                    <ListItemIcon>{<PowerSettingsNewIcon/>}</ListItemIcon>
+                    <ListItemText primary='Logout' /> 
+                  </ListItem>
+                  </Link>
+                </List>
+            </div>
+            ) : ''
+          }
         </Drawer>
         <main
           className={clsx(classes.content, {

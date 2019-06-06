@@ -287,49 +287,49 @@ class FilterOffers extends React.Component {
 
                   <Range min={0} max={100} defaultValue={prices} tipFormatter={value => `${value} Coopi`} allowCross={false} style={{ marginBottom: '10%', display: showEI }} onAfterChange={e => this.handlePricesChange(e)} />
 
-<div className="categoriesSearch"> 
-                  <h4 style={{ color: 'black' }}>Categories</h4>
+                  <div className="categoriesSearch"> 
+                    <h4 style={{ color: 'black' }}>Categories</h4>
 
-                  <FormControl style={{ display: 'block' }}>
-                    <Select
-                      multiple
-                      value={this.state.categories}
-                      onChange={e => this.handleCategoriesChange(e)}
-                      input={<Input id="select-multiple-chip" />}
-                      renderValue={selected => (
-                        <div>
-                          {selected.map(value => (
-                            <Chip key={value} label={value} />
-                          ))}
-                        </div>
-                      )}
-                    >
-                      {this.props.categories.map(name => (
-                        <MenuItem key={name} value={name}>
-                          {name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-</div>
+                    <FormControl style={{ display: 'block' }}>
+                      <Select
+                        multiple
+                        value={this.state.categories}
+                        onChange={e => this.handleCategoriesChange(e)}
+                        input={<Input id="select-multiple-chip" />}
+                        renderValue={selected => (
+                          <div>
+                            {selected.map(value => (
+                              <Chip key={value} label={value} />
+                            ))}
+                          </div>
+                        )}
+                      >
+                        {this.props.categories.map(name => (
+                          <MenuItem key={name} value={name}>
+                            {name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </div>
 
-<div className="sortByFilter"> 
-                  <h4 style={{ color: 'black', marginTop: '10%' }}>Sort By</h4>
+                  <div className="sortByFilter"> 
+                    <h4 style={{ color: 'black', marginTop: '10%' }}>Sort By</h4>
 
-                  <FormControl style={{ display: 'block' }}>
-                    <Select
-                      value={sortBy}
-                      onChange={e => this.handleSortByChange(e)}
-                    >
-                      {sortOptions.map(name => (
-                        <MenuItem key={name} value={name}>
-                          {name}
-                        </MenuItem>
-                      ))}
+                    <FormControl style={{ display: 'block' }}>
+                      <Select
+                        value={sortBy}
+                        onChange={e => this.handleSortByChange(e)}
+                      >
+                        {sortOptions.map(name => (
+                          <MenuItem key={name} value={name}>
+                            {name}
+                          </MenuItem>
+                        ))}
 
-                    </Select>
-                  </FormControl>
-</div>
+                      </Select>
+                    </FormControl>
+                  </div>
                   <Button style={{ marginTop: '10%' }} onClick={e => this.handleApplyFilter(e)}>Apply Filters</Button>
 
                 </Col>

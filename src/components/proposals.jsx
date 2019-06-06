@@ -19,7 +19,6 @@ export default @connect(state => ({
   proposals: state.proposals,
   countProposals: state.countProposals,
   loggedUser: state.user,
-  width: state.width,
 }))
 
 class Proposals extends React.Component {
@@ -27,7 +26,6 @@ class Proposals extends React.Component {
     dispatch: PropTypes.func,
     proposals: PropTypes.arrayOf(PropTypes.object),
     loading: PropTypes.bool,
-    width: PropTypes.number,
   };
 
   static defaultProps = {
@@ -35,16 +33,13 @@ class Proposals extends React.Component {
     },
     proposals: [],
     loading: false,
-    width: 0,
   };
 
   constructor(props) {
     super(props);
     this.state = {
       limit: 10,
-      width: window.innerWidth,
     };
-    this.updateDimensions = this.updateDimensions.bind(this);
   }
 
   componentDidMount() {
@@ -58,11 +53,6 @@ class Proposals extends React.Component {
     };
 
     dispatch(attemptProposalsAction(reqAttributes));
-    window.addEventListener("resize", this.updateDimensions);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions);
   }
 
   notify = (message, isError) => {
@@ -73,10 +63,6 @@ class Proposals extends React.Component {
     } else {
       toast.success(message);
     }
-  }
-
-  updateDimensions() {
-    this.setState(state => ({ ...state, width: window.innerWidth }));
   }
 
   changePage(pageIndex) {

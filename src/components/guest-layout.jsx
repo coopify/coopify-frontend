@@ -9,7 +9,8 @@ export default function (props) {
   const { children } = props;
   return (
     <div>
-      <Header />
+      <Header/>
+      <div style={{ paddingBottom: '60px' }} />
       {children}
       <br />
       <Footer />

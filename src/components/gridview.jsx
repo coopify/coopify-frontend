@@ -96,7 +96,7 @@ class GridView extends React.Component {
                   key={element.id}
                   title={shouldRedirect ? (
                     <Link
-                      style={{ padding: '0' }}
+                      style={{ padding: '0', color: 'white' }}
                       to={getDetailRoute(element)}
                       className="navbar-item"
                     >

@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import { getUrlSocialAPICall } from '../api';
 import SingletonPusher from './singletonPusher';
+import ReactJoyride from 'react-joyride';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -108,8 +109,46 @@ class Signup extends React.Component {
     }
     const refCode = referalCode.length > 0 ? referalCode : null;
 
+    const steps = [
+      {
+        target: '.traditional-signup',
+        content: 'This is the traditional sign up...',
+      },
+      {
+        target: '.social-login',
+        content: 'Here you can sign up with social networks...',
+      },
+      {
+        target: '.btn-link-1-facebook',
+        content: 'You can use your Facebook account...',
+      },
+      {
+        target: '.btn-link-1-google-plus',
+        content: 'Or you can use your Google account.',
+      },
+    ]
+
     return (
       <GuestLayout>
+      <ReactJoyride
+          continuous
+          steps={steps}
+          run={true}
+          showSkipButton
+          styles={{
+            options: {
+              arrowColor: '#fff',
+              backgroundColor: '#fff',
+              beaconSize: 36,
+              overlayColor: 'rgba(0, 0, 0, 0.5)',
+              primaryColor: '#499be7',
+              spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+              textColor: '#333',
+              width: undefined,
+              zIndex: 100,
+            }
+          }}
+        />
 
         <LoadingScreen
           loading={loading}
@@ -124,7 +163,7 @@ class Signup extends React.Component {
               <div className="box">
 
                 <h1 className="title">Sign Up</h1>
-                <form onSubmit={e => this.handleSubmit(e)}>
+                <form onSubmit={e => this.handleSubmit(e)} className="traditional-signup">
 
 
                   <div className="field">
@@ -208,8 +247,8 @@ class Signup extends React.Component {
                   </div>
 
                   <div className="field is-grouped">
-                    <div className="control">
-                      <button type="submit" className="button is-link">Sign Up</button>
+                    <div className="control" style={{width: "100%"}}>
+                      <button type="submit" style={{width: "100%"}} className="button is-link">Sign Up</button>
                     </div>
                   </div>
                 </form>

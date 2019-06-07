@@ -35,7 +35,6 @@ Column.propTypes = {
 };
 
 export default () => (
-  <Protected>
     <GuestLayout>
       {/* <Row style={{height: "40"}}>
         <Col sm={3}><div>Intercambio de Servicios</div></Col>
@@ -46,6 +45,4 @@ export default () => (
       <Offers isHome />
 
     </GuestLayout>
-  </Protected>
-
 );

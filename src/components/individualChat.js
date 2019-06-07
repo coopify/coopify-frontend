@@ -47,7 +47,7 @@ import {
   attemptSendMessage, attemptGetUserChat, attemptGetUsersOffers, attemptMakeProposal, attemptGetConversationProposals,
 } from '../actions/user';
 import GuestLayout from './guest-layout';
-
+import ReactJoyride from 'react-joyride';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -409,6 +409,17 @@ COOPI
         const steps = this.getSteps();
         const proposalMade = proposal && proposal.id;
 
+        const stepsTutorial = [
+          {
+            target: '.negotiationChat',
+            content: 'Start writing here to negotiate!',
+          },
+          {
+            target: '.makeProposal',
+            content: 'Type here to make a proposal to the other person...',
+          },
+        ]
+
         return (
           <Protected>
             <GuestLayout>
@@ -420,6 +431,26 @@ COOPI
                 textColor="#BE1931"
                 text="Loading..."
               >
+
+              <ReactJoyride
+                continuous
+                steps={stepsTutorial}
+                run={true}
+                showSkipButton
+                styles={{
+                  options: {
+                    arrowColor: '#fff',
+                    backgroundColor: '#fff',
+                    beaconSize: 36,
+                    overlayColor: 'rgba(0, 0, 0, 0.5)',
+                    primaryColor: '#499be7',
+                    spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+                    textColor: '#333',
+                    width: undefined,
+                    zIndex: 100,
+                  }
+                }}
+                />
 
                 <div className="message-list" style={{ height: '300px', overflowY: 'auto', flexDirection: 'column-reverse' }}>
 
@@ -444,18 +475,22 @@ COOPI
 
                 {proposalMade
                   ? (
+                    <div className="seeProposal">
                     <Proposal
                       proposal={this.props.proposal}
                       buttonText="See proposal"
                       isInfo={false}
                     />
+                    </div>
                   )
                   : (
+                    <div className="makeProposal">
                     <CommonButton style={{ width: '100%' }} onClick={e => this.handleClickOpen(e)}>
 
               Make an offer
                       <i className="fa fa-handshake-o" aria-hidden="true" />
                     </CommonButton>
+                    </div>
                   ) }
 
                 <Dialog
@@ -522,7 +557,8 @@ COOPI
                   </DialogActions>
                 </Dialog>
 
-                <Input
+<div className="negotiationChat">
+                <Input      
                   placeholder="Type here..."
                   multiline={false}
                   onChange={e => this.onChangeChatInput(e)}
@@ -536,6 +572,7 @@ COOPI
                     />
 )}
                 />
+                </div>
 
               </LoadingScreen>
             </GuestLayout>

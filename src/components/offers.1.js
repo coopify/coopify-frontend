@@ -15,6 +15,10 @@ import Protected from './protected';
 import styles from '../css/profile.scss';
 import { resetError, attemptOffersAction } from '../actions/user';
 import GuestLayout from './guest-layout';
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
+import ReactJoyride from 'react-joyride';
 
 export default @connect(state => ({
   error: state.error,
@@ -188,37 +192,73 @@ Coopies x Final Product
       ),
     }];
 
+    const steps = [
+      {
+        target: '.coopifyOffers',
+        content: 'These are some of the services available in Coopify...',
+      },
+      {
+        target: '.createOfferButton',
+        content: 'You can publish your own by cicking here...',
+        placement: 'right',
+      },
+    ]
+
     return (
-      <LoadingScreen
-        loading={this.props.loading}
-        bgColor="rgba(255, 255, 255, .5)"
-        spinnerColor="#BE1931"
-        textColor="#BE1931"
-        text="Loading..."
+      <div
       >
+
+        <ReactJoyride
+          continuous
+          steps={steps}
+          run={true}
+          showSkipButton
+          styles={{
+            options: {
+              arrowColor: '#fff',
+              backgroundColor: '#fff',
+              beaconSize: 36,
+              overlayColor: 'rgba(0, 0, 0, 0.5)',
+              primaryColor: '#499be7',
+              spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+              textColor: '#333',
+              width: undefined,
+              zIndex: 100,
+            }
+          }}
+        />
 
         <div className={styles.container}>
           <form>
 
             <h1 style={{ textAlign: 'center' }}> Services </h1>
 
-            <ReactTable
-              defaultPageSize={this.state.limit}
-              data={data}
-              columns={columns}
-              TheadComponent={TheadComponent}
-              onPageChange={e => this.changePage(e)}
-              onPageSizeChange={e => this.changeSize(e)}
-              pages={this.state.limit != 0 ? Math.ceil(countOffers / this.state.limit) : countOffers}
-              noDataText="No offers for the selected filters"
-              manual
-              minRows={0}
-            />
+            <Tooltip title="Add" aria-label="Add">
+              <Link to="/offer/create">
+              <Fab color="secondary" className="createOfferButton" style={{position: "fixed", bottom: "30px", right: "60px", zIndex: "1"}}>
+                <AddIcon/>
+              </Fab>
+              </Link>
+            </Tooltip>
 
+            <div className="coopifyOffers">
+              <ReactTable
+                defaultPageSize={this.state.limit}
+                data={data}
+                columns={columns}
+                TheadComponent={TheadComponent}
+                onPageChange={e => this.changePage(e)}
+                onPageSizeChange={e => this.changeSize(e)}
+                pages={this.state.limit != 0 ? Math.ceil(countOffers / this.state.limit) : countOffers}
+                noDataText="No offers for the selected filters"
+                manual
+                minRows={0}
+              />
+          </div>
           </form>
           <ToastContainer autoClose={3000} />
         </div>
-      </LoadingScreen>
+      </div>
     );
   }
 }

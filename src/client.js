@@ -14,7 +14,9 @@ import 'font-awesome/css/font-awesome.min.css';
 import './resources/css/stepZilla.css';
 import 'rc-slider/assets/index.css';
 import 'react-chat-elements/dist/main.css';
-import './resources/css/style.css';
+import './resources/css/general-styles.css';
+import 'react-id-swiper/src/styles/css/swiper.css';
+import './resources/css/footer-with-button-logo.css';
 
 const appInitialState = {};
 

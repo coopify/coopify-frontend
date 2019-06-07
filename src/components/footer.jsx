@@ -1,32 +1,56 @@
 import React from 'react';
+import logo from '../assets/logo.png';
 
 export default () => (
-  <footer className="footer">
-    <div className="content has-text-centered">
-      {/* <p>
-        <strong>Demo for ReactPWA</strong>
-        {' '}
-        by
-        {' '}
-        <a href="https://www.atyantik.com">Atyantik Technologies</a>
-        . The source code is licensed
-        {' '}
-        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>
-        .
-        <br />
-        Visit the site&quot;s Github Repo
-        {' '}
-        <a href="https://github.com/Atyantik/react-pwa">https://github.com/Atyantik/react-pwa</a>
-        .
-      </p> */}
-      <p>
-        <strong>Coopify</strong>
-      </p>
-      {/* <div className="has-text-centered m-t-xl m-b-md">
-        <a href="https://opencollective.com/react-pwa/donate" target="_blank" rel="nofollow noopener noreferrer">
-          <img alt="open-collective" src="https://opencollective.com/react-pwa/contribute/button@2x.png?color=blue" width="300" />
-        </a>
-      </div> */}
-    </div>
-  </footer>
+  // <footer className="footer">
+  //   <div className="content has-text-centered">
+  //     <p>
+  //       <strong>Coopify</strong>
+  //     </p>
+  //   </div>
+  // </footer>
+  <footer id="myFooter">
+  <div class="container">
+      <div class="row">
+          <div class="col-sm-3">
+              <h2 class="logo"><a href="#"> <img src={logo}/> </a></h2>
+          </div>
+          <div class="col-sm-2">
+              <h5>Get started</h5>
+              <ul>
+                  <li><a href="#">Home</a></li>
+                  <li><a href="#">Sign up</a></li>
+                  <li><a href="#">Downloads</a></li>
+              </ul>
+          </div>
+          <div class="col-sm-2">
+              <h5>About us</h5>
+              <ul>
+                  <li><a href="#">Company Information</a></li>
+                  <li><a href="#">Contact us</a></li>
+                  <li><a href="#">Reviews</a></li>
+              </ul>
+          </div>
+          <div class="col-sm-2">
+              <h5>Support</h5>
+              <ul>
+                  <li><a href="#">FAQ</a></li>
+                  <li><a href="#">Help desk</a></li>
+                  <li><a href="#">Forums</a></li>
+              </ul>
+          </div>
+          <div class="col-sm-3">
+              <div class="social-networks">
+                  <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                  <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                  <a href="#" class="google"><i class="fa fa-instagram"></i></a>
+              </div>
+              <button type="button" class="btn btn-default">Contact us</button>
+          </div>
+      </div>
+  </div>
+  <div class="footer-copyright">
+      <p>© 2019 Coopify </p>
+  </div>
+</footer>
 );

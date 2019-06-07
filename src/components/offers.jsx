@@ -12,6 +12,11 @@ import Protected from './protected';
 import GridView from './gridview';
 import styles from '../css/profile.scss';
 import { resetError, attemptOffersAction } from '../actions/user';
+import AddIcon from '@material-ui/icons/Add';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
+import ReactJoyride from 'react-joyride';
+import { Link } from 'react-router-dom';
 
 export default @connect(state => ({
   error: state.error,
@@ -104,6 +109,18 @@ class Offers extends React.Component {
   render() {
     const { offers, loading } = this.props;
     const defaultImage = 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
+    
+    const steps = [
+      {
+        target: '.coopifyOffers',
+        content: 'These are some of the services available in Coopify...',
+      },
+      {
+        target: '.createOfferButton',
+        content: 'You can publish your own by cicking here...',
+        placement: 'right',
+      },
+]
 
     return (
       <LoadingScreen
@@ -114,14 +131,42 @@ class Offers extends React.Component {
         text="Loading..."
       >
 
+      <ReactJoyride
+          continuous
+          steps={steps}
+          run={true}
+          showSkipButton
+          styles={{
+            options: {
+              arrowColor: '#fff',
+              backgroundColor: '#fff',
+              beaconSize: 36,
+              overlayColor: 'rgba(0, 0, 0, 0.5)',
+              primaryColor: '#499be7',
+              spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+              textColor: '#333',
+              width: undefined,
+              zIndex: 100,
+            }
+          }}
+      />
+
         <div className={styles.container}>
           <form>
 
             <h2 style={{ textAlign: 'center' }}> Services </h2>
 
+            <Tooltip title="Add" aria-label="Add">
+              <Link to="/offer/create">
+              <Fab color="secondary" className="createOfferButton" style={{position: "fixed", bottom: "30px", right: "60px", zIndex: "1"}}>
+                <AddIcon/>
+              </Fab>
+              </Link>
+            </Tooltip>
+
             <div style={{
               display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
-            }}
+            }} className="coopifyOffers"
             >
               <GridView
                 elements={offers}

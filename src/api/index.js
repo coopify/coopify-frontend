@@ -562,3 +562,22 @@ export function sendRewardApiCall(payload) {
         errorMessage: e.response.data.message,
       }));
 }
+
+export function getReviewsAPICall(payload) {
+  const { userToken, offerId } = payload;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
+
+  // return axios.get(
+  //   `${global.API_URL}/api/offers/${offerId}/reviews`,
+  // )
+  //   .then(response => ({
+  //     status: response.status,
+  //     reviews: response.data,
+  //   })).catch(e => ({
+  //     status: e.response.status,
+  //     reviews: {},
+  //   }));
+
+  return { status: 200, reviews: [{ reviewId: 1, name: 'Pedro', review: 'Excelent service' }, { reviewId: 1, name: 'Marcos', review: 'Is very dificult' }, { reviewId: 1, name: 'Marcelo', review: 'What?' }] };
+}

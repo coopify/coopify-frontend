@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import * as reactBootstrap from 'react-bootstrap';
 import {
-  Button, Row, Col,
+  Button, Row, Col, Card,
 } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/style.css';
@@ -203,37 +203,40 @@ class GeneralQuestions extends React.Component {
           <div className="container">
             <div className="row justify-content-md-center">
               <Row>
-                <Col sm="8">
+                <Col sm="10">
                   <TextField
-                    id="outlined-multiline-flexible"
-                    fullWidth
+                    id="outlined-full-width"
+                    style={{ margin: 8 }}
                     placeholder="Write your question"
+                    helperText="Formulate general questions"
+                    fullWidth
                     multiline
-                    rowsMax="4"
-                    value={question}
-                    onChange={e => this.handleQuestionChange(e)}
-                    // className={classes.textField}
                     margin="normal"
-                    helperText="Any user registered or unable to formulate general questions"
                     variant="outlined"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                   />
                 </Col>
-                <Col sm="4">
+                <Col sm="2">
                   <Button
+                    style={{ margin: 8 }}
                     onClick={e => this.handleSendQuestion(e)}
-                    style={{ marginTop: '12%' }}
+                    // style={{ marginTop: '12%' }}
                   >
-                    { 'Send question' }
+                    { 'Send' }
                   </Button>
                 </Col>
               </Row>
             </div>
           </div>
-          <div>
-            <h4 style={{ textAlign: 'center' }}>
-              { 'Questions and answers for this service' }
-              {' '}
-            </h4>
+          <div className="card">
+            <div className="card-header">
+              <h4 style={{ textAlign: 'center', margin: 12 }}>
+                { 'Questions and answers for this service:' }
+                {' '}
+              </h4>
+            </div>
 
             <ReactTable
               defaultPageSize={limit}

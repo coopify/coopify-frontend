@@ -30,6 +30,7 @@ import {
   getGoalsUserAsync,
   syncFacebookAsync,
   sendRewardAsync,
+  getReviewsAsync,
 } from './user';
 
 export default function* rootSaga() {
@@ -65,6 +66,7 @@ export default function* rootSaga() {
       takeEvery('GET_GOALSUSER_ATTEMPT', getGoalsUserAsync),
       takeEvery('SYNC_FB_ATTEMPT', syncFacebookAsync),
       takeEvery('SEND_REWARD', sendRewardAsync),
+      takeEvery('GET_REVIEWS_ATTEMPT', getReviewsAsync),
     ],
   );
 }

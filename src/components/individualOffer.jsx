@@ -14,6 +14,7 @@ import LoadingScreen from 'react-loading-screen';
 import Divider from '@material-ui/core/Divider';
 import { FacebookShareButton, FacebookIcon } from 'react-share';
 import MetaTags from 'react-meta-tags';
+import StarRatingComponent from 'react-star-rating-component';
 import { getUrlConversation, getShareCount } from '../api';
 import { GeneralQuestions } from './generalQuestions';
 import { Protected } from './protected';
@@ -211,14 +212,30 @@ class IndividualOffer extends React.Component {
                       <FacebookIcon size={32}> Share with Facebook </FacebookIcon>
                     </FacebookShareButton>
 
-                    <Button onClick={e => this.handleContactClick(e)} style={{ display: displayOwnerOnly, backgroundColor: 'transparent', color: 'black' }}>
-                      Contact
+                    <Button onClick={e => this.handleContactClick(e)} style={{ display: displayOwnerOnly }}>
+                      {'Negotiate with: '}
                       {offer.by}
                       {' '}
                       <i className="fa fa-comment" />
                     </Button>
 
                     <p>{offer.description}</p>
+
+                    <div className="col-sm-4">
+                      {/* <p>Rating: {offer.stars}</p> */}
+                      <h4>
+                        {'Rating: '}
+                        {4}
+                      </h4>
+                      <StarRatingComponent
+                        name="RatingService"
+                        editing={false}
+                        renderStarIcon={() => <span>&#9733;</span>}
+                        starCount={5}
+                        // value={offer.stars} Ver como va a venir (stars, rating?...)
+                        value={4}
+                      />
+                    </div>
 
                   </Row>
                   <Divider />
@@ -250,7 +267,7 @@ class IndividualOffer extends React.Component {
                           <span>
                             {offer.hourPrice}
                             {' '}
-                            Coopies x hour
+                            { 'Coopies x hour' }
                           </span>
                         </div>
                       ) : ''}
@@ -259,7 +276,7 @@ class IndividualOffer extends React.Component {
                           <span>
                             {offer.sessionPrice}
                             {' '}
-                            Coopies x session
+                            { 'Coopies x session' }
                           </span>
                         </div>
                       ) : ''}
@@ -268,7 +285,7 @@ class IndividualOffer extends React.Component {
                           <span>
                             {offer.finalProductPrice}
                             {' '}
-                            Coopies x final product
+                            { 'Coopies x final product' }
                           </span>
                         </div>
                       ) : ''}
@@ -276,32 +293,58 @@ class IndividualOffer extends React.Component {
 
                   </Row>
                   <Divider />
-                  <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
-                    <TextField
-                      label="Start Date"
-                      type="date"
-                      disabled
-                      defaultValue={moment(offer.startDate).format('YYYY-MM-DD')}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
+                    <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
+                      <TextField
+                        label="Start Date"
+                        type="date"
+                        disabled
+                        defaultValue={moment(offer.startDate).format('YYYY-MM-DD')}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
 
-                    <TextField
-                      label="Finish Date"
-                      type="date"
-                      disabled
-                      defaultValue={moment(offer.endDate).format('YYYY-MM-DD')}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-
-                  </Row>
+                      <TextField
+                        label="Finish Date"
+                        type="date"
+                        disabled
+                        defaultValue={moment(offer.endDate).format('YYYY-MM-DD')}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                    </Row>
+                  <Divider />
                 </Col>
               </Row>
 
-              <GeneralQuestions offerId={offer.id} />
+              <Row>
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="8">
+                  <GeneralQuestions offerId={offer.id} />
+                </Col>
+                <Col sm="2">
+                  {' '}
+                </Col>
+              </Row>
+
+              <div className="container">
+                <div className="row justify-content-md-center">
+                  <Row>
+                    <Col sm="12" style={{ textAlign: 'center' }}>
+                      <Button onClick={e => this.handleContactClick(e)} style={{ display: displayOwnerOnly }}>
+                        {'Negotiate with: '}
+                        {offer.by}
+                        {' '}
+                        <i className="fa fa-comment" />
+                      </Button>
+                    </Col>
+                  </Row>
+                </div>
+              </div>
+
             </div>
 
           </LoadingScreen>

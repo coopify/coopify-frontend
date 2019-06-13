@@ -169,6 +169,8 @@ class IndividualOffer extends React.Component {
     const marginBetween = '5%';
     const shareUrl = `${global.URL}/offers/${offer.id}?referalCode=${loggedUser.referalCode}`;
     const showBtnShareFB = 'inline-block';
+    // Harcodeo unas reviews para ver como quedan, luego hay que hacer la llamada a la API
+    const reviews = [{ reviewId: 1, name: 'Pedro', review: 'Excelent service' }, { reviewId: 1, name: 'Marcos', review: 'Is very dificult' }];
 
     return (
       <Protected>
@@ -267,7 +269,7 @@ class IndividualOffer extends React.Component {
                           <span>
                             {offer.hourPrice}
                             {' '}
-                            { 'Coopies x hour' }
+                            {'Coopies x hour'}
                           </span>
                         </div>
                       ) : ''}
@@ -276,7 +278,7 @@ class IndividualOffer extends React.Component {
                           <span>
                             {offer.sessionPrice}
                             {' '}
-                            { 'Coopies x session' }
+                            {'Coopies x session'}
                           </span>
                         </div>
                       ) : ''}
@@ -285,7 +287,7 @@ class IndividualOffer extends React.Component {
                           <span>
                             {offer.finalProductPrice}
                             {' '}
-                            { 'Coopies x final product' }
+                            {'Coopies x final product'}
                           </span>
                         </div>
                       ) : ''}
@@ -293,27 +295,27 @@ class IndividualOffer extends React.Component {
 
                   </Row>
                   <Divider />
-                    <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
-                      <TextField
-                        label="Start Date"
-                        type="date"
-                        disabled
-                        defaultValue={moment(offer.startDate).format('YYYY-MM-DD')}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                      />
+                  <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
+                    <TextField
+                      label="Start Date"
+                      type="date"
+                      disabled
+                      defaultValue={moment(offer.startDate).format('YYYY-MM-DD')}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
 
-                      <TextField
-                        label="Finish Date"
-                        type="date"
-                        disabled
-                        defaultValue={moment(offer.endDate).format('YYYY-MM-DD')}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                      />
-                    </Row>
+                    <TextField
+                      label="Finish Date"
+                      type="date"
+                      disabled
+                      defaultValue={moment(offer.endDate).format('YYYY-MM-DD')}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </Row>
                   <Divider />
                 </Col>
               </Row>
@@ -329,6 +331,26 @@ class IndividualOffer extends React.Component {
                   {' '}
                 </Col>
               </Row>
+              <Divider />
+
+              <div>
+                <ul>
+                  <h4>Reviews: </h4>
+                  {reviews.map(item => (
+                    <li>
+                      <TextField
+                        label={item.name}
+                        value={item.review}
+                        disabled
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <Divider />
 
               <div className="container">
                 <div className="row justify-content-md-center">
@@ -344,7 +366,6 @@ class IndividualOffer extends React.Component {
                   </Row>
                 </div>
               </div>
-
             </div>
 
           </LoadingScreen>

@@ -231,7 +231,7 @@ class GeneralQuestions extends React.Component {
           </div>
           <div>
             <h4 style={{ textAlign: 'center' }}>
-              { 'Review the questions and answers of the service.' }
+              { 'Questions and answers for this service' }
               {' '}
             </h4>
 

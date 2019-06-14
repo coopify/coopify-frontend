@@ -225,12 +225,11 @@ class IndividualOffer extends React.Component {
                       <Col sm="4">
                         <div className="card text-center">
                           <div className="container-fluid">
-                            {/* <p>Rating: {offer.stars}</p> */}
                             <p className="card-text">
                               {'Rating: '}
+                              {/* {offer.rating} */}
                               {4}
                             </p>
-
                             <StarRatingComponent
                               name="RatingService"
                               editing={false}
@@ -344,7 +343,7 @@ class IndividualOffer extends React.Component {
                           <Col>
                             <li>
                               <TextField
-                                label={item.name}
+                                label={`${item.name}  ${item.date}`}
                                 value={item.review}
                                 disabled
                                 multiline

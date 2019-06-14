@@ -579,5 +579,5 @@ export function getReviewsAPICall(payload) {
   //     reviews: {},
   //   }));
 
-  return { status: 200, reviews: [{ reviewId: 1, name: 'Pedro', review: 'Excelent service' }, { reviewId: 1, name: 'Marcos', review: 'Is very dificult' }, { reviewId: 1, name: 'Marcelo', review: 'What?' }] };
+  return { status: 200, reviews: [{ name: 'Pedro', review: 'Excelent service', date: '10/06/2019' }, { name: 'Marcos', review: 'Is very dificult', date: '05/03/2019' }, { name: 'Marcelo', review: 'What?', date: '07/05/2019' }] };
 }

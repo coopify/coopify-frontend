@@ -333,26 +333,33 @@ class IndividualOffer extends React.Component {
                   {' '}
                 </Col>
                 <Col sm="8">
-                  <div className="card text-center">
+                  <div className="card text-right">
                     <ul>
                       <div className="card-header">
                         <h4>Reviews: </h4>
                       </div>
                       {reviews.map(item => (
-                        <div className="card text-center">
+                        <div>
                           <Col>
-                            <li>
-                              <TextField
-                                label={`${item.name}  ${item.date}`}
-                                value={item.review}
-                                disabled
-                                multiline
-                                fullWidth
-                                InputLabelProps={{
-                                  shrink: true,
-                                }}
-                              />
-                            </li>
+                            {item.name}
+                            {' '}
+                            {item.date}
+                            <StarRatingComponent
+                              name="RatingReview"
+                              editing={false}
+                              renderStarIcon={() => <span>&#9733;</span>}
+                              starCount={5}
+                              value={item.ratingReview}
+                            />
+                            <TextField
+                              value={item.review}
+                              disabled
+                              multiline
+                              fullWidth
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                            />
                           </Col>
                         </div>
                       ))}

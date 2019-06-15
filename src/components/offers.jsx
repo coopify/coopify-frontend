@@ -116,7 +116,7 @@ class Offers extends React.Component {
         content: 'You can publish your own by cicking here...',
         placement: 'right',
       },
-]
+    ]
 
     return (
       <LoadingScreen
@@ -147,7 +147,7 @@ class Offers extends React.Component {
           }}
         />
 
-        <div className={styles.container}>
+        <div className={styles.container} styles={{ backgroundColor: '#fafafa' }}>
           <form style={{ width: '80%', display: 'inline-block' }}>
 
             <h2 style={{ textAlign: 'center' }}> Services </h2>
@@ -168,7 +168,7 @@ class Offers extends React.Component {
 
             <div
               style={{
-                display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
+                display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: '#fafafa',
               }}
               className="coopifyOffers"
             >

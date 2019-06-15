@@ -19,7 +19,6 @@ class GridView extends React.Component {
   static propTypes = {
     elements: PropTypes.arrayOf(PropTypes.object),
     width: PropTypes.number,
-    colectionName: PropTypes.string,
     getImageFromElement: PropTypes.func,
     getAlternativeTextForImageFromElement: PropTypes.func,
     getTitleFromElement: PropTypes.func,
@@ -33,7 +32,6 @@ class GridView extends React.Component {
   static defaultProps = {
     elements: [],
     width: 0,
-    colectionName: '',
     getImageFromElement: () => { },
     getAlternativeTextForImageFromElement: () => { },
     getTitleFromElement: () => { },
@@ -73,20 +71,15 @@ class GridView extends React.Component {
     const { width } = this.state;
     // TODO Revisar los 600
     const colSize = width < 600 ? Math.min(elements.length, 2) : Math.min(elements.length, 3);
+    const cellsize = width < 600 ? '180' : '300';
     return (
-      <div className={styles.container}>
-
-        {
-          <h2 style={{ textAlign: 'center' }}>
-            {colectionName}
-          </h2>}
-
+      <div className={styles.container} style={{ backgroundColor: '#fafafa' }}>
+        {}
         <div style={{
-          display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
+          display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden',
         }}
         >
-          <GridList cellHeight={180} cols={colSize} style={{ height: '80%', width: '100%' }}>
-
+          <GridList cellHeight={cellsize} cols={colSize} style={{ height: '80%', width: '100%' }}>
             {elements.map(element => (
               <GridListTile style={{ padding: '2%' }} key={element.id}>
                 <div className="imageoverlayfade">

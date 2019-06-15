@@ -18,6 +18,7 @@ import './resources/css/general-styles.css';
 import 'react-id-swiper/src/styles/css/swiper.css';
 import './resources/css/footer-with-button-logo.css';
 import './resources/css/image-overlay-fade.css';
+import './resources/css/components-styles.css';
 
 const appInitialState = {};
 

@@ -82,6 +82,9 @@ import {
   SYNC_FB_FAILURE,
   SEND_REWARD,
   SEND_REF_CODE,
+  GET_REVIEWS_ATTEMPT,
+  GET_REVIEWS_SUCCESS,
+  GET_REVIEWS_FAILURE,
 
 } from './userReducer';
 // import { serviceReducers, initialServiceState } from './serviceReducer';
@@ -179,6 +182,9 @@ const Actions = {
   SYNC_FB_FAILURE,
   SEND_REWARD,
   SEND_REF_CODE,
+  GET_REVIEWS_ATTEMPT,
+  GET_REVIEWS_SUCCESS,
+  GET_REVIEWS_FAILURE,
 };
 
 export {
@@ -268,4 +274,7 @@ export {
   SYNC_FB_FAILURE,
   SEND_REWARD,
   SEND_REF_CODE,
+  GET_REVIEWS_ATTEMPT,
+  GET_REVIEWS_SUCCESS,
+  GET_REVIEWS_FAILURE,
 };

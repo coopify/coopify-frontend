@@ -180,3 +180,8 @@ export const saveRefCode = payload => ({
   type: Actions.SEND_REF_CODE,
   payload,
 });
+
+export const attemptGetReviews = payload => ({
+  type: Actions.GET_REVIEWS_ATTEMPT,
+  payload,
+});

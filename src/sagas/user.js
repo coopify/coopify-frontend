@@ -45,6 +45,8 @@ import {
   GET_GOALSUSER_FAILURE,
   SYNC_FB_SUCCESS,
   SYNC_FB_FAILURE,
+  GET_REVIEWS_SUCCESS,
+  GET_REVIEWS_FAILURE,
 } from '../reducers';
 
 import {
@@ -77,6 +79,7 @@ import {
   getGoalsUserAPICall,
   syncFBApiCall,
   sendRewardApiCall,
+  getReviewsAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -333,4 +336,13 @@ export function* syncFacebookAsync(payload) {
 
 export function* sendRewardAsync(payload) {
   yield sendRewardApiCall(payload.payload);
+}
+
+export function* getReviewsAsync(payload) {
+  const result = yield getReviewsAPICall(payload.payload);
+  if (result.status === 200) {
+    yield put({ type: GET_REVIEWS_SUCCESS, reviews: result.reviews });
+  } else {
+    yield put({ type: GET_REVIEWS_FAILURE, errorMessage: result.errorMessage });
+  }
 }

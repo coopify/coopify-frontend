@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import * as reactBootstrap from 'react-bootstrap';
+// import * as reactBootstrap from 'react-bootstrap';
+import {
+  Button, Row, Col, Card,
+} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/style.css';
 import '../css/form-elements.css';
@@ -169,7 +172,7 @@ class GeneralQuestions extends React.Component {
             <br />
 
             <Input type="text" style={{ display: 'none' }} name="conversation" value={props.original.id} />
-            <reactBootstrap.Button
+            <Button
               onClick={e => this.handleReplyClick(e)}
               style={{
                 backgroundColor: 'transparent', color: 'black', borderColor: 'transparent', float: 'right', display: displayReplyButton,
@@ -177,7 +180,7 @@ class GeneralQuestions extends React.Component {
             >
               { 'Reply' }
               <i className="fa fa-reply" />
-            </reactBootstrap.Button>
+            </Button>
             <br />
             <i className="fa fa-comments" />
             <TextField
@@ -197,24 +200,43 @@ class GeneralQuestions extends React.Component {
     return (
       <div className={styles.container}>
         <form>
-          <div>
-            <TextField
-              fullWidth
-              multiline
-              type="text"
-              placeholder="write your question"
-              onChange={e => this.handleQuestionChange(e)}
-              value={question}
-            />
-            <reactBootstrap.Button
-              onClick={e => this.handleSendQuestion(e)}
-              style={{ marginTop: '2%' }}
-            >
-              { 'Send question' }
-            </reactBootstrap.Button>
+          <div className="container">
+            <div className="row justify-content-md-center">
+              <Row>
+                <Col sm="10">
+                  <TextField
+                    id="outlined-full-width"
+                    style={{ margin: 8 }}
+                    placeholder="Write your question"
+                    helperText="Formulate general questions"
+                    fullWidth
+                    multiline
+                    margin="normal"
+                    variant="outlined"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </Col>
+                <Col sm="2">
+                  <Button
+                    style={{ margin: 8 }}
+                    onClick={e => this.handleSendQuestion(e)}
+                    // style={{ marginTop: '12%' }}
+                  >
+                    { 'Send' }
+                  </Button>
+                </Col>
+              </Row>
+            </div>
           </div>
-          <div>
-            <h4 style={{ textAlign: 'center' }}> Questions </h4>
+          <div className="card">
+            <div className="card-header">
+              <h4 style={{ textAlign: 'center', margin: 12 }}>
+                { 'Questions and answers for this service:' }
+                {' '}
+              </h4>
+            </div>
 
             <ReactTable
               defaultPageSize={limit}
@@ -222,10 +244,12 @@ class GeneralQuestions extends React.Component {
               columns={columns}
               TheadComponent={TheadComponent}
               pages={limit !== 0 ? Math.ceil(countQuestions / limit) : countQuestions}
-              noDataText="No questions"
+              noDataText="There are no questions for this service. "
               onPageChange={e => this.changePage(e)}
               onPageSizeChange={e => this.changeSize(e)}
               manual
+              minRows={0}
+              showPagination={false}
             />
           </div>
         </form>

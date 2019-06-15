@@ -14,11 +14,12 @@ import LoadingScreen from 'react-loading-screen';
 import Divider from '@material-ui/core/Divider';
 import { FacebookShareButton, FacebookIcon } from 'react-share';
 import MetaTags from 'react-meta-tags';
+import StarRatingComponent from 'react-star-rating-component';
 import { getUrlConversation, getShareCount } from '../api';
 import { GeneralQuestions } from './generalQuestions';
 import { Protected } from './protected';
 import {
-  resetError, attemptShowOffer, attemptSendReward, saveRefCode,
+  resetError, attemptShowOffer, attemptSendReward, saveRefCode, attemptGetReviews,
 } from '../actions/user';
 import GuestLayout from './guest-layout';
 
@@ -27,6 +28,7 @@ export default @connect(state => ({
   error: state.error,
   loading: state.loading,
   offer: state.offer,
+  reviews: state.reviews,
 }))
 
 class IndividualOffer extends React.Component {
@@ -36,6 +38,7 @@ class IndividualOffer extends React.Component {
     loading: PropTypes.bool,
     error: PropTypes.string,
     offer: PropTypes.objectOf(PropTypes.object),
+    reviews: PropTypes.arrayOf(PropTypes.object),
   };
 
   static defaultProps = {
@@ -45,6 +48,7 @@ class IndividualOffer extends React.Component {
     loading: false,
     error: '',
     offer: {},
+    reviews: [],
   };
 
   constructor(props) {
@@ -54,6 +58,7 @@ class IndividualOffer extends React.Component {
       loading: false,
       error: '',
       offer: {},
+      reviews: [],
       shareCount: 0,
     };
     this.setShareCount = this.setShareCount.bind(this);
@@ -71,6 +76,7 @@ class IndividualOffer extends React.Component {
     };
 
     dispatch(attemptShowOffer(payload));
+    dispatch(attemptGetReviews(payload));
   }
 
   async setShareCount() {
@@ -161,7 +167,7 @@ class IndividualOffer extends React.Component {
 
   render() {
     const {
-      loggedUser, offer, loading,
+      loggedUser, offer, loading, reviews,
     } = this.props;
     const pictureUrl = offer && offer.images && offer.images.length > 0 ? offer.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
     const displayOwnerOnly = loggedUser.id === offer.userId ? 'none' : 'block';
@@ -192,7 +198,7 @@ class IndividualOffer extends React.Component {
 
               <Row>
                 <Col sm="4">
-                  <img name="picture" alt={offer.title} src={pictureUrl} style={{ position: 'relative', top: '50%', transform: 'translateY(-50%)' }} />
+                  <img name="picture" alt={offer.title} src={pictureUrl} width="400" style={{ position: 'relative', top: '5%', transform: 'translateY(-5%)' }} />
                 </Col>
 
                 <Col sm="8" style={{ textAlign: 'center' }}>
@@ -211,14 +217,34 @@ class IndividualOffer extends React.Component {
                       <FacebookIcon size={32}> Share with Facebook </FacebookIcon>
                     </FacebookShareButton>
 
-                    <Button onClick={e => this.handleContactClick(e)} style={{ display: displayOwnerOnly, backgroundColor: 'transparent', color: 'black' }}>
-                      Contact
-                      {offer.by}
-                      {' '}
-                      <i className="fa fa-comment" />
-                    </Button>
-
                     <p>{offer.description}</p>
+                    <Row>
+                      <Col sm="4">
+                        {}
+                      </Col>
+                      <Col sm="4">
+                        <div className="card text-center">
+                          <div className="container-fluid">
+                            <p className="card-text">
+                              {'Rating: '}
+                              {/* {offer.rating} */}
+                              {4}
+                            </p>
+                            <StarRatingComponent
+                              name="RatingService"
+                              editing={false}
+                              renderStarIcon={() => <span>&#9733;</span>}
+                              starCount={5}
+                              // value={offer.rating} Ver como va a venir (stars, rating?...)
+                              value={4}
+                            />
+                          </div>
+                        </div>
+                      </Col>
+                      <Col sm="4">
+                        {}
+                      </Col>
+                    </Row>
 
                   </Row>
                   <Divider />
@@ -250,7 +276,7 @@ class IndividualOffer extends React.Component {
                           <span>
                             {offer.hourPrice}
                             {' '}
-                            Coopies x hour
+                            {'Coopies x hour'}
                           </span>
                         </div>
                       ) : ''}
@@ -259,7 +285,7 @@ class IndividualOffer extends React.Component {
                           <span>
                             {offer.sessionPrice}
                             {' '}
-                            Coopies x session
+                            {'Coopies x session'}
                           </span>
                         </div>
                       ) : ''}
@@ -268,7 +294,7 @@ class IndividualOffer extends React.Component {
                           <span>
                             {offer.finalProductPrice}
                             {' '}
-                            Coopies x final product
+                            {'Coopies x final product'}
                           </span>
                         </div>
                       ) : ''}
@@ -296,12 +322,90 @@ class IndividualOffer extends React.Component {
                         shrink: true,
                       }}
                     />
-
                   </Row>
                 </Col>
               </Row>
 
-              <GeneralQuestions offerId={offer.id} />
+              <Divider />
+
+              <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="8">
+                  <div className="card text-right">
+                    <ul>
+                      <div className="card-header">
+                        <h4>Reviews: </h4>
+                      </div>
+                      {reviews.map(item => (
+                        <div>
+                          <Col>
+                            {item.name}
+                            {' '}
+                            {item.date}
+                            <StarRatingComponent
+                              name="RatingReview"
+                              editing={false}
+                              renderStarIcon={() => <span>&#9733;</span>}
+                              starCount={5}
+                              value={item.ratingReview}
+                            />
+                            <TextField
+                              value={item.review}
+                              disabled
+                              multiline
+                              fullWidth
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                            />
+                          </Col>
+                        </div>
+                      ))}
+                    </ul>
+                  </div>
+                </Col>
+                <Col sm="2">
+                  {' '}
+                </Col>
+              </Row>
+
+              <Divider />
+
+              <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="8">
+                  <div>
+                    <GeneralQuestions offerId={offer.id} />
+                  </div>
+                </Col>
+                <Col sm="2">
+                  {' '}
+                </Col>
+              </Row>
+
+              <Divider />
+
+              <div className="container">
+                <div className="row justify-content-md-center">
+                  <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
+                    <Col sm="12" style={{ textAlign: 'center', margin: 8 }}>
+                      <Button
+                        onClick={e => this.handleContactClick(e)}
+                        style={{ display: displayOwnerOnly }}
+                      >
+                        {'Negotiate with: '}
+                        {offer.by}
+                        {' '}
+                        <i className="fa fa-comment" />
+                      </Button>
+                    </Col>
+                  </Row>
+                </div>
+              </div>
             </div>
 
           </LoadingScreen>

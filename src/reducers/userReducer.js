@@ -82,6 +82,9 @@ export const SYNC_FB_SUCCESS = 'SYNC_FB_SUCCESS';
 export const SYNC_FB_FAILURE = 'SYNC_FB_FAILURE';
 export const SEND_REWARD = 'SEND_REWARD';
 export const SEND_REF_CODE = 'SEND_REF_CODE';
+export const GET_REVIEWS_ATTEMPT = 'GET_REVIEWS_ATTEMPT';
+export const GET_REVIEWS_SUCCESS = 'GET_REVIEWS_SUCCESS';
+export const GET_REVIEWS_FAILURE = 'GET_REVIEWS_FAILURE';
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -557,6 +560,25 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         error: '',
         referalCode: action.payload.code,
+      });
+
+    case GET_REVIEWS_ATTEMPT:
+      return _.assignIn({}, state, {
+        error: '',
+        loading: true,
+      });
+
+    case GET_REVIEWS_FAILURE:
+      return _.assignIn({}, state, {
+        error: action.errorMessage,
+        loading: false,
+      });
+
+    case GET_REVIEWS_SUCCESS:
+      return _.assignIn({}, state, {
+        error: '',
+        reviews: action.reviews,
+        loading: false,
       });
 
     default:

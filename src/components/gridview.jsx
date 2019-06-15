@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import 'react-table/react-table.css';
 import { Link } from 'react-router-dom';
-
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -27,6 +26,7 @@ class GridView extends React.Component {
     getSubtitleFromElement: PropTypes.func,
     selectItem: PropTypes.func,
     getDetailRoute: PropTypes.func,
+    getOverlayFadeInfo: PropTypes.func,
     shouldRedirect: PropTypes.bool,
   };
 
@@ -40,6 +40,8 @@ class GridView extends React.Component {
     getSubtitleFromElement: () => {},
     selectItem: () => {},
     getDetailRoute: () => {},
+    getOverlayFadeInfo: () => {},
+    getVariableInfo: () => {},
     shouldRedirect: false,
   };
 
@@ -67,7 +69,7 @@ class GridView extends React.Component {
     const {
       elements, getImageFromElement, getAlternativeTextForImageFromElement,
       getTitleFromElement, getSubtitleFromElement, colectionName, selectItem,
-      getDetailRoute, shouldRedirect,
+      getDetailRoute, getOverlayFadeInfo, shouldRedirect,
     } = this.props;
     const { width } = this.state;
     // TODO Revisar los 600
@@ -88,10 +90,16 @@ class GridView extends React.Component {
 
             {elements.map(element => (
               <GridListTile key={element.id}>
-                <img
-                  src={getImageFromElement(element)}
-                  alt={getAlternativeTextForImageFromElement(element)}
-                />
+                <div className="imageoverlayfade">
+                  <img
+                    className="image"
+                    src={getImageFromElement(element)}
+                    alt={getAlternativeTextForImageFromElement(element)}
+                  />
+                  <div className="middle">
+                    {getOverlayFadeInfo(element)}
+                  </div>
+                </div>
                 <GridListTileBar
                   key={element.id}
                   title={shouldRedirect ? (
@@ -106,7 +114,6 @@ class GridView extends React.Component {
                   ) : selectItem(element)}
                   subtitle={getSubtitleFromElement(element)}
                 />
-
               </GridListTile>
             ))}
           </GridList>

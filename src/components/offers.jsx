@@ -17,6 +17,7 @@ import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import ReactJoyride from 'react-joyride';
 import { Link } from 'react-router-dom';
+import StarRatingComponent from 'react-star-rating-component';
 
 export default @connect(state => ({
   error: state.error,
@@ -131,7 +132,7 @@ class Offers extends React.Component {
         text="Loading..."
       >
 
-      <ReactJoyride
+        <ReactJoyride
           continuous
           steps={steps}
           run={true}
@@ -147,9 +148,9 @@ class Offers extends React.Component {
               textColor: '#333',
               width: undefined,
               zIndex: 100,
-            }
+            },
           }}
-      />
+        />
 
         <div className={styles.container}>
           <form>
@@ -158,15 +159,23 @@ class Offers extends React.Component {
 
             <Tooltip title="Add" aria-label="Add">
               <Link to="/offer/create">
-              <Fab color="secondary" className="createOfferButton" style={{position: "fixed", bottom: "30px", right: "60px", zIndex: "1"}}>
-                <AddIcon/>
-              </Fab>
+                <Fab
+                  color="secondary"
+                  className="createOfferButton"
+                  style={{
+                    position: 'fixed', bottom: '30px', right: '60px', zIndex: '1',
+                  }}
+                >
+                  <AddIcon />
+                </Fab>
               </Link>
             </Tooltip>
 
-            <div style={{
-              display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
-            }} className="coopifyOffers"
+            <div
+              style={{
+                display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
+              }}
+              className="coopifyOffers"
             >
               <GridView
                 elements={offers}
@@ -174,9 +183,31 @@ class Offers extends React.Component {
                   ? offer.images[0].url : defaultImage)}
                 getAlternativeTextForImageFromElement={offer => offer.title}
                 getTitleFromElement={offer => offer.title}
-                getSubtitleFromElement={offer => `by: ${offer.by}`}
+                getSubtitleFromElement={offer => (
+                  <div>
+                    {offer.ratingCount !== 0 ? (
+                      <div>
+                        {'Service Rating: '}
+                        {offer.ratingSum / offer.ratingCount}
+                        <StarRatingComponent
+                          name="RatingService"
+                          editing={false}
+                          renderStarIcon={() => <span>&#9733;</span>}
+                          starCount={5}
+                          value={offer.ratingSum / offer.ratingCount}
+                        />
+                      </div>) : ('')}
+                  </div>
+                )}
                 shouldRedirect
                 getDetailRoute={offer => `/offers/${offer.id}`}
+                getOverlayFadeInfo={offer => (
+                  <div>
+                    <h3>{`by: ${offer.by}`}</h3>
+                    {offer.description.length > 35 ? (<p>{`${offer.description.substring(0, 35)}...`}</p>) : (<p>{`${offer.description}`}</p>)}
+                  </div>
+                )
+                }
               />
             </div>
 

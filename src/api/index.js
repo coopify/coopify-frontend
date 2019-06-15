@@ -568,16 +568,16 @@ export function getReviewsAPICall(payload) {
 
   axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
 
-  // return axios.get(
-  //   `${global.API_URL}/api/offers/${offerId}/reviews`,
-  // )
-  //   .then(response => ({
-  //     status: response.status,
-  //     reviews: response.data,
-  //   })).catch(e => ({
-  //     status: e.response.status,
-  //     reviews: {},
-  //   }));
+  return axios.get(
+    `${global.API_URL}/api/rates/?offerId=${offerId}`,
+  )
+    .then(response => ({
+      status: response.status,
+      reviews: response.data.rates,
+    })).catch(e => ({
+      status: e.response.status,
+      reviews: {},
+    }));
 
-  return { status: 200, reviews: [{ name: 'Pedro', review: 'Excelent service', date: '10/06/2019', ratingReview: 5 }, { name: 'Marcos', review: 'Is very dificult', date: '05/03/2019', ratingReview: 2 }, { name: 'Marcelo', review: 'What?', date: '07/05/2019', ratingReview: 4 }] };
+  // return { status: 200, reviews: [{ name: 'Pedro', review: 'Excelent service', date: '10/06/2019', ratingReview: 5 }, { name: 'Marcos', review: 'Is very dificult', date: '05/03/2019', ratingReview: 2 }, { name: 'Marcelo', review: 'What?', date: '07/05/2019', ratingReview: 4 }] };
 }

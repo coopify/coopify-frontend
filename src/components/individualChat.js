@@ -474,26 +474,6 @@ class Chat extends React.Component {
 
               </div>
 
-              {proposalMade
-                ? (
-                  <div className="seeProposal">
-                    <Proposal
-                      proposal={this.props.proposal}
-                      buttonText="See proposal"
-                      isInfo={false}
-                    />
-                  </div>
-                )
-                : (
-                  <div className="makeProposal">
-                    <CommonButton style={{ width: '100%' }} onClick={e => this.handleClickOpen(e)}>
-
-                      Make an offer
-                      <i className="fa fa-handshake-o" aria-hidden="true" />
-                    </CommonButton>
-                  </div>
-                )}
-
               <Dialog
                 open={this.state.modalOpen}
                 onClose={this.handleClose}
@@ -574,6 +554,26 @@ class Chat extends React.Component {
                   )}
                 />
               </div>
+
+              {proposalMade
+                ? (
+                  <div className="seeProposal">
+                    <Proposal
+                      proposal={this.props.proposal}
+                      buttonText="See proposal"
+                      isInfo={false}
+                    />
+                  </div>
+                )
+                : (
+                  <div className="makeProposal">
+                    <CommonButton class="btn" style={{ marginTop: '3%' }} onClick={e => this.handleClickOpen(e)}>
+
+                      {'Make an offer '}
+                      <i className="fa fa-handshake-o" aria-hidden="true" />
+                    </CommonButton>
+                  </div>
+                )}
             </div>
           </LoadingScreen>
         </GuestLayout>

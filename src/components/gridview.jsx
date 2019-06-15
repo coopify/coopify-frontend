@@ -88,7 +88,7 @@ class GridView extends React.Component {
           <GridList cellHeight={180} cols={colSize} style={{ height: '80%', width: '100%' }}>
 
             {elements.map(element => (
-              <GridListTile key={element.id}>
+              <GridListTile style={{ padding: '2%' }} key={element.id}>
                 <div className="imageoverlayfade">
                   <img
                     className="image"

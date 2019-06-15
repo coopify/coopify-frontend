@@ -2,25 +2,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import 'react-table/react-table.css';
 import LoadingScreen from 'react-loading-screen';
-import Protected from './protected';
-import GridView from './gridview';
-import styles from '../css/profile.scss';
-import { resetError, attemptOffersAction } from '../actions/user';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import ReactJoyride from 'react-joyride';
 import { Link } from 'react-router-dom';
 import StarRatingComponent from 'react-star-rating-component';
+import { resetError, attemptOffersAction } from '../actions/user';
+import styles from '../css/profile.scss';
+import { GridView } from './gridview';
 
 export default @connect(state => ({
-  error: state.error,
   loading: state.loading,
   offers: state.offers,
   countOffers: state.countOffers,
@@ -30,10 +27,9 @@ export default @connect(state => ({
 class Offers extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    error: PropTypes.string,
     offers: PropTypes.arrayOf(PropTypes.object),
     countOffers: PropTypes.number,
-    filters: PropTypes.object,
+    filters: PropTypes.objectOf(PropTypes.object),
     loading: PropTypes.bool,
   };
 
@@ -41,7 +37,6 @@ class Offers extends React.Component {
     dispatch: () => {
     },
     offers: [],
-    error: '',
     loading: false,
     countOffers: 0,
     filters: {},
@@ -51,7 +46,6 @@ class Offers extends React.Component {
     super(props);
     this.state = {
       offers: [],
-      error: '',
       limit: 10,
     };
   }
@@ -203,7 +197,7 @@ class Offers extends React.Component {
                 getDetailRoute={offer => `/offers/${offer.id}`}
                 getOverlayFadeInfo={offer => (
                   <div>
-                    <h3>{`by: ${offer.by}`}</h3>
+                    <p>{`by: ${offer.by}`}</p>
                     {offer.description.length > 35 ? (<p>{`${offer.description.substring(0, 35)}...`}</p>) : (<p>{`${offer.description}`}</p>)}
                   </div>
                 )

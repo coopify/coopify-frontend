@@ -41,7 +41,6 @@ class GridView extends React.Component {
     selectItem: () => {},
     getDetailRoute: () => {},
     getOverlayFadeInfo: () => {},
-    getVariableInfo: () => {},
     shouldRedirect: false,
   };
 

@@ -19,9 +19,16 @@ import { getUrlConversation, getShareCount } from '../api';
 import { GeneralQuestions } from './generalQuestions';
 import { Protected } from './protected';
 import {
-  resetError, attemptShowOffer, attemptSendReward, saveRefCode, attemptGetReviews,
+  resetError, attemptShowOffer, attemptSendReward, saveRefCode, attemptGetReviews, attemptSendReview, attemptCanReview
 } from '../actions/user';
 import GuestLayout from './guest-layout';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -29,6 +36,7 @@ export default @connect(state => ({
   loading: state.loading,
   offer: state.offer,
   reviews: state.reviews,
+  canRate: state.canRate,
 }))
 
 class IndividualOffer extends React.Component {
@@ -39,6 +47,7 @@ class IndividualOffer extends React.Component {
     error: PropTypes.string,
     offer: PropTypes.objectOf(PropTypes.object),
     reviews: PropTypes.arrayOf(PropTypes.object),
+    canRate: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -49,6 +58,7 @@ class IndividualOffer extends React.Component {
     error: '',
     offer: {},
     reviews: [],
+    canRate: false,
   };
 
   constructor(props) {
@@ -60,6 +70,9 @@ class IndividualOffer extends React.Component {
       offer: {},
       reviews: [],
       shareCount: 0,
+      myServiceRating: 0,
+      myUserRating: 0,
+      myDescription: '',
     };
     this.setShareCount = this.setShareCount.bind(this);
     this.verifyRefCode();
@@ -77,6 +90,7 @@ class IndividualOffer extends React.Component {
 
     dispatch(attemptShowOffer(payload));
     dispatch(attemptGetReviews(payload));
+    dispatch(attemptCanReview(payload));
   }
 
   async setShareCount() {
@@ -136,6 +150,30 @@ class IndividualOffer extends React.Component {
     }
   }
 
+  onServiceStarClick(e){
+    const value = e;
+    this.setState({
+      ...this.state,
+      myServiceRating: value
+    });
+  }
+
+  onUserStarClick(e){
+    const value = e;
+    this.setState({
+      ...this.state,
+      myUserRating: value
+    });
+  }
+
+  handleReviewChange(e){
+    const description = e.target.value;
+    this.setState({
+      ...this.state,
+      myDescription: description
+    });
+  }
+
   async handleShareComplete() {
     const { dispatch, offer, loggedUser } = this.props;
     const { shareCount } = this.state;
@@ -164,16 +202,35 @@ class IndividualOffer extends React.Component {
     }
   }
 
+  handleSendReview(e) {
+    const { dispatch, offer } = this.props;
+    const { myServiceRating, myUserRating } = this.state;
+    const { myDescription } = this.state;
+    const token = localStorage.getItem('token');
+
+    const payload = {
+      offerRate: myServiceRating,
+      userRate: myUserRating,
+      description: myDescription,
+      token,
+      offerId: offer.id,
+    };
+
+    dispatch(attemptSendReview(payload));
+  }
+
 
   render() {
     const {
-      loggedUser, offer, loading, reviews,
+      loggedUser, offer, loading, reviews, canRate
     } = this.props;
+    const { myServiceRating, myUserRating } = this.state;
     const pictureUrl = offer && offer.images && offer.images.length > 0 ? offer.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
     const displayOwnerOnly = loggedUser.id === offer.userId ? 'none' : 'block';
     const marginBetween = '5%';
     const shareUrl = `${global.URL}/offers/${offer.id}?referalCode=${loggedUser.referalCode}`;
     const showBtnShareFB = 'inline-block';
+    const canReview =  canRate ? 'block' : 'none';
 
     return (
       <Protected>
@@ -373,6 +430,64 @@ class IndividualOffer extends React.Component {
                   {' '}
                 </Col>
               </Row>
+
+              <ExpansionPanel style={{display: canReview}}>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+        >
+          <Typography>Would you like to rate this service?</Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+
+        <div>
+
+<Row>
+
+  <IconButton>
+    <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{width: "30%", height: "30%"}}/>
+  </IconButton>
+
+  <h4>{loggedUser.name}</h4>
+
+</Row>
+
+<Row>
+  <StarRatingComponent
+    name="RatingService"
+    renderStarIcon={() => <span>&#9733;</span>}
+    value={myServiceRating}
+    onStarClick={e => this.onServiceStarClick(e)}
+    starCount={5}
+  />
+</Row>
+
+<Row>
+  <StarRatingComponent
+    name="RatingService"
+    renderStarIcon={() => <span>&#9733;</span>}
+    value={myUserRating}
+    onStarClick={e => this.onUserStarClick(e)}
+    starCount={5}
+  />
+</Row>
+
+<Row>
+  <TextField
+    margin="dense"
+    multiline
+    rowsMax="4"
+    style = {{width: '100%'}}
+    onChange= {e => this.handleReviewChange(e)}
+  />
+</Row>
+
+<Row>
+  <Button onClick={e => this.handleSendReview(e)}>Make review</Button>
+</Row>
+</div>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
 
               <Divider />
 

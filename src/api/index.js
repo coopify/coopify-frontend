@@ -581,3 +581,47 @@ export function getReviewsAPICall(payload) {
 
   // return { status: 200, reviews: [{ name: 'Pedro', review: 'Excelent service', date: '10/06/2019', ratingReview: 5 }, { name: 'Marcos', review: 'Is very dificult', date: '05/03/2019', ratingReview: 2 }, { name: 'Marcelo', review: 'What?', date: '07/05/2019', ratingReview: 4 }] };
 }
+
+export function sendReviewAPICall(payload) {
+  const { token, offerRate, userRate, offerId, description } = payload;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  
+  const data = {
+    userRate,
+    offerRate,
+    description,
+  };
+
+  return axios.post(
+    `${global.API_URL}/api/rates/${offerId}`, data,
+  )
+    .then(response => ({
+      status: response.status,
+      review: response.data.rate,
+    })).catch(e => ({
+      status: e.response.status,
+      errorMessage: e.response.data.message,
+    }));
+
+  //return { status: 200, review: { name: 'Pedro', review: description, date: '10/06/2019', ratingReview: offerRate } };
+}
+
+export function checkReviewAPICall(payload) {
+  const { userToken, offerId } = payload;
+
+  axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
+  
+  return axios.get(
+    `${global.API_URL}/api/rates/${offerId}/reviewable`,
+  )
+    .then(response => ({
+      status: response.status,
+      canRate: response.data.shouldReview,
+    })).catch(e => ({
+      status: e.response.status,
+      errorMessage: e.response.data.message,
+    }));
+
+  //return { status: 200, canRate: true };
+}

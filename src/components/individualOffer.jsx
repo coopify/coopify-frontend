@@ -379,7 +379,7 @@ class IndividualOffer extends React.Component {
                 </Col>
                 <Col sm="8">
                   <div>
-                    <GeneralQuestions offerId={offer.id} />
+                    <GeneralQuestions offerId={this.props.match.params.id} />
                   </div>
                 </Col>
                 <Col sm="2">

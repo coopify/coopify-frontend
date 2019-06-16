@@ -22,7 +22,7 @@ import BasicData from './offerCreation/basicData.js';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import Protected from './protected';
 import styles from '../css/profile.scss';
-import { resetError, attemptPublishOffer } from '../actions/user';
+import { resetNotificationFlags, attemptPublishOffer } from '../actions/user';
 import GuestLayout from './guest-layout';
 
 
@@ -71,7 +71,7 @@ class OfferCreation extends React.Component {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
-      dispatch(resetError());
+      dispatch(resetNotificationFlags());
     } else {
       toast.success(message);
     }

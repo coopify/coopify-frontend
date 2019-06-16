@@ -8,7 +8,7 @@ import 'react-bootstrap';
 import ReactTable from 'react-table';
 import styles from '../css/profile.scss';
 import { Protected } from './protected';
-import { resetError, attemptCheckBalanceAction, attemptCheckTransactionsAction } from '../actions/user';
+import { resetNotificationFlags, attemptCheckBalanceAction, attemptCheckTransactionsAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 import 'react-table/react-table.css';
 
@@ -62,7 +62,7 @@ class CoopiesAccount extends React.Component {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
-      dispatch(resetError());
+      dispatch(resetNotificationFlags());
     } else {
       toast.success(message);
     }

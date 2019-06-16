@@ -7,7 +7,7 @@ import 'react-bootstrap';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import styles from '../css/profile.scss';
-import { resetError, attemptGoalsAction, attemptGoalsUserAction } from '../actions/user';
+import { resetNotificationFlags, attemptGoalsAction, attemptGoalsUserAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 
 export default @connect(state => ({
@@ -63,7 +63,7 @@ class Goals extends React.Component {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
-      dispatch(resetError());
+      dispatch(resetNotificationFlags());
     } else {
       toast.success(message);
     }

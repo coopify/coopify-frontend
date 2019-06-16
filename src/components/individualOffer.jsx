@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
   Button, Row, Col,
@@ -19,9 +19,23 @@ import { getUrlConversation, getShareCount } from '../api';
 import { GeneralQuestions } from './generalQuestions';
 import { Protected } from './protected';
 import {
-  resetError, attemptShowOffer, attemptSendReward, saveRefCode, attemptGetReviews,
+  resetNotificationFlags, attemptShowOffer, attemptSendReward, saveRefCode, attemptGetReviews, attemptSendReview, attemptCanReview
 } from '../actions/user';
 import GuestLayout from './guest-layout';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import CommonButton from '@material-ui/core/Button';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -29,6 +43,8 @@ export default @connect(state => ({
   loading: state.loading,
   offer: state.offer,
   reviews: state.reviews,
+  canRate: state.canRate,
+  reviewCreated: state.reviewCreated,
 }))
 
 class IndividualOffer extends React.Component {
@@ -39,6 +55,8 @@ class IndividualOffer extends React.Component {
     error: PropTypes.string,
     offer: PropTypes.objectOf(PropTypes.object),
     reviews: PropTypes.arrayOf(PropTypes.object),
+    canRate: PropTypes.bool,
+    reviewCreated: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -49,6 +67,8 @@ class IndividualOffer extends React.Component {
     error: '',
     offer: {},
     reviews: [],
+    canRate: false,
+    reviewCreated: false,
   };
 
   constructor(props) {
@@ -60,6 +80,10 @@ class IndividualOffer extends React.Component {
       offer: {},
       reviews: [],
       shareCount: 0,
+      myServiceRating: 0,
+      myUserRating: 0,
+      myDescription: '',
+      modalOpen: false,
     };
     this.setShareCount = this.setShareCount.bind(this);
     this.verifyRefCode();
@@ -77,6 +101,23 @@ class IndividualOffer extends React.Component {
 
     dispatch(attemptShowOffer(payload));
     dispatch(attemptGetReviews(payload));
+    dispatch(attemptCanReview(payload));
+  }
+
+  onServiceStarClick(e) {
+    const value = e;
+    this.setState({
+      ...this.state,
+      myServiceRating: value,
+    });
+  }
+
+  onUserStarClick(e) {
+    const value = e;
+    this.setState({
+      ...this.state,
+      myUserRating: value,
+    });
   }
 
   async setShareCount() {
@@ -96,7 +137,21 @@ class IndividualOffer extends React.Component {
     });
   }
 
+  handleClose = () => {
+    this.setState({
+      ...this.state,
+      modalOpen: false,
+    });
+  };
+
   delay = ms => new Promise(res => setTimeout(res, ms));
+  
+  handleClickOpen = () => {
+    this.setState({
+      ...this.state,
+      modalOpen: true,
+    });
+  };
 
   async handleContactClick() {
     const { offer, history } = this.props;
@@ -115,16 +170,6 @@ class IndividualOffer extends React.Component {
     history.push(`/user/conversations/${conversationId}`);
   }
 
-  notify(message, isError) {
-    const { dispatch } = this.props;
-    if (isError) {
-      toast.error(message);
-      dispatch(resetError());
-    } else {
-      toast.success(message);
-    }
-  }
-
   verifyRefCode() {
     const { dispatch } = this.props;
     const urlParams = new URLSearchParams(window.location.search);
@@ -134,6 +179,25 @@ class IndividualOffer extends React.Component {
       const payload = { code: codeFromUrl };
       dispatch(saveRefCode(payload));
     }
+  }
+
+  notify(message, isError) {
+    const { dispatch } = this.props;
+    if (isError) {
+      toast.error(message);
+      dispatch(resetNotificationFlags());
+    } else {
+      toast.success(message);
+      dispatch(resetNotificationFlags());
+    }
+  }
+
+  handleReviewChange(e) {
+    const description = e.target.value;
+    this.setState({
+      ...this.state,
+      myDescription: description,
+    });
   }
 
   async handleShareComplete() {
@@ -164,16 +228,38 @@ class IndividualOffer extends React.Component {
     }
   }
 
+  handleSendReview(e) {
+    const { dispatch, offer } = this.props;
+    const { myServiceRating, myUserRating } = this.state;
+    const { myDescription } = this.state;
+    const token = localStorage.getItem('token');
+
+    const payload = {
+      offerRate: myServiceRating,
+      userRate: myUserRating,
+      description: myDescription,
+      token,
+      offerId: offer.id,
+    };
+
+    dispatch(attemptSendReview(payload));
+    this.handleClose();
+  }
 
   render() {
     const {
-      loggedUser, offer, loading, reviews,
+      loggedUser, offer, loading, reviews, canRate, error, reviewCreated
     } = this.props;
+    const { myServiceRating, myUserRating, modalOpen } = this.state;
     const pictureUrl = offer && offer.images && offer.images.length > 0 ? offer.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
     const displayOwnerOnly = loggedUser.id === offer.userId ? 'none' : 'block';
     const marginBetween = '5%';
     const shareUrl = `${global.URL}/offers/${offer.id}?referalCode=${loggedUser.referalCode}`;
     const showBtnShareFB = 'inline-block';
+    const canReview = canRate ? 'block' : 'none';
+
+    if (error.length > 0) this.notify(error, true);
+    if (reviewCreated) this.notify('The service was reviewed successfully!', false);
 
     return (
       <Protected>
@@ -331,6 +417,12 @@ class IndividualOffer extends React.Component {
 
               <Divider />
 
+              <div style={{ textAlign: 'center' }}>
+                <Button style={{ display: canReview, margin: 'auto' }} onClick={e => this.handleClickOpen(e)}>
+                  Write your review for this service
+                </Button>
+              </div>
+
               <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
                 <Col sm="2">
                   {' '}
@@ -374,6 +466,93 @@ class IndividualOffer extends React.Component {
                 </Col>
               </Row>
 
+              <Dialog
+                open={modalOpen}
+                onClose={this.handleClose}
+                aria-labelledby="form-dialog-title"
+                fullWidth={true}
+              >
+                <DialogTitle id="form-dialog-title">
+                  <h1>{offer.title}</h1>
+                </DialogTitle>
+                <Divider />
+                <DialogContent>
+
+                  <form style={{ color: 'black', paddingTop: '7%' }}>
+                    <div className="form-group row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <label htmlFor="staticEmail" style={{ width: '40%', textAlign: 'left', fontSize: '200%' }}><h3>Service</h3></label>
+                      <div style={{ fontSize: '200%' }}>
+
+                        <StarRatingComponent
+                          name="RatingService"
+                          starColor="#ffb400"
+                          emptyStarColor="#ffb400"
+                          renderStarIcon={(index, value) => {
+                            return (
+                              <span>
+                                <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
+                              </span>
+                            );
+                          }}
+                          value={myServiceRating}
+                          onStarClick={e => this.onServiceStarClick(e)}
+                          starCount={5}
+
+                        />
+
+                      </div>
+                    </div>
+                    <div className="form-group row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <label htmlFor="inputPassword" style={{ width: '40%', textAlign: 'left', fontSize: '200%' }}><h3>User</h3></label>
+                      <div style={{ fontSize: '200%' }}>
+                        <StarRatingComponent
+                          name="RatingService"
+                          starColor="#ffb400"
+                          emptyStarColor="#ffb400"
+                          renderStarIcon={(index, value) => {
+                            return (
+                              <span>
+                                <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
+                              </span>
+                            );
+                          }}
+                          value={myUserRating}
+                          onStarClick={e => this.onUserStarClick(e)}
+                          starCount={5}
+                          style={{ fontSize: 'xx-large' }}
+                        />
+                      </div>
+                    </div>
+                  </form>
+
+
+                  <div>
+                    <Divider />
+
+                    <div className="form-group" style={{ display: 'flex', alignItems: 'center', paddingTop: '3%' }}>
+                      <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{ width: '20%', height: '25%', display: 'inline-block' }} />
+                      <textarea
+                        style={{ marginLeft: '5%', fontSize: '12px', lineHeight: '1' }}
+                        rows={4}
+                        className="form-control" 
+                        placeholder="Would you like to add a comment?"
+                        onChange={e => this.handleReviewChange(e)} 
+                      />
+                    </div>
+
+                  </div>
+
+                  <CommonButton
+                    style={{ width: '100%', color: 'white', fontSize: 'bold', backgroundColor: '#19b9e7'}}
+                    onClick={e => this.handleSendReview(e)}
+                  >
+                    {'Send review'}
+                  </CommonButton>
+
+                </DialogContent>
+              </Dialog>
+
+
               <Divider />
 
               <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
@@ -410,7 +589,7 @@ class IndividualOffer extends React.Component {
                 </div>
               </div>
             </div>
-
+            <ToastContainer autoClose={3000} />
           </LoadingScreen>
         </GuestLayout>
       </Protected>

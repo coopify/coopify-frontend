@@ -47,6 +47,10 @@ import {
   SYNC_FB_FAILURE,
   GET_REVIEWS_SUCCESS,
   GET_REVIEWS_FAILURE,
+  SEND_REVIEW_SUCCESS,
+  SEND_REVIEW_FAILURE,
+  CAN_REVIEW_SUCCESS,
+  CAN_REVIEW_FAILURE
 } from '../reducers';
 
 import {
@@ -80,6 +84,8 @@ import {
   syncFBApiCall,
   sendRewardApiCall,
   getReviewsAPICall,
+  sendReviewAPICall,
+  checkReviewAPICall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -344,5 +350,23 @@ export function* getReviewsAsync(payload) {
     yield put({ type: GET_REVIEWS_SUCCESS, reviews: result.reviews });
   } else {
     yield put({ type: GET_REVIEWS_FAILURE, errorMessage: result.errorMessage });
+  }
+}
+
+export function* sendReviewAsync(payload) {
+  const result = yield sendReviewAPICall(payload.payload);
+  if (result.status === 200) {
+    yield put({ type: SEND_REVIEW_SUCCESS, review: result.review });
+  } else {
+    yield put({ type: SEND_REVIEW_FAILURE, errorMessage: result.errorMessage });
+  }
+}
+
+export function* canReviewAsync(payload) {
+  const result = yield checkReviewAPICall(payload.payload);
+  if (result.status === 200) {
+    yield put({ type: CAN_REVIEW_SUCCESS, canRate: result.canRate });
+  } else {
+    yield put({ type: CAN_REVIEW_FAILURE, errorMessage: result.errorMessage });
   }
 }

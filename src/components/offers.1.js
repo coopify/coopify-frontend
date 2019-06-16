@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import LoadingScreen from 'react-loading-screen';
 import Protected from './protected';
 import styles from '../css/profile.scss';
-import { resetError, attemptOffersAction } from '../actions/user';
+import { resetNotificationFlags, attemptOffersAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
@@ -57,7 +57,7 @@ class Offers extends React.Component {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
-      dispatch(resetError());
+      dispatch(resetNotificationFlags());
     } else {
       toast.success(message);
     }

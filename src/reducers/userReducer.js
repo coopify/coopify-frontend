@@ -85,6 +85,12 @@ export const SEND_REF_CODE = 'SEND_REF_CODE';
 export const GET_REVIEWS_ATTEMPT = 'GET_REVIEWS_ATTEMPT';
 export const GET_REVIEWS_SUCCESS = 'GET_REVIEWS_SUCCESS';
 export const GET_REVIEWS_FAILURE = 'GET_REVIEWS_FAILURE';
+export const SEND_REVIEW_ATTEMPT = 'SEND_REVIEW_ATTEMPT';
+export const SEND_REVIEW_SUCCESS = 'SEND_REVIEW_SUCCESS';
+export const SEND_REVIEW_FAILURE = 'SEND_REVIEW_FAILURE';
+export const CAN_REVIEW_ATTEMPT = 'CAN_REVIEW_ATTEMPT';
+export const CAN_REVIEW_SUCCESS = 'CAN_REVIEW_SUCCESS';
+export const CAN_REVIEW_FAILURE = 'CAN_REVIEW_FAILURE';
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -283,6 +289,7 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         error: '',
         status: '',
+        reviewCreated: false,
       });
 
     case CREATE_OFFER_ATTEMPT:
@@ -417,7 +424,6 @@ export const user = (state = initialUserState, action) => {
     case GET_MESSAGES_ATTEMPT:
       return _.assignIn({}, state, {
         error: '',
-        loading: true,
       });
 
     case GET_MESSAGES_SUCCESS:
@@ -425,7 +431,6 @@ export const user = (state = initialUserState, action) => {
         error: '',
         messages: action.messages,
         newMessages: [],
-        loading: false,
       });
 
     case MAKE_PROPOSAL_SUCCESS:
@@ -489,13 +494,11 @@ export const user = (state = initialUserState, action) => {
     case GET_CONVERSATION_PROPOSAL_ATTEMPT:
       return _.assignIn({}, state, {
         error: '',
-        loading: true,
       });
 
     case GET_CONVERSATION_PROPOSAL_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
-        loading: false,
         proposal: action.proposal,
       });
 
@@ -580,6 +583,34 @@ export const user = (state = initialUserState, action) => {
         reviews: action.reviews,
         loading: false,
       });
+  
+    case SEND_REVIEW_ATTEMPT:
+      return _.assignIn({}, state, {
+        loading: true,
+      });
+
+      case SEND_REVIEW_FAILURE:
+        return _.assignIn({}, state, {
+          loading: false,
+          error: action.errorMessage,
+        });
+
+        case SEND_REVIEW_SUCCESS:
+          return _.assignIn({}, state, {
+            loading: false,
+            reviews: state.reviews.concat([action.review]),
+            reviewCreated: true,
+          });
+        
+        case CAN_REVIEW_SUCCESS:
+          return _.assignIn({}, state, {
+            canRate: action.canRate,
+          });
+
+          case CAN_REVIEW_FAILURE:
+            return _.assignIn({}, state, {
+              canRate: false,
+            });
 
     default:
       return state;

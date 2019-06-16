@@ -7,6 +7,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import 'react-table/react-table.css';
 import LoadingScreen from 'react-loading-screen';
+import Protected from './protected';
+import GridView from './gridview';
+import styles from '../css/profile.scss';
+import { resetNotificationFlags, attemptOffersAction } from '../actions/user';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -81,7 +85,7 @@ class Offers extends React.Component {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
-      dispatch(resetError());
+      dispatch(resetNotificationFlags());
     } else {
       toast.success(message);
     }

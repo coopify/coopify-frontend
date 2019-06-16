@@ -17,7 +17,7 @@ import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import styles from '../css/profile.scss';
 import {
-  attemptGetQuestionsAndAnswer, attemptSendReply, attemptQuestion, resetError,
+  attemptGetQuestionsAndAnswer, attemptSendReply, attemptQuestion, resetNotificationFlags,
 } from '../actions/user';
 
 export default @connect(state => ({
@@ -83,7 +83,7 @@ class GeneralQuestions extends React.Component {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
-      dispatch(resetError());
+      dispatch(resetNotificationFlags());
     } else {
       toast.success(message);
     }

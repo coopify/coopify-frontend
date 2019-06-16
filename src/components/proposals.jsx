@@ -115,6 +115,7 @@ class Proposals extends React.Component {
                     getTitleFromElement={getTitleFromElement}
                     getSubtitleFromElement={proposal => `by: ${proposal.proposer.name}`}
                     shouldRedirect={false}
+                    getDetailRoute={proposal => `/offers/${proposal.purchasedOffer.id}`}
                     selectItem={selectedProposal => (
                       <Proposal
                         proposal={selectedProposal}

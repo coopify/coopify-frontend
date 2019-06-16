@@ -598,7 +598,7 @@ export const user = (state = initialUserState, action) => {
         case SEND_REVIEW_SUCCESS:
           return _.assignIn({}, state, {
             loading: false,
-            reviews: state.reviews.concat([action.review]),
+            reviews: [action.review].concat(state.reviews),
             reviewCreated: true,
           });
         

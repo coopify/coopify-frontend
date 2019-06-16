@@ -7,8 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import 'react-table/react-table.css';
 import LoadingScreen from 'react-loading-screen';
-import Protected from './protected';
-import GridView from './gridview';
+import { GridView } from './gridview';
 import styles from '../css/profile.scss';
 import { resetNotificationFlags, attemptOffersAction } from '../actions/user';
 import AddIcon from '@material-ui/icons/Add';
@@ -17,9 +16,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import ReactJoyride from 'react-joyride';
 import { Link } from 'react-router-dom';
 import StarRatingComponent from 'react-star-rating-component';
-import { resetError, attemptOffersAction } from '../actions/user';
-import styles from '../css/profile.scss';
-import { GridView } from './gridview';
 import noImage from '../assets/noImage.png'
 
 export default @connect(state => ({

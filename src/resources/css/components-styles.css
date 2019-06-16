@@ -1,0 +1,15 @@
+div[class^='MuiGridListTile-tile']  {
+    border-radius: 10%;
+}
+
+.rce-mbox-right-notch {
+    fill: #aeffc7;
+}
+
+.rce-mbox.rce-mbox-right {
+    background: #aeffc7;
+}
+
+.rce-container-input {
+    background: #fafafa;
+}

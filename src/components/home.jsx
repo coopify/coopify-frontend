@@ -35,14 +35,14 @@ Column.propTypes = {
 };
 
 export default () => (
-    <GuestLayout>
-      {/* <Row style={{height: "40"}}>
+  <GuestLayout>
+    {/* <Row style={{height: "40"}}>
         <Col sm={3}><div>Intercambio de Servicios</div></Col>
         <Col sm={3}><div>Transacciones</div></Col>
         <Col sm={3}><div>Revisiones, pago grupal</div></Col>
         <Col sm={3}><div>Comienza a generar Coopies</div></Col>
       </Row> */}
-      <Offers isHome />
+    <Offers isHome />
 
-    </GuestLayout>
+  </GuestLayout>
 );

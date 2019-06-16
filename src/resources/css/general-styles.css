@@ -1,3 +1,7 @@
+#app {
+    background-color: #fafafa;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
@@ -191,4 +195,4 @@ footer a:hover, footer a:focus { border-bottom: 1px dotted #19b9e7; }
 .chat-list {
 	text-align: left;
 	color: black;
-} 
+}

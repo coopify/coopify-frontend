@@ -10,6 +10,7 @@ import LoadingScreen from 'react-loading-screen';
 import { Protected } from './protected';
 import { attemptGetUserConversations } from '../actions/user';
 import GuestLayout from './guest-layout';
+import styles from '../css/profile.scss';
 
 
 export default @connect(state => ({
@@ -73,26 +74,27 @@ class ConversationList extends React.Component {
             text="Loading..."
           >
 
-            <ChatList
-              className="chat-list"
-              dataSource={
+            <div className={styles.containerChat}>
+              <ChatList
+                className="chat-list"
+                dataSource={
 
-              conversations.map((c) => {
-                const user = c.from.id === loggedUser.id ? c.to : c.from;
-                const response = {
-                  avatar: user.pictureURL,
-                  title: user.name,
-                  date: new Date(c.createdAt),
-                  unread: 0,
-                  userId: user.id,
-                  conversationId: c.id,
-                };
-                return response;
-              })
-          }
-              onClick={e => this.displayChat(e)}
-            />
-
+                  conversations.map((c) => {
+                    const user = c.from.id === loggedUser.id ? c.to : c.from;
+                    const response = {
+                      avatar: user.pictureURL,
+                      title: user.name,
+                      date: new Date(c.createdAt),
+                      unread: 0,
+                      userId: user.id,
+                      conversationId: c.id,
+                    };
+                    return response;
+                  })
+                }
+                onClick={e => this.displayChat(e)}
+              />
+            </div>
           </LoadingScreen>
         </GuestLayout>
       </Protected>

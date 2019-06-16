@@ -230,14 +230,14 @@ class IndividualOffer extends React.Component {
                                 <div>
                                   <p className="card-text">
                                     {'Service Rating: '}
-                                    {Number.parseFloat(offer.ratingSum / offer.ratingCount).toFixed(2)}
+                                    {Number.parseFloat(offer.rating).toFixed(2)}
                                   </p>
                                   <StarRatingComponent
                                     name="RatingService"
                                     editing={false}
                                     renderStarIcon={() => <span>&#9733;</span>}
                                     starCount={5}
-                                    value={Number.parseFloat(offer.ratingSum / offer.ratingCount).toFixed(2)}
+                                    value={Number.parseFloat(offer.rating).toFixed(2)}
                                   />
                                 </div>
                               </div>

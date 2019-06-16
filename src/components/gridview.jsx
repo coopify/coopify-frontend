@@ -104,7 +104,7 @@ class GridView extends React.Component {
                     className="imageoverlayfade"
                     key={element.id}
                     title={shouldRedirect ? (
-                      <p className="agus">{getTitleFromElement(element)}</p>
+                      <p className="middlegridlisttilebar">{getTitleFromElement(element)}</p>
                     ) : selectItem(element)}
                     subtitle={getSubtitleFromElement(element)}
                   />

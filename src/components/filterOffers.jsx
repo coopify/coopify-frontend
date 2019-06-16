@@ -260,21 +260,21 @@ class FilterOffers extends React.Component {
 
                   <h4 style={{ color: 'black', display: showEIDisplay }}>Exchange instance</h4>
 
-                  <Form.Group style={{ textAlign: 'left', marginLeft: '20%', display: showEI }}>
+                  <Form.Group style={{ textAlign: 'left', marginLeft: '20%', display: showEIDisplay }}>
                     <Form.Label>
                       <input type="checkbox" name={HOUR_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
                       {HOUR_EXCHANGE}
                     </Form.Label>
                   </Form.Group>
 
-                  <Form.Group style={{ textAlign: 'left', marginLeft: '20%', display: showEI }}>
+                  <Form.Group style={{ textAlign: 'left', marginLeft: '20%', display: showEIDisplay }}>
                     <Form.Label>
                       <input type="checkbox" name={SESSION_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
                       {SESSION_EXCHANGE}
                     </Form.Label>
                   </Form.Group>
 
-                  <Form.Group style={{ textAlign: 'left', marginLeft: '20%', display: showEI }}>
+                  <Form.Group style={{ textAlign: 'left', marginLeft: '20%', display: showEIDisplay }}>
                     <Form.Label>
                       <input type="checkbox" name={PRODUCT_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
                       {PRODUCT_EXCHANGE}
@@ -285,7 +285,18 @@ class FilterOffers extends React.Component {
                   <h4 style={{ color: 'black', display: showEIDisplay }}>Price range</h4>
 
 
-                  <Range min={0} max={100} defaultValue={prices} tipFormatter={value => `${value} Coopi`} allowCross={false} style={{ marginBottom: '10%', display: showEI }} onAfterChange={e => this.handlePricesChange(e)} />
+                  <Range 
+                  min={0}
+                  max={100} 
+                  defaultValue={prices} 
+                  tipFormatter={value => `${value} Coopi`} 
+                  tipProps={{visible:true, placement: 'bottom'}} 
+                  allowCross={false} 
+                  style={{ marginBottom: '10%', display: showEIDisplay }} 
+                  trackStyle={{ height: 10 }}
+                  railStyle={{ height: 10 }}
+                  handleStyle={{ height: 28, width: 28, marginLeft: -14, marginTop: -9 }}
+                  onAfterChange={e => this.handlePricesChange(e)} />
 
                   <div className="categoriesSearch"> 
                     <h4 style={{ color: 'black' }}>Categories</h4>

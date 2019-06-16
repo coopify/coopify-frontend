@@ -425,9 +425,11 @@ class IndividualOffer extends React.Component {
 
               <Divider />
 
-              <Button style={{ display: canReview}} onClick={e => this.handleClickOpen(e)}>
-              Write your review for this service
-                    </Button>
+              <div style={{textAlign: 'center'}}>
+                <Button style={{ display: canReview, margin: 'auto'}} onClick={e => this.handleClickOpen(e)}>
+                  Write your review for this service
+                </Button>
+              </div>
 
               <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
                 <Col sm="2">
@@ -540,7 +542,7 @@ class IndividualOffer extends React.Component {
 
                       </div>
 
-                      <CommonButton style={{ width: '100%', color: 'white', fontSize: 'bold', backgroundColor: '#19b9e7' }} onClick={e => this.handleSendReview(e)}>
+                      <CommonButton style={{ width: '100%', color: 'white', fontSize: 'bold', backgroundColor: '#19b9e7'}} onClick={e => this.handleSendReview(e)}>
                         Send review
                     </CommonButton>
 

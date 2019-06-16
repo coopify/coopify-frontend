@@ -223,23 +223,26 @@ class IndividualOffer extends React.Component {
                         {}
                       </Col>
                       <Col sm="4">
-                        <div className="card text-center">
-                          <div className="container-fluid">
-                            <p className="card-text">
-                              {'Rating: '}
-                              {/* {offer.rating} */}
-                              {4}
-                            </p>
-                            <StarRatingComponent
-                              name="RatingService"
-                              editing={false}
-                              renderStarIcon={() => <span>&#9733;</span>}
-                              starCount={5}
-                              // value={offer.rating} Ver como va a venir (stars, rating?...)
-                              value={4}
-                            />
-                          </div>
-                        </div>
+                        {offer.ratingCount !== 0 ? (
+                          <div className="card text-center">
+                            <div className="container-fluid">
+                              <div>
+                                <div>
+                                  <p className="card-text">
+                                    {'Service Rating: '}
+                                    {Number.parseFloat(offer.rating).toFixed(2)}
+                                  </p>
+                                  <StarRatingComponent
+                                    name="RatingService"
+                                    editing={false}
+                                    renderStarIcon={() => <span>&#9733;</span>}
+                                    starCount={5}
+                                    value={Number.parseFloat(offer.rating).toFixed(2)}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>) : ('')}
                       </Col>
                       <Col sm="4">
                         {}
@@ -341,18 +344,18 @@ class IndividualOffer extends React.Component {
                       {reviews.map(item => (
                         <div>
                           <Col>
-                            {item.name}
+                            {item.reviewer.name}
                             {' '}
-                            {item.date}
+                            {/* {item.date} */}
                             <StarRatingComponent
                               name="RatingReview"
                               editing={false}
                               renderStarIcon={() => <span>&#9733;</span>}
                               starCount={5}
-                              value={item.ratingReview}
+                              value={item.offerRate}
                             />
                             <TextField
-                              value={item.review}
+                              value={item.description}
                               disabled
                               multiline
                               fullWidth

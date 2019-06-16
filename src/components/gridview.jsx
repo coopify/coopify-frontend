@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import 'react-table/react-table.css';
 import { Link } from 'react-router-dom';
-
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -27,6 +26,7 @@ class GridView extends React.Component {
     getSubtitleFromElement: PropTypes.func,
     selectItem: PropTypes.func,
     getDetailRoute: PropTypes.func,
+    getOverlayFadeInfo: PropTypes.func,
     shouldRedirect: PropTypes.bool,
   };
 
@@ -34,12 +34,13 @@ class GridView extends React.Component {
     elements: [],
     width: 0,
     colectionName: '',
-    getImageFromElement: () => {},
-    getAlternativeTextForImageFromElement: () => {},
-    getTitleFromElement: () => {},
-    getSubtitleFromElement: () => {},
-    selectItem: () => {},
-    getDetailRoute: () => {},
+    getImageFromElement: () => { },
+    getAlternativeTextForImageFromElement: () => { },
+    getTitleFromElement: () => { },
+    getSubtitleFromElement: () => { },
+    selectItem: () => { },
+    getDetailRoute: () => { },
+    getOverlayFadeInfo: () => { },
     shouldRedirect: false,
   };
 
@@ -67,7 +68,7 @@ class GridView extends React.Component {
     const {
       elements, getImageFromElement, getAlternativeTextForImageFromElement,
       getTitleFromElement, getSubtitleFromElement, colectionName, selectItem,
-      getDetailRoute, shouldRedirect,
+      getDetailRoute, getOverlayFadeInfo, shouldRedirect,
     } = this.props;
     const { width } = this.state;
     // TODO Revisar los 600
@@ -78,7 +79,7 @@ class GridView extends React.Component {
         {
           <h2 style={{ textAlign: 'center' }}>
             {colectionName}
-          </h2> }
+          </h2>}
 
         <div style={{
           display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
@@ -88,25 +89,26 @@ class GridView extends React.Component {
 
             {elements.map(element => (
               <GridListTile key={element.id}>
-                <img
-                  src={getImageFromElement(element)}
-                  alt={getAlternativeTextForImageFromElement(element)}
-                />
-                <GridListTileBar
-                  key={element.id}
-                  title={shouldRedirect ? (
-                    <Link
-                      style={{ padding: '0', color: 'white' }}
-                      to={getDetailRoute(element)}
-                      className="navbar-item"
-                    >
-                      <i className="fa" />
-                      {getTitleFromElement(element)}
-                    </Link>
-                  ) : selectItem(element)}
-                  subtitle={getSubtitleFromElement(element)}
-                />
-
+                <div className="imageoverlayfade">
+                  <img
+                    className="image"
+                    src={getImageFromElement(element)}
+                    alt={getAlternativeTextForImageFromElement(element)}
+                  />
+                  <div className="middle">
+                    {getOverlayFadeInfo(element)}
+                  </div>
+                </div>
+                <Link to={getDetailRoute(element)}>
+                  <GridListTileBar
+                    className="imageoverlayfade"
+                    key={element.id}
+                    title={shouldRedirect ? (
+                      <p className="middlegridlisttilebar">{getTitleFromElement(element)}</p>
+                    ) : selectItem(element)}
+                    subtitle={getSubtitleFromElement(element)}
+                  />
+                </Link>
               </GridListTile>
             ))}
           </GridList>

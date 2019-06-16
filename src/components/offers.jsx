@@ -2,24 +2,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import 'react-table/react-table.css';
 import LoadingScreen from 'react-loading-screen';
-import Protected from './protected';
-import GridView from './gridview';
-import styles from '../css/profile.scss';
-import { resetError, attemptOffersAction } from '../actions/user';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import ReactJoyride from 'react-joyride';
 import { Link } from 'react-router-dom';
+import StarRatingComponent from 'react-star-rating-component';
+import { resetError, attemptOffersAction } from '../actions/user';
+import styles from '../css/profile.scss';
+import { GridView } from './gridview';
+import noImage from '../assets/noImage.png'
 
 export default @connect(state => ({
-  error: state.error,
   loading: state.loading,
   offers: state.offers,
   countOffers: state.countOffers,
@@ -29,10 +28,9 @@ export default @connect(state => ({
 class Offers extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    error: PropTypes.string,
     offers: PropTypes.arrayOf(PropTypes.object),
     countOffers: PropTypes.number,
-    filters: PropTypes.object,
+    filters: PropTypes.objectOf(PropTypes.object),
     loading: PropTypes.bool,
   };
 
@@ -40,7 +38,6 @@ class Offers extends React.Component {
     dispatch: () => {
     },
     offers: [],
-    error: '',
     loading: false,
     countOffers: 0,
     filters: {},
@@ -50,7 +47,6 @@ class Offers extends React.Component {
     super(props);
     this.state = {
       offers: [],
-      error: '',
       limit: 10,
     };
   }
@@ -108,7 +104,7 @@ class Offers extends React.Component {
 
   render() {
     const { offers, loading } = this.props;
-    const defaultImage = 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
+    const defaultImage = noImage;
     
     const steps = [
       {
@@ -131,7 +127,7 @@ class Offers extends React.Component {
         text="Loading..."
       >
 
-      <ReactJoyride
+        <ReactJoyride
           continuous
           steps={steps}
           run={true}
@@ -147,9 +143,9 @@ class Offers extends React.Component {
               textColor: '#333',
               width: undefined,
               zIndex: 100,
-            }
+            },
           }}
-      />
+        />
 
         <div className={styles.container}>
           <form>
@@ -158,15 +154,23 @@ class Offers extends React.Component {
 
             <Tooltip title="Add" aria-label="Add">
               <Link to="/offer/create">
-              <Fab color="secondary" className="createOfferButton" style={{position: "fixed", bottom: "30px", right: "60px", zIndex: "1"}}>
-                <AddIcon/>
-              </Fab>
+                <Fab
+                  color="secondary"
+                  className="createOfferButton"
+                  style={{
+                    position: 'fixed', bottom: '30px', right: '60px', zIndex: '1',
+                  }}
+                >
+                  <AddIcon />
+                </Fab>
               </Link>
             </Tooltip>
 
-            <div style={{
-              display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
-            }} className="coopifyOffers"
+            <div
+              style={{
+                display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
+              }}
+              className="coopifyOffers"
             >
               <GridView
                 elements={offers}
@@ -174,9 +178,33 @@ class Offers extends React.Component {
                   ? offer.images[0].url : defaultImage)}
                 getAlternativeTextForImageFromElement={offer => offer.title}
                 getTitleFromElement={offer => offer.title}
-                getSubtitleFromElement={offer => `by: ${offer.by}`}
+                getSubtitleFromElement={offer => (
+                  <div>
+                    {offer.ratingCount !== 0 ? (
+                      <div>
+                        {'Service Rating: '}
+                        {Number.parseFloat(offer.rating).toFixed(2)}
+                        <StarRatingComponent
+                          name="RatingService"
+                          editing={false}
+                          renderStarIcon={() => <span>&#9733;</span>}
+                          starCount={5}
+                          value={Number.parseFloat(offer.rating).toFixed(2)}
+                        />
+                      </div>) : ('')}
+                  </div>
+                )}
                 shouldRedirect
                 getDetailRoute={offer => `/offers/${offer.id}`}
+                getOverlayFadeInfo={offer => (
+                  <div>
+                    <p style={{ fontSize: '24' }}>{`by: ${offer.by}`}</p>
+                    <div style={{ fontStyle: 'italic' }}>
+                      {offer.description.length > 35 ? (<p>{`${offer.description.substring(0, 35)}...`}</p>) : (<p>{`${offer.description}`}</p>)}
+                    </div>
+                  </div>
+                )
+                }
               />
             </div>
 

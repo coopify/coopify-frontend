@@ -58,7 +58,7 @@ export const changeProfileImage = payload => ({
   payload,
 });
 
-export const resetError = () => ({
+export const resetNotificationFlags = () => ({
   type: Actions.RESET_ERROR,
 });
 

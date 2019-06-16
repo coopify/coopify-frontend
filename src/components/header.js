@@ -32,7 +32,7 @@ import ReactJoyride from 'react-joyride';
 import Avatar from '@material-ui/core/Avatar';
 
 import {
-  attemptLogoutAction, loadState, attemptUpdateMessage, resetError,
+  attemptLogoutAction, loadState, attemptUpdateMessage, resetNotificationFlags,
 } from '../actions/user';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -110,7 +110,7 @@ class Header extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(resetError());
+    dispatch(resetNotificationFlags());
   }
 
   handleLogout(e) {

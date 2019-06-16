@@ -15,7 +15,7 @@ import LoadingScreen from 'react-loading-screen';
 import { Protected } from './protected';
 import styles from '../css/profile.scss';
 import {
-  attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetError,
+  attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetNotificationFlags,
 } from '../actions/user';
 import GuestLayout from './guest-layout';
 import { getUrlSocialAPICall } from '../api';
@@ -58,7 +58,7 @@ class Profile extends React.Component {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
-      dispatch(resetError());
+      dispatch(resetNotificationFlags());
     } else {
       toast.success(message);
     }

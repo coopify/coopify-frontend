@@ -19,7 +19,7 @@ import { getUrlConversation, getShareCount } from '../api';
 import { GeneralQuestions } from './generalQuestions';
 import { Protected } from './protected';
 import {
-  resetError, attemptShowOffer, attemptSendReward, saveRefCode, attemptGetReviews, attemptSendReview, attemptCanReview
+  resetNotificationFlags, attemptShowOffer, attemptSendReward, saveRefCode, attemptGetReviews, attemptSendReview, attemptCanReview
 } from '../actions/user';
 import GuestLayout from './guest-layout';
 import Avatar from '@material-ui/core/Avatar';
@@ -104,6 +104,22 @@ class IndividualOffer extends React.Component {
     dispatch(attemptCanReview(payload));
   }
 
+  onServiceStarClick(e) {
+    const value = e;
+    this.setState({
+      ...this.state,
+      myServiceRating: value,
+    });
+  }
+
+  onUserStarClick(e) {
+    const value = e;
+    this.setState({
+      ...this.state,
+      myUserRating: value,
+    });
+  }
+
   async setShareCount() {
     const { loggedUser, offer } = this.props;
     const token = localStorage.getItem('token');
@@ -121,7 +137,21 @@ class IndividualOffer extends React.Component {
     });
   }
 
+  handleClose = () => {
+    this.setState({
+      ...this.state,
+      modalOpen: false,
+    });
+  };
+
   delay = ms => new Promise(res => setTimeout(res, ms));
+  
+  handleClickOpen = () => {
+    this.setState({
+      ...this.state,
+      modalOpen: true,
+    });
+  };
 
   async handleContactClick() {
     const { offer, history } = this.props;
@@ -140,17 +170,6 @@ class IndividualOffer extends React.Component {
     history.push(`/user/conversations/${conversationId}`);
   }
 
-  notify(message, isError) {
-    const { dispatch } = this.props;
-    if (isError) {
-      toast.error(message);
-      dispatch(resetError());
-    } else {
-      toast.success(message);
-      dispatch(resetError());
-    }
-  }
-
   verifyRefCode() {
     const { dispatch } = this.props;
     const urlParams = new URLSearchParams(window.location.search);
@@ -162,41 +181,22 @@ class IndividualOffer extends React.Component {
     }
   }
 
-  onServiceStarClick(e) {
-    const value = e;
-    this.setState({
-      ...this.state,
-      myServiceRating: value
-    });
+  notify(message, isError) {
+    const { dispatch } = this.props;
+    if (isError) {
+      toast.error(message);
+      dispatch(resetNotificationFlags());
+    } else {
+      toast.success(message);
+      dispatch(resetNotificationFlags());
+    }
   }
-
-  onUserStarClick(e) {
-    const value = e;
-    this.setState({
-      ...this.state,
-      myUserRating: value
-    });
-  }
-
-  handleClickOpen = () => {
-    this.setState({
-      ...this.state,
-      modalOpen: true,
-    });
-  };
-
-  handleClose = () => {
-    this.setState({
-      ...this.state,
-      modalOpen: false,
-    });
-  };
 
   handleReviewChange(e) {
     const description = e.target.value;
     this.setState({
       ...this.state,
-      myDescription: description
+      myDescription: description,
     });
   }
 
@@ -244,14 +244,6 @@ class IndividualOffer extends React.Component {
 
     dispatch(attemptSendReview(payload));
     this.handleClose();
-  }
-
-  notify = (message, isError) => {
-    if (isError) {
-      toast.error(message);
-    } else {
-      toast.success(message);
-    }
   }
 
   render() {
@@ -425,8 +417,8 @@ class IndividualOffer extends React.Component {
 
               <Divider />
 
-              <div style={{textAlign: 'center'}}>
-                <Button style={{ display: canReview, margin: 'auto'}} onClick={e => this.handleClickOpen(e)}>
+              <div style={{ textAlign: 'center' }}>
+                <Button style={{ display: canReview, margin: 'auto' }} onClick={e => this.handleClickOpen(e)}>
                   Write your review for this service
                 </Button>
               </div>
@@ -474,80 +466,91 @@ class IndividualOffer extends React.Component {
                 </Col>
               </Row>
 
-                  <Dialog 
-                    open={modalOpen}
-                    onClose={this.handleClose}
-                    aria-labelledby="form-dialog-title"
-                    fullWidth = {true}
+              <Dialog
+                open={modalOpen}
+                onClose={this.handleClose}
+                aria-labelledby="form-dialog-title"
+                fullWidth={true}
+              >
+                <DialogTitle id="form-dialog-title">
+                  <h1>{offer.title}</h1>
+                </DialogTitle>
+                <Divider />
+                <DialogContent>
+
+                  <form style={{ color: 'black', paddingTop: '7%' }}>
+                    <div className="form-group row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <label htmlFor="staticEmail" style={{ width: '40%', textAlign: 'left', fontSize: '200%' }}><h3>Service</h3></label>
+                      <div style={{ fontSize: '200%' }}>
+
+                        <StarRatingComponent
+                          name="RatingService"
+                          starColor="#ffb400"
+                          emptyStarColor="#ffb400"
+                          renderStarIcon={(index, value) => {
+                            return (
+                              <span>
+                                <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
+                              </span>
+                            );
+                          }}
+                          value={myServiceRating}
+                          onStarClick={e => this.onServiceStarClick(e)}
+                          starCount={5}
+
+                        />
+
+                      </div>
+                    </div>
+                    <div className="form-group row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <label htmlFor="inputPassword" style={{ width: '40%', textAlign: 'left', fontSize: '200%' }}><h3>User</h3></label>
+                      <div style={{ fontSize: '200%' }}>
+                        <StarRatingComponent
+                          name="RatingService"
+                          starColor="#ffb400"
+                          emptyStarColor="#ffb400"
+                          renderStarIcon={(index, value) => {
+                            return (
+                              <span>
+                                <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
+                              </span>
+                            );
+                          }}
+                          value={myUserRating}
+                          onStarClick={e => this.onUserStarClick(e)}
+                          starCount={5}
+                          style={{ fontSize: 'xx-large' }}
+                        />
+                      </div>
+                    </div>
+                  </form>
+
+
+                  <div>
+                    <Divider />
+
+                    <div className="form-group" style={{ display: 'flex', alignItems: 'center', paddingTop: '3%' }}>
+                      <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{ width: '20%', height: '25%', display: 'inline-block' }} />
+                      <textarea
+                        style={{ marginLeft: '5%', fontSize: '12px', lineHeight: '1' }}
+                        rows={4}
+                        className="form-control" 
+                        placeholder="Would you like to add a comment?"
+                        onChange={e => this.handleReviewChange(e)} 
+                      />
+                    </div>
+
+                  </div>
+
+                  <CommonButton
+                    style={{ width: '100%', color: 'white', fontSize: 'bold', backgroundColor: '#19b9e7'}}
+                    onClick={e => this.handleSendReview(e)}
                   >
-                    <DialogTitle id="form-dialog-title"><h1>{offer.title}</h1></DialogTitle>
-                  <Divider />
-                    <DialogContent>
+                    {'Send review'}
+                  </CommonButton>
 
-                    <form style={{color: 'black', paddingTop: '7%'}}>
-                      <div class="form-group row" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        <label for="staticEmail" style={{width: '40%', textAlign:'left', fontSize:'200%'}}><h3>Service</h3></label>
-                        <div style={{fontSize: '200%'}}>
-                          
-                        <StarRatingComponent
-                                                  name="RatingService"
-                                                  starColor="#ffb400"
-                                                  emptyStarColor="#ffb400"
-                                                  renderStarIcon={(index, value) => {
-                                                    return (
-                                                      <span>
-                                                        <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
-                                                      </span>
-                                                    );
-                                                  }}
-                                                  value={myServiceRating}
-                                                  onStarClick={e => this.onServiceStarClick(e)}
-                                                  starCount={5}
-                                                  
-                                                />
-
-                        </div>
-                      </div>
-                      <div class="form-group row"  style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        <label for="inputPassword" style={{width: '40%', textAlign:'left', fontSize:'200%'}}><h3>User</h3></label>
-                        <div style={{fontSize: 'xx-large', fontSize:'200%'}}>
-                        <StarRatingComponent
-                                                  name="RatingService"
-                                                  starColor="#ffb400"
-                                                  emptyStarColor="#ffb400"
-                                                  renderStarIcon={(index, value) => {
-                                                    return (
-                                                      <span>
-                                                        <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
-                                                      </span>
-                                                    );
-                                                  }}
-                                                  value={myUserRating}
-                                                  onStarClick={e => this.onUserStarClick(e)}
-                                                  starCount={5}
-                                                  style={{fontSize: 'xx-large'}}
-                                                />
-                        </div>
-                      </div>
-                    </form>
-
-
-                      <div>
-                        <Divider/>
-
-                        <div class="form-group" style={{display: 'flex', alignItems: 'center', paddingTop: '3%'}}>
-                          <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{width: "20%", height: "25%", display: 'inline-block'}}/>
-                          <textarea style={{marginLeft: '5%', fontSize: '12px', lineHeight: '1'}} rows={4} class="form-control" placeholder="Would you like to add a comment?" onChange={e => this.handleReviewChange(e)}></textarea>
-                      </div>
-
-                      </div>
-
-                      <CommonButton style={{ width: '100%', color: 'white', fontSize: 'bold', backgroundColor: '#19b9e7'}} onClick={e => this.handleSendReview(e)}>
-                        Send review
-                    </CommonButton>
-
-                    </DialogContent>
-                  </Dialog>
+                </DialogContent>
+              </Dialog>
 
 
               <Divider />

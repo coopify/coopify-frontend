@@ -18,7 +18,7 @@ import {
 import { Offers } from './offers';
 import { Protected } from './protected';
 import styles from '../css/profile.scss';
-import { resetError, attemptChangeFilters, attemptCategoriesAction } from '../actions/user';
+import { resetNotificationFlags, attemptChangeFilters, attemptCategoriesAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 import ReactJoyride from 'react-joyride';
 
@@ -70,7 +70,7 @@ class FilterOffers extends React.Component {
       const { dispatch } = this.props;
       if (isError) {
         toast.error(message);
-        dispatch(resetError());
+        dispatch(resetNotificationFlags());
       } else {
         toast.success(message);
       }

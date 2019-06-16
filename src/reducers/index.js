@@ -90,6 +90,7 @@ import {
   SEND_REVIEW_FAILURE,
   CAN_REVIEW_ATTEMPT,
   CAN_REVIEW_SUCCESS,
+  CAN_REVIEW_FAILURE,
 
 } from './userReducer';
 // import { serviceReducers, initialServiceState } from './serviceReducer';
@@ -195,6 +196,7 @@ const Actions = {
   SEND_REVIEW_FAILURE,
   CAN_REVIEW_ATTEMPT,
   CAN_REVIEW_SUCCESS,
+  CAN_REVIEW_FAILURE,
 };
 
 export {
@@ -292,4 +294,5 @@ export {
   SEND_REVIEW_FAILURE,
   CAN_REVIEW_ATTEMPT,
   CAN_REVIEW_SUCCESS,
+  CAN_REVIEW_FAILURE,
 };

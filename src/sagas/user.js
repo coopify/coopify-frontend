@@ -50,6 +50,7 @@ import {
   SEND_REVIEW_SUCCESS,
   SEND_REVIEW_FAILURE,
   CAN_REVIEW_SUCCESS,
+  CAN_REVIEW_FAILURE
 } from '../reducers';
 
 import {
@@ -365,5 +366,7 @@ export function* canReviewAsync(payload) {
   const result = yield checkReviewAPICall(payload.payload);
   if (result.status === 200) {
     yield put({ type: CAN_REVIEW_SUCCESS, canRate: result.canRate });
+  } else {
+    yield put({ type: CAN_REVIEW_FAILURE, errorMessage: result.errorMessage });
   }
 }

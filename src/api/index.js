@@ -603,8 +603,6 @@ export function sendReviewAPICall(payload) {
       status: e.response.status,
       errorMessage: e.response.data.message,
     }));
-
-  //return { status: 200, review: { name: 'Pedro', review: description, date: '10/06/2019', ratingReview: offerRate } };
 }
 
 export function checkReviewAPICall(payload) {
@@ -622,6 +620,4 @@ export function checkReviewAPICall(payload) {
       status: e.response.status,
       errorMessage: e.response.data.message,
     }));
-
-  //return { status: 200, canRate: true };
 }

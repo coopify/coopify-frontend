@@ -9,3 +9,7 @@ div[class^='MuiGridListTile-tile']  {
 .rce-mbox.rce-mbox-right {
     background: #aeffc7;
 }
+
+.rce-container-input {
+    background: #fafafa;
+}

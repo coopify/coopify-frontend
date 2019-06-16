@@ -1,5 +1,5 @@
 #app {
-	background-color: #fafafa;
+    background-color: #fafafa;
 }
 
 body {
@@ -195,4 +195,4 @@ footer a:hover, footer a:focus { border-bottom: 1px dotted #19b9e7; }
 .chat-list {
 	text-align: left;
 	color: black;
-} 
+}

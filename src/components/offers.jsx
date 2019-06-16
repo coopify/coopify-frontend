@@ -16,6 +16,7 @@ import StarRatingComponent from 'react-star-rating-component';
 import { resetError, attemptOffersAction } from '../actions/user';
 import styles from '../css/profile.scss';
 import { GridView } from './gridview';
+import noImage from '../assets/noImage.png'
 
 export default @connect(state => ({
   loading: state.loading,
@@ -103,7 +104,7 @@ class Offers extends React.Component {
 
   render() {
     const { offers, loading } = this.props;
-    const defaultImage = 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
+    const defaultImage = noImage;
     
     const steps = [
       {

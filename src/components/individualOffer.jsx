@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
   Button, Row, Col,
@@ -30,6 +30,13 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import CommonButton from '@material-ui/core/Button';
+
 export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
@@ -37,6 +44,7 @@ export default @connect(state => ({
   offer: state.offer,
   reviews: state.reviews,
   canRate: state.canRate,
+  reviewCreated: state.reviewCreated,
 }))
 
 class IndividualOffer extends React.Component {
@@ -48,6 +56,7 @@ class IndividualOffer extends React.Component {
     offer: PropTypes.objectOf(PropTypes.object),
     reviews: PropTypes.arrayOf(PropTypes.object),
     canRate: PropTypes.bool,
+    reviewCreated: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -59,6 +68,7 @@ class IndividualOffer extends React.Component {
     offer: {},
     reviews: [],
     canRate: false,
+    reviewCreated: false,
   };
 
   constructor(props) {
@@ -73,6 +83,7 @@ class IndividualOffer extends React.Component {
       myServiceRating: 0,
       myUserRating: 0,
       myDescription: '',
+      modalOpen: false,
     };
     this.setShareCount = this.setShareCount.bind(this);
     this.verifyRefCode();
@@ -136,6 +147,7 @@ class IndividualOffer extends React.Component {
       dispatch(resetError());
     } else {
       toast.success(message);
+      dispatch(resetError());
     }
   }
 
@@ -150,7 +162,7 @@ class IndividualOffer extends React.Component {
     }
   }
 
-  onServiceStarClick(e){
+  onServiceStarClick(e) {
     const value = e;
     this.setState({
       ...this.state,
@@ -158,7 +170,7 @@ class IndividualOffer extends React.Component {
     });
   }
 
-  onUserStarClick(e){
+  onUserStarClick(e) {
     const value = e;
     this.setState({
       ...this.state,
@@ -166,7 +178,21 @@ class IndividualOffer extends React.Component {
     });
   }
 
-  handleReviewChange(e){
+  handleClickOpen = () => {
+    this.setState({
+      ...this.state,
+      modalOpen: true,
+    });
+  };
+
+  handleClose = () => {
+    this.setState({
+      ...this.state,
+      modalOpen: false,
+    });
+  };
+
+  handleReviewChange(e) {
     const description = e.target.value;
     this.setState({
       ...this.state,
@@ -217,20 +243,31 @@ class IndividualOffer extends React.Component {
     };
 
     dispatch(attemptSendReview(payload));
+    this.handleClose();
   }
 
+  notify = (message, isError) => {
+    if (isError) {
+      toast.error(message);
+    } else {
+      toast.success(message);
+    }
+  }
 
   render() {
     const {
-      loggedUser, offer, loading, reviews, canRate
+      loggedUser, offer, loading, reviews, canRate, error, reviewCreated
     } = this.props;
-    const { myServiceRating, myUserRating } = this.state;
+    const { myServiceRating, myUserRating, modalOpen } = this.state;
     const pictureUrl = offer && offer.images && offer.images.length > 0 ? offer.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
     const displayOwnerOnly = loggedUser.id === offer.userId ? 'none' : 'block';
     const marginBetween = '5%';
     const shareUrl = `${global.URL}/offers/${offer.id}?referalCode=${loggedUser.referalCode}`;
     const showBtnShareFB = 'inline-block';
-    const canReview =  canRate ? 'block' : 'none';
+    const canReview = canRate ? 'block' : 'none';
+
+    if (error.length > 0) this.notify(error, true);
+    if (reviewCreated) this.notify('The service was reviewed successfully!', false);
 
     return (
       <Protected>
@@ -388,6 +425,10 @@ class IndividualOffer extends React.Component {
 
               <Divider />
 
+              <Button style={{ display: canReview}} onClick={e => this.handleClickOpen(e)}>
+              Write your review for this service
+                    </Button>
+
               <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
                 <Col sm="2">
                   {' '}
@@ -431,63 +472,81 @@ class IndividualOffer extends React.Component {
                 </Col>
               </Row>
 
-              <ExpansionPanel style={{display: canReview}}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-        >
-          <Typography>Would you like to rate this service?</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+                  <Dialog 
+                    open={modalOpen}
+                    onClose={this.handleClose}
+                    aria-labelledby="form-dialog-title"
+                    fullWidth = {true}
+                  >
+                    <DialogTitle id="form-dialog-title"><h1>{offer.title}</h1></DialogTitle>
+                  <Divider />
+                    <DialogContent>
 
-        <div>
+                    <form style={{color: 'black', paddingTop: '7%'}}>
+                      <div class="form-group row" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                        <label for="staticEmail" style={{width: '40%', textAlign:'left', fontSize:'200%'}}><h3>Service</h3></label>
+                        <div style={{fontSize: '200%'}}>
+                          
+                        <StarRatingComponent
+                                                  name="RatingService"
+                                                  starColor="#ffb400"
+                                                  emptyStarColor="#ffb400"
+                                                  renderStarIcon={(index, value) => {
+                                                    return (
+                                                      <span>
+                                                        <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
+                                                      </span>
+                                                    );
+                                                  }}
+                                                  value={myServiceRating}
+                                                  onStarClick={e => this.onServiceStarClick(e)}
+                                                  starCount={5}
+                                                  
+                                                />
 
-<Row>
+                        </div>
+                      </div>
+                      <div class="form-group row"  style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                        <label for="inputPassword" style={{width: '40%', textAlign:'left', fontSize:'200%'}}><h3>User</h3></label>
+                        <div style={{fontSize: 'xx-large', fontSize:'200%'}}>
+                        <StarRatingComponent
+                                                  name="RatingService"
+                                                  starColor="#ffb400"
+                                                  emptyStarColor="#ffb400"
+                                                  renderStarIcon={(index, value) => {
+                                                    return (
+                                                      <span>
+                                                        <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
+                                                      </span>
+                                                    );
+                                                  }}
+                                                  value={myUserRating}
+                                                  onStarClick={e => this.onUserStarClick(e)}
+                                                  starCount={5}
+                                                  style={{fontSize: 'xx-large'}}
+                                                />
+                        </div>
+                      </div>
+                    </form>
 
-  <IconButton>
-    <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{width: "30%", height: "30%"}}/>
-  </IconButton>
 
-  <h4>{loggedUser.name}</h4>
+                      <div>
+                        <Divider/>
 
-</Row>
+                        <div class="form-group" style={{display: 'flex', alignItems: 'center', paddingTop: '3%'}}>
+                          <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{width: "20%", height: "25%", display: 'inline-block'}}/>
+                          <textarea style={{marginLeft: '5%', fontSize: '12px', lineHeight: '1'}} rows={4} class="form-control" placeholder="Would you like to add a comment?" onChange={e => this.handleReviewChange(e)}></textarea>
+                      </div>
 
-<Row>
-  <StarRatingComponent
-    name="RatingService"
-    renderStarIcon={() => <span>&#9733;</span>}
-    value={myServiceRating}
-    onStarClick={e => this.onServiceStarClick(e)}
-    starCount={5}
-  />
-</Row>
+                      </div>
 
-<Row>
-  <StarRatingComponent
-    name="RatingService"
-    renderStarIcon={() => <span>&#9733;</span>}
-    value={myUserRating}
-    onStarClick={e => this.onUserStarClick(e)}
-    starCount={5}
-  />
-</Row>
+                      <CommonButton style={{ width: '100%', color: 'white', fontSize: 'bold', backgroundColor: '#19b9e7' }} onClick={e => this.handleSendReview(e)}>
+                        Send review
+                    </CommonButton>
 
-<Row>
-  <TextField
-    margin="dense"
-    multiline
-    rowsMax="4"
-    style = {{width: '100%'}}
-    onChange= {e => this.handleReviewChange(e)}
-  />
-</Row>
+                    </DialogContent>
+                  </Dialog>
 
-<Row>
-  <Button onClick={e => this.handleSendReview(e)}>Make review</Button>
-</Row>
-</div>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
 
               <Divider />
 
@@ -525,7 +584,7 @@ class IndividualOffer extends React.Component {
                 </div>
               </div>
             </div>
-
+            <ToastContainer autoClose={3000} />
           </LoadingScreen>
         </GuestLayout>
       </Protected>

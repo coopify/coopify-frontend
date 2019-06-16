@@ -288,6 +288,7 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         error: '',
         status: '',
+        reviewCreated: false,
       });
 
     case CREATE_OFFER_ATTEMPT:
@@ -597,6 +598,7 @@ export const user = (state = initialUserState, action) => {
           return _.assignIn({}, state, {
             loading: false,
             reviews: state.reviews.concat([action.review]),
+            reviewCreated: true,
           });
         
         case CAN_REVIEW_SUCCESS:

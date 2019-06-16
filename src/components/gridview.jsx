@@ -34,13 +34,13 @@ class GridView extends React.Component {
     elements: [],
     width: 0,
     colectionName: '',
-    getImageFromElement: () => {},
-    getAlternativeTextForImageFromElement: () => {},
-    getTitleFromElement: () => {},
-    getSubtitleFromElement: () => {},
-    selectItem: () => {},
-    getDetailRoute: () => {},
-    getOverlayFadeInfo: () => {},
+    getImageFromElement: () => { },
+    getAlternativeTextForImageFromElement: () => { },
+    getTitleFromElement: () => { },
+    getSubtitleFromElement: () => { },
+    selectItem: () => { },
+    getDetailRoute: () => { },
+    getOverlayFadeInfo: () => { },
     shouldRedirect: false,
   };
 
@@ -79,7 +79,7 @@ class GridView extends React.Component {
         {
           <h2 style={{ textAlign: 'center' }}>
             {colectionName}
-          </h2> }
+          </h2>}
 
         <div style={{
           display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
@@ -99,20 +99,16 @@ class GridView extends React.Component {
                     {getOverlayFadeInfo(element)}
                   </div>
                 </div>
-                <GridListTileBar
-                  key={element.id}
-                  title={shouldRedirect ? (
-                    <Link
-                      style={{ padding: '0', color: 'white' }}
-                      to={getDetailRoute(element)}
-                      className="navbar-item"
-                    >
-                      <i className="fa" />
-                      {getTitleFromElement(element)}
-                    </Link>
-                  ) : selectItem(element)}
-                  subtitle={getSubtitleFromElement(element)}
-                />
+                <Link to={getDetailRoute(element)}>
+                  <GridListTileBar
+                    className="imageoverlayfade"
+                    key={element.id}
+                    title={shouldRedirect ? (
+                      <p className="agus">{getTitleFromElement(element)}</p>
+                    ) : selectItem(element)}
+                    subtitle={getSubtitleFromElement(element)}
+                  />
+                </Link>
               </GridListTile>
             ))}
           </GridList>

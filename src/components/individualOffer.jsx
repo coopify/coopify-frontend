@@ -223,26 +223,26 @@ class IndividualOffer extends React.Component {
                         {}
                       </Col>
                       <Col sm="4">
-                        <div className="card text-center">
-                          <div className="container-fluid">
-                            <div>
-                              {offer.ratingCount !== 0 ? (
+                        {offer.ratingCount !== 0 ? (
+                          <div className="card text-center">
+                            <div className="container-fluid">
+                              <div>
                                 <div>
                                   <p className="card-text">
                                     {'Service Rating: '}
-                                    {offer.ratingSum / offer.ratingCount}
+                                    {Number.parseFloat(offer.ratingSum / offer.ratingCount).toFixed(2)}
                                   </p>
                                   <StarRatingComponent
                                     name="RatingService"
                                     editing={false}
                                     renderStarIcon={() => <span>&#9733;</span>}
                                     starCount={5}
-                                    value={offer.ratingSum / offer.ratingCount}
+                                    value={Number.parseFloat(offer.ratingSum / offer.ratingCount).toFixed(2)}
                                   />
-                                </div>) : ('')}
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
+                          </div>) : ('')}
                       </Col>
                       <Col sm="4">
                         {}

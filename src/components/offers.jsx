@@ -182,13 +182,13 @@ class Offers extends React.Component {
                     {offer.ratingCount !== 0 ? (
                       <div>
                         {'Service Rating: '}
-                        {offer.ratingSum / offer.ratingCount}
+                        {Number.parseFloat(offer.ratingSum / offer.ratingCount).toFixed(2)}
                         <StarRatingComponent
                           name="RatingService"
                           editing={false}
                           renderStarIcon={() => <span>&#9733;</span>}
                           starCount={5}
-                          value={offer.ratingSum / offer.ratingCount}
+                          value={Number.parseFloat(offer.ratingSum / offer.ratingCount).toFixed(2)}
                         />
                       </div>) : ('')}
                   </div>
@@ -197,8 +197,10 @@ class Offers extends React.Component {
                 getDetailRoute={offer => `/offers/${offer.id}`}
                 getOverlayFadeInfo={offer => (
                   <div>
-                    <p>{`by: ${offer.by}`}</p>
-                    {offer.description.length > 35 ? (<p>{`${offer.description.substring(0, 35)}...`}</p>) : (<p>{`${offer.description}`}</p>)}
+                    <p style={{ fontSize: '24' }}>{`by: ${offer.by}`}</p>
+                    <div style={{ fontStyle: 'italic' }}>
+                      {offer.description.length > 35 ? (<p>{`${offer.description.substring(0, 35)}...`}</p>) : (<p>{`${offer.description}`}</p>)}
+                    </div>
                   </div>
                 )
                 }

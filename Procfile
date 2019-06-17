@@ -1,0 +1,1 @@
+web: pawjs --no-cache --env=development start

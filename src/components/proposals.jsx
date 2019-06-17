@@ -116,6 +116,11 @@ class Proposals extends React.Component {
                     getSubtitleFromElement={proposal => `by: ${proposal.proposer.name}`}
                     shouldRedirect={false}
                     getDetailRoute={proposal => `/offers/${proposal.purchasedOffer.id}`}
+                    getOverlayFadeInfo={proposal => (
+                      <div>
+                        <p style={{ fontSize: '24' }}>{`Status: ${proposal.status}`}</p>
+                      </div>
+                    )}
                     selectItem={selectedProposal => (
                       <Proposal
                         proposal={selectedProposal}

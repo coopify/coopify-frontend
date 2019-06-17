@@ -203,8 +203,7 @@ class Offers extends React.Component {
                       {offer.description.length > 35 ? (<p>{`${offer.description.substring(0, 35)}...`}</p>) : (<p>{`${offer.description}`}</p>)}
                     </div>
                   </div>
-                )
-                }
+                )}
               />
             </div>
 

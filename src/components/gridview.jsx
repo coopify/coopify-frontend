@@ -92,16 +92,17 @@ class GridView extends React.Component {
                     {getOverlayFadeInfo(element)}
                   </div>
                 </div>
-                <Link to={getDetailRoute(element)}>
-                  <GridListTileBar
-                    className="imageoverlayfade"
-                    key={element.id}
-                    title={shouldRedirect ? (
+
+                <GridListTileBar
+                  className="imageoverlayfade"
+                  key={element.id}
+                  title={shouldRedirect ? (
+                    <Link to={getDetailRoute(element)}>
                       <p className="middlegridlisttilebar">{getTitleFromElement(element)}</p>
-                    ) : selectItem(element)}
-                    subtitle={getSubtitleFromElement(element)}
-                  />
-                </Link>
+                    </Link>
+                  ) : selectItem(element)}
+                  subtitle={getSubtitleFromElement(element)}
+                />
               </GridListTile>
             ))}
           </GridList>

@@ -40,7 +40,7 @@ import { Proposal } from './proposal';
 
 import { getConversation } from '../api';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
-import BasicData from './offerCreation/basicData.js';
+import BasicData from './offerCreation/basicData.jsx';
 import Protected from './protected';
 import styles from '../resources/css/profile.scss';
 import {

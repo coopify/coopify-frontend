@@ -18,7 +18,7 @@ import { loadScript } from '@pawjs/pawjs/src/utils/utils';
 import StepZilla from 'react-stepzilla';
 import { loadStyle } from '@pawjs/pawjs/src/utils/utils';
 import LoadingScreen from 'react-loading-screen';
-import BasicData from './offerCreation/basicData.js';
+import BasicData from './offerCreation/basicData.jsx';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import Protected from './protected';
 import styles from '../resources/css/profile.scss';

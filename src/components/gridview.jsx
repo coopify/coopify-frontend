@@ -99,7 +99,11 @@ class GridView extends React.Component {
                       <p className="middlegridlisttilebar">{getTitleFromElement(element)}</p>
                     </Link>
                   ) : selectItem(element)}
-                  subtitle={getSubtitleFromElement(element)}
+                  subtitle={shouldRedirect ? getSubtitleFromElement(element) : (
+                    <Link to={getDetailRoute(element)}>
+                      {'Service'}
+                      <i className="fa fa-handshake-o" aria-hidden="true" />
+                    </Link>)}
                 />
               </div>
             </GridListTile>

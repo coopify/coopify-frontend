@@ -8,7 +8,7 @@ import 'react-bootstrap';
 import 'react-table/react-table.css';
 import LoadingScreen from 'react-loading-screen';
 import { GridView } from './gridview';
-import styles from '../css/profile.scss';
+import styles from '../resources/css/profile.scss';
 import { resetNotificationFlags, attemptOffersAction } from '../actions/user';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';

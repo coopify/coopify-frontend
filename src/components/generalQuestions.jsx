@@ -8,14 +8,12 @@ import {
   Button, Row, Col, Card,
 } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/style.css';
-import '../css/form-elements.css';
 import 'font-awesome/css/font-awesome.min.css';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
-import styles from '../css/profile.scss';
+import styles from '../resources/css/profile.scss';
 import {
   attemptGetQuestionsAndAnswer, attemptSendReply, attemptQuestion, resetNotificationFlags,
 } from '../actions/user';

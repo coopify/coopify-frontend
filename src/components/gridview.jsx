@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import styles from '../css/profile.scss';
+import styles from '../resources/css/profile.scss';
 
 export default @connect(state => ({
   width: state.width,
@@ -69,6 +69,7 @@ class GridView extends React.Component {
       getDetailRoute, getOverlayFadeInfo, shouldRedirect,
     } = this.props;
     const { width } = this.state;
+
     // TODO Revisar los 600
     const colSize = width < 600 ? Math.min(elements.length, 2) : Math.min(elements.length, 3);
     const cellsize = width < 600 ? '180' : '300';
@@ -79,9 +80,9 @@ class GridView extends React.Component {
           display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden',
         }}
         >
-          <GridList cellHeight={cellsize} cols={colSize} style={{ height: '80%', width: '100%' }}>
+          <GridList cellHeight='auto' cols={colSize} style={{ height: '80%', width: '100%' }}>
             {elements.map(element => (
-              <GridListTile style={{ padding: '2%' }} key={element.id}>
+              <GridListTile className="tileElement" style={{ padding: '2%' }} key={element.id}>
                 <div className="imageoverlayfade">
                   <img
                     className="image"

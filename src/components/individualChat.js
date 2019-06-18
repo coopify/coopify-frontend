@@ -42,7 +42,7 @@ import { getConversation } from '../api';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import BasicData from './offerCreation/basicData.js';
 import Protected from './protected';
-import styles from '../css/profile.scss';
+import styles from '../resources/css/profile.scss';
 import {
   attemptSendMessage, attemptGetUserChat, attemptGetUsersOffers, attemptMakeProposal, attemptGetConversationProposals,
 } from '../actions/user';

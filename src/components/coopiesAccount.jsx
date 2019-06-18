@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import ReactTable from 'react-table';
-import styles from '../css/profile.scss';
+import styles from '../resources/css/profile.scss';
 import { Protected } from './protected';
 import { resetNotificationFlags, attemptCheckBalanceAction, attemptCheckTransactionsAction } from '../actions/user';
 import GuestLayout from './guest-layout';

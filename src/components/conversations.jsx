@@ -10,8 +10,7 @@ import LoadingScreen from 'react-loading-screen';
 import { Protected } from './protected';
 import { attemptGetUserConversations } from '../actions/user';
 import GuestLayout from './guest-layout';
-import styles from '../css/profile.scss';
-
+import styles from '../resources/css/profile.scss';
 
 export default @connect(state => ({
   loggedUser: state.user,

@@ -5,7 +5,9 @@
   "scripts": {
     "start": "pawjs --no-cache --env=development start",
     "lint": "pawjs lint",
-    "test": "pawjs --no-cache test"
+    "test": "pawjs --no-cache test",
+    "build": "node --max_old_space_size=4096  ./node_modules/.bin//../@pawjs/pawjs/paw.js --no-cache --config=./prod-pawconfig.json --env=production build",
+    "build:dev": "node --max_old_space_size=4096  ./node_modules/.bin//../@pawjs/pawjs/paw.js --no-cache --config=./demo-pawconfig.json --env=production build"
   },
   "author": {
     "name": "Atyantik Technologies",

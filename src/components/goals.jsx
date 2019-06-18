@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
-import styles from '../css/profile.scss';
+import styles from '../resources/css/profile.scss';
 import { resetNotificationFlags, attemptGoalsAction, attemptGoalsUserAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 

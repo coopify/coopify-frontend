@@ -21,7 +21,7 @@ import LoadingScreen from 'react-loading-screen';
 import BasicData from './offerCreation/basicData.js';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import Protected from './protected';
-import styles from '../css/profile.scss';
+import styles from '../resources/css/profile.scss';
 import { resetNotificationFlags, attemptPublishOffer } from '../actions/user';
 import GuestLayout from './guest-layout';
 

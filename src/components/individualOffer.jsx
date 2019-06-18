@@ -36,6 +36,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CommonButton from '@material-ui/core/Button';
+import noImage from '../assets/noImage.png';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -251,7 +252,7 @@ class IndividualOffer extends React.Component {
       loggedUser, offer, loading, reviews, canRate, error, reviewCreated
     } = this.props;
     const { myServiceRating, myUserRating, modalOpen } = this.state;
-    const pictureUrl = offer && offer.images && offer.images.length > 0 ? offer.images[0].url : 'https://cdn2.vectorstock.com/i/1000x1000/01/61/service-gear-flat-icon-vector-13840161.jpg';
+    const pictureUrl = offer && offer.images && offer.images.length > 0 ? offer.images[0].url : noImage;
     const displayOwnerOnly = loggedUser.id === offer.userId ? 'none' : 'block';
     const marginBetween = '5%';
     const shareUrl = `${global.URL}/offers/${offer.id}?referalCode=${loggedUser.referalCode}`;

@@ -65,35 +65,32 @@ class GridView extends React.Component {
   render() {
     const {
       elements, getImageFromElement, getAlternativeTextForImageFromElement,
-      getTitleFromElement, getSubtitleFromElement, colectionName, selectItem,
+      getTitleFromElement, getSubtitleFromElement, selectItem,
       getDetailRoute, getOverlayFadeInfo, shouldRedirect,
     } = this.props;
     const { width } = this.state;
 
     // TODO Revisar los 600
     const colSize = width < 600 ? Math.min(elements.length, 2) : Math.min(elements.length, 3);
-    const cellsize = width < 600 ? '180' : '300';
+    const cellsize = width < 600 ? '170' : 'auto';
     return (
       <div className={styles.container} style={{ backgroundColor: '#fafafa' }}>
-        {}
-        <div style={{
-          display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden',
-        }}
-        >
-          <GridList cellHeight='auto' cols={colSize} style={{ height: '80%', width: '100%' }}>
-            {elements.map(element => (
-              <GridListTile className="tileElement" style={{ padding: '2%' }} key={element.id}>
-                <div className="imageoverlayfade">
-                  <img
-                    className="image"
-                    src={getImageFromElement(element)}
-                    alt={getAlternativeTextForImageFromElement(element)}
-                  />
-                  <div className="middle">
-                    {getOverlayFadeInfo(element)}
-                  </div>
+        <GridList cellHeight={cellsize} cols={colSize}>
+          {elements.map(element => (
+            <GridListTile className="tileElement" style={{ padding: '1%' }} key={element.id}>
+              <div className="imageoverlayfade">
+                <img
+                  className="image"
+                  src={getImageFromElement(element)}
+                  alt={getAlternativeTextForImageFromElement(element)}
+                  width="400"
+                  height="400"
+                />
+                <div className="middle">
+                  {getOverlayFadeInfo(element)}
                 </div>
-
+              </div>
+              <div>
                 <GridListTileBar
                   className="imageoverlayfade"
                   key={element.id}
@@ -104,10 +101,10 @@ class GridView extends React.Component {
                   ) : selectItem(element)}
                   subtitle={getSubtitleFromElement(element)}
                 />
-              </GridListTile>
-            ))}
-          </GridList>
-        </div>
+              </div>
+            </GridListTile>
+          ))}
+        </GridList>
         <ToastContainer autoClose={3000} />
       </div>
     );

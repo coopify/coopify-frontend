@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-bootstrap';
+// import 'react-bootstrap';
 import 'react-table/react-table.css';
 import LoadingScreen from 'react-loading-screen';
 import { GridView } from './gridview';
@@ -17,6 +17,7 @@ import ReactJoyride from 'react-joyride';
 import { Link } from 'react-router-dom';
 import StarRatingComponent from 'react-star-rating-component';
 import noImage from '../assets/noImage.png'
+import { Row, Col } from 'react-bootstrap';
 
 export default @connect(state => ({
   loading: state.loading,
@@ -182,15 +183,35 @@ class Offers extends React.Component {
                   <div>
                     {offer.ratingCount !== 0 ? (
                       <div>
-                        {'Service Rating: '}
-                        {Number.parseFloat(offer.rating).toFixed(2)}
-                        <StarRatingComponent
-                          name="RatingService"
-                          editing={false}
-                          renderStarIcon={() => <span>&#9733;</span>}
-                          starCount={5}
-                          value={Number.parseFloat(offer.rating).toFixed(2)}
-                        />
+                        <Row>
+                          <Col sm="1">
+                            {}
+                          </Col>
+                          <Col sm="10" style={{ top: 5 }}>
+                            {'Service Rating: '}
+                            {Number.parseFloat(offer.rating).toFixed(2)}
+                          </Col>
+                          <Col sm="1">
+                            {}
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col sm="1">
+                            {}
+                          </Col>
+                          <Col sm="10" style={{ top: 7 }}>
+                            <StarRatingComponent
+                              name="RatingService"
+                              editing={false}
+                              renderStarIcon={() => <span>&#9733;</span>}
+                              starCount={5}
+                              value={Number.parseFloat(offer.rating).toFixed(2)}
+                            />
+                          </Col>
+                          <Col sm="1">
+                            {}
+                          </Col>
+                        </Row>
                       </div>) : ('')}
                   </div>
                 )}

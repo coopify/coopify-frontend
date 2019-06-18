@@ -101,7 +101,6 @@ class GridView extends React.Component {
                   ) : selectItem(element)}
                   subtitle={shouldRedirect ? getSubtitleFromElement(element) : (
                     <Link to={getDetailRoute(element)}>
-                      {'Service'}
                       <i className="fa fa-handshake-o" aria-hidden="true" />
                     </Link>)}
                 />

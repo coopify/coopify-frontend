@@ -1,1 +1,1 @@
-web: pawjs --no-cache --env=development start
+web: node dist/server.js

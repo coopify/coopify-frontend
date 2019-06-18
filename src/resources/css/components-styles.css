@@ -1,4 +1,4 @@
-div[class^='MuiGridListTile-tile']  {
+/* div[class^='MuiGridListTile-tile']  {
     border-radius: 10%;
 }
 
@@ -12,4 +12,9 @@ div[class^='MuiGridListTile-tile']  {
 
 .rce-container-input {
     background: #fafafa;
+} */
+
+
+.tileElement > div:first-of-type {
+    border-radius: 4%;
 }

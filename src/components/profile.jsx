@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import { loadScript } from '@pawjs/pawjs/src/utils/utils';
 import LoadingScreen from 'react-loading-screen';
 import { Protected } from './protected';
-import styles from '../css/profile.scss';
+import styles from '../resources/css/profile.scss';
 import {
   attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetNotificationFlags,
 } from '../actions/user';

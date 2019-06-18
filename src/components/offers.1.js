@@ -12,7 +12,7 @@ import StarRatingComponent from 'react-star-rating-component';
 import { Link } from 'react-router-dom';
 import LoadingScreen from 'react-loading-screen';
 import Protected from './protected';
-import styles from '../css/profile.scss';
+import styles from '../resources/css/profile.scss';
 import { resetNotificationFlags, attemptOffersAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 import AddIcon from '@material-ui/icons/Add';

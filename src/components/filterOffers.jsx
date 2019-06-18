@@ -17,7 +17,7 @@ import {
 } from './offerCreation/offerEnums';
 import { Offers } from './offers';
 import { Protected } from './protected';
-import styles from '../css/profile.scss';
+import styles from '../resources/css/profile.scss';
 import { resetNotificationFlags, attemptChangeFilters, attemptCategoriesAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 import ReactJoyride from 'react-joyride';

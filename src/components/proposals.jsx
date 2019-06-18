@@ -8,7 +8,7 @@ import 'react-table/react-table.css';
 import LoadingScreen from 'react-loading-screen';
 import { Proposal } from './proposal';
 import Protected from './protected';
-import styles from '../css/profile.scss';
+import styles from '../resources/css/profile.scss';
 import { resetNotificationFlags, attemptProposalsAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 import GridView from './gridview';

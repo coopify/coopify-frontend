@@ -32,7 +32,7 @@ import ReactJoyride from 'react-joyride';
 import Avatar from '@material-ui/core/Avatar';
 
 import {
-  attemptLogoutAction, loadState, attemptUpdateMessage, resetNotificationFlags,
+  attemptLogoutAction, loadState, attemptUpdateMessage, resetNotificationFlags, attemptCheckBalanceAction,
 } from '../actions/user';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -40,28 +40,17 @@ export default @connect(state => ({
   loggedUser: state.user,
   userDidLog: state.userDidLog,
   status: state.status,
+  balance: state.balance,
 }))
 
 class Header extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false,
-      loggedUser: {},
-      userDidLog: false,
-      isActive: false,
-    };
-    this.loadStateFromCookies();
-    this.useStyles = this.useStyles.bind(this);
-    this.handleDrawerClose = this.handleDrawerClose.bind(this);
-    this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
-  }
 
   static propTypes = {
     dispatch: PropTypes.func,
-    loggedUser: PropTypes.object,
+    loggedUser: PropTypes.objectOf(PropTypes.object),
     userDidLog: PropTypes.bool,
     status: PropTypes.string,
+    balance: PropTypes.string,
   };
 
   static defaultProps = {
@@ -70,32 +59,35 @@ class Header extends PureComponent {
     loggedUser: {},
     userDidLog: false,
     status: '',
+    balance: '-',
   };
 
-  notify(message, isError) {
-    if (isError) {
-      toast.error(message);
-    } else {
-      toast.success(message);
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      loggedUser: {},
+      userDidLog: false,
+      isActive: false,
+      balance: '-',
+    };
+    this.loadStateFromCookies();
+    this.useStyles = this.useStyles.bind(this);
+    this.handleDrawerClose = this.handleDrawerClose.bind(this);
+    this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
   }
 
-
-  toggleMenuBar(e) {
-    const { open } = this.state;
-    if (e && e.preventDefault) {
-      e.preventDefault();
+  componentDidMount() {
+    const { dispatch, loggedUser } = this.props;
+    const token = localStorage.getItem('token');
+    if (token) {
+      const reqAttributes = {
+        userId: loggedUser.id,
+        userToken: token,
+      };
+      dispatch(attemptCheckBalanceAction(reqAttributes));
     }
-    this.setState({
-      open: !open,
-    });
-  }
-
-  loadStateFromCookies() {
-    const { dispatch, userDidLog } = this.props;
-    if (!userDidLog) {
-      dispatch(loadState());
-    }
+    dispatch(resetNotificationFlags());
   }
 
   closeMenuBar() {
@@ -108,9 +100,29 @@ class Header extends PureComponent {
     }));
   }
 
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(resetNotificationFlags());
+  loadStateFromCookies() {
+    const { dispatch, userDidLog } = this.props;
+    if (!userDidLog) {
+      dispatch(loadState());
+    }
+  }
+
+  toggleMenuBar(e) {
+    const { open } = this.state;
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
+    this.setState({
+      open: !open,
+    });
+  }
+
+  notify(message, isError) {
+    if (isError) {
+      toast.error(message);
+    } else {
+      toast.success(message);
+    }
   }
 
   handleLogout(e) {
@@ -195,20 +207,21 @@ class Header extends PureComponent {
 
   render() {
     const { open } = this.state;
-    const { userDidLog, loggedUser, status } = this.props;
+    const { userDidLog, loggedUser, status, balance } = this.props;
     if (status && status.length > 0) this.notify(`Your proposal was ${status}`, false);
     const classes = this.useStyles();
     let links = [
-      {title: 'Home', url: '/home', icon: <ListIcon/>},
-      {title: 'Goals', url: '/goals', icon: <RedeemIcon/>},
+      { title: 'Home', url: '/home', icon: <ListIcon /> },
+      { title: 'Goals', url: '/goals', icon: <RedeemIcon /> },
+      { title: 'Login', url: '/login', icon: <i className="material-icons"> person </i> },
     ];
-    if(loggedUser && loggedUser.id){
+    if (loggedUser && loggedUser.id) {
       links = [
-        {title: 'Services', url: '/seeOffers', icon: <ListIcon/>},
-        {title: 'Transactions', url: '/user/coopiesAccount', icon: <SwapHorizIcon/>},
-        {title: 'Proposals', url: '/user/proposals', icon: <BorderColorIcon/>},
-        {title: 'Conversations', url: '/user/conversations', icon: <ChatIcon/>},
-        {title: 'My Goals', url: '/goals',  icon: <RedeemIcon/>},
+        { title: 'Services', url: '/seeOffers', icon: <ListIcon /> },
+        { title: 'Transactions', url: '/user/coopiesAccount', icon: <SwapHorizIcon /> },
+        { title: 'Proposals', url: '/user/proposals', icon: <BorderColorIcon /> },
+        { title: 'Conversations', url: '/user/conversations', icon: <ChatIcon /> },
+        { title: 'My Goals', url: '/goals', icon: <RedeemIcon /> },
       ];
     }
 
@@ -247,7 +260,7 @@ class Header extends PureComponent {
           }}
         />
 
-        <AppBar style={{backgroundColor: "#5d6065"}}
+        <AppBar style={{ backgroundColor: "#5d6065" }}
           position="fixed"
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
@@ -268,6 +281,16 @@ class Header extends PureComponent {
                 <img src={logo} width="112" height="28" />
               </Link>
             </div>
+            {loggedUser ? (
+              <div>
+                <p>
+                  <i className="material-icons"> account_balance_wallet </i>
+                  {' '}
+                  {balance}
+                  {' Coopies'}
+                </p>
+              </div>)
+              : ''}
           </Toolbar>
         </AppBar>
         <Drawer
@@ -286,11 +309,11 @@ class Header extends PureComponent {
           </div>
           <Divider />
 
-          { loggedUser && loggedUser.id ? 
+          {loggedUser && loggedUser.id ?
             (
               <div>
                 <IconButton>
-                  <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{width: "60%", height: "60%"}}/>
+                  <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{ width: "60%", height: "60%" }} />
                 </IconButton>
                 <Link to="/user/profile">
                   <h2>{loggedUser.name}</h2>
@@ -301,31 +324,32 @@ class Header extends PureComponent {
           }
           <List>
             {links.map((text, index) => (
-               <Link to={text.url}>
-              <ListItem button key={text} >
-                <ListItemIcon>{text.icon}</ListItemIcon>
-                <ListItemText primary={text.title} />
-              </ListItem>
+              <Link to={text.url}>
+                <ListItem button key={text} >
+                  <ListItemIcon>{text.icon}</ListItemIcon>
+                  <ListItemText primary={text.title} />
+                </ListItem>
               </Link>
             ))}
           </List>
 
-          {loggedUser && loggedUser.id ? 
+          {loggedUser && loggedUser.id ?
             (
-              <div> 
+              <div>
                 <Divider />
                 <List>
-                    <Link to='#'>
-                  <ListItem button key='logout' onClick={e => this.handleLogout(e)} >
-                    <ListItemIcon>{<PowerSettingsNewIcon/>}</ListItemIcon>
-                    <ListItemText primary='Logout' /> 
-                  </ListItem>
+                  <Link to='#'>
+                    <ListItem button key='logout' onClick={e => this.handleLogout(e)} >
+                      <ListItemIcon>{<PowerSettingsNewIcon />}</ListItemIcon>
+                      <ListItemText primary='Logout' />
+                    </ListItem>
                   </Link>
                 </List>
-            </div>
+              </div>
             ) : ''
           }
         </Drawer>
+
         <main
           className={clsx(classes.content, {
             [classes.contentShift]: open,

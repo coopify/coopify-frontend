@@ -621,3 +621,20 @@ export function checkReviewAPICall(payload) {
       errorMessage: e.response.data.message,
     }));
 }
+
+export function getUserReviewsApiCall(payload) {
+  const { userId } = payload;
+
+  return axios.get(
+    `${global.API_URL}/api/users/${userId}/rates`, //TODO ver url
+  )
+    .then(response => ({
+      status: response.status,
+      reviews: response.data.rates, //TODO ver como devuelve
+    })).catch(e => ({
+      status: e.response.status,
+      errorMessage: e.response.data.message,
+    }));
+
+  // return { status: 200, reviews: [{ name: 'Pedro', review: 'Excelent service', date: '10/06/2019', ratingReview: 5 }, { name: 'Marcos', review: 'Is very dificult', date: '05/03/2019', ratingReview: 2 }, { name: 'Marcelo', review: 'What?', date: '07/05/2019', ratingReview: 4 }] };
+}

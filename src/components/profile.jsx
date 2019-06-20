@@ -15,15 +15,17 @@ import LoadingScreen from 'react-loading-screen';
 import { Protected } from './protected';
 import styles from '../resources/css/profile.scss';
 import {
-  attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetNotificationFlags,
+  attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetNotificationFlags, attemptGetReviews
 } from '../actions/user';
 import GuestLayout from './guest-layout';
 import { getUrlSocialAPICall } from '../api';
+import StarRatingComponent from 'react-star-rating-component';
 
 export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
   loading: state.loading,
+  reviews: state.reviews,
 }))
 
 class Profile extends React.Component {
@@ -32,6 +34,7 @@ class Profile extends React.Component {
     loggedUser: PropTypes.objectOf(PropTypes.object),
     loading: PropTypes.bool,
     error: PropTypes.string,
+    reviews: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.object)),
   };
 
   static defaultProps = {
@@ -40,6 +43,7 @@ class Profile extends React.Component {
     loggedUser: {},
     loading: false,
     error: '',
+    reviews: [],
   };
 
   constructor(props) {
@@ -51,7 +55,13 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
     loadScript('//widget.cloudinary.com/global/all.js');
+
+    const payload = {
+      userId: '1234343', //this.props.match.id; //TODO get userid from url
+    };
+    dispatch(attemptGetReviews(payload));
   }
 
   notify = (message, isError) => {
@@ -153,7 +163,7 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { loading, error, loggedUser } = this.props;
+    const { loading, error, loggedUser, reviews } = this.props;
     const { checked } = this.state;
     if (error.length > 0) this.notify(error, true);
     const edition = !checked;
@@ -161,6 +171,8 @@ class Profile extends React.Component {
     const dateBirth = loggedUser.birthdate ? loggedUser.birthdate.substring(0, 10)
       : new Date(Date.now()).toISOString().substring(0, 10);
     const displayFBBtn = loggedUser.FBSync ? 'none' : 'inline-block';
+    const userRating = loggedUser.rateCount > 0 ? loggedUser.rateSum / loggedUser.rateCount : 0;
+    const marginBetween = '5%';
 
     return (
       <Protected>
@@ -243,6 +255,15 @@ class Profile extends React.Component {
                 </Row>
 
                 <Row style={{ marginTop: '2%' }}>
+
+                <StarRatingComponent
+                  name="RatingService"
+                  editing={false}
+                  renderStarIcon={() => <span>&#9733;</span>}
+                  starCount={5}
+                  value={Number.parseFloat(userRating).toFixed(2)}
+                                  />
+
                   <Col sm={2} style={{ marginLeft: '10%' }}>
                     <div style={{ borderColor: 'red' }} onClick={() => this.changeImage()}>
                       <img className={styles.picture} alt="profile" name="picture" src={loggedUser.pictureURL} />
@@ -341,6 +362,51 @@ class Profile extends React.Component {
                   </Col>
                 </Row>
               </form>
+
+              <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="8">
+                  <div className="card text-right">
+                    <ul>
+                      <div className="card-header">
+                        <h4>Reviews: </h4>
+                      </div>
+                      {reviews.map(item => (
+                        <div>
+                          <Col>
+                            {item.reviewer.name}
+                            {' '}
+                            {/* {item.date} */}
+                            <StarRatingComponent
+                              name="RatingReview"
+                              editing={false}
+                              renderStarIcon={() => <span>&#9733;</span>}
+                              starCount={5}
+                              value={item.userRate}
+                            />
+                            <TextField
+                              value={item.description}
+                              disabled
+                              multiline
+                              fullWidth
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                            />
+                          </Col>
+                        </div>
+                      ))}
+                    </ul>
+                  </div>
+                </Col>
+                <Col sm="2">
+                  {' '}
+                </Col>
+              </Row>
+
+
             </div>
             <ToastContainer autoClose={3000} />
 

@@ -91,6 +91,9 @@ export const SEND_REVIEW_FAILURE = 'SEND_REVIEW_FAILURE';
 export const CAN_REVIEW_ATTEMPT = 'CAN_REVIEW_ATTEMPT';
 export const CAN_REVIEW_SUCCESS = 'CAN_REVIEW_SUCCESS';
 export const CAN_REVIEW_FAILURE = 'CAN_REVIEW_FAILURE';
+export const GET_USER_REVIEWS_ATTEMPT = 'GET_USER_REVIEWS_ATTEMPT';
+export const GET_USER_REVIEWS_FAILURE = 'GET_USER_REVIEWS_FAILURE';
+export const GET_USER_REVIEWS_SUCCESS = 'GET_USER_REVIEWS_SUCCESS';
 
 export const user = (state = initialUserState, action) => {
   switch (action.type) {
@@ -611,6 +614,16 @@ export const user = (state = initialUserState, action) => {
             return _.assignIn({}, state, {
               canRate: false,
             });
+
+            case GET_USER_REVIEWS_SUCCESS:
+              return _.assignIn({}, state, {
+                reviews: action.reviews,
+              });
+    
+              case GET_USER_REVIEWS_SUCCESS:
+                return _.assignIn({}, state, {
+                  error: action.errorMessage,
+                });
 
     default:
       return state;

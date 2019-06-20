@@ -3,36 +3,32 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
-import logo from '../assets/logo.png';
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import ChatIcon from '@material-ui/icons/Chat';
 import ListIcon from '@material-ui/icons/List';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import RedeemIcon from '@material-ui/icons/Redeem';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
-import ReactJoyride from 'react-joyride';
 import Avatar from '@material-ui/core/Avatar';
+import ReactJoyride from 'react-joyride';
+import logo from '../assets/logo.png';
 
 import {
-  attemptLogoutAction, loadState, attemptUpdateMessage, resetNotificationFlags, attemptCheckBalanceAction,
+  attemptLogoutAction, loadState, resetNotificationFlags, attemptCheckBalanceAction,
 } from '../actions/user';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -119,13 +115,13 @@ class Header extends PureComponent {
 
   notify(message, isError) {
     if (isError) {
-      toast.error(message);
+      this.toast.error(message);
     } else {
-      toast.success(message);
+      this.toast.success(message);
     }
   }
 
-  handleLogout(e) {
+  handleLogout() {
     const { dispatch } = this.props;
     dispatch(attemptLogoutAction());
   }
@@ -207,7 +203,7 @@ class Header extends PureComponent {
 
   render() {
     const { open } = this.state;
-    const { userDidLog, loggedUser, status, balance } = this.props;
+    const { loggedUser, status, balance } = this.props;
     if (status && status.length > 0) this.notify(`Your proposal was ${status}`, false);
     const classes = this.useStyles();
     let links = [
@@ -217,6 +213,7 @@ class Header extends PureComponent {
     ];
     if (loggedUser && loggedUser.id) {
       links = [
+        { title: 'Home', url: '/home', icon: <i className="material-icons"> home </i> },
         { title: 'Services', url: '/seeOffers', icon: <ListIcon /> },
         { title: 'Transactions', url: '/user/coopiesAccount', icon: <SwapHorizIcon /> },
         { title: 'Proposals', url: '/user/proposals', icon: <BorderColorIcon /> },
@@ -256,11 +253,12 @@ class Header extends PureComponent {
               textColor: '#333',
               width: undefined,
               zIndex: 100,
-            }
+            },
           }}
         />
 
-        <AppBar style={{ backgroundColor: "#5d6065" }}
+        <AppBar
+          style={{ backgroundColor: '#5d6065' }}
           position="fixed"
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
@@ -278,7 +276,7 @@ class Header extends PureComponent {
             </IconButton>
             <div className="navbar-brand">
               <Link className="navbar-item" to="/">
-                <img src={logo} width="112" height="28" />
+                <img src={logo} alt="logo coopify" width="112" height="28" />
               </Link>
             </div>
             {loggedUser ? (
@@ -309,23 +307,22 @@ class Header extends PureComponent {
           </div>
           <Divider />
 
-          {loggedUser && loggedUser.id ?
-            (
-              <div>
-                <IconButton>
-                  <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{ width: "60%", height: "60%" }} />
-                </IconButton>
-                <Link to="/user/profile">
-                  <h2>{loggedUser.name}</h2>
-                </Link>
-                <Divider />
-              </div>
-            ) : ''
+          {loggedUser && loggedUser.id ? (
+            <div>
+              <IconButton>
+                <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{ width: '60%', height: '60%' }} />
+              </IconButton>
+              <Link to="/user/profile">
+                <h2>{loggedUser.name}</h2>
+              </Link>
+              <Divider />
+            </div>
+          ) : ''
           }
           <List>
             {links.map((text, index) => (
               <Link to={text.url}>
-                <ListItem button key={text} >
+                <ListItem button key={text}>
                   <ListItemIcon>{text.icon}</ListItemIcon>
                   <ListItemText primary={text.title} />
                 </ListItem>
@@ -333,20 +330,19 @@ class Header extends PureComponent {
             ))}
           </List>
 
-          {loggedUser && loggedUser.id ?
-            (
-              <div>
-                <Divider />
-                <List>
-                  <Link to='#'>
-                    <ListItem button key='logout' onClick={e => this.handleLogout(e)} >
-                      <ListItemIcon>{<PowerSettingsNewIcon />}</ListItemIcon>
-                      <ListItemText primary='Logout' />
-                    </ListItem>
-                  </Link>
-                </List>
-              </div>
-            ) : ''
+          {loggedUser && loggedUser.id ? (
+            <div>
+              <Divider />
+              <List>
+                <Link to="/login">
+                  <ListItem button key="logout" onClick={() => this.handleLogout()}>
+                    <ListItemIcon>{<PowerSettingsNewIcon />}</ListItemIcon>
+                    <ListItemText primary="Logout" />
+                  </ListItem>
+                </Link>
+              </List>
+            </div>
+          ) : ''
           }
         </Drawer>
 

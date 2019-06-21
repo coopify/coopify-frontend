@@ -312,7 +312,7 @@ class Header extends PureComponent {
               <IconButton>
                 <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{ width: '60%', height: '60%' }} />
               </IconButton>
-              <Link to="/user/profile">
+              <Link to={`/user/profile/${loggedUser.id}`}>
                 <h2>{loggedUser.name}</h2>
               </Link>
               <Divider />

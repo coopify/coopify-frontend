@@ -53,7 +53,7 @@ export default [
     },
   },
   {
-    path: '/user/profile',
+    path: '/user/profile/:id',
     exact: true,
     component: Profile,
     seo: {

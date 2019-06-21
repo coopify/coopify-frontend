@@ -53,6 +53,8 @@ import {
   CAN_REVIEW_FAILURE,
   GET_USER_REVIEWS_FAILURE,
   GET_USER_REVIEWS_SUCCESS,
+  GET_USER_SUCCESS,
+  GET_USER_FAILURE,
 } from '../reducers';
 
 import {
@@ -89,6 +91,7 @@ import {
   sendReviewAPICall,
   checkReviewAPICall,
   getUserReviewsApiCall,
+  getUserApiCall,
 } from '../api';
 
 export function* loginAsync(payload) {
@@ -380,5 +383,14 @@ export function* getUserReviewsAsync(payload) {
     yield put({ type: GET_USER_REVIEWS_SUCCESS, reviews: result.reviews });
   } else {
     yield put({ type: GET_USER_REVIEWS_FAILURE, errorMessage: result.errorMessage });
+  }
+}
+
+export function* getUserAsync(payload) {
+  const result = yield getUserApiCall(payload.payload);
+  if (result.status === 200) {
+    yield put({ type: GET_USER_SUCCESS, user: result.user });
+  } else {
+    yield put({ type: GET_USER_FAILURE, errorMessage: result.errorMessage });
   }
 }

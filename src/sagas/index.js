@@ -34,6 +34,7 @@ import {
   sendReviewAsync,
   canReviewAsync,
   getUserReviewsAsync,
+  getUserAsync,
 } from './user';
 
 export default function* rootSaga() {
@@ -73,6 +74,7 @@ export default function* rootSaga() {
       takeEvery('SEND_REVIEW_ATTEMPT', sendReviewAsync),
       takeEvery('CAN_REVIEW_ATTEMPT', canReviewAsync),
       takeEvery('GET_USER_REVIEWS_ATTEMPT', getUserReviewsAsync),
+      takeEvery('GET_USER_ATTEMPT', getUserAsync),
     ],
   );
 }

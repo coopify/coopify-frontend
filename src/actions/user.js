@@ -195,3 +195,13 @@ export const attemptCanReview = payload => ({
   type: Actions.CAN_REVIEW_ATTEMPT,
   payload,
 });
+
+export const attemptGetUserReviews = payload => ({
+  type: Actions.GET_USER_REVIEWS_ATTEMPT,
+  payload,
+});
+
+export const attemptGetUser = payload => ({
+  type: Actions.GET_USER_ATTEMPT,
+  payload,
+});

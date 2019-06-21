@@ -15,15 +15,20 @@ import LoadingScreen from 'react-loading-screen';
 import { Protected } from './protected';
 import styles from '../resources/css/profile.scss';
 import {
-  attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetNotificationFlags,
+  attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetNotificationFlags, attemptGetUserReviews, attemptGetUser
 } from '../actions/user';
 import GuestLayout from './guest-layout';
 import { getUrlSocialAPICall } from '../api';
+import StarRatingComponent from 'react-star-rating-component';
+import TextField from '@material-ui/core/TextField';
+import avatarImg from '../assets/avatar.png';
 
 export default @connect(state => ({
   loggedUser: state.user,
   error: state.error,
   loading: state.loading,
+  reviews: state.reviews,
+  profileUser: state.profileUser,
 }))
 
 class Profile extends React.Component {
@@ -32,6 +37,8 @@ class Profile extends React.Component {
     loggedUser: PropTypes.objectOf(PropTypes.object),
     loading: PropTypes.bool,
     error: PropTypes.string,
+    reviews: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.object)),
+    profileUser: PropTypes.objectOf(PropTypes.object),
   };
 
   static defaultProps = {
@@ -40,6 +47,8 @@ class Profile extends React.Component {
     loggedUser: {},
     loading: false,
     error: '',
+    reviews: [],
+    profileUser: {},
   };
 
   constructor(props) {
@@ -51,7 +60,15 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
+    const { dispatch } = this.props;
     loadScript('//widget.cloudinary.com/global/all.js');
+
+    const payload = {
+      userId: this.props.match.params.id,
+    };
+
+    dispatch(attemptGetUser(payload));
+    dispatch(attemptGetUserReviews(payload));
   }
 
   notify = (message, isError) => {
@@ -153,17 +170,20 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { loading, error, loggedUser } = this.props;
+    const { loading, error, loggedUser, reviews, profileUser } = this.props;
     const { checked } = this.state;
     if (error.length > 0) this.notify(error, true);
     const edition = !checked;
     const focusable = !checked ? 'disabled' : '';
-    const dateBirth = loggedUser.birthdate ? loggedUser.birthdate.substring(0, 10)
+    const dateBirth = profileUser.birthdate ? profileUser.birthdate.substring(0, 10)
       : new Date(Date.now()).toISOString().substring(0, 10);
-    const displayFBBtn = loggedUser.FBSync ? 'none' : 'inline-block';
+    const displayFBBtn = profileUser.FBSync ? 'none' : 'inline-block';
+    const userRating = profileUser.rateCount > 0 ? profileUser.rateSum / profileUser.rateCount : 0;
+    const marginBetween = '5%';
+    const showEditionSwitch = loggedUser.id == profileUser.id ? 'block' : 'none';
+    const userPicture = profileUser.pictureURL == null ? avatarImg : profileUser.pictureURL;
 
     return (
-      <Protected>
         <GuestLayout>
 
           <LoadingScreen
@@ -181,7 +201,7 @@ class Profile extends React.Component {
 
                     <h2 style={{ textAlign: 'center' }}> Profile </h2>
 
-                    <div style={{ textAlign: 'center' }}>
+                    <div style={{ textAlign: 'center', display: showEditionSwitch }}>
 
                       <Button onClick={this.handleIntegrateFBBtnClick} style={{ display: displayFBBtn, backgroundColor: 'transparent', color: 'black' }}>
 
@@ -191,45 +211,46 @@ class Profile extends React.Component {
 
                     </div>
 
-                    <div>Edit Mode</div>
-                    <Switch
-                      checked={checked}
-                      onChange={() => this.handleSwitchChange()}
-                      onColor="#86d3ff"
-                      onHandleColor="#2693e6"
-                      handleDiameter={30}
-                      uncheckedIcon={(
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            height: '100%',
-                            fontSize: 15,
-                            color: 'orange',
-                            paddingRight: 2,
-                          }}
-                        >
+                    <div style={{display: showEditionSwitch }}>
+                      <div>Edit Mode</div>
+                      <Switch
+                        checked={checked}
+                        onChange={() => this.handleSwitchChange()}
+                        onColor="#86d3ff"
+                        onHandleColor="#2693e6"
+                        handleDiameter={30}
+                        uncheckedIcon={(
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              height: '100%',
+                              fontSize: 15,
+                              color: 'orange',
+                              paddingRight: 2,
+                            }}
+                          >
 
-                          <div>Off</div>
-                        </div>
-)}
-                      checkedIcon={(
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            height: '100%',
-                            fontSize: 15,
-                            color: 'white',
-                            paddingRight: 2,
-                            paddingLeft: 10,
-                          }}
-                        >
+                            <div>Off</div>
+                          </div>
+  )}
+                        checkedIcon={(
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              height: '100%',
+                              fontSize: 15,
+                              color: 'white',
+                              paddingRight: 2,
+                              paddingLeft: 10,
+                            }}
+                          >
 
-                          {'On'}
-                        </div>
+                            {'On'}
+                          </div>
 )}
 
                       boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
@@ -239,14 +260,25 @@ class Profile extends React.Component {
                       className="react-switch"
                       id="material-switch"
                     />
+                    </div>
                   </Col>
                 </Row>
 
                 <Row style={{ marginTop: '2%' }}>
+
                   <Col sm={2} style={{ marginLeft: '10%' }}>
                     <div style={{ borderColor: 'red' }} onClick={() => this.changeImage()}>
-                      <img className={styles.picture} alt="profile" name="picture" src={loggedUser.pictureURL} />
+                      <img className={styles.picture} alt="profile" name="picture" src={userPicture} />
                     </div>
+
+                  <StarRatingComponent
+                    name="RatingService"
+                    editing={false}
+                    renderStarIcon={() => <span>&#9733;</span>}
+                    starCount={5}
+                    value={Number.parseFloat(userRating).toFixed(2)}
+                 />
+
                   </Col>
                   <Col sm={3}>
 
@@ -254,7 +286,7 @@ class Profile extends React.Component {
                       <label className="label" htmlFor="name">
                         {'First name'}
                         <div className="control">
-                          <input name="name" value={loggedUser.name} onChange={e => this.handleOnChange(e)} placeholder="Name" className="form-control" readOnly={edition} disabled={focusable} />
+                          <input name="name" value={profileUser.name} onChange={e => this.handleOnChange(e)} placeholder="Name" className="form-control" readOnly={edition} disabled={focusable} />
                         </div>
                       </label>
                     </div>
@@ -264,7 +296,7 @@ class Profile extends React.Component {
                       <label className="label" htmlFor="lastname">
                         {'Last name'}
                         <div className="control">
-                          <input name="lastname" value={loggedUser.lastName} onChange={e => this.handleOnChange(e)} placeholder="Last name" className="form-control" readOnly={edition} disabled={focusable} />
+                          <input name="lastname" value={profileUser.lastName} onChange={e => this.handleOnChange(e)} placeholder="Last name" className="form-control" readOnly={edition} disabled={focusable} />
                         </div>
                       </label>
                     </div>
@@ -273,7 +305,7 @@ class Profile extends React.Component {
                       <label className="label" htmlFor="direction">
                         {'Address'}
                         <div className="control">
-                          <input name="direction" value={loggedUser.address} onChange={e => this.handleOnChange(e)} placeholder="Direction" className="form-control" readOnly={edition} disabled={focusable} />
+                          <input name="direction" value={profileUser.address} onChange={e => this.handleOnChange(e)} placeholder="Direction" className="form-control" readOnly={edition} disabled={focusable} />
                         </div>
                       </label>
                     </div>
@@ -282,7 +314,7 @@ class Profile extends React.Component {
                       <label className="label" htmlFor="tel">
                         {'Phone'}
                         <div className="control">
-                          <input type="number" name="tel" value={loggedUser.phone} onChange={e => this.handleOnChange(e)} placeholder="Tel" className="form-control" readOnly={edition} disabled={focusable} />
+                          <input type="number" name="tel" value={profileUser.phone} onChange={e => this.handleOnChange(e)} placeholder="Tel" className="form-control" readOnly={edition} disabled={focusable} />
                         </div>
                       </label>
                     </div>
@@ -304,7 +336,7 @@ class Profile extends React.Component {
                       <label className="label" htmlFor="biography">
                         {'Biography'}
                         <div className="control">
-                          <input name="biography" type="textarea" onChange={e => this.handleOnChange(e)} value={loggedUser.bio} placeholder="Biography" className="form-control" readOnly={edition} disabled={focusable} />
+                          <input name="biography" type="textarea" onChange={e => this.handleOnChange(e)} value={profileUser.bio} placeholder="Biography" className="form-control" readOnly={edition} disabled={focusable} />
                         </div>
                       </label>
                     </div>
@@ -313,7 +345,7 @@ class Profile extends React.Component {
                       <label className="label" htmlFor="interests">
                         {'Interests'}
                         <div className="control">
-                          <input name="interests" type="textarea" onChange={e => this.handleOnChange(e)} value={loggedUser.interests} placeholder="Interests" className="form-control" readOnly={edition} disabled={focusable} />
+                          <input name="interests" type="textarea" onChange={e => this.handleOnChange(e)} value={profileUser.interests} placeholder="Interests" className="form-control" readOnly={edition} disabled={focusable} />
                         </div>
                       </label>
                     </div>
@@ -333,20 +365,62 @@ class Profile extends React.Component {
                     ) : ''
             }
 
-                    {'&nbsp;'}
-
                     { !edition ? <Link className="button is-light" to="/home">Cancel</Link> : '' }
 
 
                   </Col>
                 </Row>
               </form>
+
+              <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="8">
+                  <div className="card text-right">
+                    <ul>
+                      <div className="card-header">
+                        <h4>Reviews: </h4>
+                      </div>
+                      {reviews.map(item => (
+                        <div>
+                          <Col>
+                            {item.reviewer.name}
+                            {' '}
+                            {/* {item.date} */}
+                            <StarRatingComponent
+                              name="RatingReview"
+                              editing={false}
+                              renderStarIcon={() => <span>&#9733;</span>}
+                              starCount={5}
+                              value={item.userRate}
+                            />
+                            <TextField
+                              value={item.description}
+                              disabled
+                              multiline
+                              fullWidth
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                            />
+                          </Col>
+                        </div>
+                      ))}
+                    </ul>
+                  </div>
+                </Col>
+                <Col sm="2">
+                  {' '}
+                </Col>
+              </Row>
+
+
             </div>
             <ToastContainer autoClose={3000} />
 
           </LoadingScreen>
         </GuestLayout>
-      </Protected>
     );
   }
 }

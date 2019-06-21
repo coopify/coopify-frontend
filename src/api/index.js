@@ -621,3 +621,33 @@ export function checkReviewAPICall(payload) {
       errorMessage: e.response.data.message,
     }));
 }
+
+export function getUserReviewsApiCall(payload) {
+  const { userId } = payload;
+
+  return axios.get(
+    `${global.API_URL}/api/rates/?reviewedUserId=${userId}`,
+  )
+    .then(response => ({
+      status: response.status,
+      reviews: response.data.rates,
+    })).catch(e => ({
+      status: e.response.status,
+      errorMessage: e.response.data.message,
+    }));
+}
+
+export function getUserApiCall(payload) {
+  const { userId } = payload;
+
+  return axios.get(
+    `${global.API_URL}/api/users/${userId}`,
+  )
+    .then(response => ({
+      status: response.status,
+      user: response.data.user,
+    })).catch(e => ({
+      status: e.response.status,
+      errorMessage: e.response.data.message,
+    }));
+}

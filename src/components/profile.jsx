@@ -20,6 +20,8 @@ import {
 import GuestLayout from './guest-layout';
 import { getUrlSocialAPICall } from '../api';
 import StarRatingComponent from 'react-star-rating-component';
+import TextField from '@material-ui/core/TextField';
+import avatarImg from '../assets/avatar.png';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -179,6 +181,7 @@ class Profile extends React.Component {
     const userRating = profileUser.rateCount > 0 ? profileUser.rateSum / profileUser.rateCount : 0;
     const marginBetween = '5%';
     const showEditionSwitch = loggedUser.id == profileUser.id ? 'block' : 'none';
+    const userPicture = profileUser.pictureURL == null ? avatarImg : profileUser.pictureURL;
 
     return (
         <GuestLayout>
@@ -198,7 +201,7 @@ class Profile extends React.Component {
 
                     <h2 style={{ textAlign: 'center' }}> Profile </h2>
 
-                    <div style={{ textAlign: 'center' }}>
+                    <div style={{ textAlign: 'center', display: showEditionSwitch }}>
 
                       <Button onClick={this.handleIntegrateFBBtnClick} style={{ display: displayFBBtn, backgroundColor: 'transparent', color: 'black' }}>
 
@@ -263,18 +266,19 @@ class Profile extends React.Component {
 
                 <Row style={{ marginTop: '2%' }}>
 
-                <StarRatingComponent
-                  name="RatingService"
-                  editing={false}
-                  renderStarIcon={() => <span>&#9733;</span>}
-                  starCount={5}
-                  value={Number.parseFloat(userRating).toFixed(2)}
-                                  />
-
                   <Col sm={2} style={{ marginLeft: '10%' }}>
                     <div style={{ borderColor: 'red' }} onClick={() => this.changeImage()}>
-                      <img className={styles.picture} alt="profile" name="picture" src={profileUser.pictureURL} />
+                      <img className={styles.picture} alt="profile" name="picture" src={userPicture} />
                     </div>
+
+                  <StarRatingComponent
+                    name="RatingService"
+                    editing={false}
+                    renderStarIcon={() => <span>&#9733;</span>}
+                    starCount={5}
+                    value={Number.parseFloat(userRating).toFixed(2)}
+                 />
+
                   </Col>
                   <Col sm={3}>
 
@@ -360,8 +364,6 @@ class Profile extends React.Component {
                       </Button>
                     ) : ''
             }
-
-                    {'&nbsp;'}
 
                     { !edition ? <Link className="button is-light" to="/home">Cancel</Link> : '' }
 

@@ -441,7 +441,7 @@ class IndividualOffer extends React.Component {
                       {reviews.map(item => (
                         <div>
                           <Col>
-                            {item.reviewer.name}
+                            {item.reviewer == null ? '' : item.reviewer.name}
                             {' '}
                             {/* {item.date} */}
                             <StarRatingComponent

@@ -306,8 +306,10 @@ class IndividualOffer extends React.Component {
                     </FacebookShareButton>
 
                     <p>{offer.description}</p>
-                    <Link to={`/user/profile/${offer.userId}`}>  
-                      <h2>See profile of {offer.by}</h2>
+                    <Link to={`/user/profile/${offer.userId}`}>
+                      <h3>
+                        {`See profile of ${offer.by}`}
+                      </h3>
                     </Link>
                     <Row>
                       <Col sm="4">

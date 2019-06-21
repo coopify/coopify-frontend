@@ -29,6 +29,8 @@ export default () => {
         Service exchange platform
         </h2>
         <Link to="/login" className="button">Login</Link>
+        {' '}
+        <Link to="/signup" className="button">Signup</Link>
         </div>
     </div>
   </section>

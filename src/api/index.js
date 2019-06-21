@@ -626,34 +626,28 @@ export function getUserReviewsApiCall(payload) {
   const { userId } = payload;
 
   return axios.get(
-    `${global.API_URL}/api/users/${userId}/rates`, //TODO ver url
+    `${global.API_URL}/api/rates/?reviewedUserId=${userId}`,
   )
     .then(response => ({
       status: response.status,
-      reviews: response.data.rates, //TODO ver como devuelve
+      reviews: response.data.rates,
     })).catch(e => ({
       status: e.response.status,
       errorMessage: e.response.data.message,
     }));
-
-  // return { status: 200, reviews: [{ name: 'Pedro', description: 'Excelent service', userRate: 5 }, { name: 'Marcos', description: 'Is very dificult', userRate: 2 }, { name: 'Marcelo', description: 'What?', userRate: 4 }] };
 }
 
 export function getUserApiCall(payload) {
   const { userId } = payload;
 
   return axios.get(
-    `${global.API_URL}/api/users/${userId}`, //TODO ver url
+    `${global.API_URL}/api/users/${userId}`,
   )
     .then(response => ({
       status: response.status,
-      user: response.data.user, //TODO ver como devuelve
+      user: response.data.user,
     })).catch(e => ({
       status: e.response.status,
       errorMessage: e.response.data.message,
     }));
-    
-    // return { status: 200, user:
-    //   {id:"52a43dd0-816b-11e9-a26e-174a70a7a757",email:"sultano@gmail.com",pictureURL:null,resetToken:null,isVerified:false,name:"Sultano",lastName:null,birthdate:null,bio:null,gender:null,address:null,phone:null,interests:null,FBSync:false,referalCode:"JPz77wx3",rateCount:0,rateSum:0,rating:0},
-    // };
 }

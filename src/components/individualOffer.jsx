@@ -37,6 +37,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CommonButton from '@material-ui/core/Button';
 import noImage from '../assets/noImage.png';
+import { Link } from 'react-router-dom';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -305,6 +306,9 @@ class IndividualOffer extends React.Component {
                     </FacebookShareButton>
 
                     <p>{offer.description}</p>
+                    <Link to={`/user/profile/${offer.userId}`}>  
+                      <h2>See profile of {offer.by}</h2>
+                    </Link>
                     <Row>
                       <Col sm="4">
                         {}

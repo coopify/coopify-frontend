@@ -147,7 +147,7 @@ class IndividualOffer extends React.Component {
   };
 
   delay = ms => new Promise(res => setTimeout(res, ms));
-  
+
   handleClickOpen = () => {
     this.setState({
       ...this.state,
@@ -284,6 +284,9 @@ class IndividualOffer extends React.Component {
 
             <div>
               <Row>
+                <Col sm="2">
+                  {' '}
+                </Col>
                 <Col sm="4">
                   <img name="picture" alt={offer.title} src={pictureUrl} width="400" style={{ position: 'relative', top: '5%', transform: 'translateY(-5%)' }} />
                 </Col>
@@ -308,7 +311,7 @@ class IndividualOffer extends React.Component {
                     </h3>
                   </Link>
                   <Row>
-                    <Col sm="12">
+                    <Col>
                       {offer.ratingCount !== 0 ? (
                         <div className="card text-center">
                           <div className="container-fluid">
@@ -380,7 +383,9 @@ class IndividualOffer extends React.Component {
                       </div>
                     ) : ''}
                   </div>
+
                   <Divider />
+
                   <TextField
                     label="Start Date"
                     type="date"
@@ -390,7 +395,6 @@ class IndividualOffer extends React.Component {
                       shrink: true,
                     }}
                   />
-
                   <TextField
                     label="Finish Date"
                     type="date"
@@ -401,14 +405,16 @@ class IndividualOffer extends React.Component {
                     }}
                   />
                 </Col>
-
+                <Col sm="2">
+                  {' '}
+                </Col>
               </Row>
 
               <Divider />
 
               <div style={{ textAlign: 'center' }}>
                 <Button style={{ display: canReview, margin: 'auto' }} onClick={e => this.handleClickOpen(e)}>
-                  Write your review for this service
+                  {'Write your review for this service'}
                 </Button>
               </div>
 
@@ -523,16 +529,16 @@ class IndividualOffer extends React.Component {
                       <textarea
                         style={{ marginLeft: '5%', fontSize: '12px', lineHeight: '1' }}
                         rows={4}
-                        className="form-control" 
+                        className="form-control"
                         placeholder="Would you like to add a comment?"
-                        onChange={e => this.handleReviewChange(e)} 
+                        onChange={e => this.handleReviewChange(e)}
                       />
                     </div>
 
                   </div>
 
                   <CommonButton
-                    style={{ width: '100%', color: 'white', fontSize: 'bold', backgroundColor: '#19b9e7'}}
+                    style={{ width: '100%', color: 'white', fontSize: 'bold', backgroundColor: '#19b9e7' }}
                     onClick={e => this.handleSendReview(e)}
                   >
                     {'Send review'}

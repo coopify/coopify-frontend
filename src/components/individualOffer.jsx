@@ -283,143 +283,125 @@ class IndividualOffer extends React.Component {
           >
 
             <div>
-
               <Row>
                 <Col sm="4">
                   <img name="picture" alt={offer.title} src={pictureUrl} width="400" style={{ position: 'relative', top: '5%', transform: 'translateY(-5%)' }} />
                 </Col>
 
-                <Col sm="8" style={{ textAlign: 'center' }}>
+                <Col sm="2">
+                  <h1 style={{ display: 'inline-block' }} className="title">{offer.title}</h1>
 
-                  <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
+                  <FacebookShareButton
+                    style={{ display: showBtnShareFB, marginLeft: '4%' }}
+                    url={shareUrl}
+                    quote={offer.title}
+                    beforeOnClick={e => this.setShareCount(e)}
+                    onShareWindowClose={e => this.handleShareComplete(e)}
+                  >
+                    <FacebookIcon size={32}> Share with Facebook </FacebookIcon>
+                  </FacebookShareButton>
 
-                    <h1 style={{ display: 'inline-block' }} className="title">{offer.title}</h1>
-
-                    <FacebookShareButton
-                      style={{ display: showBtnShareFB, marginLeft: '4%' }}
-                      url={shareUrl}
-                      quote={offer.title}
-                      beforeOnClick={e => this.setShareCount(e)}
-                      onShareWindowClose={e => this.handleShareComplete(e)}
-                    >
-                      <FacebookIcon size={32}> Share with Facebook </FacebookIcon>
-                    </FacebookShareButton>
-
-                    <p>{offer.description}</p>
-                    <Link to={`/user/profile/${offer.userId}`}>
-                      <h3>
-                        {`See profile of ${offer.by}`}
-                      </h3>
-                    </Link>
-                    <Row>
-                      <Col sm="4">
-                        {}
-                      </Col>
-                      <Col sm="4">
-                        {offer.ratingCount !== 0 ? (
-                          <div className="card text-center">
-                            <div className="container-fluid">
+                  <p>{offer.description}</p>
+                  <Link to={`/user/profile/${offer.userId}`}>
+                    <h3>
+                      {`See profile of ${offer.by}`}
+                    </h3>
+                  </Link>
+                  <Row>
+                    <Col sm="12">
+                      {offer.ratingCount !== 0 ? (
+                        <div className="card text-center">
+                          <div className="container-fluid">
+                            <div>
                               <div>
-                                <div>
-                                  <p className="card-text">
-                                    {'Service Rating: '}
-                                    {Number.parseFloat(offer.rating).toFixed(2)}
-                                  </p>
-                                  <StarRatingComponent
-                                    name="RatingService"
-                                    editing={false}
-                                    renderStarIcon={() => <span>&#9733;</span>}
-                                    starCount={5}
-                                    value={Number.parseFloat(offer.rating).toFixed(2)}
-                                  />
-                                </div>
+                                <p className="card-text">
+                                  {'Service Rating: '}
+                                  {Number.parseFloat(offer.rating).toFixed(2)}
+                                </p>
+                                <StarRatingComponent
+                                  name="RatingService"
+                                  editing={false}
+                                  renderStarIcon={() => <span>&#9733;</span>}
+                                  starCount={5}
+                                  value={Number.parseFloat(offer.rating).toFixed(2)}
+                                />
                               </div>
                             </div>
-                          </div>) : ('')}
-                      </Col>
-                      <Col sm="4">
-                        {}
-                      </Col>
-                    </Row>
-
-                  </Row>
-                  <Divider />
-                  <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
-                    <div>
-                      <h4>Categories: </h4>
-
-                      {offer.categories !== undefined ? (
-                        offer.categories.map(c => (
-                          <Chip
-                            key={c.name}
-                            label={c.name}
-                          />
-                        ))) : ''}
-
-                    </div>
-
-                  </Row>
-                  <Divider />
-                  <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
-                    <div>
-                      <h4>Payment Method: </h4>
-                      <Chip label={offer.paymentMethod} />
-                    </div>
-
-                    <div>
-                      {offer.hourPrice && offer.hourPrice !== '0' ? (
-                        <div className="col-sm-12">
-                          <span>
-                            {offer.hourPrice}
-                            {' '}
-                            {'Coopies x hour'}
-                          </span>
-                        </div>
-                      ) : ''}
-                      {offer.sessionPrice && offer.sessionPrice !== '0' ? (
-                        <div className="col-sm-12">
-                          <span>
-                            {offer.sessionPrice}
-                            {' '}
-                            {'Coopies x session'}
-                          </span>
-                        </div>
-                      ) : ''}
-                      {offer.finalProductPrice && offer.finalProductPrice !== '0' ? (
-                        <div className="col-sm-12">
-                          <span>
-                            {offer.finalProductPrice}
-                            {' '}
-                            {'Coopies x final product'}
-                          </span>
-                        </div>
-                      ) : ''}
-                    </div>
-
-                  </Row>
-                  <Divider />
-                  <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
-                    <TextField
-                      label="Start Date"
-                      type="date"
-                      disabled
-                      defaultValue={moment(offer.startDate).format('YYYY-MM-DD')}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-
-                    <TextField
-                      label="Finish Date"
-                      type="date"
-                      disabled
-                      defaultValue={moment(offer.endDate).format('YYYY-MM-DD')}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
+                          </div>
+                        </div>) : ('')}
+                    </Col>
                   </Row>
                 </Col>
+                <Col sm="2">
+                  <div>
+                    <h4>Categories: </h4>
+
+                    {offer.categories !== undefined ? (
+                      offer.categories.map(c => (
+                        <Chip
+                          key={c.name}
+                          label={c.name}
+                        />
+                      ))) : ''}
+
+                  </div>
+                  <Divider />
+                  <div>
+                    <h4>Payment Method: </h4>
+                    <Chip label={offer.paymentMethod} />
+                  </div>
+
+                  <div>
+                    {offer.hourPrice && offer.hourPrice !== '0' ? (
+                      <div className="col-sm-12">
+                        <span>
+                          {offer.hourPrice}
+                          {' '}
+                          {'Coopies x hour'}
+                        </span>
+                      </div>
+                    ) : ''}
+                    {offer.sessionPrice && offer.sessionPrice !== '0' ? (
+                      <div className="col-sm-12">
+                        <span>
+                          {offer.sessionPrice}
+                          {' '}
+                          {'Coopies x session'}
+                        </span>
+                      </div>
+                    ) : ''}
+                    {offer.finalProductPrice && offer.finalProductPrice !== '0' ? (
+                      <div className="col-sm-12">
+                        <span>
+                          {offer.finalProductPrice}
+                          {' '}
+                          {'Coopies x final product'}
+                        </span>
+                      </div>
+                    ) : ''}
+                  </div>
+                  <Divider />
+                  <TextField
+                    label="Start Date"
+                    type="date"
+                    disabled
+                    defaultValue={moment(offer.startDate).format('YYYY-MM-DD')}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+
+                  <TextField
+                    label="Finish Date"
+                    type="date"
+                    disabled
+                    defaultValue={moment(offer.endDate).format('YYYY-MM-DD')}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </Col>
+
               </Row>
 
               <Divider />

@@ -7,8 +7,14 @@ export default class Routes {
   // eslint-disable-next-line
   apply(routeHandler) {
     routeHandler.setPwaSchema({
-      name: 'ReactPWA',
-      short_name: 'ReactPWA',
+      name: "Coopify- Service Exchange Platform",
+      short_name: "Coopify",
+      lang: "en-US",
+      start_url: "/",
+      display: "standalone",
+      orientation: "portrait",
+      theme_color: "#007bff",
+      background_color: "#007bff"
     });
     routeHandler.setDefaultSeoSchema({
       title: 'ReactPWA',

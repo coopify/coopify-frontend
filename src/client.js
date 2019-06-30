@@ -61,19 +61,5 @@ export default class Client {
       .beforeRender
       .tapPromise('AddReduxProvider', async () => (console.log('Client')));
 
-      clientHandler
-      .hooks
-      .renderComplete
-      .tap('AddServiceWorker', () => {
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('serviceWorkerCoopify.js').then(function(registration) {
-            // Registration was successful
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          }, function(err) {
-            // registration failed :(
-            console.log('ServiceWorker registration failed: ', err);
-          });
-        }
-      });
   }
 }

@@ -63,10 +63,10 @@ export default class Client {
 
       clientHandler
       .hooks
-      .beforeRender
-      .tapPromise('AddServiceWorker', async () => {
+      .renderComplete
+      .tap('AddServiceWorker', () => {
         if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register(`/serviceWorkerCoopify.js`).then(function(registration) {
+          navigator.serviceWorker.register('serviceWorkerCoopify.js').then(function(registration) {
             // Registration was successful
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
           }, function(err) {

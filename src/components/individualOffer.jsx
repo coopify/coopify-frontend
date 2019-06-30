@@ -284,6 +284,38 @@ class IndividualOffer extends React.Component {
 
             <div>
               <Row>
+
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="6">
+                  <h1 className="title">{offer.title}</h1>
+                </Col>
+                <Col sm="2">
+                  {offer.ratingCount !== 0 ? (
+                    <div className="card text-center">
+                      <div className="container-fluid">
+                        <div>
+                          <div>
+                            <p className="card-text">
+                              {'Service Rating: '}
+                              {Number.parseFloat(offer.rating).toFixed(2)}
+                            </p>
+                            <StarRatingComponent
+                              name="RatingService"
+                              editing={false}
+                              renderStarIcon={() => <span>&#9733;</span>}
+                              starCount={5}
+                              value={Number.parseFloat(offer.rating).toFixed(2)}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>) : ('')}
+                </Col>
+
+              </Row>
+              <Row>
                 <Col sm="2">
                   {' '}
                 </Col>
@@ -292,52 +324,11 @@ class IndividualOffer extends React.Component {
                 </Col>
 
                 <Col sm="2">
-                  <h1 style={{ display: 'inline-block' }} className="title">{offer.title}</h1>
-
-                  <FacebookShareButton
-                    style={{ display: showBtnShareFB, marginLeft: '4%' }}
-                    url={shareUrl}
-                    quote={offer.title}
-                    beforeOnClick={e => this.setShareCount(e)}
-                    onShareWindowClose={e => this.handleShareComplete(e)}
-                  >
-                    <FacebookIcon size={32}> Share with Facebook </FacebookIcon>
-                  </FacebookShareButton>
-
                   <p>{offer.description}</p>
-                  <Link to={`/user/profile/${offer.userId}`}>
-                    <h3>
-                      {`See profile of ${offer.by}`}
-                    </h3>
-                  </Link>
-                  <Row>
-                    <Col>
-                      {offer.ratingCount !== 0 ? (
-                        <div className="card text-center">
-                          <div className="container-fluid">
-                            <div>
-                              <div>
-                                <p className="card-text">
-                                  {'Service Rating: '}
-                                  {Number.parseFloat(offer.rating).toFixed(2)}
-                                </p>
-                                <StarRatingComponent
-                                  name="RatingService"
-                                  editing={false}
-                                  renderStarIcon={() => <span>&#9733;</span>}
-                                  starCount={5}
-                                  value={Number.parseFloat(offer.rating).toFixed(2)}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>) : ('')}
-                    </Col>
-                  </Row>
                 </Col>
                 <Col sm="2">
                   <div>
-                    <h4>Categories: </h4>
+                    <p>Categories: </p>
 
                     {offer.categories !== undefined ? (
                       offer.categories.map(c => (
@@ -350,8 +341,9 @@ class IndividualOffer extends React.Component {
                   </div>
                   <Divider />
                   <div>
-                    <h4>Payment Method: </h4>
-                    <Chip label={offer.paymentMethod} />
+                    {'Payment Method: '}
+                    {/* <Chip label={offer.paymentMethod} /> */}
+                    {offer.paymentMethod}
                   </div>
 
                   <div>
@@ -410,7 +402,67 @@ class IndividualOffer extends React.Component {
                 </Col>
               </Row>
 
+              <Row>
+
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="4">
+                  {'Share with Facebook'}
+                  <FacebookShareButton
+                    style={{ display: showBtnShareFB, marginLeft: '4%' }}
+                    url={shareUrl}
+                    quote={offer.title}
+                    beforeOnClick={e => this.setShareCount(e)}
+                    onShareWindowClose={e => this.handleShareComplete(e)}
+                  >
+                    <FacebookIcon size={32}> Share with Facebook </FacebookIcon>
+                  </FacebookShareButton>
+                </Col>
+                <Col sm="2">
+                  {' '}
+                </Col>
+
+              </Row>
+
+              <Row>
+
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="4">
+                  <Link to={`/user/profile/${offer.userId}`}>
+                    <h3>
+                      {`See profile of ${offer.by}`}
+                    </h3>
+                  </Link>
+                </Col>
+                <Col sm="2">
+                  {' '}
+                </Col>
+
+              </Row>
+
               <Divider />
+
+              <Row>
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="8">
+                  <div style={{ textAlign: '-webkit-center' }}>
+                    <Button
+                      onClick={e => this.handleContactClick(e)}
+                      style={{ display: displayOwnerOnly }}
+                    >
+                      {'Negotiate with: '}
+                      {offer.by}
+                      {' '}
+                      <i className="fa fa-comment" />
+                    </Button>
+                  </div>
+                </Col>
+              </Row>
 
               <div style={{ textAlign: 'center' }}>
                 <Button style={{ display: canReview, margin: 'auto' }} onClick={e => this.handleClickOpen(e)}>
@@ -460,6 +512,27 @@ class IndividualOffer extends React.Component {
                   {' '}
                 </Col>
               </Row>
+
+{/* 
+              <Row>
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="8">
+                  <div style={{ textAlign: '-webkit-center' }}>
+                    <Button
+                      onClick={e => this.handleContactClick(e)}
+                      style={{ display: displayOwnerOnly }}
+                    >
+                      {'Negotiate with: '}
+                      {offer.by}
+                      {' '}
+                      <i className="fa fa-comment" />
+                    </Button>
+                  </div>
+                </Col>
+              </Row> */}
+
 
               <Dialog
                 open={modalOpen}
@@ -566,23 +639,6 @@ class IndividualOffer extends React.Component {
 
               <Divider />
 
-              <div className="container">
-                <div className="row justify-content-md-center">
-                  <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
-                    <Col sm="12" style={{ textAlign: 'center', margin: 8 }}>
-                      <Button
-                        onClick={e => this.handleContactClick(e)}
-                        style={{ display: displayOwnerOnly }}
-                      >
-                        {'Negotiate with: '}
-                        {offer.by}
-                        {' '}
-                        <i className="fa fa-comment" />
-                      </Button>
-                    </Col>
-                  </Row>
-                </div>
-              </div>
             </div>
             <ToastContainer autoClose={3000} />
           </LoadingScreen>

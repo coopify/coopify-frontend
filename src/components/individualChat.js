@@ -48,6 +48,7 @@ import {
 } from '../actions/user';
 import GuestLayout from './guest-layout';
 import ReactJoyride from 'react-joyride';
+import SingletonPusher from './singletonPusher';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -282,6 +283,8 @@ class Chat extends React.Component {
     };
 
     dispatch(attemptMakeProposal(payload));
+    //TODO: COMPLETE THIS
+    SingletonPusher.getInstance().authorizePayment(loggedUser.id, selectedService)
   }
 
   getStepContent(index) {

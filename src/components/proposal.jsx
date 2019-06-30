@@ -11,6 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { attemptAcceptProposal, attemptRejectProposal, attemptCancelProposal } from '../actions/user';
+import SingletonPusher from './singletonPusher';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -103,6 +104,7 @@ class Proposal extends React.Component {
     };
 
     dispatch(attemptRejectProposal(payload));
+    SingletonPusher.getInstance().cancelPaymentAuthorization(proposal.proposerId, loggedUser.id, proposal.offerId)
 
     this.handleClose();
   }
@@ -117,6 +119,7 @@ class Proposal extends React.Component {
     };
 
     dispatch(attemptCancelProposal(payload));
+    SingletonPusher.getInstance().cancelPaymentAuthorization(loggedUser.id, proposal.purchasedOffer.userId, proposal.offerId)
 
     this.handleClose();
   }

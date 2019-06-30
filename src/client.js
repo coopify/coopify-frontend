@@ -23,6 +23,8 @@ import './resources/css/chat-list.css';
 
 const appInitialState = {};
 
+//TODO CHANGE THIS TO LOAD FROM THE ENV
+
 global.API_URL = 'https://coopify-dev-backend.herokuapp.com';
 global.URL = 'https://coopify-dev-frontend.herokuapp.com';
 // global.API_URL = 'http://192.168.0.104:3001' //TODO: CHANGE WHEN DEPLOYING TO DEV OR STAGE MAYBE A SWITCH AND HAVING MULTIPLE CONFIGS?
@@ -32,6 +34,8 @@ global.GOOGLE_APP_ID = '157449480210-9sr3ar7e5q2lm7emifvegj0r9ohr3vm6.apps.googl
 // global.GOOGLE_APP_ID = '157449480210-dd88viejmm5ce2ia29j0cqpaul1ml5j4.apps.googleusercontent.com'
 global.PUSHER_APP_KEY = '854192fae3c55354146c';
 global.PUSHER_APP_CLUSTER = 'us2';
+global.PUSHER_APPID = 766492;
+global.PUSHER_SECRET = '8f138208b3f8b5f8ed6a';
 
 export default class Client {
   constructor({ addPlugin }) {

@@ -293,24 +293,16 @@ class IndividualOffer extends React.Component {
                 </Col>
                 <Col sm="2">
                   {offer.ratingCount !== 0 ? (
-                    <div className="card text-center">
-                      <div className="container-fluid">
-                        <div>
-                          <div>
-                            <p className="card-text">
-                              {'Service Rating: '}
-                              {Number.parseFloat(offer.rating).toFixed(2)}
-                            </p>
-                            <StarRatingComponent
-                              name="RatingService"
-                              editing={false}
-                              renderStarIcon={() => <span>&#9733;</span>}
-                              starCount={5}
-                              value={Number.parseFloat(offer.rating).toFixed(2)}
-                            />
-                          </div>
-                        </div>
-                      </div>
+                    <div>
+                      {'Service Rating: '}
+                      {Number.parseFloat(offer.rating).toFixed(2)}
+                      <StarRatingComponent
+                        name="RatingService"
+                        editing={false}
+                        renderStarIcon={() => <span>&#9733;</span>}
+                        starCount={5}
+                        value={Number.parseFloat(offer.rating).toFixed(2)}
+                      />
                     </div>) : ('')}
                 </Col>
 
@@ -327,6 +319,7 @@ class IndividualOffer extends React.Component {
                   <p style={{ wordWrap: 'break-word' }}>{offer.description}</p>
                 </Col>
                 <Col sm="2">
+                  <Divider />
                   <div>
                     <p>Categories: </p>
 
@@ -342,7 +335,6 @@ class IndividualOffer extends React.Component {
                   <Divider />
                   <div>
                     {'Payment Method: '}
-                    {/* <Chip label={offer.paymentMethod} /> */}
                     {offer.paymentMethod}
                   </div>
 

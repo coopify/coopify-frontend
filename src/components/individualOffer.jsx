@@ -445,6 +445,25 @@ class IndividualOffer extends React.Component {
 
               <Divider />
 
+              <Row>
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="8">
+                  <div style={{ textAlign: '-webkit-center' }}>
+                    <Button
+                      onClick={e => this.handleContactClick(e)}
+                      style={{ display: displayOwnerOnly }}
+                    >
+                      {'Negotiate with: '}
+                      {offer.by}
+                      {' '}
+                      <i className="fa fa-comment" />
+                    </Button>
+                  </div>
+                </Col>
+              </Row>
+
               <div style={{ textAlign: 'center' }}>
                 <Button style={{ display: canReview, margin: 'auto' }} onClick={e => this.handleClickOpen(e)}>
                   {'Write your review for this service'}

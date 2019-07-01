@@ -264,7 +264,7 @@ class Chat extends React.Component {
 
     const token = localStorage.getItem('token');
     const {
-      selectedService, exchangeMethodSelected, myExchangeService, exchangeInstanceSelected, coopiValue,
+      selectedService, exchangeMethodSelected, myExchangeService, exchangeInstanceSelected, coopiValue, userOffers
     } = this.state;
     const { dispatch } = this.props;
     const isCoopi = exchangeMethodSelected == 'Coopy';
@@ -283,8 +283,9 @@ class Chat extends React.Component {
     };
 
     dispatch(attemptMakeProposal(payload));
-    //TODO: COMPLETE THIS
-    SingletonPusher.getInstance().authorizePayment(loggedUser.id, selectedService)
+    if (userOffers && userOffers.length > 0) {
+      SingletonPusher.getInstance().authorizePayment(loggedUser.id, userOffers[0].userId, selectedService);
+    }
   }
 
   getStepContent(index) {

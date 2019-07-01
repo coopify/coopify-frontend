@@ -178,6 +178,7 @@ class Login extends React.Component {
                       name="username"
                       className="input"
                       type="text"
+                      placeholder="Username"
                     />
                     <i class="fa fa-user"/>
                   </div>
@@ -188,6 +189,7 @@ class Login extends React.Component {
                       name="password"
                       className="input"
                       type="password"
+                      placeholder="Password"
                     />
                     <i class="fa fa-lock"/>
                   </div>

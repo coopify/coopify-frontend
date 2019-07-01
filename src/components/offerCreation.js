@@ -27,10 +27,10 @@ import GuestLayout from './guest-layout';
 
 
 export default @connect(state => ({
-  loggedUser: state.user,
-  error: state.error,
-  loading: state.loading,
-  categories: state.categories,
+  loggedUser: state.user.user,
+  error: state.service.error,
+  loading: state.service.loading,
+  categories: state.service.categories,
 }))
 
 class OfferCreation extends React.Component {

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 
 export default @connect(state => ({
-  allow: state.userDidLog,
+  allow: state.user.userDidLog,
 }))
 
 class Protected extends React.Component {

@@ -18,8 +18,8 @@ export default @connect(state => ({
   error: state.error,
   loading: state.loading,
   messages: state.messages,
-  myOffers: state.myOffers,
-  userOffers: state.userOffers,
+  myOffers: state.service.myOffers,
+  userOffers: state.service.userOffers,
 }))
 
 class Proposal extends React.Component {

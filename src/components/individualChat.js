@@ -50,13 +50,13 @@ import GuestLayout from './guest-layout';
 import ReactJoyride from 'react-joyride';
 
 export default @connect(state => ({
-  loggedUser: state.user,
-  serviceUser: state.serviceUser,
+  loggedUser: state.user.user,
+  serviceUser: state.service.serviceUser,
   error: state.error,
   loading: state.loading,
   messages: state.messages,
-  myOffers: state.myOffers,
-  userOffers: state.userOffers,
+  myOffers: state.service.myOffers,
+  userOffers: state.service.userOffers,
   proposal: state.proposal,
 }))
 

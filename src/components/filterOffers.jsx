@@ -24,9 +24,9 @@ import ReactJoyride from 'react-joyride';
 
 
 export default @connect(state => ({
-  error: state.error,
-  loading: state.loading,
-  categories: state.categories,
+  error: state.service.error,
+  loading: state.service.loading,
+  categories: state.service.categories,
 }))
 
 class FilterOffers extends React.Component {

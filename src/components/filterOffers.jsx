@@ -226,19 +226,21 @@ class FilterOffers extends React.Component {
 
             <div className={styles.container}>
 
-
               <Form.Group as={Row}>
-                <Col sm={3} style={{ marginTop: '5%' }}>
-
-
-                  <Input
+              <div className="control controlIcon" style={{margin: 'auto', width: '90%'}}>              
+              <Input
                     type="text"
                     placeholder="Search offer..."
                     className="searchBar"
                     onChange={e => this.handleSearchNameChange(e)}
                     value={searchName}
                     disableUnderline
+                    style={{margin: 'auto', width: '100%', marginBottom: '-5%'}}
                   />
+                    <i class="fa fa-search" style={{fontSize: '30px'}}/>
+                  </div>
+
+                <Col sm={3} style={{ marginTop: '2%' }}>
 
                 <div className="paymentSearch">
                   <h4 style={{ color: 'black', marginTop: '10%' }}>Payment instance</h4>

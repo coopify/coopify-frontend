@@ -15,6 +15,8 @@ import SingletonPusher from './singletonPusher';
 import { attemptLoginAction, attemptSocialLoginAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 import ReactJoyride from 'react-joyride';
+import Avatar from '@material-ui/core/Avatar';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 export default @connect(state => ({
   userDidLog: state.userDidLog,
@@ -158,46 +160,41 @@ class Login extends React.Component {
           text="Loading..."
         >
 
-          <div className="columns is-centered p-t-xl p-r-md p-l-md">
-            <div className="column is-half">
+          <div>
+            <div style={{width: 'max-content', margin: 'auto'}}>
               <div className="box">
 
+                <Avatar style={{margin: 'auto', backgroundColor: '#f50057'}}>
+                  <LockOutlinedIcon />
+              </Avatar>
 
-                <h1 className="title">Log In</h1>
+              <h2 className="title">Log in</h2>
+
                 <form onSubmit={e => this.handleSubmit(e)} className="traditional-login">
-                  <div className="field">
-                    <label className="label" htmlFor="username">
 
-                    Email
-                      <div className="control">
-                        <input
-                          id="username"
-                          name="username"
-                          className="input"
-                          type="text"
-                          placeholder="Username input"
-                        />
-                      </div>
-                    </label>
-                  </div>             
-                  <div className="field">
-                    <label className="label" htmlFor="password">
-
-                    Password
-                      <div className="control">
-                        <input
-                          id="password"
-                          name="password"
-                          className="input"
-                          type="password"
-                          placeholder="********"
-                        />
-                      </div>
-                    </label>
+                  <div className="control controlIcon">              
+                    <input
+                      id="username"
+                      name="username"
+                      className="input"
+                      type="text"
+                    />
+                    <i class="fa fa-user"/>
                   </div>
+
+                  <div className="control controlIcon">
+                    <input
+                      id="password"
+                      name="password"
+                      className="input"
+                      type="password"
+                    />
+                    <i class="fa fa-lock"/>
+                  </div>
+
                   <div className="field is-grouped">
                     <div className="control" style={{width: "100%"}}>
-                      <button type="submit" style={{width: "100%"}} className="button is-link">Login</button>
+                      <button type="submit" style={{width: "100%"}} className="button is-link">LOG IN</button>
                     </div>
                   </div>
                 </form>
@@ -206,7 +203,7 @@ class Login extends React.Component {
 
                   <div className="d-flex">
                     <hr className="my-auto flex-grow-1" />
-                    <div className="px-4">or login with:</div>
+                    <div className="px-4">or login with</div>
                     <hr className="my-auto flex-grow-1" />
                   </div>
 
@@ -218,7 +215,7 @@ class Login extends React.Component {
                       ccsClass="btn btn-link-1 btn-link-1-facebook"
                       callback={this.responseFacebook}
                       render={renderProps => (
-                        <button className="btn btn-link-1 btn-link-1-facebook" value="facebook" onClick={renderProps.onClick}>
+                        <button className="btn btn-link-1 btn-link-1-facebook" value="facebook" onClick={renderProps.onClick} style={{width: '100%', marginBottom: '3%'}}>
                           <i className="fa fa-facebook" />
                           {' '}
 Facebook
@@ -233,7 +230,7 @@ Facebook
                       onSuccess={this.responseGoogle}
                       onFailure={this.errorGoogle}
                       render={renderProps => (
-                        <button className="btn btn-link-1 btn-link-1-google-plus" value="google" onClick={renderProps.onClick}>
+                        <button className="btn btn-link-1 btn-link-1-google-plus" value="google" onClick={renderProps.onClick} style={{width: '100%',  marginBottom: '3%'}}>
                           <i className="fa fa-google-plus" />
                           {' '}
 Google
@@ -243,10 +240,8 @@ Google
 
                   </div>
                 </div>
-                <div>
-
-                Don't have an account?
-                  <Link to="/signup">Register here</Link>
+                <div style={{fontSize: '11px', textAlign: 'right'}}>
+                  <Link to="/signup">Don't have an account? Sign up</Link>
                 </div>
               </div>
               <ToastContainer autoClose={3000} />

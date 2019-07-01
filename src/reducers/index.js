@@ -91,8 +91,8 @@ import {
 // import { serviceReducers, initialServiceState } from './serviceReducer';
 
 const AppReducers = {
-  ...user,
-  ...goal,
+    user,
+    goal,
   // ...serviceReducers
 };
 

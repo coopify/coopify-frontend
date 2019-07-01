@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
-  Button, Row, Col, ButtonToolbar,
+  Button, Row, Col, ListGroup, Form,
 } from 'react-bootstrap';
 import Switch from 'react-switch';
 import { Link } from 'react-router-dom';
@@ -280,77 +280,134 @@ class Profile extends React.Component {
                   </div>
 
                 </Col>
-                <Col sm={4}>
+                {!editable ? (
+                  <Col sm={4}>
 
-                  <div className="field">
-                    <label className="label" htmlFor="name">
-                      {'First name'}
-                      <div className="control">
-                        <input name="name" value={profileUser.name} onChange={e => this.handleOnChange(e)} placeholder="Name" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
-                      </div>
-                    </label>
-                  </div>
+                    <div className="field">
+                      <label className="label" htmlFor="name">
+                        {'First name'}
+                        <div className="control">
+                          <input name="name" value={profileUser.name} onChange={e => this.handleOnChange(e)} placeholder="Name" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
+                        </div>
+                      </label>
+                    </div>
 
 
-                  <div className="field">
-                    <label className="label" htmlFor="lastname">
-                      {'Last name'}
-                      <div className="control">
-                        <input name="lastname" value={profileUser.lastName} onChange={e => this.handleOnChange(e)} placeholder="Last name" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
-                      </div>
-                    </label>
-                  </div>
+                    <div className="field">
+                      <label className="label" htmlFor="lastname">
+                        {'Last name'}
+                        <div className="control">
+                          <input name="lastname" value={profileUser.lastName} onChange={e => this.handleOnChange(e)} placeholder="Last name" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
+                        </div>
+                      </label>
+                    </div>
 
-                  <div className="field">
-                    <label className="label" htmlFor="direction">
-                      {'Address'}
-                      <div className="control">
-                        <input name="direction" value={profileUser.address} onChange={e => this.handleOnChange(e)} placeholder="Address" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
-                      </div>
-                    </label>
-                  </div>
+                    <div className="field">
+                      <label className="label" htmlFor="direction">
+                        {'Address'}
+                        <div className="control">
+                          <input name="direction" value={profileUser.address} onChange={e => this.handleOnChange(e)} placeholder="Address" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
+                        </div>
+                      </label>
+                    </div>
 
-                  <div className="field">
-                    <label className="label" htmlFor="tel">
-                      {'Phone'}
-                      <div className="control">
-                        <input type="number" name="tel" value={profileUser.phone} onChange={e => this.handleOnChange(e)} placeholder="Phone" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
-                      </div>
-                    </label>
-                  </div>
+                    <div className="field">
+                      <label className="label" htmlFor="tel">
+                        {'Phone'}
+                        <div className="control">
+                          <input type="number" name="tel" value={profileUser.phone} onChange={e => this.handleOnChange(e)} placeholder="Phone" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
+                        </div>
+                      </label>
+                    </div>
 
-                </Col>
+                  </Col>) : ''
+                }
+                {!editable ? (
+                  <Col sm={4}>
 
-                <Col sm={4}>
+                    <div className="field">
+                      <label className="label" htmlFor="dateBorn">
+                        {'Birthdate'}
+                        <div className="control">
+                          <input name="dateBorn" type="date" onChange={e => this.handleOnChange(e)} value={dateBirth} placeholder="Birthdate" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
+                        </div>
+                      </label>
+                    </div>
 
-                  <div className="field">
-                    <label className="label" htmlFor="dateBorn">
-                      {'Birthdate'}
-                      <div className="control">
-                        <input name="dateBorn" type="date" onChange={e => this.handleOnChange(e)} value={dateBirth} placeholder="Birthdate" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
-                      </div>
-                    </label>
-                  </div>
+                    <div className="field">
+                      <label className="label" htmlFor="biography">
+                        {'Biography'}
+                        <div className="control">
+                          <input name="biography" type="textarea" onChange={e => this.handleOnChange(e)} value={profileUser.bio} placeholder="Biography" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
+                        </div>
+                      </label>
+                    </div>
 
-                  <div className="field">
-                    <label className="label" htmlFor="biography">
-                      {'Biography'}
-                      <div className="control">
-                        <input name="biography" type="textarea" onChange={e => this.handleOnChange(e)} value={profileUser.bio} placeholder="Biography" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
-                      </div>
-                    </label>
-                  </div>
+                    <div className="field">
+                      <label className="label" htmlFor="interests">
+                        {'Interests'}
+                        <div className="control">
+                          <input name="interests" type="textarea" onChange={e => this.handleOnChange(e)} value={profileUser.interests} placeholder="Interests" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
+                        </div>
+                      </label>
+                    </div>
 
-                  <div className="field">
-                    <label className="label" htmlFor="interests">
-                      {'Interests'}
-                      <div className="control">
-                        <input name="interests" type="textarea" onChange={e => this.handleOnChange(e)} value={profileUser.interests} placeholder="Interests" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
-                      </div>
-                    </label>
-                  </div>
-
-                </Col>
+                  </Col>) : ''
+                }
+                {!editable ? '' : (
+                  <Col sm={8}>
+                    <Form style={{ background: 'whitesmoke', borderRadius: '5%' }}>
+                      <Form.Group as={Row}>
+                        <Form.Label column sm="4">
+                          {'Name'}
+                        </Form.Label>
+                        <Col sm="8">
+                          <Form.Control plaintext readOnly defaultValue={`${profileUser.name} ${profileUser.lastName}`} />
+                        </Col>
+                      </Form.Group>
+                      <Form.Group as={Row}>
+                        <Form.Label column sm="4">
+                          {'Address'}
+                        </Form.Label>
+                        <Col sm="8">
+                          <Form.Control plaintext readOnly defaultValue={`${profileUser.address}`} />
+                        </Col>
+                      </Form.Group>
+                      <Form.Group as={Row}>
+                        <Form.Label column sm="4">
+                          {'Phone'}
+                        </Form.Label>
+                        <Col sm="8">
+                          <Form.Control plaintext readOnly defaultValue={`${profileUser.phone}`} />
+                        </Col>
+                      </Form.Group>
+                      <Form.Group as={Row}>
+                        <Form.Label column sm="4">
+                          {'Birthdate'}
+                        </Form.Label>
+                        <Col sm="8">
+                          <Form.Control plaintext readOnly defaultValue={`${profileUser.birthdate}`} />
+                        </Col>
+                      </Form.Group>
+                      <Form.Group as={Row}>
+                        <Form.Label column sm="4">
+                          {'Biography'}
+                        </Form.Label>
+                        <Col sm="8">
+                          <Form.Control style={{ wordWrap: 'break-word' }} plaintext readOnly defaultValue={`${profileUser.biography}`} />
+                        </Col>
+                      </Form.Group>
+                      <Form.Group as={Row}>
+                        <Form.Label column sm="4">
+                          {'Interests'}
+                        </Form.Label>
+                        <Col sm="8">
+                          <Form.Control plaintext readOnly defaultValue={`${profileUser.interests}`} />
+                        </Col>
+                      </Form.Group>
+                    </Form>
+                  </Col>)
+                }
               </Row>
               <Row style={{ marginTop: '2%' }}>
                 <Col sm={12}>

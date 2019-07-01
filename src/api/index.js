@@ -14,8 +14,8 @@ export function logInAPICall(payload) {
       status: response.status,
       data: response.data,
     })).catch(e => ({
-      status: e.response.status,
-      data: e.response,
+      status: e.response ? e.response.status : e.message,
+      data: e.response ? e.response : e.message,
     }));
 }
 
@@ -28,8 +28,8 @@ export function socialLogInAPICall(payload) {
       status: response.status,
       data: response.data,
     })).catch(e => ({
-      status: e.response.status,
-      data: e.response,
+      status: e.response ? e.response.status : e.message,
+      data: e.response ? e.response : e.message,
     }));
 }
 
@@ -43,8 +43,8 @@ export function signUpAPICall(payload) {
       body: response.data,
     })).catch(e => (
       {
-        status: e.response.status,
-        data: e.response,
+        status: e.response ? e.response.status : e.message,
+        data: e.response ? e.response : e.message,
       }));
 }
 
@@ -56,8 +56,8 @@ export function getUrlSocialAPICall(payload) {
       status: response.status,
       data: response.data.url,
     })).catch(e => ({
-      status: e.response.status,
-      data: e.response.data.data.message,
+      status: e.response ? e.response.status : e.message,
+      data: e.response && e.response.data ? e.response.data.data.message : e.message,
     }));
 }
 
@@ -74,8 +74,8 @@ export function socialSignUpAPICall(payload) {
       body: response.data,
     })).catch(e => (
       {
-        status: e.response.status,
-        data: e.response.data,
+        status: e.response ? e.response.status : e.message,
+        data: e.response ? e.response.data : e.message,
       }));
 }
 
@@ -93,8 +93,8 @@ export function profileAPICall(payload) {
       user: response.data.user,
     })).catch(e => (
       {
-        status: e.response.status,
-        errorMessage: e.response.data.message,
+        status: e.response ? e.response.status : e.message,
+        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
       }));
 }
 
@@ -113,8 +113,8 @@ export function checkBalanceAPICall(payload) {
       balance: response.data.balance,
     })).catch(e => (
       {
-        status: e.response.status,
-        errorMessage: e.response.data.message,
+        status: e.response ? e.response.status : e.message,
+        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
       }));
 }
 
@@ -132,8 +132,8 @@ export function checkTransactionsAPICall(payload) {
       transactions: response.data,
     })).catch(e => (
       {
-        status: e.response.status,
-        errorMessage: e.response.data.message,
+        status: e.response ? e.response.status : e.message,
+        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
       }));
 }
 
@@ -150,8 +150,8 @@ export function checkOffersPagedAPICall(payload) {
       responseOffers: { offers: response.data.offers, countOffers: response.data.count },
     })).catch(e => (
       {
-        status: e.response.status,
-        errorMessage: e.response.data.message,
+        status: e.response ? e.response.status : e.message,
+        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
       }));
 }
 
@@ -167,8 +167,8 @@ export function createOfferAPICall(payload) {
       message: response.status,
     })).catch(e => (
       {
-        status: e.response.status,
-        errorMessage: e.response.data.message,
+        status: e.response ? e.response.status : e.message,
+        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
       }));
 }
 
@@ -184,8 +184,8 @@ export function getOfferAPICall(payload) {
       offer: response.data.offer,
     })).catch(e => (
       {
-        status: e.response.status,
-        errorMessage: e.response.data.message,
+        status: e.response ? e.response.status : e.message,
+        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
       }));
 }
 
@@ -198,8 +198,8 @@ export function getCategoriesAPICall() {
       categories: response.data.categories,
     })).catch(e => (
       {
-        status: e.response.status,
-        errorMessage: e.response.data.message,
+        status: e.response ? e.response.status : e.message,
+        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
       }));
 }
 
@@ -218,8 +218,8 @@ export function postQuestionAPICall(payload) {
       message: response.status,
     })).catch(e => (
       {
-        status: e.response.status,
-        errorMessage: e.response.data.message,
+        status: e.response ? e.response.status : e.message,
+        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
       }));
 }
 
@@ -244,8 +244,8 @@ export function getQuestionAnswerAPICall(payload) {
       responseQuestions: response.data,
     })).catch(e => (
       {
-        status: e.response.status,
-        errorMessage: e.response.data.message,
+        status: e.response ?e.response.status : e.message,
+        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
       }));
 }
 
@@ -263,8 +263,8 @@ export function sendReplyAPICall(payload) {
       reply: response.data.response,
     })).catch(e => (
       {
-        status: e.response.status,
-        errorMessage: e.response.data.message,
+        status: e.response ? e.response.status : e.message,
+        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
       }));
 }
 
@@ -281,8 +281,8 @@ export function getUrlConversation(payload) {
       status: response.status,
       conversation: response.data.conversation,
     })).catch(e => ({
-      status: e.response.status,
-      data: e.response.data.data.message,
+      status: e.response ? e.response.status : e.message,
+      data: e.response && e.response.data ? e.response.data.data.message : e.message,
     }));
 }
 
@@ -298,8 +298,8 @@ export function sendMessageAPICall(payload) {
       message: response.data.message,
     })).catch(e => (
       {
-        status: e.response.status,
-        errorMessage: e.response.data.message,
+        status: e.response ? e.response.status : e.message,
+        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
       }));
 }
 
@@ -315,8 +315,8 @@ export function getConversationsAPICall(payload) {
       status: response.status,
       conversations: response.data.conversations,
     })).catch(e => ({
-      status: e.response.status,
-      data: e.response.data.data.message,
+      status: e.response ? e.response.status : e.message,
+      data: e.response && e.response.data ? e.response.data.data.message : e.message,
     }));
 }
 
@@ -332,8 +332,8 @@ export function getMessagesAPICall(payload) {
       status: response.status,
       messages: response.data.messages,
     })).catch(e => ({
-      status: e.response.status,
-      data: e.response.data.data.message,
+      status: e.response ? e.response.status : e.message,
+      data: e.response && e.response.data ? e.response.data.data.message : e.message,
     }));
 }
 
@@ -360,8 +360,8 @@ export function makeProposalAPICall(payload) {
       status: response.status,
       proposal: response.data.proposal,
     })).catch(e => ({
-      status: e.response.status,
-      data: e.response.data.data.message,
+      status: e.response ? e.response.status : e.message,
+      data: e.response && e.response.data ? e.response.data.data.message : e.message,
     }));
 }
 
@@ -394,8 +394,8 @@ export function getProposalsAPICall(payload) {
       status: response.status,
       responseProposals: response.data,
     })).catch(e => ({
-      status: e.response.status,
-      errorMessage: e.response.data.message,
+      status: e.response ? e.response.status : e.message,
+      errorMessage:  e.response && e.response.data ? e.response.data.message : e.message,
     }));
 }
 
@@ -411,8 +411,8 @@ export async function acceptProposalAPICall(payload) {
       status: response.status,
       proposal: response.data.proposal,
     })).catch(e => ({
-      status: e.response.status,
-      data: e.response.data.data.message,
+      status: e.response ? e.response.status : e.message,
+      data: e.response && e.response.data ? e.response.data.data.message : e.message,
     }));
 }
 
@@ -428,8 +428,8 @@ export async function rejectProposalAPICall(payload) {
       status: response.status,
       proposal: response.data.proposal,
     })).catch(e => ({
-      status: e.response.status,
-      data: e.response.data.data.message,
+      status: e.response ? e.response.status : e.message,
+      data: e.response && e.response.data ? e.response.data.data.message : e.message,
     }));
 }
 
@@ -445,8 +445,8 @@ export async function cancelProposalAPICall(payload) {
       status: response.status,
       proposal: response.data.proposal,
     })).catch(e => ({
-      status: e.response.status,
-      data: e.response.data.data.message,
+      status: e.response ? e.response.status : e.message,
+      data: e.response && e.response.data ? e.response.data.data.message : e.message,
     }));
 }
 
@@ -462,7 +462,7 @@ export function getConversationProposalAPICall(payload) {
       status: response.status,
       proposal: response.data.proposal,
     })).catch(e => ({
-      status: e.response.status,
+      status: e.response ? e.response.status : e.message,
       proposal: {},
     }));
 }
@@ -475,7 +475,7 @@ export function getGoalsAPICall() {
       status: response.status,
       responseGoals: { goals: response.data.goals },
     })).catch(e => ({
-      status: e.response.status,
+      status: e.response ? e.response.status : e.message,
       goals: {},
     }));
 }
@@ -492,7 +492,7 @@ export function getGoalsUserAPICall(payload) {
       status: response.status,
       responseGoals: { goalsUser: response.data },
     })).catch(e => ({
-      status: e.response.status,
+      status: e.response ? e.response.status : e.message,
       goals: {},
     }));
 }
@@ -514,8 +514,8 @@ export function syncFBApiCall(payload) {
       user: response.data.user,
     })).catch(e => (
       {
-        status: e.response.status,
-        errorMessage: e.response.data.message,
+        status: e.response ? e.response.status : e.message,
+        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
       }));
 }
 
@@ -536,8 +536,8 @@ export function getShareCount(payload) {
       status: response.status,
       count: response.data.count,
     })).catch(e => ({
-      status: e.response.status,
-      errorMessage: e.response.data.message,
+      status: e.response ? e.response.status : e.message,
+      errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
     }));
 }
 
@@ -558,8 +558,8 @@ export function sendRewardApiCall(payload) {
       data: response.status,
     })).catch(e => (
       {
-        status: e.response.status,
-        errorMessage: e.response.data.message,
+        status: e.response ? e.response.status : e.message,
+        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
       }));
 }
 
@@ -575,7 +575,7 @@ export function getReviewsAPICall(payload) {
       status: response.status,
       reviews: response.data.rates,
     })).catch(e => ({
-      status: e.response.status,
+      status: e.response ? e.response.status : e.message,
       reviews: {},
     }));
 
@@ -600,8 +600,8 @@ export function sendReviewAPICall(payload) {
       status: response.status,
       review: response.data.rate,
     })).catch(e => ({
-      status: e.response.status,
-      errorMessage: e.response.data.message,
+      status: e.response ? e.response.status : e.message,
+      errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
     }));
 }
 
@@ -617,8 +617,8 @@ export function checkReviewAPICall(payload) {
       status: response.status,
       canRate: response.data.shouldReview,
     })).catch(e => ({
-      status: e.response.status,
-      errorMessage: e.response.data.message,
+      status: e.response ? e.response.status : e.message,
+      errorMessage: e.response && e.response.data ? e.response.data.message : e.message, 
     }));
 }
 
@@ -632,8 +632,8 @@ export function getUserReviewsApiCall(payload) {
       status: response.status,
       reviews: response.data.rates,
     })).catch(e => ({
-      status: e.response.status,
-      errorMessage: e.response.data.message,
+      status: e.response ? e.response.status : e.message,
+      errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
     }));
 }
 
@@ -647,7 +647,7 @@ export function getUserApiCall(payload) {
       status: response.status,
       user: response.data.user,
     })).catch(e => ({
-      status: e.response.status,
-      errorMessage: e.response.data.message,
+      status: e.response ? e.response.status : e.message,
+      errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
     }));
 }

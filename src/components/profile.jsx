@@ -362,7 +362,10 @@ class Profile extends React.Component {
                           {'Name'}
                         </Form.Label>
                         <Col sm="8">
-                          <Form.Control plaintext readOnly defaultValue={`${profileUser.name} ${profileUser.lastName}`} />
+                          {(profileUser.lastName != null) ?
+                            (<Form.Control plaintext readOnly defaultValue={`${profileUser.name} ${profileUser.lastName}`} />)
+                            : (<Form.Control plaintext readOnly defaultValue={`${profileUser.name}`} />)
+                          }
                         </Col>
                       </Form.Group>
                       <Form.Group as={Row}>
@@ -370,7 +373,10 @@ class Profile extends React.Component {
                           {'Address'}
                         </Form.Label>
                         <Col sm="8">
-                          <Form.Control plaintext readOnly defaultValue={`${profileUser.address}`} />
+                          {(profileUser.address != null) ?
+                            (<Form.Control plaintext readOnly defaultValue={`${profileUser.address}`} />)
+                            : (<Form.Control plaintext readOnly placeholder="-------" />)
+                          }
                         </Col>
                       </Form.Group>
                       <Form.Group as={Row}>
@@ -378,7 +384,10 @@ class Profile extends React.Component {
                           {'Phone'}
                         </Form.Label>
                         <Col sm="8">
-                          <Form.Control plaintext readOnly defaultValue={`${profileUser.phone}`} />
+                          {(profileUser.phone != null) ?
+                            <Form.Control plaintext readOnly defaultValue={`${profileUser.phone}`} />
+                            : (<Form.Control plaintext readOnly placeholder="-------" />)
+                          }
                         </Col>
                       </Form.Group>
                       <Form.Group as={Row}>
@@ -386,7 +395,10 @@ class Profile extends React.Component {
                           {'Birthdate'}
                         </Form.Label>
                         <Col sm="8">
-                          <Form.Control plaintext readOnly defaultValue={`${profileUser.birthdate}`} />
+                          {(profileUser.birthdate != null) ?
+                            <Form.Control plaintext readOnly defaultValue={`${profileUser.birthdate}`} />
+                            : (<Form.Control plaintext readOnly placeholder="-------" />)
+                          }
                         </Col>
                       </Form.Group>
                       <Form.Group as={Row}>
@@ -394,7 +406,10 @@ class Profile extends React.Component {
                           {'Biography'}
                         </Form.Label>
                         <Col sm="8">
-                          <Form.Control style={{ wordWrap: 'break-word' }} plaintext readOnly defaultValue={`${profileUser.biography}`} />
+                          {(profileUser.biography != null) ?
+                            <Form.Control style={{ wordWrap: 'break-word' }} plaintext readOnly defaultValue={`${profileUser.biography}`} />
+                            : (<Form.Control plaintext readOnly placeholder="-------" />)
+                          }
                         </Col>
                       </Form.Group>
                       <Form.Group as={Row}>
@@ -402,7 +417,10 @@ class Profile extends React.Component {
                           {'Interests'}
                         </Form.Label>
                         <Col sm="8">
-                          <Form.Control plaintext readOnly defaultValue={`${profileUser.interests}`} />
+                          {(profileUser.interests != null) ?
+                            <Form.Control plaintext readOnly defaultValue={`${profileUser.interests}`} />
+                            : (<Form.Control plaintext readOnly placeholder="-------" />)
+                          }
                         </Col>
                       </Form.Group>
                     </Form>

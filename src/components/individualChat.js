@@ -50,14 +50,14 @@ import GuestLayout from './guest-layout';
 import ReactJoyride from 'react-joyride';
 
 export default @connect(state => ({
-  loggedUser: state.user,
+  loggedUser: state.user.user,
   serviceUser: state.serviceUser,
-  error: state.error,
+  error: state.proposal.error,
   loading: state.loading,
   messages: state.messages,
-  myOffers: state.myOffers,
-  userOffers: state.userOffers,
-  proposal: state.proposal,
+  myOffers: state.service.myOffers,
+  userOffers: state.service.userOffers,
+  proposal: state.proposal.proposal,
 }))
 
 class Chat extends React.Component {

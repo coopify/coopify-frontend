@@ -20,10 +20,10 @@ import noImage from '../assets/noImage.png'
 import { Row, Col } from 'react-bootstrap';
 
 export default @connect(state => ({
-  loading: state.loading,
-  offers: state.offers,
-  countOffers: state.countOffers,
-  filters: state.filters,
+  loading: state.service.loading,
+  offers: state.service.offers,
+  countOffers: state.service.countOffers,
+  filters: state.service.filters,
 }))
 
 class Offers extends React.Component {

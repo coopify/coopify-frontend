@@ -19,13 +19,7 @@ import {
   sendChatMessageAsync,
   getConversationsAsync,
   getMessagesAsync,
-  makeProposalAsync,
   geteUsersOffers,
-  getProposalsAsync,
-  acceptProposalAsync,
-  rejectProposalAsync,
-  cancelProposalAsync,
-  getConversationProposalAsync,
   getGoalsAsync,
   getGoalsUserAsync,
   syncFacebookAsync,
@@ -35,7 +29,16 @@ import {
   canReviewAsync,
   getUserReviewsAsync,
   getUserAsync,
+
 } from './user';
+import {
+  makeProposalAsync,
+  getProposalsAsync,
+  acceptProposalAsync,
+  rejectProposalAsync,
+  cancelProposalAsync,
+  getConversationProposalAsync,
+} from './proposal';
 
 export default function* rootSaga() {
   yield all(

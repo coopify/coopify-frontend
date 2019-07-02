@@ -13,13 +13,13 @@ import Typography from '@material-ui/core/Typography';
 import { attemptAcceptProposal, attemptRejectProposal, attemptCancelProposal } from '../actions/user';
 
 export default @connect(state => ({
-  loggedUser: state.user,
+  loggedUser: state.user.user,
   serviceUser: state.serviceUser,
-  error: state.error,
-  loading: state.loading,
+  error: state.proposal.error,
+  loading: state.proposal.loading,
   messages: state.messages,
-  myOffers: state.myOffers,
-  userOffers: state.userOffers,
+  myOffers: state.service.myOffers,
+  userOffers: state.service.userOffers,
 }))
 
 class Proposal extends React.Component {

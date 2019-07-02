@@ -2,7 +2,7 @@
 import ReduxClient from '@pawjs/redux/client';
 import createSagaMiddleware from 'redux-saga';
 import mySaga from './sagas';
-import { user } from './reducers';
+import { AppReducers } from './reducers';
 import 'bulma/css/bulma.min.css';
 import './resources/css/util.scss';
 import './resources/css/global.css';
@@ -36,7 +36,7 @@ global.PUSHER_APP_CLUSTER = 'us2';
 export default class Client {
   constructor({ addPlugin }) {
     const reduxClient = new ReduxClient({ addPlugin });
-    reduxClient.setReducers(user);
+    reduxClient.setReducers(AppReducers);
     this.sagaMiddleware = createSagaMiddleware();
     reduxClient.addMiddleware(this.sagaMiddleware);
     addPlugin(reduxClient);

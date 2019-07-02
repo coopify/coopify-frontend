@@ -27,9 +27,6 @@ import {
   GET_QUESTION_ANSWER_SUCCESS,
   GET_QUESTION_ANSWER_FAILURE,
   SEND_QUESTION_REPLY_SUCCESS,
-  SEND_MESSAGE_SUCCESS,
-  GET_CONVERSATIONS_SUCCESS,
-  GET_MESSAGES_SUCCESS,
   MAKE_PROPOSAL_SUCCESS,
   MAKE_PROPOSAL_FAILURE,
   GET_USERS_OFFERS_SUCCESS,
@@ -73,9 +70,6 @@ import {
   postQuestionAPICall,
   getQuestionAnswerAPICall,
   sendReplyAPICall,
-  sendMessageAPICall,
-  getConversationsAPICall,
-  getMessagesAPICall,
   makeProposalAPICall,
   getUsersOffersAPICall,
   getProposalsAPICall,
@@ -242,27 +236,6 @@ export function* sendReplyAsync(payload) {
   const result = yield sendReplyAPICall(payload.payload);
   if (result.status === 200) {
     yield put({ type: SEND_QUESTION_REPLY_SUCCESS, reply: result.reply });
-  }
-}
-
-export function* sendChatMessageAsync(payload) {
-  const result = yield sendMessageAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: SEND_MESSAGE_SUCCESS, message: result.message });
-  }
-}
-
-export function* getConversationsAsync(payload) {
-  const result = yield getConversationsAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: GET_CONVERSATIONS_SUCCESS, conversations: result.conversations });
-  }
-}
-
-export function* getMessagesAsync(payload) {
-  const result = yield getMessagesAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: GET_MESSAGES_SUCCESS, messages: result.messages });
   }
 }
 

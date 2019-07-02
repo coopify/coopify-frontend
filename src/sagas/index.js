@@ -16,9 +16,6 @@ import {
   postQuestionAsync,
   getQuestionAnswerAsync,
   sendReplyAsync,
-  sendChatMessageAsync,
-  getConversationsAsync,
-  getMessagesAsync,
   makeProposalAsync,
   geteUsersOffers,
   getProposalsAsync,
@@ -36,6 +33,12 @@ import {
   getUserReviewsAsync,
   getUserAsync,
 } from './user';
+
+import {
+  sendChatMessageAsync,
+  getConversationsAsync,
+  getMessagesAsync,
+} from './conversation';
 
 export default function* rootSaga() {
   yield all(

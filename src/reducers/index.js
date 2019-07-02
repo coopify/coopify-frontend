@@ -47,13 +47,6 @@ import {
   GET_QUESTION_ANSWER_FAILURE,
   SEND_QUESTION_REPLY_ATTEMPT,
   SEND_QUESTION_REPLY_SUCCESS,
-  SEND_MESSAGE_ATTEMPT,
-  SEND_MESSAGE_SUCCESS,
-  UPDATE_MESSAGE_ATTEMPT,
-  GET_CONVERSATIONS_ATTEMPT,
-  GET_CONVERSATIONS_SUCCESS,
-  GET_MESSAGES_ATTEMPT,
-  GET_MESSAGES_SUCCESS,
   MAKE_PROPOSAL_ATTEMPT,
   MAKE_PROPOSAL_SUCCESS,
   MAKE_PROPOSAL_FAILURE,
@@ -99,15 +92,29 @@ import {
   GET_USER_SUCCESS,
 
 } from './userReducer';
+
+import {
+  conversation, initialConversationState,
+  SEND_MESSAGE_ATTEMPT,
+  SEND_MESSAGE_SUCCESS,
+  UPDATE_MESSAGE_ATTEMPT,
+  GET_CONVERSATIONS_ATTEMPT,
+  GET_CONVERSATIONS_SUCCESS,
+  GET_MESSAGES_ATTEMPT,
+  GET_MESSAGES_SUCCESS,
+
+} from './conversationReducer';
 // import { serviceReducers, initialServiceState } from './serviceReducer';
 
 const AppReducers = {
-  ...user,
+  user,
+  conversation
   // ...serviceReducers
 };
 
 const InitialState = {
   ...initialUserState,
+  ...initialConversationState
   // ...initialServiceState
 };
 
@@ -216,6 +223,7 @@ export {
   InitialState,
   Actions,
   user,
+  conversation,
   SOCIAL_LOGIN_ATTEMPT,
   LOGIN_SUCCESS,
   LOGIN_ATTEMPT,

@@ -31,6 +31,7 @@ export default @connect(state => ({
   error: state.service.error,
   loading: state.service.loading,
   categories: state.service.categories,
+  offerIsCreated: state.service.offerCreated,
 }))
 
 class OfferCreation extends React.Component {
@@ -40,6 +41,7 @@ class OfferCreation extends React.Component {
     loading: PropTypes.bool,
     error: PropTypes.string,
     offer: PropTypes.object,
+    offerIsCreated: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -49,6 +51,7 @@ class OfferCreation extends React.Component {
     loading: false,
     error: '',
     offer: {},
+    offerIsCreated: false,
   };
 
   constructor(props) {
@@ -59,6 +62,7 @@ class OfferCreation extends React.Component {
       error: '',
       offer: {},
       categories: ['algo'],
+      offerCreated: false,
     };
     this.handleChangeStep1 = this.handleChangeStep1.bind(this);
     this.handleCategoriesChange = this.handleCategoriesChange.bind(this);
@@ -74,6 +78,7 @@ class OfferCreation extends React.Component {
       dispatch(resetNotificationFlags());
     } else {
       toast.success(message);
+      dispatch(resetNotificationFlags());
     }
   }
 
@@ -137,8 +142,10 @@ class OfferCreation extends React.Component {
 
   render() {
     const {
-      loading, error, loggedUser, balance,
+      loading, error, loggedUser, balance, offerIsCreated,
     } = this.props;
+    if (error.length > 0) this.notify(error, true);
+    if (offerIsCreated) this.notify('Service succesfully created', false);
     const { offer, categories } = this.state;
     const steps = [
       {

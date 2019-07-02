@@ -214,6 +214,7 @@ export const user = (state = initialUserState, action) => {
         error: '',
         status: '',
         reviewCreated: false,
+        offerCreated: false,
       });
 
     case DISPLAY_TOAST_ATTEMPT:

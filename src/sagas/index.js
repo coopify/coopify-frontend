@@ -26,16 +26,19 @@ import {
   rejectProposalAsync,
   cancelProposalAsync,
   getConversationProposalAsync,
+  sendRewardAsync,
   getGoalsAsync,
   getGoalsUserAsync,
   syncFacebookAsync,
-  sendRewardAsync,
+  getUserAsync,
+} from './user';
+
+import {
   getReviewsAsync,
   sendReviewAsync,
   canReviewAsync,
   getUserReviewsAsync,
-  getUserAsync,
-} from './user';
+} from './review';
 
 export default function* rootSaga() {
   yield all(

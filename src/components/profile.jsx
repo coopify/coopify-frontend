@@ -24,11 +24,11 @@ import TextField from '@material-ui/core/TextField';
 import avatarImg from '../assets/avatar.png';
 
 export default @connect(state => ({
-  loggedUser: state.user,
-  error: state.error,
-  loading: state.loading,
-  reviews: state.reviews,
-  profileUser: state.profileUser,
+  loggedUser: state.user.user,
+  error: state.user.error,
+  loading: state.user.loading,
+  reviews: state.review.reviews,
+  profileUser: state.user.profileUser,
 }))
 
 class Profile extends React.Component {

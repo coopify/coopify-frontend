@@ -82,6 +82,14 @@ import {
   SYNC_FB_FAILURE,
   SEND_REWARD,
   SEND_REF_CODE,
+  GET_USER_ATTEMPT,
+  GET_USER_FAILURE,
+  GET_USER_SUCCESS,
+
+} from './userReducer';
+
+import {
+  review, initialReviewState, 
   GET_REVIEWS_ATTEMPT,
   GET_REVIEWS_SUCCESS,
   GET_REVIEWS_FAILURE,
@@ -94,20 +102,19 @@ import {
   GET_USER_REVIEWS_ATTEMPT,
   GET_USER_REVIEWS_FAILURE,
   GET_USER_REVIEWS_SUCCESS,
-  GET_USER_ATTEMPT,
-  GET_USER_FAILURE,
-  GET_USER_SUCCESS,
 
-} from './userReducer';
+} from './reviewReducer';
 // import { serviceReducers, initialServiceState } from './serviceReducer';
 
 const AppReducers = {
-  ...user,
+  user,
+  review
   // ...serviceReducers
 };
 
 const InitialState = {
   ...initialUserState,
+  ...initialReviewState,
   // ...initialServiceState
 };
 
@@ -216,6 +223,7 @@ export {
   InitialState,
   Actions,
   user,
+  review,
   SOCIAL_LOGIN_ATTEMPT,
   LOGIN_SUCCESS,
   LOGIN_ATTEMPT,

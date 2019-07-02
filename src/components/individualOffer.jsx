@@ -40,13 +40,13 @@ import noImage from '../assets/noImage.png';
 import { Link } from 'react-router-dom';
 
 export default @connect(state => ({
-  loggedUser: state.user,
-  error: state.error,
-  loading: state.loading,
-  offer: state.offer,
-  reviews: state.reviews,
-  canRate: state.canRate,
-  reviewCreated: state.reviewCreated,
+  loggedUser: state.user.user,
+  error: state.user.error,
+  loading: state.user.loading,
+  offer: state.user.offer,
+  reviews: state.review.reviews,
+  canRate: state.review.canRate,
+  reviewCreated: state.review.reviewCreated,
 }))
 
 class IndividualOffer extends React.Component {

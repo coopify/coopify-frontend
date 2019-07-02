@@ -151,23 +151,23 @@ class OfferCreation extends React.Component {
       {
         name: 'Basic data',
         component:
-  <BasicData
-    offer={offer}
-    onOfferInputChangeStep1={this.handleChangeStep1}
-    onOfferImageChange={this.handleImageChange}
-    onCategoriesChange={this.handleCategoriesChange}
-    isReadOnly={false}
-  />,
+          <BasicData
+            offer={offer}
+            onOfferInputChangeStep1={this.handleChangeStep1}
+            onOfferImageChange={this.handleImageChange}
+            onCategoriesChange={this.handleCategoriesChange}
+            isReadOnly={false}
+          />,
       },
       {
         name: 'Exchange method',
         component:
-  <ExchangeMethod
-    offer={offer}
-    onOfferInputChangeStep2={this.handleChangeStep2}
-    onFinalStepSubmit={this.handleFinalSubmit}
-    isReadOnly={false}
-  />,
+          <ExchangeMethod
+            offer={offer}
+            onOfferInputChangeStep2={this.handleChangeStep2}
+            onFinalStepSubmit={this.handleFinalSubmit}
+            isReadOnly={false}
+          />,
       },
     ];
 
@@ -185,7 +185,7 @@ class OfferCreation extends React.Component {
               />
             </div>
           </Loading>
-
+          <ToastContainer autoClose={3000} />
         </GuestLayout>
       </Protected>
     );

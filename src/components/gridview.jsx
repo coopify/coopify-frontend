@@ -10,7 +10,6 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import styles from '../resources/css/profile.scss';
-import { Row } from 'react-bootstrap';
 
 export default @connect(state => ({
   width: state.width,

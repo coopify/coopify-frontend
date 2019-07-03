@@ -6,17 +6,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import 'react-table/react-table.css';
 import LoadingScreen from 'react-loading-screen';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import Divider from '@material-ui/core/Divider';
-import StarRatingComponent from 'react-star-rating-component';
 import { Proposal } from './proposal';
-import Protected from './protected';
+import { Protected } from './protected';
 import styles from '../resources/css/profile.scss';
 import { resetNotificationFlags, attemptProposalsAction } from '../actions/user';
 import GuestLayout from './guest-layout';
-import GridView from './gridview';
+import { GridView } from './gridview';
 
 export default @connect(state => ({
   error: state.error,
@@ -44,7 +39,6 @@ class Proposals extends React.Component {
     super(props);
     this.state = {
       limit: 10,
-      modalOpen: false,
     };
   }
 

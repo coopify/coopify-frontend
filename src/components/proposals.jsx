@@ -6,6 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import 'react-table/react-table.css';
 import LoadingScreen from 'react-loading-screen';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import Divider from '@material-ui/core/Divider';
+import StarRatingComponent from 'react-star-rating-component';
 import { Proposal } from './proposal';
 import Protected from './protected';
 import styles from '../resources/css/profile.scss';
@@ -39,6 +44,7 @@ class Proposals extends React.Component {
     super(props);
     this.state = {
       limit: 10,
+      modalOpen: false,
     };
   }
 
@@ -115,12 +121,16 @@ class Proposals extends React.Component {
                     getTitleFromElement={getTitleFromElement}
                     getSubtitleFromElement={proposal => `by: ${proposal.proposer.name}`}
                     shouldRedirect={false}
-                    getDetailRoute={proposal => `/offers/${proposal.purchasedOffer.id}`}
                     getOverlayFadeInfo={proposal => (
                       <div>
                         <p style={{ fontSize: '24' }}>{`Status: ${proposal.status}`}</p>
                       </div>
                     )}
+                    getDetailRoute={proposal => `/offers/${proposal.purchasedOffer.id}`}
+                    textDetailRoute={() => 'Service'}
+                    possibleMakeReview={proposal => (proposal.status === 'Confirmed' ? (
+                      ' Make Review'
+                    ) : '')}
                     selectItem={selectedProposal => (
                       <Proposal
                         proposal={selectedProposal}

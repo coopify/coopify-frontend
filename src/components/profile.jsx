@@ -57,6 +57,7 @@ class Profile extends React.Component {
       checked: false,
     };
     this.handleIntegrateFBBtnClick = this.handleIntegrateFBBtnClick.bind(this);
+    this.routeChange = this.routeChange.bind(this);
   }
 
   componentDidMount() {
@@ -86,6 +87,11 @@ class Profile extends React.Component {
     const res = await getUrlSocialAPICall(socialSelected);
     const url = res.data;
     window.location = url;
+  }
+
+  routeChange = async () => {
+    const path = '/home';
+    window.location = path;
   }
 
   changeImage() {
@@ -442,7 +448,8 @@ class Profile extends React.Component {
                   }
                   {!edition ? (
                     <Button
-                      to="/home"
+                      // to="/home"
+                      onClick={this.routeChange}
                       style={{ margin: '10px' }}
                       variant="light"
                     >

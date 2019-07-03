@@ -127,9 +127,9 @@ class Proposals extends React.Component {
                       </div>
                     )}
                     getDetailRoute={proposal => `/offers/${proposal.purchasedOffer.id}`}
-                    textDetailRoute={() => 'Service'}
+                    textDetailRoute={() => 'Go to Service'}
                     possibleMakeReview={proposal => (proposal.status === 'Confirmed' ? (
-                      ' Make Review'
+                      ' and Make Review'
                     ) : '')}
                     selectItem={selectedProposal => (
                       <Proposal

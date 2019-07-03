@@ -157,7 +157,6 @@ class BasicData extends React.Component {
 
             <Form.Group as={Row} controlId="formPlaintextEmail">
               <Form.Label column sm="2">
-                {'Image'}
               </Form.Label>
               <Col sm="10">
 
@@ -176,6 +175,7 @@ class BasicData extends React.Component {
 
             <FormControl style={{ display: 'block' }}>
               <Select
+                style={{width: '100%'}}
                 name="categories"
                 multiple
                 value={this.state.categories}

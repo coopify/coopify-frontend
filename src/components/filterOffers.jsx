@@ -21,7 +21,8 @@ import styles from '../resources/css/profile.scss';
 import { resetNotificationFlags, attemptChangeFilters, attemptCategoriesAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 import ReactJoyride from 'react-joyride';
-
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 export default @connect(state => ({
   error: state.error,
@@ -230,7 +231,7 @@ class FilterOffers extends React.Component {
               <div className="control controlIcon" style={{margin: 'auto', width: '90%'}}>              
               <Input
                     type="text"
-                    placeholder="Search offer..."
+                    placeholder="Search service..."
                     className="searchBar"
                     onChange={e => this.handleSearchNameChange(e)}
                     value={searchName}
@@ -246,41 +247,41 @@ class FilterOffers extends React.Component {
                   <h4 style={{ color: 'black', marginTop: '10%' }}>Payment instance</h4>
 
                   <Form.Group style={{ textAlign: 'left', marginLeft: '20%' }}>
-                    <Form.Label>
-                      <input type="checkbox" name={BARTER_PAYMENT} onChange={e => this.handlePaymentChange(e)} />
-                      {BARTER_PAYMENT}
-                    </Form.Label>
+                    <FormControlLabel
+                        control={<Checkbox name={BARTER_PAYMENT} color="primary" onChange={e => this.handlePaymentChange(e)}/>}
+                        label= {BARTER_PAYMENT}
+                      />
                   </Form.Group>
 
                   <Form.Group style={{ textAlign: 'left', marginLeft: '20%' }}>
-                    <Form.Label>
-                      <input type="checkbox" name={COOPI_PAYMENT} onChange={e => this.handlePaymentChange(e)} />
-                      {COOPI_PAYMENT}
-                    </Form.Label>
+                      <FormControlLabel
+                        control={<Checkbox  name={COOPI_PAYMENT} onChange={e => this.handlePaymentChange(e)} color="primary"/>}
+                        label= {COOPI_PAYMENT}
+                      />
                   </Form.Group>
                   </div>
 
                   <h4 style={{ color: 'black', display: showEIDisplay }}>Exchange instance</h4>
 
                   <Form.Group style={{ textAlign: 'left', marginLeft: '20%', display: showEIDisplay }}>
-                    <Form.Label>
-                      <input type="checkbox" name={HOUR_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
-                      {HOUR_EXCHANGE}
-                    </Form.Label>
+                      <FormControlLabel
+                        control={<Checkbox name={HOUR_EXCHANGE} onChange={e => this.handleExchangeChange(e)} color="primary"/>}
+                        label= {HOUR_EXCHANGE}
+                      />
                   </Form.Group>
 
                   <Form.Group style={{ textAlign: 'left', marginLeft: '20%', display: showEIDisplay }}>
-                    <Form.Label>
-                      <input type="checkbox" name={SESSION_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
-                      {SESSION_EXCHANGE}
-                    </Form.Label>
+                      <FormControlLabel
+                        control={<Checkbox name={SESSION_EXCHANGE} onChange={e => this.handleExchangeChange(e)} color="primary"/>}
+                        label= {SESSION_EXCHANGE}
+                      />
                   </Form.Group>
 
                   <Form.Group style={{ textAlign: 'left', marginLeft: '20%', display: showEIDisplay }}>
-                    <Form.Label>
-                      <input type="checkbox" name={PRODUCT_EXCHANGE} onChange={e => this.handleExchangeChange(e)} />
-                      {PRODUCT_EXCHANGE}
-                    </Form.Label>
+                      <FormControlLabel
+                        control={<Checkbox name={PRODUCT_EXCHANGE} onChange={e => this.handleExchangeChange(e)} color="primary"/>}
+                        label= {PRODUCT_EXCHANGE}
+                      />
                   </Form.Group>
 
 
@@ -305,6 +306,7 @@ class FilterOffers extends React.Component {
 
                     <FormControl style={{ display: 'block' }}>
                       <Select
+                        style={{width: '100%'}}
                         multiple
                         value={this.state.categories}
                         onChange={e => this.handleCategoriesChange(e)}

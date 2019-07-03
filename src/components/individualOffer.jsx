@@ -38,6 +38,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CommonButton from '@material-ui/core/Button';
 import noImage from '../assets/noImage.png';
 import { Link } from 'react-router-dom';
+import { carousel } from './carousel';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -504,6 +505,53 @@ class IndividualOffer extends React.Component {
                   {' '}
                 </Col>
               </Row>
+
+              {/* Prueba con card carousel */}
+
+              {/* <div className="container-fluid">
+                <h1 className="text-center my-3">Reviews</h1>
+                <div id="myCarousel" className="carousel slide" data-ride="carousel">
+                  <div className="carousel-inner row w-100 mx-auto">
+                  <div className="carousel-item col-md-4 active">
+                    {reviews.map(item => (
+
+                        <div className="card">
+                          <div className="card-body">
+                            <h4 className="card-title">{item.reviewer == null ? '' : item.reviewer.name}</h4>
+                            <p className="card-text">{item.description}</p>
+                            <p className="card-text">
+                              <small className="text-muted">
+                                <StarRatingComponent
+                                  name="RatingReview"
+                                  editing={false}
+                                  renderStarIcon={() => <span>&#9733;</span>}
+                                  starCount={5}
+                                  value={item.offerRate}
+                                />
+                              </small>
+                            </p>
+                          </div>
+                        </div>
+
+                    ))}
+                  </div>
+                  </div>
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-12 text-center mt-4">
+                        <a className="btn btn-outline-secondary mx-1 prev" href="javascript:void(0)" title="Previous">
+                          <i className="fa fa-lg fa-chevron-left"></i>
+                        </a>
+                        <a className="btn btn-outline-secondary mx-1 next" href="javascript:void(0)" title="Next">
+                          <i className="fa fa-lg fa-chevron-right"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> */}
+
+              {/* Fin prueba con card carousel */}
 
               <Dialog
                 open={modalOpen}

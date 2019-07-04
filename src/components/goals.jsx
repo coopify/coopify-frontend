@@ -11,11 +11,11 @@ import { resetNotificationFlags, attemptGoalsAction, attemptGoalsUserAction } fr
 import GuestLayout from './guest-layout';
 
 export default @connect(state => ({
-  error: state.error,
-  loading: state.loading,
-  goals: state.goals,
-  goalsUser: state.goalsUser,
-  loggedUser: state.user,
+  error: state.goal.error,
+  loading: state.goal.loading,
+  goals: state.goal.goals,
+  goalsUser: state.goal.goalsUser,
+  loggedUser: state.user.user,
 }))
 
 class Goals extends React.Component {

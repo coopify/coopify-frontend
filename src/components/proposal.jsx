@@ -14,7 +14,7 @@ import { attemptAcceptProposal, attemptRejectProposal, attemptCancelProposal } f
 
 export default @connect(state => ({
   loggedUser: state.user.user,
-  serviceUser: state.serviceUser,
+  serviceUser: state.user.serviceUser,
   error: state.proposal.error,
   loading: state.proposal.loading,
   messages: state.conversation.messages,

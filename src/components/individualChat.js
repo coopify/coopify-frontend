@@ -51,7 +51,7 @@ import ReactJoyride from 'react-joyride';
 
 export default @connect(state => ({
   loggedUser: state.user.user,
-  serviceUser: state.serviceUser,
+  serviceUser: state.user.serviceUser,
   error: state.conversation.error,
   loading: state.conversation.loading,
   messages: state.conversation.messages,

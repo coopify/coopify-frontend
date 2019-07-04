@@ -27,12 +27,6 @@ import {
   CHECKTRANSACTIONS_SUCCESS,
   CHECKTRANSACTIONS_FAILURE,
   DISPLAY_TOAST_ATTEMPT,
-  GET_GOALS_ATTEMPT,
-  GET_GOALS_SUCCESS,
-  GET_GOALS_FAILURE,
-  GET_GOALSUSER_ATTEMPT,
-  GET_GOALSUSER_SUCCESS,
-  GET_GOALSUSER_FAILURE,
   SYNC_FB_ATTEMPT,
   SYNC_FB_SUCCESS,
   SYNC_FB_FAILURE,
@@ -115,7 +109,16 @@ import {
   GET_USERS_OFFERS_ATTEMPT,
   GET_USERS_OFFERS_SUCCESS,
 } from './serviceReducer';
-// import { serviceReducers, initialServiceState } from './serviceReducer';
+
+import {
+  goal, initialGoalState,
+  GET_GOALS_ATTEMPT,
+  GET_GOALS_SUCCESS,
+  GET_GOALS_FAILURE,
+  GET_GOALSUSER_ATTEMPT,
+  GET_GOALSUSER_SUCCESS,
+  GET_GOALSUSER_FAILURE,
+} from './goalReducer';
 
 const AppReducers = {
   user,
@@ -123,6 +126,7 @@ const AppReducers = {
   proposal,
   review,
   service,
+  goal,
 };
 
 const InitialState = {
@@ -131,6 +135,7 @@ const InitialState = {
   ...initialProposalState,
   ...initialReviewState,
   ...initialServiceState,
+  ...initialGoalState,
 };
 
 const Actions = {
@@ -242,6 +247,7 @@ export {
   proposal,
   review,
   service,
+  goal,
   SOCIAL_LOGIN_ATTEMPT,
   LOGIN_SUCCESS,
   LOGIN_ATTEMPT,

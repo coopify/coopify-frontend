@@ -10,8 +10,6 @@ import {
   loadStateFromCookies,
   socialLoginAsync,
   sendRewardAsync,
-  getGoalsAsync,
-  getGoalsUserAsync,
   syncFacebookAsync,
   getUserAsync,
 } from './user';
@@ -48,6 +46,11 @@ import {
   sendReplyAsync,
   geteUsersOffers,
 } from './service';
+
+import {
+  getGoalsAsync,
+  getGoalsUserAsync,
+} from './goal';
 
 export default function* rootSaga() {
   yield all(

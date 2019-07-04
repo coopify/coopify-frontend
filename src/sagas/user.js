@@ -14,10 +14,6 @@ import {
   CHECKBALANCE_FAILURE,
   CHECKTRANSACTIONS_SUCCESS,
   CHECKTRANSACTIONS_FAILURE,
-  GET_GOALS_SUCCESS,
-  GET_GOALS_FAILURE,
-  GET_GOALSUSER_SUCCESS,
-  GET_GOALSUSER_FAILURE,
   SYNC_FB_SUCCESS,
   SYNC_FB_FAILURE,
   GET_USER_SUCCESS,
@@ -33,8 +29,6 @@ import {
   socialLogInAPICall,
   checkBalanceAPICall,
   checkTransactionsAPICall,
-  getGoalsAPICall,
-  getGoalsUserAPICall,
   syncFBApiCall,
   sendRewardApiCall,
   getUserApiCall,
@@ -127,24 +121,6 @@ export function* checkTransactionsAsync(payload) {
     yield put({ type: CHECKTRANSACTIONS_SUCCESS, transactions: result.transactions });
   } else {
     yield put({ type: CHECKTRANSACTIONS_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* getGoalsAsync() {
-  const result = yield getGoalsAPICall();
-  if (result.status === 200) {
-    yield put({ type: GET_GOALS_SUCCESS, responseGoals: result.responseGoals });
-  } else {
-    yield put({ type: GET_GOALS_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* getGoalsUserAsync(payload) {
-  const result = yield getGoalsUserAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: GET_GOALSUSER_SUCCESS, responseGoals: result.responseGoals });
-  } else {
-    yield put({ type: GET_GOALSUSER_FAILURE, errorMessage: result.errorMessage });
   }
 }
 

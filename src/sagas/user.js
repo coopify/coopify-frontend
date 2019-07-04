@@ -27,15 +27,7 @@ import {
   GET_QUESTION_ANSWER_SUCCESS,
   GET_QUESTION_ANSWER_FAILURE,
   SEND_QUESTION_REPLY_SUCCESS,
-  MAKE_PROPOSAL_SUCCESS,
-  MAKE_PROPOSAL_FAILURE,
   GET_USERS_OFFERS_SUCCESS,
-  GET_PROPOSALS_SUCCESS,
-  GET_PROPOSALS_FAILURE,
-  ACCEPT_PROPOSAL_SUCCESS,
-  REJECT_PROPOSAL_SUCCESS,
-  CANCEL_PROPOSAL_SUCCESS,
-  GET_CONVERSATION_PROPOSAL_SUCCESS,
   GET_GOALS_SUCCESS,
   GET_GOALS_FAILURE,
   GET_GOALSUSER_SUCCESS,
@@ -70,13 +62,7 @@ import {
   postQuestionAPICall,
   getQuestionAnswerAPICall,
   sendReplyAPICall,
-  makeProposalAPICall,
   getUsersOffersAPICall,
-  getProposalsAPICall,
-  rejectProposalAPICall,
-  acceptProposalAPICall,
-  cancelProposalAPICall,
-  getConversationProposalAPICall,
   getGoalsAPICall,
   getGoalsUserAPICall,
   syncFBApiCall,
@@ -239,55 +225,11 @@ export function* sendReplyAsync(payload) {
   }
 }
 
-export function* makeProposalAsync(payload) {
-  const result = yield makeProposalAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: MAKE_PROPOSAL_SUCCESS, proposal: result.proposal });
-  } else {
-    yield put({ type: MAKE_PROPOSAL_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
 export function* geteUsersOffers(payload) {
   const result = yield getUsersOffersAPICall(payload.payload);
   if (result.status === 200) {
     yield put({ type: GET_USERS_OFFERS_SUCCESS, usersOffers: result.usersOffers });
   }
-}
-
-export function* getProposalsAsync(payload) {
-  const result = yield getProposalsAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: GET_PROPOSALS_SUCCESS, proposals: result.responseProposals.proposals });
-  } else {
-    yield put({ type: GET_PROPOSALS_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* acceptProposalAsync(payload) {
-  const result = yield acceptProposalAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: ACCEPT_PROPOSAL_SUCCESS, proposal: result.proposal });
-  }
-}
-
-export function* rejectProposalAsync(payload) {
-  const result = yield rejectProposalAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: REJECT_PROPOSAL_SUCCESS, proposal: result.proposal });
-  }
-}
-
-export function* cancelProposalAsync(payload) {
-  const result = yield cancelProposalAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: CANCEL_PROPOSAL_SUCCESS, proposal: result.proposal });
-  }
-}
-
-export function* getConversationProposalAsync(payload) {
-  const result = yield getConversationProposalAPICall(payload.payload);
-  yield put({ type: GET_CONVERSATION_PROPOSAL_SUCCESS, proposal: result.proposal });
 }
 
 export function* getGoalsAsync() {

@@ -14,11 +14,11 @@ import GuestLayout from './guest-layout';
 import GridView from './gridview';
 
 export default @connect(state => ({
-  error: state.error,
-  loading: state.loading,
-  proposals: state.proposals,
-  countProposals: state.countProposals,
-  loggedUser: state.user,
+  error: state.proposal.error,
+  loading: state.proposal.loading,
+  proposals: state.proposal.proposals,
+  countProposals: state.proposal.countProposals,
+  loggedUser: state.user.user,
 }))
 
 class Proposals extends React.Component {

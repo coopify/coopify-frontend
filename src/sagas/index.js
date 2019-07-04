@@ -16,13 +16,7 @@ import {
   postQuestionAsync,
   getQuestionAnswerAsync,
   sendReplyAsync,
-  makeProposalAsync,
   geteUsersOffers,
-  getProposalsAsync,
-  acceptProposalAsync,
-  rejectProposalAsync,
-  cancelProposalAsync,
-  getConversationProposalAsync,
   getGoalsAsync,
   getGoalsUserAsync,
   syncFacebookAsync,
@@ -32,7 +26,16 @@ import {
   canReviewAsync,
   getUserReviewsAsync,
   getUserAsync,
+
 } from './user';
+import {
+  makeProposalAsync,
+  getProposalsAsync,
+  acceptProposalAsync,
+  rejectProposalAsync,
+  cancelProposalAsync,
+  getConversationProposalAsync,
+} from './proposal';
 
 import {
   sendChatMessageAsync,

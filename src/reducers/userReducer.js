@@ -47,23 +47,9 @@ export const GET_QUESTION_ANSWER_SUCCESS = 'GET_QUESTION_ANSWER_SUCCESS';
 export const GET_QUESTION_ANSWER_FAILURE = 'GET_QUESTION_ANSWER_FAILURE';
 export const SEND_QUESTION_REPLY_ATTEMPT = 'SEND_QUESTION_REPLY_ATTEMPT';
 export const SEND_QUESTION_REPLY_SUCCESS = 'SEND_QUESTION_REPLY_SUCCESS';
-export const MAKE_PROPOSAL_ATTEMPT = 'MAKE_PROPOSAL_ATTEMPT';
-export const MAKE_PROPOSAL_SUCCESS = 'MAKE_PROPOSAL_SUCCESS';
-export const MAKE_PROPOSAL_FAILURE = 'MAKE_PROPOSAL_FAILURE';
 export const GET_USERS_OFFERS_ATTEMPT = 'GET_USERS_OFFERS_ATTEMPT';
 export const GET_USERS_OFFERS_SUCCESS = 'GET_USERS_OFFERS_SUCCESS';
-export const GET_PROPOSALS_ATTEMPT = 'GET_PROPOSALS_ATTEMPT';
-export const GET_PROPOSALS_SUCCESS = 'GET_PROPOSALS_SUCCESS';
-export const GET_PROPOSALS_FAILURE = 'GET_PROPOSALS_FAILURE';
-export const ACCEPT_PROPOSAL_ATTEMPT = 'ACCEPT_PROPOSAL_ATTEMPT';
-export const ACCEPT_PROPOSAL_SUCCESS = 'ACCEPT_PROPOSAL_SUCCESS';
-export const REJECT_PROPOSAL_ATTEMPT = 'REJECT_PROPOSAL_ATTEMPT';
-export const REJECT_PROPOSAL_SUCCESS = 'REJECT_PROPOSAL_SUCCESS';
-export const CANCEL_PROPOSAL_ATTEMPT = 'CANCEL_PROPOSAL_ATTEMPT';
-export const CANCEL_PROPOSAL_SUCCESS = 'CANCEL_PROPOSAL_SUCCESS';
 export const DISPLAY_TOAST_ATTEMPT = 'DISPLAY_TOAST_ATTEMPT';
-export const GET_CONVERSATION_PROPOSAL_ATTEMPT = 'GET_CONVERSATION_PROPOSAL_ATTEMPT';
-export const GET_CONVERSATION_PROPOSAL_SUCCESS = 'GET_CONVERSATION_PROPOSAL_SUCCESS';
 export const GET_GOALS_ATTEMPT = 'GET_GOALS_ATTEMPT';
 export const GET_GOALS_SUCCESS = 'GET_GOALS_SUCCESS';
 export const GET_GOALS_FAILURE = 'GET_GOALS_FAILURE';
@@ -390,13 +376,6 @@ export const user = (state = initialUserState, action) => {
         reply: action.reply,
       });
 
-    case MAKE_PROPOSAL_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposal: action.proposal,
-        loading: false,
-      });
-
     case GET_USERS_OFFERS_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
@@ -404,59 +383,10 @@ export const user = (state = initialUserState, action) => {
         userOffers: action.usersOffers.userOffers,
       });
 
-    case GET_PROPOSALS_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
-
-    case GET_PROPOSALS_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-        loading: false,
-      });
-
-    case GET_PROPOSALS_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposals: action.proposals,
-        // countProposals: action.count,
-        loading: false,
-      });
-
-    case ACCEPT_PROPOSAL_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposal: action.proposal,
-      });
-
-    case REJECT_PROPOSAL_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposal: action.proposal,
-      });
-
-    case CANCEL_PROPOSAL_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposal: action.proposal,
-      });
-
     case DISPLAY_TOAST_ATTEMPT:
       return _.assignIn({}, state, {
         error: '',
         status: action.payload.status,
-      });
-
-    case GET_CONVERSATION_PROPOSAL_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-      });
-
-    case GET_CONVERSATION_PROPOSAL_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposal: action.proposal,
       });
 
     case GET_GOALS_ATTEMPT:

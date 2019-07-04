@@ -38,7 +38,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CommonButton from '@material-ui/core/Button';
 import noImage from '../assets/noImage.png';
 import { Link } from 'react-router-dom';
-import { carousel } from './carousel';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+// import { carousel } from './carousel';
 
 export default @connect(state => ({
   loggedUser: state.user,
@@ -261,6 +264,22 @@ class IndividualOffer extends React.Component {
     const showBtnShareFB = 'inline-block';
     const canReview = canRate ? 'block' : 'none';
 
+    // Settings Slides Reviews
+    let countSlides = 0;
+    if (reviews.length < 3) {
+      countSlides = reviews.length;
+    } else {
+      countSlides = 3;
+    }
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 300,
+      slidesToShow: countSlides,
+      slidesToScroll: 3,
+    };
+    // End Settings Slides Reviews
+
     if (error.length > 0) this.notify(error, true);
     if (reviewCreated) this.notify('The service was reviewed successfully!', false);
 
@@ -294,13 +313,13 @@ class IndividualOffer extends React.Component {
                 </Col>
                 <Col sm="2">
                   {offer.ratingCount !== 0 ? (
-                    <div>
+                    <div style={{ margin: 5 }}>
                       {'Service Rating: '}
                       {Number.parseFloat(offer.rating).toFixed(2)}
                       <StarRatingComponent
                         name="RatingService"
                         editing={false}
-                        renderStarIcon={() => <span>&#9733;</span>}
+                        renderStarIcon={() => <h5>&#9733;</h5>}
                         starCount={5}
                         value={Number.parseFloat(offer.rating).toFixed(2)}
                       />
@@ -443,7 +462,7 @@ class IndividualOffer extends React.Component {
                   {' '}
                 </Col>
                 <Col sm="8">
-                  <div style={{ textAlign: '-webkit-center' }}>
+                  <div style={{ textAlign: '-webkit-center', margin: 8 }}>
                     <Button
                       onClick={e => this.handleContactClick(e)}
                       style={{ display: displayOwnerOnly }}
@@ -457,13 +476,13 @@ class IndividualOffer extends React.Component {
                 </Col>
               </Row>
 
-              <div style={{ textAlign: 'center' }}>
+              <div style={{ textAlign: 'center', margin: 8 }}>
                 <Button style={{ display: canReview, margin: 'auto' }} onClick={e => this.handleClickOpen(e)}>
                   {'Write your review for this service'}
                 </Button>
               </div>
 
-              <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
+              {/* <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
                 <Col sm="2">
                   {' '}
                 </Col>
@@ -478,7 +497,7 @@ class IndividualOffer extends React.Component {
                           <Col>
                             {item.reviewer == null ? '' : item.reviewer.name}
                             {' '}
-                            {/* {item.date} */}
+                            {item.date}
                             <StarRatingComponent
                               name="RatingReview"
                               editing={false}
@@ -504,54 +523,44 @@ class IndividualOffer extends React.Component {
                 <Col sm="2">
                   {' '}
                 </Col>
+              </Row> */}
+
+              {/* Prueba con react-slick */}
+              <Row>
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="8">
+                  <Slider {...settings}>
+                    {reviews.map(item => (
+                      <div className="card cardCoopify">
+                        <div className="card-body">
+                          <p>{item.reviewer.pictureURL != null ? <img name="pictureReviewer" alt={item.reviewer.name} src={item.reviewer.pictureURL} width="120" display="initial" /> : ''}</p>
+                          <p className="card-title">{item.reviewer != null ? item.reviewer.name : ''}</p>
+                          <p className="text-muted">{item.description}</p>
+                          <p className="card-text">
+                            <h3 className="text-muted">
+                              <StarRatingComponent
+                                name="RatingReview"
+                                editing={false}
+                                renderStarIcon={() => <span>&#9733;</span>}
+                                starCount={5}
+                                value={item.offerRate}
+                              />
+                            </h3>
+                          </p>
+                          <small className="card-text">{item.createdAt.substring(0, 10)}</small>
+                        </div>
+                      </div>
+                    ))}
+                  </Slider>
+                </Col>
+                <Col sm="2">
+                  {' '}
+                </Col>
               </Row>
 
-              {/* Prueba con card carousel */}
-
-              {/* <div className="container-fluid">
-                <h1 className="text-center my-3">Reviews</h1>
-                <div id="myCarousel" className="carousel slide" data-ride="carousel">
-                  <div className="carousel-inner row w-100 mx-auto">
-                  <div className="carousel-item col-md-4 active">
-                    {reviews.map(item => (
-
-                        <div className="card">
-                          <div className="card-body">
-                            <h4 className="card-title">{item.reviewer == null ? '' : item.reviewer.name}</h4>
-                            <p className="card-text">{item.description}</p>
-                            <p className="card-text">
-                              <small className="text-muted">
-                                <StarRatingComponent
-                                  name="RatingReview"
-                                  editing={false}
-                                  renderStarIcon={() => <span>&#9733;</span>}
-                                  starCount={5}
-                                  value={item.offerRate}
-                                />
-                              </small>
-                            </p>
-                          </div>
-                        </div>
-
-                    ))}
-                  </div>
-                  </div>
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-12 text-center mt-4">
-                        <a className="btn btn-outline-secondary mx-1 prev" href="javascript:void(0)" title="Previous">
-                          <i className="fa fa-lg fa-chevron-left"></i>
-                        </a>
-                        <a className="btn btn-outline-secondary mx-1 next" href="javascript:void(0)" title="Next">
-                          <i className="fa fa-lg fa-chevron-right"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-
-              {/* Fin prueba con card carousel */}
+              {/* Fin Prueba con react-slick */}
 
               <Dialog
                 open={modalOpen}

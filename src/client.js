@@ -20,7 +20,7 @@ import './resources/css/footer-with-button-logo.css';
 import './resources/css/image-overlay-fade.css';
 import './resources/css/components-styles.css';
 import './resources/css/chat-list.css';
-// import './resources/css/carousel.css';
+import './resources/css/cardCoopify.css';
 
 const appInitialState = {};
 

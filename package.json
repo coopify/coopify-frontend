@@ -79,6 +79,7 @@
     "react-router-dom": "^4.3.1",
     "react-select": "^2.4.2",
     "react-share": "^3.0.0",
+    "react-slick": "^0.24.0",
     "react-social-login": "^3.4.4",
     "react-star-rating-component": "^1.4.1",
     "react-stepzilla": "^6.0.0",
@@ -87,6 +88,7 @@
     "react-toastify": "^4.5.2",
     "react-transition-group": "^2.6.0",
     "redux-saga": "^1.0.1",
+    "slick-carousel": "^1.8.1",
     "snyk": "^1.124.1",
     "swiper": "^4.5.0",
     "universal-fetch": "^1.0.0"

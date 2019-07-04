@@ -21,7 +21,6 @@ export default @connect(state => ({
   loggedUser: state.user.user, // el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
   error: state.user.error,
   loading: state.user.loading,
-  userDidLog: state.user.userDidLog,
 }))
 
 class Login extends React.Component {

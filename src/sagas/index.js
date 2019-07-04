@@ -17,17 +17,20 @@ import {
   getQuestionAnswerAsync,
   sendReplyAsync,
   geteUsersOffers,
+  sendRewardAsync,
   getGoalsAsync,
   getGoalsUserAsync,
   syncFacebookAsync,
-  sendRewardAsync,
+  getUserAsync,
+} from './user';
+
+import {
   getReviewsAsync,
   sendReviewAsync,
   canReviewAsync,
   getUserReviewsAsync,
-  getUserAsync,
+} from './review';
 
-} from './user';
 import {
   makeProposalAsync,
   getProposalsAsync,

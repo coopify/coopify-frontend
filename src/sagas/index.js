@@ -7,16 +7,8 @@ import {
   profileAsync,
   checkBalanceAsync,
   checkTransactionsAsync,
-  checkOffersAsync,
   loadStateFromCookies,
   socialLoginAsync,
-  createOfferAsync,
-  getOfferAsync,
-  getCategoriesAsync,
-  postQuestionAsync,
-  getQuestionAnswerAsync,
-  sendReplyAsync,
-  geteUsersOffers,
   sendRewardAsync,
   getGoalsAsync,
   getGoalsUserAsync,
@@ -45,6 +37,17 @@ import {
   getConversationsAsync,
   getMessagesAsync,
 } from './conversation';
+
+import {
+  checkOffersAsync,
+  createOfferAsync,
+  getOfferAsync,
+  getCategoriesAsync,
+  postQuestionAsync,
+  getQuestionAnswerAsync,
+  sendReplyAsync,
+  geteUsersOffers,
+} from './service';
 
 export default function* rootSaga() {
   yield all(

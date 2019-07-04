@@ -14,11 +14,11 @@ import SingletonPusher from './singletonPusher';
 import ReactJoyride from 'react-joyride';
 
 export default @connect(state => ({
-  loggedUser: state.user,
-  error: state.error,
-  loading: state.loading,
-  userDidSignUp: state.userDidSignUp,
-  referalCode: state.referalCode,
+  loggedUser: state.user.user,
+  error: state.user.error,
+  loading: state.user.loading,
+  userDidSignUp: state.user.userDidSignUp,
+  referalCode: state.user.referalCode,
 }))
 
 class Signup extends React.Component {

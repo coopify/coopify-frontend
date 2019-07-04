@@ -41,9 +41,9 @@ import { Link } from 'react-router-dom';
 
 export default @connect(state => ({
   loggedUser: state.user.user,
-  error: state.user.error,
-  loading: state.user.loading,
-  offer: state.user.offer,
+  error: state.service.error,
+  loading: state.service.loading,
+  offer: state.service.offer,
   reviews: state.review.reviews,
   canRate: state.review.canRate,
   reviewCreated: state.review.reviewCreated,

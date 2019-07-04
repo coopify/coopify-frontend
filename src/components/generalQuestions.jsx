@@ -19,12 +19,12 @@ import {
 } from '../actions/user';
 
 export default @connect(state => ({
-  error: state.error,
-  questions: state.questions,
-  countQuestions: state.countQuestions,
-  question: state.question,
-  readOnlyOffer: state.offer,
-  loggedUser: state.user,
+  error: state.service.error,
+  questions: state.service.questions,
+  countQuestions: state.service.countQuestions,
+  question: state.service.question,
+  readOnlyOffer: state.service.offer,
+  loggedUser: state.user.user,
 }))
 
 class GeneralQuestions extends React.Component {

@@ -332,7 +332,7 @@ class IndividualOffer extends React.Component {
                   {' '}
                 </Col>
                 <Col sm="4">
-                  <img name="picture" alt={offer.title} src={pictureUrl} width="400" style={{ position: 'relative', top: '5%', transform: 'translateY(-5%)' }} />
+                  <img name="picture" alt={offer.title} src={pictureUrl} width="400" margin="8" style={{ position: 'relative', top: '5%', transform: 'translateY(-5%)' }} />
                 </Col>
 
                 <Col sm="2">
@@ -605,13 +605,11 @@ class IndividualOffer extends React.Component {
                           name="RatingService"
                           starColor="#ffb400"
                           emptyStarColor="#ffb400"
-                          renderStarIcon={(index, value) => {
-                            return (
-                              <span>
-                                <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
-                              </span>
-                            );
-                          }}
+                          renderStarIcon={(index, value) => (
+                            <span>
+                              <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
+                            </span>
+                          )}
                           value={myUserRating}
                           onStarClick={e => this.onUserStarClick(e)}
                           starCount={5}

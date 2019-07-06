@@ -11,7 +11,7 @@ import {
 import Switch from 'react-switch';
 import { Link } from 'react-router-dom';
 import { loadScript } from '@pawjs/pawjs/src/utils/utils';
-import LoadingScreen from 'react-loading-screen';
+import { Loading } from './loading';
 import { Protected } from './protected';
 import styles from '../resources/css/profile.scss';
 import {
@@ -186,13 +186,7 @@ class Profile extends React.Component {
     return (
         <GuestLayout>
 
-          <LoadingScreen
-            loading={loading}
-            bgColor={global.loadingBgColor}
-            spinnerColor={global.loadingFontColor}
-            textColor={global.loadingFontColor}
-            text="Loading..."
-          >
+          <Loading>
 
             <div className={styles.container}>
               <form onSubmit={e => this.handleSubmit(e)}>
@@ -419,7 +413,7 @@ class Profile extends React.Component {
             </div>
             <ToastContainer autoClose={3000} />
 
-          </LoadingScreen>
+          </Loading>
         </GuestLayout>
     );
   }

@@ -9,7 +9,7 @@ import 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import GoogleLogin from 'react-google-login';
-import LoadingScreen from 'react-loading-screen';
+import { Loading } from './loading';
 import Protected from './protected';
 import SingletonPusher from './singletonPusher';
 import { attemptLoginAction, attemptSocialLoginAction } from '../actions/user';
@@ -152,13 +152,7 @@ class Login extends React.Component {
           }}
         />
 
-        <LoadingScreen
-          loading={this.props.loading}
-          bgColor={global.loadingBgColor}
-          spinnerColor={global.loadingFontColor}
-          textColor={global.loadingFontColor}
-          text="Loading..."
-        >
+        <Loading>
 
           <div>
             <div style={{width: 'max-content', margin: 'auto'}}>
@@ -250,7 +244,7 @@ Google
             </div>
           </div>
 
-        </LoadingScreen>
+        </Loading>
       </GuestLayout>
     );
   }

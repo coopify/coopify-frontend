@@ -32,8 +32,6 @@ global.GOOGLE_APP_ID = '157449480210-9sr3ar7e5q2lm7emifvegj0r9ohr3vm6.apps.googl
 // global.GOOGLE_APP_ID = '157449480210-dd88viejmm5ce2ia29j0cqpaul1ml5j4.apps.googleusercontent.com'
 global.PUSHER_APP_KEY = '854192fae3c55354146c';
 global.PUSHER_APP_CLUSTER = 'us2';
-global.loadingBgColor = 'rgba(0,0,0,0.6)';
-global.loadingFontColor = '#f9c733';
 
 export default class Client {
   constructor({ addPlugin }) {

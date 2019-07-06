@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import 'react-table/react-table.css';
-import LoadingScreen from 'react-loading-screen';
+import { Loading } from './loading';
 import { Proposal } from './proposal';
 import Protected from './protected';
 import styles from '../resources/css/profile.scss';
@@ -89,13 +89,7 @@ class Proposals extends React.Component {
       <Protected>
         <GuestLayout>
 
-          <LoadingScreen
-            loading={loading}
-            bgColor={global.loadingBgColor}
-            spinnerColor={global.loadingFontColor}
-            textColor={global.loadingFontColor}
-            text="Loading..."
-          >
+          <Loading>
 
             <div className={styles.container}>
               <form>
@@ -136,7 +130,7 @@ class Proposals extends React.Component {
               <ToastContainer autoClose={3000} />
             </div>
 
-          </LoadingScreen>
+          </Loading>
         </GuestLayout>
       </Protected>
     );

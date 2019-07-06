@@ -6,7 +6,7 @@ import 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import { ChatList } from 'react-chat-elements';
-import LoadingScreen from 'react-loading-screen';
+import { Loading } from './loading';
 import { Protected } from './protected';
 import { attemptGetUserConversations } from '../actions/user';
 import GuestLayout from './guest-layout';
@@ -65,13 +65,7 @@ class ConversationList extends React.Component {
       <Protected>
         <GuestLayout>
 
-          <LoadingScreen
-            loading={loading}
-            bgColor={global.loadingBgColor}
-            spinnerColor={global.loadingFontColor}
-            textColor={global.loadingFontColor}
-            text="Loading..."
-          >
+          <Loading>
 
             <div className={styles.containerChat}>
               <ChatList
@@ -94,7 +88,7 @@ class ConversationList extends React.Component {
                 onClick={e => this.displayChat(e)}
               />
             </div>
-          </LoadingScreen>
+          </Loading>
         </GuestLayout>
       </Protected>
     );

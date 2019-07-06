@@ -3,7 +3,7 @@ import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LoadingScreen from 'react-loading-screen';
+import { Loading } from './loading';
 import { ToastContainer, toast } from 'react-toastify';
 import GuestLayout from './guest-layout';
 import { attemptSignUpAction } from '../actions/user';
@@ -165,13 +165,7 @@ class Signup extends React.Component {
           }}
         />
 
-        <LoadingScreen
-          loading={loading}
-          bgColor={global.loadingBgColor}
-          spinnerColor={global.loadingFontColor}
-          textColor={global.loadingFontColor}
-          text="Loading..."
-        >
+        <Loading>
 
           <div>
             <div style={{width: 'max-content', margin: 'auto'}}>
@@ -283,7 +277,7 @@ class Signup extends React.Component {
               <ToastContainer autoClose={3000} />
             </div>
           </div>
-        </LoadingScreen>
+        </Loading>
       </GuestLayout>
 
     );

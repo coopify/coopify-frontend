@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import 'react-bootstrap';
 import 'react-table/react-table.css';
-import LoadingScreen from 'react-loading-screen';
+import { Loading } from './loading';
 import { GridView } from './gridview';
 import styles from '../resources/css/profile.scss';
 import { resetNotificationFlags, attemptOffersAction } from '../actions/user';
@@ -120,13 +120,7 @@ class Offers extends React.Component {
     ]
 
     return (
-      <LoadingScreen
-        loading={loading}
-        bgColor={global.loadingBgColor}
-        spinnerColor={global.loadingFontColor}
-        textColor={global.loadingFontColor}
-        text="Loading..."
-      >
+      <Loading>
 
         <ReactJoyride
           continuous
@@ -232,7 +226,7 @@ class Offers extends React.Component {
           <ToastContainer autoClose={3000} />
         </div>
 
-      </LoadingScreen>
+      </Loading>
     );
   }
 }

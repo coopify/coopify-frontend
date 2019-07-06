@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import LoadingScreen from 'react-loading-screen';
+import { Loading } from './loading';
 import { attemptSocialSignUpAction, attemptSyncFB } from '../actions/user';
 import GuestLayout from './guest-layout';
 import SingletonPusher from './singletonPusher';
@@ -100,14 +100,7 @@ class FacebookSignUp extends React.Component {
 
     return (
       <GuestLayout>
-        <LoadingScreen
-          loading={loading}
-          bgColor={global.loadingBgColor}
-          spinnerColor={global.loadingFontColor}
-          textColor={global.loadingFontColor}
-             // logoSrc='/logo.png'
-          text="Autenticando... Por favor, aguarde unos instantes."
-        />
+        <Loading/>
       </GuestLayout>
     );
   }

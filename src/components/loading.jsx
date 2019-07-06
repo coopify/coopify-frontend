@@ -25,14 +25,16 @@ class Loading extends React.Component {
 
   render() {
     const { loading, children } = this.props;
+    const bgColor = 'rgba(20,20,20,0.5)';
+    const textColor = '#f9c733';
 
     return (
       <LoadingScreen
         loading={loading}
-        bgColor="rgba(0,0,0,0.6)"
-        spinnerColor="#f9c733"
-        textColor="#f9c733"
-        text="Loading..."
+        bgColor={bgColor}
+        spinnerColor={textColor}
+        textColor={textColor}
+        text="Loading"
       >
         {children}
 

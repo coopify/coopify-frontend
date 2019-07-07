@@ -40,7 +40,7 @@ import noImage from '../assets/noImage.png';
 import { Link } from 'react-router-dom';
 
 export default @connect(state => ({
-  loggedUser: state.user.user,
+  loggedUser: state.user.loggedUser,
   error: state.service.error,
   loading: state.service.loading,
   offer: state.service.offer,

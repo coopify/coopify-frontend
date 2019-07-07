@@ -24,7 +24,7 @@ import TextField from '@material-ui/core/TextField';
 import avatarImg from '../assets/avatar.png';
 
 export default @connect(state => ({
-  loggedUser: state.user.user,
+  loggedUser: state.user.loggedUser,
   error: state.user.error,
   loading: state.user.loading,
   reviews: state.review.reviews,

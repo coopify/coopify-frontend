@@ -13,7 +13,7 @@ import GuestLayout from './guest-layout';
 import styles from '../resources/css/profile.scss';
 
 export default @connect(state => ({
-  loggedUser: state.user.user,
+  loggedUser: state.user.loggedUser,
   error: state.conversation.error,
   loading: state.conversation.loading,
   conversations: state.conversation.conversations,

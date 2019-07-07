@@ -14,7 +14,7 @@ import SingletonPusher from './singletonPusher';
 import ReactJoyride from 'react-joyride';
 
 export default @connect(state => ({
-  loggedUser: state.user.user,
+  loggedUser: state.user.loggedUser,
   error: state.user.error,
   loading: state.user.loading,
   userDidSignUp: state.user.userDidSignUp,

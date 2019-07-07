@@ -18,7 +18,7 @@ export default @connect(state => ({
   loading: state.proposal.loading,
   proposals: state.proposal.proposals,
   countProposals: state.proposal.countProposals,
-  loggedUser: state.user.user,
+  loggedUser: state.user.loggedUser,
 }))
 
 class Proposals extends React.Component {

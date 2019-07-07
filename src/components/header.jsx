@@ -33,7 +33,7 @@ import {
 import 'react-toastify/dist/ReactToastify.css';
 
 export default @connect(state => ({
-  loggedUser: state.user.user,
+  loggedUser: state.user.loggedUser,
   userDidLog: state.user.userDidLog,
   status: state.user.status,
   balance: state.user.balance,

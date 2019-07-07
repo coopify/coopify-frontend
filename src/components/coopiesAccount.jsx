@@ -13,7 +13,7 @@ import GuestLayout from './guest-layout';
 import 'react-table/react-table.css';
 
 export default @connect(state => ({
-  loggedUser: state.user.user,
+  loggedUser: state.user.loggedUser,
   balance: state.user.balance,
   transactions: state.user.transactions,
   error: state.user.error,

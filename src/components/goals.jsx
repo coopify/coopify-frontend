@@ -15,7 +15,7 @@ export default @connect(state => ({
   loading: state.goal.loading,
   goals: state.goal.goals,
   goalsUser: state.goal.goalsUser,
-  loggedUser: state.user.user,
+  loggedUser: state.user.loggedUser,
 }))
 
 class Goals extends React.Component {

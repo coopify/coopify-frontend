@@ -21,7 +21,7 @@ import {
 import { attemptSignUpAction, attemptCategoriesAction } from '../../actions/user';
 
 export default @connect(state => ({
-  loggedUser: state.user.user,
+  loggedUser: state.user.loggedUser,
   error: state.service.error,
   loading: state.service.loading,
   userDidSignUp: state.user.userDidSignUp,

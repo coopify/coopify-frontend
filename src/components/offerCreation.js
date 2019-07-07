@@ -27,7 +27,7 @@ import GuestLayout from './guest-layout';
 
 
 export default @connect(state => ({
-  loggedUser: state.user.user,
+  loggedUser: state.user.loggedUser,
   error: state.service.error,
   loading: state.service.loading,
   categories: state.service.categories,

@@ -18,7 +18,7 @@ import ReactJoyride from 'react-joyride';
 
 export default @connect(state => ({
   userDidLog: state.user.userDidLog,
-  loggedUser: state.user.user, // el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
+  loggedUser: state.user.loggedUser, // el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
   error: state.user.error,
   loading: state.user.loading,
 }))

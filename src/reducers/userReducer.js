@@ -41,7 +41,7 @@ export const user = (state = initialUserState, action) => {
     case LOGIN_SUCCESS:
       return _.assignIn({}, state, {
         loading: false,
-        user: action.data.user,
+        loggedUser: action.data.user,
         error: '',
         userDidLog: true,
       });
@@ -67,7 +67,7 @@ export const user = (state = initialUserState, action) => {
     case SIGNUP_SUCCESS:
       return _.assignIn({}, state, {
         loading: false,
-        user: action.user,
+        loggedUser: action.user,
         error: '',
         userDidSignUp: true,
         referalCode: '',
@@ -99,7 +99,7 @@ export const user = (state = initialUserState, action) => {
     case SOCIAL_SIGNUP_SUCCESS:
       return _.assignIn({}, state, {
         loading: false,
-        user: action.user,
+        loggedUser: action.user,
         error: '',
         socialUserDidSignUp: true,
         userDidLog: true,
@@ -125,7 +125,7 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         loading: false,
         error: '',
-        user: action.user.user,
+        loggedUser: action.user.user,
       });
     case PROFILE_FAILURE:
       return _.assignIn({}, state, {
@@ -175,7 +175,7 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         loading: false,
         userDidSignUp: false,
-        user: action.cookieData.user,
+        loggedUser: action.cookieData.user,
         userDidLog: action.cookieData.isLogged,
       });
 
@@ -183,8 +183,8 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         loading: false,
         userDidSignUp: false,
-        user: {
-          ...state.user,
+        loggedUser: {
+          ...state.loggedUser,
           name: action.payload.name,
           lastName: action.payload.lastName,
           address: action.payload.address,
@@ -201,8 +201,8 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         loading: false,
         userDidSignUp: false,
-        user: {
-          ...state.user,
+        loggedUser: {
+          ...state.loggedUser,
           pictureURL: action.payload.url,
         },
 
@@ -238,7 +238,7 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         error: '',
         loading: false,
-        user: action.user,
+        loggedUser: action.user,
       });
 
     case SEND_REF_CODE:

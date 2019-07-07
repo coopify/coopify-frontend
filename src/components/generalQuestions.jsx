@@ -24,7 +24,7 @@ export default @connect(state => ({
   countQuestions: state.service.countQuestions,
   question: state.service.question,
   readOnlyOffer: state.service.offer,
-  loggedUser: state.user.user,
+  loggedUser: state.user.loggedUser,
 }))
 
 class GeneralQuestions extends React.Component {

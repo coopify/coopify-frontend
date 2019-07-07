@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { attemptAcceptProposal, attemptRejectProposal, attemptCancelProposal } from '../actions/user';
 
 export default @connect(state => ({
-  loggedUser: state.user.user,
+  loggedUser: state.user.loggedUser,
   serviceUser: state.user.serviceUser,
   error: state.proposal.error,
   loading: state.proposal.loading,

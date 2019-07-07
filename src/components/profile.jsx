@@ -15,7 +15,12 @@ import { Loading } from './loading';
 import { Protected } from './protected';
 import styles from '../resources/css/profile.scss';
 import {
-  attemptProfileAction, onChangeProfileInputAction, changeProfileImage, resetNotificationFlags, attemptGetUserReviews, attemptGetUser
+  attemptProfileAction,
+  onChangeProfileInputAction,
+  changeProfileImage,
+  resetNotificationFlags,
+  attemptGetUserReviews,
+  attemptGetUser,
 } from '../actions/user';
 import GuestLayout from './guest-layout';
 import { getUrlSocialAPICall } from '../api';
@@ -90,8 +95,7 @@ class Profile extends React.Component {
   }
 
   routeChange = async () => {
-    const path = '/home';
-    window.location = path;
+    window.location = '/home';
   }
 
   changeImage() {
@@ -293,7 +297,15 @@ class Profile extends React.Component {
                       <label className="label" htmlFor="name">
                         {'First name'}
                         <div className="control">
-                          <input name="name" value={profileUser.name} onChange={e => this.handleOnChange(e)} placeholder="Name" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
+                          <input
+                            name="name"
+                            value={profileUser.name}
+                            onChange={e => this.handleOnChange(e)}
+                            placeholder="Name"
+                            className={!editable ? ('form-control') : 'nonEditable'}
+                            readOnly={edition}
+                            disabled={focusable}
+                          />
                         </div>
                       </label>
                     </div>
@@ -303,7 +315,15 @@ class Profile extends React.Component {
                       <label className="label" htmlFor="lastname">
                         {'Last name'}
                         <div className="control">
-                          <input name="lastname" value={profileUser.lastName} onChange={e => this.handleOnChange(e)} placeholder="Last name" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
+                          <input
+                            name="lastname"
+                            value={profileUser.lastName}
+                            onChange={e => this.handleOnChange(e)}
+                            placeholder="Last name"
+                            className={!editable ? ('form-control') : 'nonEditable'}
+                            readOnly={edition}
+                            disabled={focusable}
+                          />
                         </div>
                       </label>
                     </div>
@@ -312,7 +332,14 @@ class Profile extends React.Component {
                       <label className="label" htmlFor="direction">
                         {'Address'}
                         <div className="control">
-                          <input name="direction" value={profileUser.address} onChange={e => this.handleOnChange(e)} placeholder="Address" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
+                          <input name="direction"
+                            value={profileUser.address}
+                            onChange={e => this.handleOnChange(e)}
+                            placeholder="Address"
+                            className={!editable ? ('form-control') : 'nonEditable'}
+                            readOnly={edition}
+                            disabled={focusable}
+                          />
                         </div>
                       </label>
                     </div>
@@ -321,7 +348,16 @@ class Profile extends React.Component {
                       <label className="label" htmlFor="tel">
                         {'Phone'}
                         <div className="control">
-                          <input type="number" name="tel" value={profileUser.phone} onChange={e => this.handleOnChange(e)} placeholder="Phone" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
+                          <input
+                            type="number"
+                            name="tel"
+                            value={profileUser.phone}
+                            onChange={e => this.handleOnChange(e)}
+                            placeholder="Phone"
+                            className={!editable ? ('form-control') : 'nonEditable'}
+                            readOnly={edition}
+                            disabled={focusable}
+                          />
                         </div>
                       </label>
                     </div>
@@ -335,7 +371,16 @@ class Profile extends React.Component {
                       <label className="label" htmlFor="dateBorn">
                         {'Birthdate'}
                         <div className="control">
-                          <input name="dateBorn" type="date" onChange={e => this.handleOnChange(e)} value={dateBirth} placeholder="Birthdate" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
+                          <input
+                            name="dateBorn"
+                            type="date"
+                            onChange={e => this.handleOnChange(e)}
+                            value={dateBirth}
+                            placeholder="Birthdate"
+                            className={!editable ? ('form-control') : 'nonEditable'}
+                            readOnly={edition}
+                            disabled={focusable}
+                          />
                         </div>
                       </label>
                     </div>
@@ -344,7 +389,16 @@ class Profile extends React.Component {
                       <label className="label" htmlFor="biography">
                         {'Biography'}
                         <div className="control">
-                          <input name="biography" type="textarea" onChange={e => this.handleOnChange(e)} value={profileUser.bio} placeholder="Biography" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
+                          <input
+                            name="biography"
+                            type="textarea"
+                            onChange={e => this.handleOnChange(e)}
+                            value={profileUser.bio}
+                            placeholder="Biography"
+                            className={!editable ? ('form-control') : 'nonEditable'}
+                            readOnly={edition}
+                            disabled={focusable}
+                          />
                         </div>
                       </label>
                     </div>
@@ -353,7 +407,16 @@ class Profile extends React.Component {
                       <label className="label" htmlFor="interests">
                         {'Interests'}
                         <div className="control">
-                          <input name="interests" type="textarea" onChange={e => this.handleOnChange(e)} value={profileUser.interests} placeholder="Interests" className={!editable ? ('form-control') : 'nonEditable'} readOnly={edition} disabled={focusable} />
+                          <input
+                            name="interests"
+                            type="textarea"
+                            onChange={e => this.handleOnChange(e)}
+                            value={profileUser.interests}
+                            placeholder="Interests"
+                            className={!editable ? ('form-control') : 'nonEditable'}
+                            readOnly={edition}
+                            disabled={focusable}
+                          />
                         </div>
                       </label>
                     </div>
@@ -448,14 +511,12 @@ class Profile extends React.Component {
                   }
                   {!edition ? (
                     <Button
-                      // to="/home"
                       onClick={this.routeChange}
                       style={{ margin: '10px' }}
                       variant="light"
                     >
                       {' '}
                       {'Cancel'}
-                      {/* {!edition ? <Link to="/home">Cancel</Link> : ''} */}
                     </Button>
                   ) : ''
                   }

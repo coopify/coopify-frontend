@@ -13,11 +13,11 @@ import GuestLayout from './guest-layout';
 import 'react-table/react-table.css';
 
 export default @connect(state => ({
-  loggedUser: state.user,
-  balance: state.balance,
-  transactions: state.transactions,
-  error: state.error,
-  loading: state.loading,
+  loggedUser: state.user.loggedUser,
+  balance: state.user.balance,
+  transactions: state.user.transactions,
+  error: state.user.error,
+  loading: state.user.loading,
 }))
 
 class CoopiesAccount extends React.Component {

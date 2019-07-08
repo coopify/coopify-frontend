@@ -21,10 +21,10 @@ import {
 import { attemptSignUpAction, attemptCategoriesAction } from '../../actions/user';
 
 export default @connect(state => ({
-  loggedUser: state.user,
-  error: state.error,
-  loading: state.loading,
-  userDidSignUp: state.userDidSignUp,
+  loggedUser: state.user.loggedUser,
+  error: state.service.error,
+  loading: state.service.loading,
+  userDidSignUp: state.user.userDidSignUp,
 }))
 
 class ExchangeMethod extends React.Component {

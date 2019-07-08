@@ -13,10 +13,10 @@ import GuestLayout from './guest-layout';
 import styles from '../resources/css/profile.scss';
 
 export default @connect(state => ({
-  loggedUser: state.user,
-  error: state.error,
-  loading: state.loading,
-  conversations: state.conversations,
+  loggedUser: state.user.loggedUser,
+  error: state.conversation.error,
+  loading: state.conversation.loading,
+  conversations: state.conversation.conversations,
 }))
 
 class ConversationList extends React.Component {

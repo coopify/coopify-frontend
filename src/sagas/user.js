@@ -14,45 +14,8 @@ import {
   CHECKBALANCE_FAILURE,
   CHECKTRANSACTIONS_SUCCESS,
   CHECKTRANSACTIONS_FAILURE,
-  OFFERS_SUCCESS,
-  OFFERS_FAILURE,
-  CREATE_OFFER_FAILURE,
-  CREATE_OFFER_SUCCESS,
-  SHOW_OFFER_FAILURE,
-  SHOW_OFFER_SUCCESS,
-  GET_CATEGORIES_SUCCESS,
-  GET_CATEGORIES_FAILURE,
-  POST_QUESTION_SUCCESS,
-  POST_QUESTION_FAILURE,
-  GET_QUESTION_ANSWER_SUCCESS,
-  GET_QUESTION_ANSWER_FAILURE,
-  SEND_QUESTION_REPLY_SUCCESS,
-  SEND_MESSAGE_SUCCESS,
-  GET_CONVERSATIONS_SUCCESS,
-  GET_MESSAGES_SUCCESS,
-  MAKE_PROPOSAL_SUCCESS,
-  MAKE_PROPOSAL_FAILURE,
-  GET_USERS_OFFERS_SUCCESS,
-  GET_PROPOSALS_SUCCESS,
-  GET_PROPOSALS_FAILURE,
-  ACCEPT_PROPOSAL_SUCCESS,
-  REJECT_PROPOSAL_SUCCESS,
-  CANCEL_PROPOSAL_SUCCESS,
-  GET_CONVERSATION_PROPOSAL_SUCCESS,
-  GET_GOALS_SUCCESS,
-  GET_GOALS_FAILURE,
-  GET_GOALSUSER_SUCCESS,
-  GET_GOALSUSER_FAILURE,
   SYNC_FB_SUCCESS,
   SYNC_FB_FAILURE,
-  GET_REVIEWS_SUCCESS,
-  GET_REVIEWS_FAILURE,
-  SEND_REVIEW_SUCCESS,
-  SEND_REVIEW_FAILURE,
-  CAN_REVIEW_SUCCESS,
-  CAN_REVIEW_FAILURE,
-  GET_USER_REVIEWS_FAILURE,
-  GET_USER_REVIEWS_SUCCESS,
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
 } from '../reducers';
@@ -66,31 +29,8 @@ import {
   socialLogInAPICall,
   checkBalanceAPICall,
   checkTransactionsAPICall,
-  checkOffersPagedAPICall,
-  createOfferAPICall,
-  getOfferAPICall,
-  getCategoriesAPICall,
-  postQuestionAPICall,
-  getQuestionAnswerAPICall,
-  sendReplyAPICall,
-  sendMessageAPICall,
-  getConversationsAPICall,
-  getMessagesAPICall,
-  makeProposalAPICall,
-  getUsersOffersAPICall,
-  getProposalsAPICall,
-  rejectProposalAPICall,
-  acceptProposalAPICall,
-  cancelProposalAPICall,
-  getConversationProposalAPICall,
-  getGoalsAPICall,
-  getGoalsUserAPICall,
   syncFBApiCall,
   sendRewardApiCall,
-  getReviewsAPICall,
-  sendReviewAPICall,
-  checkReviewAPICall,
-  getUserReviewsApiCall,
   getUserApiCall,
 } from '../api';
 
@@ -183,157 +123,6 @@ export function* checkTransactionsAsync(payload) {
     yield put({ type: CHECKTRANSACTIONS_FAILURE, errorMessage: result.errorMessage });
   }
 }
-export function* checkOffersAsync(payload) {
-  const result = yield checkOffersPagedAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: OFFERS_SUCCESS, responseOffers: result.responseOffers });
-  } else {
-    yield put({ type: OFFERS_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* createOfferAsync(payload) {
-  const result = yield createOfferAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: CREATE_OFFER_SUCCESS, message: result.message });
-  } else {
-    yield put({ type: CREATE_OFFER_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* getOfferAsync(payload) {
-  const result = yield getOfferAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: SHOW_OFFER_SUCCESS, offer: result.offer });
-  } else {
-    yield put({ type: SHOW_OFFER_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* getCategoriesAsync() {
-  const result = yield getCategoriesAPICall();
-  if (result.status === 200) {
-    yield put({ type: GET_CATEGORIES_SUCCESS, categories: result.categories });
-  } else {
-    yield put({ type: GET_CATEGORIES_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* postQuestionAsync(payload) {
-  const result = yield postQuestionAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: POST_QUESTION_SUCCESS, message: result.message });
-  } else {
-    yield put({ type: POST_QUESTION_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* getQuestionAnswerAsync(payload) {
-  const result = yield getQuestionAnswerAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: GET_QUESTION_ANSWER_SUCCESS, responseQuestions: result.responseQuestions });
-  } else {
-    yield put({ type: GET_QUESTION_ANSWER_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-
-export function* sendReplyAsync(payload) {
-  const result = yield sendReplyAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: SEND_QUESTION_REPLY_SUCCESS, reply: result.reply });
-  }
-}
-
-export function* sendChatMessageAsync(payload) {
-  const result = yield sendMessageAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: SEND_MESSAGE_SUCCESS, message: result.message });
-  }
-}
-
-export function* getConversationsAsync(payload) {
-  const result = yield getConversationsAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: GET_CONVERSATIONS_SUCCESS, conversations: result.conversations });
-  }
-}
-
-export function* getMessagesAsync(payload) {
-  const result = yield getMessagesAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: GET_MESSAGES_SUCCESS, messages: result.messages });
-  }
-}
-
-export function* makeProposalAsync(payload) {
-  const result = yield makeProposalAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: MAKE_PROPOSAL_SUCCESS, proposal: result.proposal });
-  } else {
-    yield put({ type: MAKE_PROPOSAL_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* geteUsersOffers(payload) {
-  const result = yield getUsersOffersAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: GET_USERS_OFFERS_SUCCESS, usersOffers: result.usersOffers });
-  }
-}
-
-export function* getProposalsAsync(payload) {
-  const result = yield getProposalsAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: GET_PROPOSALS_SUCCESS, proposals: result.responseProposals.proposals });
-  } else {
-    yield put({ type: GET_PROPOSALS_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* acceptProposalAsync(payload) {
-  const result = yield acceptProposalAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: ACCEPT_PROPOSAL_SUCCESS, proposal: result.proposal });
-  }
-}
-
-export function* rejectProposalAsync(payload) {
-  const result = yield rejectProposalAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: REJECT_PROPOSAL_SUCCESS, proposal: result.proposal });
-  }
-}
-
-export function* cancelProposalAsync(payload) {
-  const result = yield cancelProposalAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: CANCEL_PROPOSAL_SUCCESS, proposal: result.proposal });
-  }
-}
-
-export function* getConversationProposalAsync(payload) {
-  const result = yield getConversationProposalAPICall(payload.payload);
-  yield put({ type: GET_CONVERSATION_PROPOSAL_SUCCESS, proposal: result.proposal });
-}
-
-export function* getGoalsAsync() {
-  const result = yield getGoalsAPICall();
-  if (result.status === 200) {
-    yield put({ type: GET_GOALS_SUCCESS, responseGoals: result.responseGoals });
-  } else {
-    yield put({ type: GET_GOALS_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* getGoalsUserAsync(payload) {
-  const result = yield getGoalsUserAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: GET_GOALSUSER_SUCCESS, responseGoals: result.responseGoals });
-  } else {
-    yield put({ type: GET_GOALSUSER_FAILURE, errorMessage: result.errorMessage });
-  }
-}
 
 export function* syncFacebookAsync(payload) {
   const result = yield syncFBApiCall(payload.payload);
@@ -348,42 +137,6 @@ export function* syncFacebookAsync(payload) {
 
 export function* sendRewardAsync(payload) {
   yield sendRewardApiCall(payload.payload);
-}
-
-export function* getReviewsAsync(payload) {
-  const result = yield getReviewsAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: GET_REVIEWS_SUCCESS, reviews: result.reviews });
-  } else {
-    yield put({ type: GET_REVIEWS_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* sendReviewAsync(payload) {
-  const result = yield sendReviewAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: SEND_REVIEW_SUCCESS, review: result.review });
-  } else {
-    yield put({ type: SEND_REVIEW_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* canReviewAsync(payload) {
-  const result = yield checkReviewAPICall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: CAN_REVIEW_SUCCESS, canRate: result.canRate });
-  } else {
-    yield put({ type: CAN_REVIEW_FAILURE, errorMessage: result.errorMessage });
-  }
-}
-
-export function* getUserReviewsAsync(payload) {
-  const result = yield getUserReviewsApiCall(payload.payload);
-  if (result.status === 200) {
-    yield put({ type: GET_USER_REVIEWS_SUCCESS, reviews: result.reviews });
-  } else {
-    yield put({ type: GET_USER_REVIEWS_FAILURE, errorMessage: result.errorMessage });
-  }
 }
 
 export function* getUserAsync(payload) {

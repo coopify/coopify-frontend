@@ -7,35 +7,50 @@ import {
   profileAsync,
   checkBalanceAsync,
   checkTransactionsAsync,
-  checkOffersAsync,
   loadStateFromCookies,
   socialLoginAsync,
+  sendRewardAsync,
+  syncFacebookAsync,
+  getUserAsync,
+} from './user';
+
+import {
+  getReviewsAsync,
+  sendReviewAsync,
+  canReviewAsync,
+  getUserReviewsAsync,
+} from './review';
+
+import {
+  makeProposalAsync,
+  getProposalsAsync,
+  acceptProposalAsync,
+  rejectProposalAsync,
+  cancelProposalAsync,
+  getConversationProposalAsync,
+} from './proposal';
+
+import {
+  sendChatMessageAsync,
+  getConversationsAsync,
+  getMessagesAsync,
+} from './conversation';
+
+import {
+  checkOffersAsync,
   createOfferAsync,
   getOfferAsync,
   getCategoriesAsync,
   postQuestionAsync,
   getQuestionAnswerAsync,
   sendReplyAsync,
-  sendChatMessageAsync,
-  getConversationsAsync,
-  getMessagesAsync,
-  makeProposalAsync,
   geteUsersOffers,
-  getProposalsAsync,
-  acceptProposalAsync,
-  rejectProposalAsync,
-  cancelProposalAsync,
-  getConversationProposalAsync,
+} from './service';
+
+import {
   getGoalsAsync,
   getGoalsUserAsync,
-  syncFacebookAsync,
-  sendRewardAsync,
-  getReviewsAsync,
-  sendReviewAsync,
-  canReviewAsync,
-  getUserReviewsAsync,
-  getUserAsync,
-} from './user';
+} from './goal';
 
 export default function* rootSaga() {
   yield all(

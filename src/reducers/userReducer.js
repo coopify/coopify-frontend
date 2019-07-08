@@ -26,74 +26,12 @@ export const CHECKBALANCE_FAILURE = 'CHECKBALANCE_FAILURE';
 export const CHECKTRANSACTIONS_ATTEMPT = 'CHECKTRANSACTIONS_ATTEMPT';
 export const CHECKTRANSACTIONS_SUCCESS = 'CHECKTRANSACTIONS_SUCCESS';
 export const CHECKTRANSACTIONS_FAILURE = 'CHECKTRANSACTIONS_FAILURE';
-export const OFFERS_ATTEMPT = 'OFFERS_ATTEMPT';
-export const OFFERS_SUCCESS = 'OFFERS_SUCCESS';
-export const OFFERS_FAILURE = 'OFFERS_FAILURE';
-export const CREATE_OFFER_ATTEMPT = 'CREATE_OFFER_ATTEMPT';
-export const CREATE_OFFER_FAILURE = 'CREATE_OFFER_FAILURE';
-export const CREATE_OFFER_SUCCESS = 'CREATE_OFFER_SUCCESS';
-export const SHOW_OFFER_ATTEMPT = 'SHOW_OFFER_ATTEMPT';
-export const SHOW_OFFER_FAILURE = 'SHOW_OFFER_FAILURE';
-export const SHOW_OFFER_SUCCESS = 'SHOW_OFFER_SUCCESS';
-export const CHANGE_FILTERS_ATTEMPT = 'CHANGE_FILTERS_ATTEMPT';
-export const GET_CATEGORIES_ATTEMPT = 'GET_CATEGORIES_ATTEMPT';
-export const GET_CATEGORIES_SUCCESS = 'GET_CATEGORIES_SUCCESS';
-export const GET_CATEGORIES_FAILURE = 'GET_CATEGORIES_FAILURE';
-export const POST_QUESTION_ATTEMPT = 'POST_QUESTION_ATTEMPT';
-export const POST_QUESTION_SUCCESS = 'POST_QUESTION_SUCCESS';
-export const POST_QUESTION_FAILURE = 'POST_QUESTION_FAILURE';
-export const GET_QUESTION_ANSWER_ATTEMPT = 'GET_QUESTION_ANSWER_ATTEMPT';
-export const GET_QUESTION_ANSWER_SUCCESS = 'GET_QUESTION_ANSWER_SUCCESS';
-export const GET_QUESTION_ANSWER_FAILURE = 'GET_QUESTION_ANSWER_FAILURE';
-export const SEND_QUESTION_REPLY_ATTEMPT = 'SEND_QUESTION_REPLY_ATTEMPT';
-export const SEND_QUESTION_REPLY_SUCCESS = 'SEND_QUESTION_REPLY_SUCCESS';
-export const SEND_MESSAGE_ATTEMPT = 'SEND_MESSAGE_ATTEMPT';
-export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS';
-export const UPDATE_MESSAGE_ATTEMPT = 'UPDATE_MESSAGE_ATTEMPT';
-export const GET_CONVERSATIONS_ATTEMPT = 'GET_CONVERSATIONS_ATTEMPT';
-export const GET_CONVERSATIONS_SUCCESS = 'GET_CONVERSATIONS_SUCCESS';
-export const GET_MESSAGES_ATTEMPT = 'GET_MESSAGES_ATTEMPT';
-export const GET_MESSAGES_SUCCESS = 'GET_MESSAGES_SUCCESS';
-export const MAKE_PROPOSAL_ATTEMPT = 'MAKE_PROPOSAL_ATTEMPT';
-export const MAKE_PROPOSAL_SUCCESS = 'MAKE_PROPOSAL_SUCCESS';
-export const MAKE_PROPOSAL_FAILURE = 'MAKE_PROPOSAL_FAILURE';
-export const GET_USERS_OFFERS_ATTEMPT = 'GET_USERS_OFFERS_ATTEMPT';
-export const GET_USERS_OFFERS_SUCCESS = 'GET_USERS_OFFERS_SUCCESS';
-export const GET_PROPOSALS_ATTEMPT = 'GET_PROPOSALS_ATTEMPT';
-export const GET_PROPOSALS_SUCCESS = 'GET_PROPOSALS_SUCCESS';
-export const GET_PROPOSALS_FAILURE = 'GET_PROPOSALS_FAILURE';
-export const ACCEPT_PROPOSAL_ATTEMPT = 'ACCEPT_PROPOSAL_ATTEMPT';
-export const ACCEPT_PROPOSAL_SUCCESS = 'ACCEPT_PROPOSAL_SUCCESS';
-export const REJECT_PROPOSAL_ATTEMPT = 'REJECT_PROPOSAL_ATTEMPT';
-export const REJECT_PROPOSAL_SUCCESS = 'REJECT_PROPOSAL_SUCCESS';
-export const CANCEL_PROPOSAL_ATTEMPT = 'CANCEL_PROPOSAL_ATTEMPT';
-export const CANCEL_PROPOSAL_SUCCESS = 'CANCEL_PROPOSAL_SUCCESS';
 export const DISPLAY_TOAST_ATTEMPT = 'DISPLAY_TOAST_ATTEMPT';
-export const GET_CONVERSATION_PROPOSAL_ATTEMPT = 'GET_CONVERSATION_PROPOSAL_ATTEMPT';
-export const GET_CONVERSATION_PROPOSAL_SUCCESS = 'GET_CONVERSATION_PROPOSAL_SUCCESS';
-export const GET_GOALS_ATTEMPT = 'GET_GOALS_ATTEMPT';
-export const GET_GOALS_SUCCESS = 'GET_GOALS_SUCCESS';
-export const GET_GOALS_FAILURE = 'GET_GOALS_FAILURE';
-export const GET_GOALSUSER_ATTEMPT = 'GET_GOALSUSER_ATTEMPT';
-export const GET_GOALSUSER_SUCCESS = 'GET_GOALSUSER_SUCCESS';
-export const GET_GOALSUSER_FAILURE = 'GET_GOALSUSER_FAILURE';
 export const SYNC_FB_ATTEMPT = 'SYNC_FB_ATTEMPT';
 export const SYNC_FB_SUCCESS = 'SYNC_FB_SUCCESS';
 export const SYNC_FB_FAILURE = 'SYNC_FB_FAILURE';
 export const SEND_REWARD = 'SEND_REWARD';
 export const SEND_REF_CODE = 'SEND_REF_CODE';
-export const GET_REVIEWS_ATTEMPT = 'GET_REVIEWS_ATTEMPT';
-export const GET_REVIEWS_SUCCESS = 'GET_REVIEWS_SUCCESS';
-export const GET_REVIEWS_FAILURE = 'GET_REVIEWS_FAILURE';
-export const SEND_REVIEW_ATTEMPT = 'SEND_REVIEW_ATTEMPT';
-export const SEND_REVIEW_SUCCESS = 'SEND_REVIEW_SUCCESS';
-export const SEND_REVIEW_FAILURE = 'SEND_REVIEW_FAILURE';
-export const CAN_REVIEW_ATTEMPT = 'CAN_REVIEW_ATTEMPT';
-export const CAN_REVIEW_SUCCESS = 'CAN_REVIEW_SUCCESS';
-export const CAN_REVIEW_FAILURE = 'CAN_REVIEW_FAILURE';
-export const GET_USER_REVIEWS_ATTEMPT = 'GET_USER_REVIEWS_ATTEMPT';
-export const GET_USER_REVIEWS_FAILURE = 'GET_USER_REVIEWS_FAILURE';
-export const GET_USER_REVIEWS_SUCCESS = 'GET_USER_REVIEWS_SUCCESS';
 export const GET_USER_ATTEMPT = 'GET_USER_ATTEMPT';
 export const GET_USER_FAILURE = 'GET_USER_FAILURE';
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
@@ -103,7 +41,7 @@ export const user = (state = initialUserState, action) => {
     case LOGIN_SUCCESS:
       return _.assignIn({}, state, {
         loading: false,
-        user: action.data.user,
+        loggedUser: action.data.user,
         error: '',
         userDidLog: true,
       });
@@ -129,7 +67,7 @@ export const user = (state = initialUserState, action) => {
     case SIGNUP_SUCCESS:
       return _.assignIn({}, state, {
         loading: false,
-        user: action.user,
+        loggedUser: action.user,
         error: '',
         userDidSignUp: true,
         referalCode: '',
@@ -161,7 +99,7 @@ export const user = (state = initialUserState, action) => {
     case SOCIAL_SIGNUP_SUCCESS:
       return _.assignIn({}, state, {
         loading: false,
-        user: action.user,
+        loggedUser: action.user,
         error: '',
         socialUserDidSignUp: true,
         userDidLog: true,
@@ -187,7 +125,7 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         loading: false,
         error: '',
-        user: action.user.user,
+        loggedUser: action.user.user,
       });
     case PROFILE_FAILURE:
       return _.assignIn({}, state, {
@@ -226,26 +164,6 @@ export const user = (state = initialUserState, action) => {
         loading: false,
         error: action.errorMessage,
       });
-    case OFFERS_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
-    case OFFERS_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        offers: action.responseOffers.offers,
-        countOffers: action.responseOffers.countOffers,
-        loading: false,
-      });
-    case OFFERS_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-        offers: [],
-        countOffers: 0,
-        filters: {},
-        loading: false,
-      });
     case LOAD_STATE_ATTEMPT:
       return _.assignIn({}, state, {
         loading: true,
@@ -257,7 +175,7 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         loading: false,
         userDidSignUp: false,
-        user: action.cookieData.user,
+        loggedUser: action.cookieData.user,
         userDidLog: action.cookieData.isLogged,
       });
 
@@ -265,8 +183,8 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         loading: false,
         userDidSignUp: false,
-        user: {
-          ...state.user,
+        loggedUser: {
+          ...state.loggedUser,
           name: action.payload.name,
           lastName: action.payload.lastName,
           address: action.payload.address,
@@ -283,8 +201,8 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         loading: false,
         userDidSignUp: false,
-        user: {
-          ...state.user,
+        loggedUser: {
+          ...state.loggedUser,
           pictureURL: action.payload.url,
         },
 
@@ -298,252 +216,10 @@ export const user = (state = initialUserState, action) => {
         reviewCreated: false,
       });
 
-    case CREATE_OFFER_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
-
-    case CREATE_OFFER_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-        loading: false,
-      });
-
-    case CREATE_OFFER_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        message: action.message,
-        offerIsCreated: true,
-        loading: false,
-      });
-
-    case SHOW_OFFER_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
-
-    case SHOW_OFFER_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-        loading: false,
-      });
-
-    case SHOW_OFFER_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        offer: action.offer,
-        loading: false,
-      });
-
-    case CHANGE_FILTERS_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        filters: action.payload,
-      });
-
-    case GET_CATEGORIES_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-      });
-
-    case GET_CATEGORIES_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        categories: action.categories.map(c => (c.name)),
-      });
-
-    case GET_CATEGORIES_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-      });
-
-    case POST_QUESTION_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-      });
-
-    case POST_QUESTION_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-      });
-
-    case POST_QUESTION_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-      });
-
-    case GET_QUESTION_ANSWER_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-      });
-
-    case GET_QUESTION_ANSWER_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        questions: action.responseQuestions.questions,
-        countQuestions: action.responseQuestions.count,
-      });
-
-    case GET_QUESTION_ANSWER_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-      });
-
-    case SEND_QUESTION_REPLY_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        reply: action.reply,
-      });
-
-    case SEND_MESSAGE_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-      });
-
-    case SEND_MESSAGE_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        messages: state.messages.concat([action.message]),
-      });
-
-    case UPDATE_MESSAGE_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        messages: state.messages.concat([action.payload]),
-      });
-
-    case GET_CONVERSATIONS_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
-
-    case GET_CONVERSATIONS_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        conversations: action.conversations,
-        loading: false,
-      });
-
-    case GET_MESSAGES_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-      });
-
-    case GET_MESSAGES_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        messages: action.messages,
-        newMessages: [],
-      });
-
-    case MAKE_PROPOSAL_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposal: action.proposal,
-        loading: false,
-      });
-
-    case GET_USERS_OFFERS_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        myOffers: action.usersOffers.myOffers,
-        userOffers: action.usersOffers.userOffers,
-      });
-
-    case GET_PROPOSALS_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
-
-    case GET_PROPOSALS_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-        loading: false,
-      });
-
-    case GET_PROPOSALS_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposals: action.proposals,
-        // countProposals: action.count,
-        loading: false,
-      });
-
-    case ACCEPT_PROPOSAL_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposal: action.proposal,
-      });
-
-    case REJECT_PROPOSAL_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposal: action.proposal,
-      });
-
-    case CANCEL_PROPOSAL_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposal: action.proposal,
-      });
-
     case DISPLAY_TOAST_ATTEMPT:
       return _.assignIn({}, state, {
         error: '',
         status: action.payload.status,
-      });
-
-    case GET_CONVERSATION_PROPOSAL_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-      });
-
-    case GET_CONVERSATION_PROPOSAL_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        proposal: action.proposal,
-      });
-
-    case GET_GOALS_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
-
-    case GET_GOALS_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-        loading: false,
-      });
-
-    case GET_GOALS_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        goals: action.responseGoals.goals,
-        loading: false,
-      });
-
-    case GET_GOALSUSER_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
-
-    case GET_GOALSUSER_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-        loading: false,
-      });
-
-    case GET_GOALSUSER_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        goalsUser: action.responseGoals.goalsUser,
-        loading: false,
       });
 
     case SYNC_FB_ATTEMPT:
@@ -562,70 +238,13 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         error: '',
         loading: false,
-        user: action.user,
+        loggedUser: action.user,
       });
 
     case SEND_REF_CODE:
       return _.assignIn({}, state, {
         error: '',
         referalCode: action.payload.code,
-      });
-
-    case GET_REVIEWS_ATTEMPT:
-      return _.assignIn({}, state, {
-        error: '',
-        loading: true,
-      });
-
-    case GET_REVIEWS_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
-        loading: false,
-      });
-
-    case GET_REVIEWS_SUCCESS:
-      return _.assignIn({}, state, {
-        error: '',
-        reviews: action.reviews,
-        loading: false,
-      });
-  
-    case SEND_REVIEW_ATTEMPT:
-      return _.assignIn({}, state, {
-        loading: true,
-      });
-
-    case SEND_REVIEW_FAILURE:
-      return _.assignIn({}, state, {
-        loading: false,
-        error: action.errorMessage,
-      });
-
-    case SEND_REVIEW_SUCCESS:
-      return _.assignIn({}, state, {
-        loading: false,
-        reviews: [action.review].concat(state.reviews),
-        reviewCreated: true,
-      });
-      
-    case CAN_REVIEW_SUCCESS:
-      return _.assignIn({}, state, {
-        canRate: action.canRate,
-      });
-
-    case CAN_REVIEW_FAILURE:
-      return _.assignIn({}, state, {
-        canRate: false,
-      });
-
-    case GET_USER_REVIEWS_SUCCESS:
-      return _.assignIn({}, state, {
-        reviews: action.reviews,
-      });
-  
-    case GET_USER_REVIEWS_FAILURE:
-      return _.assignIn({}, state, {
-        error: action.errorMessage,
       });
 
     case GET_USER_ATTEMPT:

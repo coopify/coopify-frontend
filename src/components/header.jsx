@@ -33,10 +33,10 @@ import {
 import 'react-toastify/dist/ReactToastify.css';
 
 export default @connect(state => ({
-  loggedUser: state.user,
-  userDidLog: state.userDidLog,
-  status: state.status,
-  balance: state.balance,
+  loggedUser: state.user.loggedUser,
+  userDidLog: state.user.userDidLog,
+  status: state.user.status,
+  balance: state.user.balance,
 }))
 
 class Header extends PureComponent {

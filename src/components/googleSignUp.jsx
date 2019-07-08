@@ -10,10 +10,10 @@ import GuestLayout from './guest-layout';
 import SingletonPusher from './singletonPusher';
 
 export default @connect(state => ({
-  loggedUser: state.user,
-  error: state.error,
-  loading: state.loading,
-  socialUserDidSignUp: state.socialUserDidSignUp,
+  loggedUser: state.user.loggedUser,
+  error: state.user.error,
+  loading: state.user.loading,
+  socialUserDidSignUp: state.user.socialUserDidSignUp,
 }))
 
 class GoogleSignUp extends React.Component {

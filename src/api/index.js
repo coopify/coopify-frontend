@@ -1,6 +1,13 @@
 import axios from 'axios';
 import { stringify } from 'query-string';
 
+function handleError(e) {
+  return {
+    status: e.response ? e.response.status : e.message,
+    data: e.response ? e.response.data : e.message,
+  };
+}
+
 export function resetAuthHeader() {
   axios.defaults.headers.common.Authorization = undefined;
 }
@@ -72,11 +79,7 @@ export function socialSignUpAPICall(payload) {
     .then(response => ({
       status: response.status,
       body: response.data,
-    })).catch(e => (
-      {
-        status: e.response ? e.response.status : e.message,
-        data: e.response ? e.response.data : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function profileAPICall(payload) {

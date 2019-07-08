@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 import { loadScript } from '@pawjs/pawjs/src/utils/utils';
 import StepZilla from 'react-stepzilla';
 import { loadStyle } from '@pawjs/pawjs/src/utils/utils';
-import LoadingScreen from 'react-loading-screen';
+import { Loading } from './loading';
 import BasicData from './offerCreation/basicData.jsx';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import Protected from './protected';
@@ -168,13 +168,7 @@ class OfferCreation extends React.Component {
       <Protected>
         <GuestLayout>
 
-          <LoadingScreen
-            loading={this.props.loading}
-            bgColor="rgba(255, 255, 255, .5)"
-            spinnerColor="#BE1931"
-            textColor="#BE1931"
-            text="Loading..."
-          >
+          <Loading>
 
             <div className="step-progress">
               <StepZilla
@@ -183,7 +177,7 @@ class OfferCreation extends React.Component {
                 nextTextOnFinalActionStep="Next"
               />
             </div>
-          </LoadingScreen>
+          </Loading>
 
         </GuestLayout>
       </Protected>

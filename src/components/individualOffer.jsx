@@ -10,7 +10,7 @@ import {
 import Chip from '@material-ui/core/Chip';
 import TextField from '@material-ui/core/TextField';
 import * as moment from 'moment';
-import LoadingScreen from 'react-loading-screen';
+import { Loading } from './loading';
 import Divider from '@material-ui/core/Divider';
 import { FacebookShareButton, FacebookIcon } from 'react-share';
 import MetaTags from 'react-meta-tags';
@@ -293,13 +293,7 @@ class IndividualOffer extends React.Component {
 
         <GuestLayout>
 
-          <LoadingScreen
-            loading={loading}
-            bgColor="rgba(255, 255, 255, .5)"
-            spinnerColor="#BE1931"
-            textColor="#BE1931"
-            text="Loading..."
-          >
+          <Loading>
 
             <div>
               <Row>
@@ -666,7 +660,7 @@ class IndividualOffer extends React.Component {
 
             </div>
             <ToastContainer autoClose={3000} />
-          </LoadingScreen>
+          </Loading>
         </GuestLayout>
       </Protected>
     );

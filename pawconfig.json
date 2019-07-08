@@ -1,5 +1,5 @@
 {
-  "port": "3003",
+  "port": 3003,
   "host": "0.0.0.0",
   "appRootUrl": "/",
   "asyncCSS": false,

@@ -3,7 +3,7 @@ import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LoadingScreen from 'react-loading-screen';
+import { Loading } from './loading';
 import { ToastContainer, toast } from 'react-toastify';
 import GuestLayout from './guest-layout';
 import { attemptSignUpAction } from '../actions/user';
@@ -12,6 +12,10 @@ import 'react-bootstrap';
 import { getUrlSocialAPICall } from '../api';
 import SingletonPusher from './singletonPusher';
 import ReactJoyride from 'react-joyride';
+import Avatar from '@material-ui/core/Avatar';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 export default @connect(state => ({
   loggedUser: state.user.loggedUser,
@@ -46,6 +50,7 @@ class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      showRefTextField: false,
     };
   }
 
@@ -97,10 +102,19 @@ class Signup extends React.Component {
     dispatch(attemptSignUpAction(userSignUpData));
   }
 
+  handleCheckBoxClick(e){
+    const checked = e.target.checked;
+    this.setState({
+      ...this.state,
+      showRefTextField: checked
+    });
+  }
+
   render() {
     const {
-      error, userDidSignUp, loggedUser, dispatch, referalCode, loading,
+      error, userDidSignUp, loggedUser, dispatch, referalCode, loading
     } = this.props;
+    const { showRefTextField } = this.state;
     if (error.length > 0) this.notify(error, true);
     if (userDidSignUp) {
       this.notify('El usuario se ha registrado exitosamente, se enviara un mail de confirmacion en breve.', false);
@@ -108,6 +122,7 @@ class Signup extends React.Component {
       return <Redirect to="/home" />;
     }
     const refCode = referalCode.length > 0 ? referalCode : null;
+    const showRefCode = showRefTextField ? 'block' : 'none';
 
     const steps = [
       {
@@ -150,105 +165,84 @@ class Signup extends React.Component {
           }}
         />
 
-        <LoadingScreen
-          loading={loading}
-          bgColor="rgba(255, 255, 255, .5)"
-          spinnerColor="#BE1931"
-          textColor="#BE1931"
-          text="Loading..."
-        >
+        <Loading>
 
-          <div className="columns is-centered p-t-xl p-r-md p-l-md">
-            <div className="column is-half">
+          <div>
+            <div style={{width: 'max-content', margin: 'auto'}}>
               <div className="box">
 
-                <h1 className="title">Sign Up</h1>
+              <Avatar style={{margin: 'auto', backgroundColor: '#f50057'}}>
+                  <LockOutlinedIcon />
+              </Avatar>
+
+                <h1 className="title">Sign up</h1>
                 <form onSubmit={e => this.handleSubmit(e)} className="traditional-signup">
 
-
-                  <div className="field">
-                    <label className="label" htmlFor="username">
-                      <div>Name</div>
-                      <div className="control">
+                      <div className="control controlIcon">
                         <input
                           id="name"
                           name="name"
                           className="input"
                           type="text"
-                          placeholder="Name..."
+                          placeholder="Name"
                         />
+                        <i class="fa fa-address-card"/>
                       </div>
-                    </label>
-                  </div>
 
-                  <div className="field">
-                    <label className="label" htmlFor="username">
-                      <div>Email</div>
-                      <div className="control">
+                      <div className="control controlIcon">
                         <input
                           id="email"
                           name="email"
                           className="input"
                           type="text"
-                          placeholder="Email..."
+                          placeholder="Email"
                         />
+                         <i class="fa fa-user"/>
                       </div>
-                    </label>
-                  </div>
 
-                  <div className="field">
-                    <label className="label" htmlFor="password">
-
-                      <div>Password</div>
-                      <div className="control">
+                      <div className="control controlIcon">
                         <input
                           id="password"
                           name="password"
                           className="input"
                           type="password"
-                          placeholder="Password..."
+                          placeholder="Password"
                         />
+                        <i class="fa fa-lock"/>
                       </div>
-                    </label>
-                  </div>
 
-                  <div className="field">
-                    <label className="label" htmlFor="username">
-
-                      <div>Repeat Password</div>
-                      <div className="control">
+                      <div className="control controlIcon">
                         <input
                           id="repeatPassword"
                           name="repeatPassword"
                           className="input"
                           type="password"
-                          placeholder="Repeat Password..."
+                          placeholder="Repeat Password"
                         />
+                        <i class="fa fa-lock"/>
                       </div>
-                    </label>
-                  </div>
 
-                  <div className="field">
-                    <label className="label" htmlFor="refCode">
+                      <FormControlLabel style={{textAlign: 'left'}}
+                        control={<Checkbox value="remember" color="primary" onClick={e => this.handleCheckBoxClick(e)}/>}
+                        label="I have a referal code!"
+                      />
 
-                      <div>Referal Code</div>
-                      <div className="control">
+                      <div className="control controlIcon" style={{display: showRefCode}}>
                         <input
                           id="refCode"
                           name="refCode"
                           className="input"
                           type="text"
-                          placeholder="Referal Code..."
+                          placeholder="Referal Code"
                           value={refCode}
                           enabled={refCode == null}
                         />
+                        <i class="fa fa-ticket"/>
                       </div>
-                    </label>
-                  </div>
 
                   <div className="field is-grouped">
                     <div className="control" style={{width: "100%"}}>
-                      <button type="submit" style={{width: "100%"}} className="button is-link">Sign Up</button>
+                      <button type="submit" style={{width: "100%"}} className="button is-link">SIGN UP</button>
                     </div>
                   </div>
                 </form>
@@ -256,24 +250,24 @@ class Signup extends React.Component {
 
                   <div className="d-flex">
                     <hr className="my-auto flex-grow-1" />
-                    <div className="px-4">or register an account with:</div>
+                    <div className="px-4">or register an account with</div>
                     <hr className="my-auto flex-grow-1" />
                   </div>
 
                   <div className="social-login-buttons">
-                    <button type="button" className="btn btn-link-1 btn-link-1-facebook" value="facebook" onClick={e => this.handleSocialSignUp(e)}>
+                    <button type="button" className="btn btn-link-1 btn-link-1-facebook" value="facebook" onClick={e => this.handleSocialSignUp(e)} style={{width: '100%', marginBottom: '3%'}}>
                       <i className="fa fa-facebook" />
                       {' '}
                       <div>Facebook</div>
                     </button>
-                    <button type="button" className="btn btn-link-1 btn-link-1-google-plus" value="google" onClick={e => this.handleSocialSignUp(e)}>
+                    <button type="button" className="btn btn-link-1 btn-link-1-google-plus" value="google" onClick={e => this.handleSocialSignUp(e)} style={{width: '100%', marginBottom: '3%'}}>
                       <i className="fa fa-google-plus" />
                       {' '}
                       <div>Google</div>
                     </button>
                   </div>
                 </div>
-                <div>
+                <div style={{fontSize: '11px', textAlign: 'center'}}>
 
                   <div>Already have an account?</div>
                   <Link to="/login">Login here</Link>
@@ -283,7 +277,7 @@ class Signup extends React.Component {
               <ToastContainer autoClose={3000} />
             </div>
           </div>
-        </LoadingScreen>
+        </Loading>
       </GuestLayout>
 
     );

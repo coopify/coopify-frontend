@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import LoadingScreen from 'react-loading-screen';
+import { Loading } from './loading';
 import { attemptSocialSignUpAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 import SingletonPusher from './singletonPusher';
@@ -75,14 +75,7 @@ class GoogleSignUp extends React.Component {
 
     return (
       <GuestLayout>
-        <LoadingScreen
-          loading={loading}
-          bgColor="rgba(255, 255, 255, .5)"
-          spinnerColor="#BE1931"
-          textColor="#BE1931"
-             // logoSrc='/logo.png'
-          text="Autenticando... Por favor, aguarde unos instantes."
-        />
+        <Loading/>
       </GuestLayout>
     );
   }

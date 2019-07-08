@@ -35,7 +35,7 @@ import Typography from '@material-ui/core/Typography';
 import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import { MessageBox } from 'react-chat-elements';
 
-import LoadingScreen from 'react-loading-screen';
+import { Loading } from './loading';
 import { Proposal } from './proposal';
 
 import { getConversation } from '../api';
@@ -424,13 +424,7 @@ class Chat extends React.Component {
       <Protected>
         <GuestLayout>
 
-          <LoadingScreen
-            loading={this.props.loading}
-            bgColor="rgba(255, 255, 255, .5)"
-            spinnerColor="#BE1931"
-            textColor="#BE1931"
-            text="Loading..."
-          >
+          <Loading>
 
             <ReactJoyride
               continuous
@@ -575,7 +569,7 @@ class Chat extends React.Component {
                   </div>
                 )}
             </div>
-          </LoadingScreen>
+          </Loading>
         </GuestLayout>
       </Protected>
     );

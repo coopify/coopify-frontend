@@ -198,8 +198,31 @@ class GeneralQuestions extends React.Component {
     return (
       <div className={styles.container}>
         <form>
+
+          <div className="card">
+            <div className="card-header">
+              <h4 style={{ textAlign: 'center', margin: 12 }}>
+                { 'Questions and answers for this service:' }
+                {' '}
+              </h4>
+            </div>
+
+            <ReactTable
+              defaultPageSize={limit}
+              data={data}
+              columns={columns}
+              TheadComponent={TheadComponent}
+              pages={limit !== 0 ? Math.ceil(countQuestions / limit) : countQuestions}
+              noDataText="There are no questions for this service. "
+              onPageChange={e => this.changePage(e)}
+              onPageSizeChange={e => this.changeSize(e)}
+              manual
+              minRows={0}
+              showPagination={false}
+            />
+          </div>
           <div className="container">
-            <div className="row justify-content-md-center">
+            <div>
               <Row>
                 <Col sm="10">
                   <TextField
@@ -227,28 +250,6 @@ class GeneralQuestions extends React.Component {
                 </Col>
               </Row>
             </div>
-          </div>
-          <div className="card">
-            <div className="card-header">
-              <h4 style={{ textAlign: 'center', margin: 12 }}>
-                { 'Questions and answers for this service:' }
-                {' '}
-              </h4>
-            </div>
-
-            <ReactTable
-              defaultPageSize={limit}
-              data={data}
-              columns={columns}
-              TheadComponent={TheadComponent}
-              pages={limit !== 0 ? Math.ceil(countQuestions / limit) : countQuestions}
-              noDataText="There are no questions for this service. "
-              onPageChange={e => this.changePage(e)}
-              onPageSizeChange={e => this.changeSize(e)}
-              manual
-              minRows={0}
-              showPagination={false}
-            />
           </div>
         </form>
         <ToastContainer autoClose={3000} />

@@ -38,6 +38,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CommonButton from '@material-ui/core/Button';
 import noImage from '../assets/noImage.png';
 import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 export default @connect(state => ({
   loggedUser: state.user.loggedUser,
@@ -147,7 +150,7 @@ class IndividualOffer extends React.Component {
   };
 
   delay = ms => new Promise(res => setTimeout(res, ms));
-  
+
   handleClickOpen = () => {
     this.setState({
       ...this.state,
@@ -260,6 +263,22 @@ class IndividualOffer extends React.Component {
     const showBtnShareFB = 'inline-block';
     const canReview = canRate ? 'block' : 'none';
 
+    // Settings Slides Reviews
+    let countSlides = 0;
+    if (reviews.length < 3) {
+      countSlides = reviews.length;
+    } else {
+      countSlides = 3;
+    }
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 300,
+      slidesToShow: countSlides,
+      slidesToScroll: 3,
+    };
+    // End Settings Slides Reviews
+
     if (error.length > 0) this.notify(error, true);
     if (reviewCreated) this.notify('The service was reviewed successfully!', false);
 
@@ -283,154 +302,186 @@ class IndividualOffer extends React.Component {
           >
 
             <div>
+              <Row>
+
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="6">
+                  <h1 className="title">{offer.title}</h1>
+                </Col>
+                <Col sm="2">
+                  {offer.ratingCount !== 0 ? (
+                    <div style={{ margin: 5 }}>
+                      {'Service Rating: '}
+                      {Number.parseFloat(offer.rating).toFixed(2)}
+                      <StarRatingComponent
+                        name="RatingService"
+                        editing={false}
+                        renderStarIcon={() => <h5>&#9733;</h5>}
+                        starCount={5}
+                        value={Number.parseFloat(offer.rating).toFixed(2)}
+                      />
+                    </div>) : ('')}
+                </Col>
+
+              </Row>
+              <Row>
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="4">
+                  <img name="picture" alt={offer.title} src={pictureUrl} width="400" margin="8" style={{ position: 'relative', top: '5%', transform: 'translateY(-5%)' }} />
+                </Col>
+
+                <Col sm="2">
+                  <p style={{ wordWrap: 'break-word' }}>{offer.description}</p>
+                </Col>
+                <Col sm="2">
+                  <Divider />
+                  <div>
+                    <p>Categories: </p>
+
+                    {offer.categories !== undefined ? (
+                      offer.categories.map(c => (
+                        <Chip
+                          key={c.name}
+                          label={c.name}
+                        />
+                      ))) : ''}
+
+                  </div>
+                  <Divider />
+                  <div>
+                    {'Payment Method: '}
+                    {offer.paymentMethod}
+                  </div>
+
+                  <div>
+                    {offer.hourPrice && offer.hourPrice !== '0' ? (
+                      <div className="col-sm-12">
+                        <span>
+                          {offer.hourPrice}
+                          {' '}
+                          {'Coopies x hour'}
+                        </span>
+                      </div>
+                    ) : ''}
+                    {offer.sessionPrice && offer.sessionPrice !== '0' ? (
+                      <div className="col-sm-12">
+                        <span>
+                          {offer.sessionPrice}
+                          {' '}
+                          {'Coopies x session'}
+                        </span>
+                      </div>
+                    ) : ''}
+                    {offer.finalProductPrice && offer.finalProductPrice !== '0' ? (
+                      <div className="col-sm-12">
+                        <span>
+                          {offer.finalProductPrice}
+                          {' '}
+                          {'Coopies x final product'}
+                        </span>
+                      </div>
+                    ) : ''}
+                  </div>
+
+                  <Divider />
+
+                  <TextField
+                    label="Start Date"
+                    type="date"
+                    disabled
+                    defaultValue={moment(offer.startDate).format('YYYY-MM-DD')}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                  <TextField
+                    label="Finish Date"
+                    type="date"
+                    disabled
+                    defaultValue={moment(offer.endDate).format('YYYY-MM-DD')}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </Col>
+                <Col sm="2">
+                  {' '}
+                </Col>
+              </Row>
 
               <Row>
+
+                <Col sm="2">
+                  {' '}
+                </Col>
                 <Col sm="4">
-                  <img name="picture" alt={offer.title} src={pictureUrl} width="400" style={{ position: 'relative', top: '5%', transform: 'translateY(-5%)' }} />
+                  {'Share with Facebook'}
+                  <FacebookShareButton
+                    style={{ display: showBtnShareFB, marginLeft: '4%' }}
+                    url={shareUrl}
+                    quote={offer.title}
+                    beforeOnClick={e => this.setShareCount(e)}
+                    onShareWindowClose={e => this.handleShareComplete(e)}
+                  >
+                    <FacebookIcon size={32}> Share with Facebook </FacebookIcon>
+                  </FacebookShareButton>
+                </Col>
+                <Col sm="2">
+                  {' '}
                 </Col>
 
-                <Col sm="8" style={{ textAlign: 'center' }}>
+              </Row>
 
-                  <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
+              <Row>
 
-                    <h1 style={{ display: 'inline-block' }} className="title">{offer.title}</h1>
-
-                    <FacebookShareButton
-                      style={{ display: showBtnShareFB, marginLeft: '4%' }}
-                      url={shareUrl}
-                      quote={offer.title}
-                      beforeOnClick={e => this.setShareCount(e)}
-                      onShareWindowClose={e => this.handleShareComplete(e)}
-                    >
-                      <FacebookIcon size={32}> Share with Facebook </FacebookIcon>
-                    </FacebookShareButton>
-
-                    <p>{offer.description}</p>
-                    <Link to={`/user/profile/${offer.userId}`}>
-                      <h3>
-                        {`See profile of ${offer.by}`}
-                      </h3>
-                    </Link>
-                    <Row>
-                      <Col sm="4">
-                        {}
-                      </Col>
-                      <Col sm="4">
-                        {offer.ratingCount !== 0 ? (
-                          <div className="card text-center">
-                            <div className="container-fluid">
-                              <div>
-                                <div>
-                                  <p className="card-text">
-                                    {'Service Rating: '}
-                                    {Number.parseFloat(offer.rating).toFixed(2)}
-                                  </p>
-                                  <StarRatingComponent
-                                    name="RatingService"
-                                    editing={false}
-                                    renderStarIcon={() => <span>&#9733;</span>}
-                                    starCount={5}
-                                    value={Number.parseFloat(offer.rating).toFixed(2)}
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>) : ('')}
-                      </Col>
-                      <Col sm="4">
-                        {}
-                      </Col>
-                    </Row>
-
-                  </Row>
-                  <Divider />
-                  <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
-                    <div>
-                      <h4>Categories: </h4>
-
-                      {offer.categories !== undefined ? (
-                        offer.categories.map(c => (
-                          <Chip
-                            key={c.name}
-                            label={c.name}
-                          />
-                        ))) : ''}
-
-                    </div>
-
-                  </Row>
-                  <Divider />
-                  <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
-                    <div>
-                      <h4>Payment Method: </h4>
-                      <Chip label={offer.paymentMethod} />
-                    </div>
-
-                    <div>
-                      {offer.hourPrice && offer.hourPrice !== '0' ? (
-                        <div className="col-sm-12">
-                          <span>
-                            {offer.hourPrice}
-                            {' '}
-                            {'Coopies x hour'}
-                          </span>
-                        </div>
-                      ) : ''}
-                      {offer.sessionPrice && offer.sessionPrice !== '0' ? (
-                        <div className="col-sm-12">
-                          <span>
-                            {offer.sessionPrice}
-                            {' '}
-                            {'Coopies x session'}
-                          </span>
-                        </div>
-                      ) : ''}
-                      {offer.finalProductPrice && offer.finalProductPrice !== '0' ? (
-                        <div className="col-sm-12">
-                          <span>
-                            {offer.finalProductPrice}
-                            {' '}
-                            {'Coopies x final product'}
-                          </span>
-                        </div>
-                      ) : ''}
-                    </div>
-
-                  </Row>
-                  <Divider />
-                  <Row style={{ display: 'block', marginTop: marginBetween, marginBottom: marginBetween }}>
-                    <TextField
-                      label="Start Date"
-                      type="date"
-                      disabled
-                      defaultValue={moment(offer.startDate).format('YYYY-MM-DD')}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-
-                    <TextField
-                      label="Finish Date"
-                      type="date"
-                      disabled
-                      defaultValue={moment(offer.endDate).format('YYYY-MM-DD')}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </Row>
+                <Col sm="2">
+                  {' '}
                 </Col>
+                <Col sm="4">
+                  <Link to={`/user/profile/${offer.userId}`}>
+                    <h3>
+                      {`See profile of ${offer.by}`}
+                    </h3>
+                  </Link>
+                </Col>
+                <Col sm="2">
+                  {' '}
+                </Col>
+
               </Row>
 
               <Divider />
 
-              <div style={{ textAlign: 'center' }}>
+              <Row>
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="8">
+                  <div style={{ textAlign: '-webkit-center', margin: 8 }}>
+                    <Button
+                      onClick={e => this.handleContactClick(e)}
+                      style={{ display: displayOwnerOnly }}
+                    >
+                      {'Negotiate with: '}
+                      {offer.by}
+                      {' '}
+                      <i className="fa fa-comment" />
+                    </Button>
+                  </div>
+                </Col>
+              </Row>
+
+              <div style={{ textAlign: 'center', margin: 8 }}>
                 <Button style={{ display: canReview, margin: 'auto' }} onClick={e => this.handleClickOpen(e)}>
-                  Write your review for this service
+                  {'Write your review for this service'}
                 </Button>
               </div>
 
-              <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
+              {/* <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
                 <Col sm="2">
                   {' '}
                 </Col>
@@ -445,7 +496,7 @@ class IndividualOffer extends React.Component {
                           <Col>
                             {item.reviewer == null ? '' : item.reviewer.name}
                             {' '}
-                            {/* {item.date} */}
+                            {item.date}
                             <StarRatingComponent
                               name="RatingReview"
                               editing={false}
@@ -471,7 +522,44 @@ class IndividualOffer extends React.Component {
                 <Col sm="2">
                   {' '}
                 </Col>
+              </Row> */}
+
+              {/* Prueba con react-slick */}
+              <Row>
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="8">
+                  <Slider {...settings}>
+                    {reviews.map(item => (
+                      <div className="card cardCoopify">
+                        <div className="card-body">
+                          <p>{item.reviewer.pictureURL != null ? <img name="pictureReviewer" alt={item.reviewer.name} src={item.reviewer.pictureURL} width="120" display="initial" /> : ''}</p>
+                          <p className="card-title">{item.reviewer != null ? item.reviewer.name : ''}</p>
+                          <p className="text-muted">{item.description}</p>
+                          <p className="card-text">
+                            <h3 className="text-muted">
+                              <StarRatingComponent
+                                name="RatingReview"
+                                editing={false}
+                                renderStarIcon={() => <span>&#9733;</span>}
+                                starCount={5}
+                                value={item.offerRate}
+                              />
+                            </h3>
+                          </p>
+                          <small className="card-text">{item.createdAt.substring(0, 10)}</small>
+                        </div>
+                      </div>
+                    ))}
+                  </Slider>
+                </Col>
+                <Col sm="2">
+                  {' '}
+                </Col>
               </Row>
+
+              {/* Fin Prueba con react-slick */}
 
               <Dialog
                 open={modalOpen}
@@ -516,13 +604,11 @@ class IndividualOffer extends React.Component {
                           name="RatingService"
                           starColor="#ffb400"
                           emptyStarColor="#ffb400"
-                          renderStarIcon={(index, value) => {
-                            return (
-                              <span>
-                                <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
-                              </span>
-                            );
-                          }}
+                          renderStarIcon={(index, value) => (
+                            <span>
+                              <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
+                            </span>
+                          )}
                           value={myUserRating}
                           onStarClick={e => this.onUserStarClick(e)}
                           starCount={5}
@@ -541,16 +627,16 @@ class IndividualOffer extends React.Component {
                       <textarea
                         style={{ marginLeft: '5%', fontSize: '12px', lineHeight: '1' }}
                         rows={4}
-                        className="form-control" 
+                        className="form-control"
                         placeholder="Would you like to add a comment?"
-                        onChange={e => this.handleReviewChange(e)} 
+                        onChange={e => this.handleReviewChange(e)}
                       />
                     </div>
 
                   </div>
 
                   <CommonButton
-                    style={{ width: '100%', color: 'white', fontSize: 'bold', backgroundColor: '#19b9e7'}}
+                    style={{ width: '100%', color: 'white', fontSize: 'bold', backgroundColor: '#19b9e7' }}
                     onClick={e => this.handleSendReview(e)}
                   >
                     {'Send review'}
@@ -578,23 +664,6 @@ class IndividualOffer extends React.Component {
 
               <Divider />
 
-              <div className="container">
-                <div className="row justify-content-md-center">
-                  <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
-                    <Col sm="12" style={{ textAlign: 'center', margin: 8 }}>
-                      <Button
-                        onClick={e => this.handleContactClick(e)}
-                        style={{ display: displayOwnerOnly }}
-                      >
-                        {'Negotiate with: '}
-                        {offer.by}
-                        {' '}
-                        <i className="fa fa-comment" />
-                      </Button>
-                    </Col>
-                  </Row>
-                </div>
-              </div>
             </div>
             <ToastContainer autoClose={3000} />
           </LoadingScreen>

@@ -7,11 +7,11 @@ import 'react-bootstrap';
 import 'react-table/react-table.css';
 import LoadingScreen from 'react-loading-screen';
 import { Proposal } from './proposal';
-import Protected from './protected';
+import { Protected } from './protected';
 import styles from '../resources/css/profile.scss';
 import { resetNotificationFlags, attemptProposalsAction } from '../actions/user';
 import GuestLayout from './guest-layout';
-import GridView from './gridview';
+import { GridView } from './gridview';
 
 export default @connect(state => ({
   error: state.proposal.error,
@@ -115,12 +115,16 @@ class Proposals extends React.Component {
                     getTitleFromElement={getTitleFromElement}
                     getSubtitleFromElement={proposal => `by: ${proposal.proposer.name}`}
                     shouldRedirect={false}
-                    getDetailRoute={proposal => `/offers/${proposal.purchasedOffer.id}`}
                     getOverlayFadeInfo={proposal => (
                       <div>
                         <p style={{ fontSize: '24' }}>{`Status: ${proposal.status}`}</p>
                       </div>
                     )}
+                    getDetailRoute={proposal => `/offers/${proposal.purchasedOffer.id}`}
+                    textDetailRoute={() => 'Go to Service'}
+                    possibleMakeReview={proposal => (proposal.status === 'Confirmed' ? (
+                      ' and Make Review'
+                    ) : '')}
                     selectItem={selectedProposal => (
                       <Proposal
                         proposal={selectedProposal}

@@ -27,6 +27,8 @@ class GridView extends React.Component {
     getDetailRoute: PropTypes.func,
     getOverlayFadeInfo: PropTypes.func,
     shouldRedirect: PropTypes.bool,
+    possibleMakeReview: PropTypes.func,
+    textDetailRoute: PropTypes.func,
   };
 
   static defaultProps = {
@@ -40,6 +42,8 @@ class GridView extends React.Component {
     getDetailRoute: () => { },
     getOverlayFadeInfo: () => { },
     shouldRedirect: false,
+    possibleMakeReview: () => { },
+    textDetailRoute: () => { },
   };
 
   constructor(props) {
@@ -66,7 +70,7 @@ class GridView extends React.Component {
     const {
       elements, getImageFromElement, getAlternativeTextForImageFromElement,
       getTitleFromElement, getSubtitleFromElement, selectItem,
-      getDetailRoute, getOverlayFadeInfo, shouldRedirect,
+      getDetailRoute, getOverlayFadeInfo, shouldRedirect, possibleMakeReview, textDetailRoute,
     } = this.props;
     const { width } = this.state;
 
@@ -100,9 +104,13 @@ class GridView extends React.Component {
                     </Link>
                   ) : selectItem(element)}
                   subtitle={shouldRedirect ? getSubtitleFromElement(element) : (
-                    <Link to={getDetailRoute(element)}>
-                      <i className="fa fa-handshake-o" aria-hidden="true" />
-                    </Link>)}
+                    <div>
+                      <Link to={getDetailRoute(element)} style={{ color: 'white' }}>
+                        {textDetailRoute(element)}
+                        {possibleMakeReview(element)}
+                      </Link>
+                    </div>
+                  )}
                 />
               </div>
             </GridListTile>

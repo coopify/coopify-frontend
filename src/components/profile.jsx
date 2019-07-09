@@ -192,7 +192,7 @@ class Profile extends React.Component {
     const userRating = profileUser.rateCount > 0 ? profileUser.rateSum / profileUser.rateCount : 0;
     const marginBetween = '5%';
     const showEditionSwitch = loggedUser.id == profileUser.id ? 'block' : 'none';
-    const editable = loggedUser.id != profileUser.id;
+    const noEditable = loggedUser.id != profileUser.id;
     const userPicture = profileUser.pictureURL == null ? avatarImg : profileUser.pictureURL;
 
     return (
@@ -290,7 +290,7 @@ class Profile extends React.Component {
                   </div>
 
                 </Col>
-                {!editable ? (
+                {!noEditable ? (
                   <Col sm={4}>
 
                     <div className="field">
@@ -302,7 +302,7 @@ class Profile extends React.Component {
                             value={profileUser.name}
                             onChange={e => this.handleOnChange(e)}
                             placeholder="Name"
-                            className={!editable ? ('form-control') : 'nonEditable'}
+                            className={!noEditable ? ('form-control') : 'nonEditable'}
                             readOnly={edition}
                             disabled={focusable}
                           />
@@ -320,7 +320,7 @@ class Profile extends React.Component {
                             value={profileUser.lastName}
                             onChange={e => this.handleOnChange(e)}
                             placeholder="Last name"
-                            className={!editable ? ('form-control') : 'nonEditable'}
+                            className={!noEditable ? ('form-control') : 'nonEditable'}
                             readOnly={edition}
                             disabled={focusable}
                           />
@@ -336,7 +336,7 @@ class Profile extends React.Component {
                             value={profileUser.address}
                             onChange={e => this.handleOnChange(e)}
                             placeholder="Address"
-                            className={!editable ? ('form-control') : 'nonEditable'}
+                            className={!noEditable ? ('form-control') : 'nonEditable'}
                             readOnly={edition}
                             disabled={focusable}
                           />
@@ -354,7 +354,7 @@ class Profile extends React.Component {
                             value={profileUser.phone}
                             onChange={e => this.handleOnChange(e)}
                             placeholder="Phone"
-                            className={!editable ? ('form-control') : 'nonEditable'}
+                            className={!noEditable ? ('form-control') : 'nonEditable'}
                             readOnly={edition}
                             disabled={focusable}
                           />
@@ -364,7 +364,7 @@ class Profile extends React.Component {
 
                   </Col>) : ''
                 }
-                {!editable ? (
+                {!noEditable ? (
                   <Col sm={4}>
 
                     <div className="field">
@@ -377,7 +377,7 @@ class Profile extends React.Component {
                             onChange={e => this.handleOnChange(e)}
                             value={dateBirth}
                             placeholder="Birthdate"
-                            className={!editable ? ('form-control') : 'nonEditable'}
+                            className={!noEditable ? ('form-control') : 'nonEditable'}
                             readOnly={edition}
                             disabled={focusable}
                           />
@@ -395,7 +395,7 @@ class Profile extends React.Component {
                             onChange={e => this.handleOnChange(e)}
                             value={profileUser.bio}
                             placeholder="Biography"
-                            className={!editable ? ('form-control') : 'nonEditable'}
+                            className={!noEditable ? ('form-control') : 'nonEditable'}
                             readOnly={edition}
                             disabled={focusable}
                           />
@@ -413,7 +413,7 @@ class Profile extends React.Component {
                             onChange={e => this.handleOnChange(e)}
                             value={profileUser.interests}
                             placeholder="Interests"
-                            className={!editable ? ('form-control') : 'nonEditable'}
+                            className={!noEditable ? ('form-control') : 'nonEditable'}
                             readOnly={edition}
                             disabled={focusable}
                           />
@@ -421,9 +421,7 @@ class Profile extends React.Component {
                       </label>
                     </div>
 
-                  </Col>) : ''
-                }
-                {!editable ? '' : (
+                  </Col>) : (
                   <Col sm={8}>
                     <Form style={{ background: 'whitesmoke', borderRadius: '5%' }}>
                       <Form.Group as={Row}>
@@ -431,9 +429,9 @@ class Profile extends React.Component {
                           {'Name'}
                         </Form.Label>
                         <Col sm="8">
-                          {(profileUser.lastName != null) ?
-                            (<Form.Control plaintext readOnly defaultValue={`${profileUser.name} ${profileUser.lastName}`} />)
-                            : (<Form.Control plaintext readOnly defaultValue={`${profileUser.name}`} />)
+                          {(profileUser.lastName != undefined) ?
+                            (<Form.Control plaintext readOnly placeholder="-------" value={`${profileUser.name} ${profileUser.lastName}`} />)
+                            : (<Form.Control plaintext readOnly placeholder="-------" value={`${profileUser.name}`} />)
                           }
                         </Col>
                       </Form.Group>
@@ -442,8 +440,8 @@ class Profile extends React.Component {
                           {'Address'}
                         </Form.Label>
                         <Col sm="8">
-                          {(profileUser.address != null) ?
-                            (<Form.Control plaintext readOnly defaultValue={`${profileUser.address}`} />)
+                          {(profileUser.address != undefined) ?
+                            (<Form.Control plaintext readOnly placeholder="-------" value={`${profileUser.address}`} />)
                             : (<Form.Control plaintext readOnly placeholder="-------" />)
                           }
                         </Col>
@@ -453,8 +451,8 @@ class Profile extends React.Component {
                           {'Phone'}
                         </Form.Label>
                         <Col sm="8">
-                          {(profileUser.phone != null) ?
-                            <Form.Control plaintext readOnly defaultValue={`${profileUser.phone}`} />
+                          {(profileUser.phone != undefined) ?
+                            <Form.Control plaintext readOnly placeholder="-------" value={`${profileUser.phone}`} />
                             : (<Form.Control plaintext readOnly placeholder="-------" />)
                           }
                         </Col>
@@ -464,8 +462,8 @@ class Profile extends React.Component {
                           {'Birthdate'}
                         </Form.Label>
                         <Col sm="8">
-                          {(profileUser.birthdate != null) ?
-                            <Form.Control plaintext readOnly defaultValue={`${profileUser.birthdate}`} />
+                          {(profileUser.birthdate != undefined) ?
+                            <Form.Control plaintext readOnly placeholder="-------" value={`${profileUser.birthdate}`} />
                             : (<Form.Control plaintext readOnly placeholder="-------" />)
                           }
                         </Col>
@@ -475,8 +473,8 @@ class Profile extends React.Component {
                           {'Biography'}
                         </Form.Label>
                         <Col sm="8">
-                          {(profileUser.biography != null) ?
-                            <Form.Control style={{ wordWrap: 'break-word' }} plaintext readOnly defaultValue={`${profileUser.biography}`} />
+                          {(profileUser.biography != undefined) ?
+                            <Form.Control style={{ wordWrap: 'break-word' }} plaintext readOnly placeholder="-------" value={`${profileUser.biography}`} />
                             : (<Form.Control plaintext readOnly placeholder="-------" />)
                           }
                         </Col>
@@ -486,8 +484,8 @@ class Profile extends React.Component {
                           {'Interests'}
                         </Form.Label>
                         <Col sm="8">
-                          {(profileUser.interests != null) ?
-                            <Form.Control plaintext readOnly defaultValue={`${profileUser.interests}`} />
+                          {(profileUser.interests != undefined) ?
+                            <Form.Control plaintext readOnly placeholder="-------" value={`${profileUser.interests}`} />
                             : (<Form.Control plaintext readOnly placeholder="-------" />)
                           }
                         </Col>

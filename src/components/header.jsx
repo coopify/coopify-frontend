@@ -258,14 +258,14 @@ class Header extends PureComponent {
         />
 
         <AppBar
-          style={{ backgroundColor: '#5d6065' }}
+          style={{ backgroundColor: '#4a4a4a', height: '48px', boxShadow: 'none', borderBottom: '1px solid #c7c6cc' }}
           position="fixed"
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,
           })}
         >
-          <Toolbar>
-            <IconButton
+          <Toolbar style={{justifyContent: 'space-between'}}>
+            <IconButton style={{marginTop: '-15px'}}
               color="inherit"
               aria-label="Open drawer"
               onClick={this.handleDrawerOpen}
@@ -274,18 +274,17 @@ class Header extends PureComponent {
             >
               <MenuIcon />
             </IconButton>
-            <div className="navbar-brand">
+            <div className="navbar-brand" style={{marginTop: '-15px'}}>
               <Link className="navbar-item" to="/">
                 <img src={logo} alt="logo coopify" width="112" height="28" />
               </Link>
             </div>
             {loggedUser ? (
               <div>
-                <p>
-                  <i className="material-icons"> account_balance_wallet </i>
+                <p style={{marginBottom: '0px'}}>
+                  <i className="material-icons"> attach_money </i>
                   {' '}
                   {balance}
-                  {' Coopies'}
                 </p>
               </div>)
               : ''}

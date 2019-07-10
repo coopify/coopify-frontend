@@ -4,7 +4,7 @@ import { stringify } from 'query-string';
 function handleError(e) {
   return {
     status: e.response ? e.response.status : e.message,
-    data: e.response ? e.response.data : e.message,
+    errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
   };
 }
 
@@ -20,10 +20,7 @@ export function logInAPICall(payload) {
     .then(response => ({
       status: response.status,
       data: response.data,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      data: e.response ? e.response : e.message,
-    }));
+    })).catch(e => handleError(e));
 }
 
 export function socialLogInAPICall(payload) {
@@ -34,10 +31,7 @@ export function socialLogInAPICall(payload) {
     .then(response => ({
       status: response.status,
       data: response.data,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      data: e.response ? e.response : e.message,
-    }));
+    })).catch(e => handleError(e));
 }
 
 export function signUpAPICall(payload) {
@@ -48,11 +42,7 @@ export function signUpAPICall(payload) {
     .then(response => ({
       status: response.status,
       body: response.data,
-    })).catch(e => (
-      {
-        status: e.response ? e.response.status : e.message,
-        data: e.response ? e.response : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function getUrlSocialAPICall(payload) {
@@ -62,10 +52,7 @@ export function getUrlSocialAPICall(payload) {
     .then(response => ({
       status: response.status,
       data: response.data.url,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      data: e.response && e.response.data ? e.response.data.data.message : e.message,
-    }));
+    })).catch(e => handleError(e));
 }
 
 
@@ -94,11 +81,7 @@ export function profileAPICall(payload) {
     .then(response => ({
       status: response.status,
       user: response.data.user,
-    })).catch(e => (
-      {
-        status: e.response ? e.response.status : e.message,
-        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function checkBalanceAPICall(payload) {
@@ -114,11 +97,7 @@ export function checkBalanceAPICall(payload) {
     .then(response => ({
       status: response.status,
       balance: response.data.balance,
-    })).catch(e => (
-      {
-        status: e.response ? e.response.status : e.message,
-        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function checkTransactionsAPICall(payload) {
@@ -133,11 +112,7 @@ export function checkTransactionsAPICall(payload) {
     .then(response => ({
       status: response.status,
       transactions: response.data,
-    })).catch(e => (
-      {
-        status: e.response ? e.response.status : e.message,
-        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function checkOffersPagedAPICall(payload) {
@@ -151,11 +126,7 @@ export function checkOffersPagedAPICall(payload) {
     .then(response => ({
       status: response.status,
       responseOffers: { offers: response.data.offers, countOffers: response.data.count },
-    })).catch(e => (
-      {
-        status: e.response ? e.response.status : e.message,
-        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function createOfferAPICall(payload) {
@@ -168,11 +139,7 @@ export function createOfferAPICall(payload) {
     .then(response => ({
       status: response.status,
       message: response.status,
-    })).catch(e => (
-      {
-        status: e.response ? e.response.status : e.message,
-        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function getOfferAPICall(payload) {
@@ -185,11 +152,7 @@ export function getOfferAPICall(payload) {
     .then(response => ({
       status: response.status,
       offer: response.data.offer,
-    })).catch(e => (
-      {
-        status: e.response ? e.response.status : e.message,
-        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function getCategoriesAPICall() {
@@ -199,11 +162,7 @@ export function getCategoriesAPICall() {
     .then(response => ({
       status: response.status,
       categories: response.data.categories,
-    })).catch(e => (
-      {
-        status: e.response ? e.response.status : e.message,
-        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function postQuestionAPICall(payload) {
@@ -219,11 +178,7 @@ export function postQuestionAPICall(payload) {
     .then(response => ({
       status: response.status,
       message: response.status,
-    })).catch(e => (
-      {
-        status: e.response ? e.response.status : e.message,
-        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function getQuestionAnswerAPICall(payload) {
@@ -245,11 +200,7 @@ export function getQuestionAnswerAPICall(payload) {
     .then(response => ({
       status: response.status,
       responseQuestions: response.data,
-    })).catch(e => (
-      {
-        status: e.response ?e.response.status : e.message,
-        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function sendReplyAPICall(payload) {
@@ -264,11 +215,7 @@ export function sendReplyAPICall(payload) {
     .then(response => ({
       status: response.status,
       reply: response.data.response,
-    })).catch(e => (
-      {
-        status: e.response ? e.response.status : e.message,
-        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function getUrlConversation(payload) {
@@ -283,10 +230,7 @@ export function getUrlConversation(payload) {
     .then(response => ({
       status: response.status,
       conversation: response.data.conversation,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      data: e.response && e.response.data ? e.response.data.data.message : e.message,
-    }));
+    })).catch(e => handleError(e));
 }
 
 export function sendMessageAPICall(payload) {
@@ -299,11 +243,7 @@ export function sendMessageAPICall(payload) {
     .then(response => ({
       status: response.status,
       message: response.data.message,
-    })).catch(e => (
-      {
-        status: e.response ? e.response.status : e.message,
-        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function getConversationsAPICall(payload) {
@@ -317,10 +257,7 @@ export function getConversationsAPICall(payload) {
     .then(response => ({
       status: response.status,
       conversations: response.data.conversations,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      data: e.response && e.response.data ? e.response.data.data.message : e.message,
-    }));
+    })).catch(e => handleError(e));
 }
 
 export function getMessagesAPICall(payload) {
@@ -334,10 +271,7 @@ export function getMessagesAPICall(payload) {
     .then(response => ({
       status: response.status,
       messages: response.data.messages,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      data: e.response && e.response.data ? e.response.data.data.message : e.message,
-    }));
+    })).catch(e => handleError(e));
 }
 
 export function getConversation(payload) {
@@ -362,10 +296,7 @@ export function makeProposalAPICall(payload) {
     .then(response => ({
       status: response.status,
       proposal: response.data.proposal,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      data: e.response && e.response.data ? e.response.data.data.message : e.message,
-    }));
+    })).catch(e => handleError(e));
 }
 
 export async function getUsersOffersAPICall(payload) {
@@ -396,10 +327,7 @@ export function getProposalsAPICall(payload) {
     .then(response => ({
       status: response.status,
       responseProposals: response.data,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      errorMessage:  e.response && e.response.data ? e.response.data.message : e.message,
-    }));
+    })).catch(e => handleError(e));
 }
 
 export async function acceptProposalAPICall(payload) {
@@ -413,10 +341,7 @@ export async function acceptProposalAPICall(payload) {
     .then(response => ({
       status: response.status,
       proposal: response.data.proposal,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      data: e.response && e.response.data ? e.response.data.data.message : e.message,
-    }));
+    })).catch(e => handleError(e));
 }
 
 export async function rejectProposalAPICall(payload) {
@@ -430,10 +355,7 @@ export async function rejectProposalAPICall(payload) {
     .then(response => ({
       status: response.status,
       proposal: response.data.proposal,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      data: e.response && e.response.data ? e.response.data.data.message : e.message,
-    }));
+    })).catch(e => handleError(e));
 }
 
 export async function cancelProposalAPICall(payload) {
@@ -447,10 +369,7 @@ export async function cancelProposalAPICall(payload) {
     .then(response => ({
       status: response.status,
       proposal: response.data.proposal,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      data: e.response && e.response.data ? e.response.data.data.message : e.message,
-    }));
+    })).catch(e => handleError(e));
 }
 
 export function getConversationProposalAPICall(payload) {
@@ -464,10 +383,7 @@ export function getConversationProposalAPICall(payload) {
     .then(response => ({
       status: response.status,
       proposal: response.data.proposal,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      proposal: {},
-    }));
+    })).catch(e => handleError(e));
 }
 
 export function getGoalsAPICall() {
@@ -477,10 +393,7 @@ export function getGoalsAPICall() {
     .then(response => ({
       status: response.status,
       responseGoals: { goals: response.data.goals },
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      goals: {},
-    }));
+    })).catch(e => handleError(e));
 }
 
 export function getGoalsUserAPICall(payload) {
@@ -494,10 +407,7 @@ export function getGoalsUserAPICall(payload) {
     .then(response => ({
       status: response.status,
       responseGoals: { goalsUser: response.data },
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      goals: {},
-    }));
+    })).catch(e => handleError(e));
 }
 
 export function syncFBApiCall(payload) {
@@ -515,11 +425,7 @@ export function syncFBApiCall(payload) {
     .then(response => ({
       status: response.status,
       user: response.data.user,
-    })).catch(e => (
-      {
-        status: e.response ? e.response.status : e.message,
-        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function getShareCount(payload) {
@@ -538,10 +444,7 @@ export function getShareCount(payload) {
     .then(response => ({
       status: response.status,
       count: response.data.count,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-    }));
+    })).catch(e => handleError(e));
 }
 
 export function sendRewardApiCall(payload) {
@@ -559,11 +462,7 @@ export function sendRewardApiCall(payload) {
     .then(response => ({
       status: response.status,
       data: response.status,
-    })).catch(e => (
-      {
-        status: e.response ? e.response.status : e.message,
-        errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-      }));
+    })).catch(e => handleError(e));
 }
 
 export function getReviewsAPICall(payload) {
@@ -577,13 +476,8 @@ export function getReviewsAPICall(payload) {
     .then(response => ({
       status: response.status,
       reviews: response.data.rates,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      reviews: {},
-    }));
-
-  // return { status: 200, reviews: [{ name: 'Pedro', review: 'Excelent service', date: '10/06/2019', ratingReview: 5 }, { name: 'Marcos', review: 'Is very dificult', date: '05/03/2019', ratingReview: 2 }, { name: 'Marcelo', review: 'What?', date: '07/05/2019', ratingReview: 4 }] };
-}
+    })).catch(e => handleError(e));
+  }
 
 export function sendReviewAPICall(payload) {
   const { token, offerRate, userRate, offerId, description } = payload;
@@ -602,10 +496,7 @@ export function sendReviewAPICall(payload) {
     .then(response => ({
       status: response.status,
       review: response.data.rate,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-    }));
+    })).catch(e => handleError(e));
 }
 
 export function checkReviewAPICall(payload) {
@@ -619,10 +510,7 @@ export function checkReviewAPICall(payload) {
     .then(response => ({
       status: response.status,
       canRate: response.data.shouldReview,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      errorMessage: e.response && e.response.data ? e.response.data.message : e.message, 
-    }));
+    })).catch(e => handleError(e));
 }
 
 export function getUserReviewsApiCall(payload) {
@@ -634,10 +522,7 @@ export function getUserReviewsApiCall(payload) {
     .then(response => ({
       status: response.status,
       reviews: response.data.rates,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-    }));
+    })).catch(e => handleError(e));
 }
 
 export function getUserApiCall(payload) {
@@ -649,8 +534,5 @@ export function getUserApiCall(payload) {
     .then(response => ({
       status: response.status,
       user: response.data.user,
-    })).catch(e => ({
-      status: e.response ? e.response.status : e.message,
-      errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
-    }));
+    })).catch(e => handleError(e));
 }

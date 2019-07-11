@@ -110,74 +110,78 @@ class Proposals extends React.Component {
                   display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', overflow: 'hidden', backgroundColor: 'white',
                 }}
                 >
-
-                  <div className="card">
-                    <div className="card-header">
-                      <p style={{ textAlign: 'center' }}> Recived proposals </p>
+                  {proposalsRecived.length > 0 ? (
+                    <div className="card">
+                      <div className="card-header">
+                        <p style={{ textAlign: 'center' }}> Recived proposals </p>
+                      </div>
+                      <GridView
+                        elements={proposalsRecived}
+                        getImageFromElement={proposal => (proposal.purchasedOffer.images
+                          && proposal.purchasedOffer.images[0]
+                          ? proposal.purchasedOffer.images[0].url : noImage)}
+                        getAlternativeTextForImageFromElement={p => p.purchasedOffer.title}
+                        getTitleFromElement={getTitleFromElement}
+                        getSubtitleFromElement={proposal => `by: ${proposal.proposer.name}`}
+                        shouldRedirect={false}
+                        getOverlayFadeInfo={proposal => (
+                          <div>
+                            <p style={{ fontSize: '24' }}>{`Status: ${proposal.status}`}</p>
+                          </div>
+                        )}
+                        getDetailRoute={proposal => `/offers/${proposal.purchasedOffer.id}`}
+                        textDetailRoute={() => 'Go to Service'}
+                        possibleMakeReview={proposal => (proposal.status === 'Confirmed' ? (
+                          ' | Wait review'
+                        ) : '')}
+                        selectItem={selectedProposal => (
+                          <Proposal
+                            proposal={selectedProposal}
+                            buttonText={selectedProposal.purchasedOffer.title}
+                            isInfo
+                          />
+                        )
+                        }
+                      />
                     </div>
-                    <GridView
-                      elements={proposalsRecived}
-                      getImageFromElement={proposal => (proposal.purchasedOffer.images
-                        && proposal.purchasedOffer.images[0]
-                        ? proposal.purchasedOffer.images[0].url : noImage)}
-                      getAlternativeTextForImageFromElement={p => p.purchasedOffer.title}
-                      getTitleFromElement={getTitleFromElement}
-                      getSubtitleFromElement={proposal => `by: ${proposal.proposer.name}`}
-                      shouldRedirect={false}
-                      getOverlayFadeInfo={proposal => (
-                        <div>
-                          <p style={{ fontSize: '24' }}>{`Status: ${proposal.status}`}</p>
-                        </div>
-                      )}
-                      getDetailRoute={proposal => `/offers/${proposal.purchasedOffer.id}`}
-                      textDetailRoute={() => 'Go to Service'}
-                      possibleMakeReview={proposal => (proposal.status === 'Confirmed' ? (
-                        ' | wait review'
-                      ) : '')}
-                      selectItem={selectedProposal => (
-                        <Proposal
-                          proposal={selectedProposal}
-                          buttonText={selectedProposal.purchasedOffer.title}
-                          isInfo
-                        />
-                      )
-                      }
-                    />
-                  </div>
+                  ) : ''}
 
-                  <div className="card">
-                    <div className="card-header">
-                      <p style={{ textAlign: 'center' }}> Propositions created by you </p>
+                  {proposalsMade.length > 0 ? (
+                    <div className="card">
+                      <div className="card-header">
+                        <p style={{ textAlign: 'center' }}> Propositions created by you </p>
+                      </div>
+                      <GridView
+                        elements={proposalsMade}
+                        getImageFromElement={proposal => (proposal.purchasedOffer.images
+                          && proposal.purchasedOffer.images[0]
+                          ? proposal.purchasedOffer.images[0].url : noImage)}
+                        getAlternativeTextForImageFromElement={p => p.purchasedOffer.title}
+                        getTitleFromElement={getTitleFromElement}
+                        getSubtitleFromElement={proposal => `by: ${proposal.proposer.name}`}
+                        shouldRedirect={false}
+                        getOverlayFadeInfo={proposal => (
+                          <div>
+                            <p style={{ fontSize: '24' }}>{`Status: ${proposal.status}`}</p>
+                          </div>
+                        )}
+                        getDetailRoute={proposal => `/offers/${proposal.purchasedOffer.id}`}
+                        textDetailRoute={() => 'Go to Service'}
+                        possibleMakeReview={proposal => (proposal.status === 'Confirmed' ? (
+                          ' and Make Review'
+                        ) : '')}
+                        selectItem={selectedProposal => (
+                          <Proposal
+                            proposal={selectedProposal}
+                            buttonText={selectedProposal.purchasedOffer.title}
+                            isInfo
+                          />
+                        )
+                        }
+                      />
                     </div>
-                    <GridView
-                      elements={proposalsMade}
-                      getImageFromElement={proposal => (proposal.purchasedOffer.images
-                        && proposal.purchasedOffer.images[0]
-                        ? proposal.purchasedOffer.images[0].url : noImage)}
-                      getAlternativeTextForImageFromElement={p => p.purchasedOffer.title}
-                      getTitleFromElement={getTitleFromElement}
-                      getSubtitleFromElement={proposal => `by: ${proposal.proposer.name}`}
-                      shouldRedirect={false}
-                      getOverlayFadeInfo={proposal => (
-                        <div>
-                          <p style={{ fontSize: '24' }}>{`Status: ${proposal.status}`}</p>
-                        </div>
-                      )}
-                      getDetailRoute={proposal => `/offers/${proposal.purchasedOffer.id}`}
-                      textDetailRoute={() => 'Go to Service'}
-                      possibleMakeReview={proposal => (proposal.status === 'Confirmed' ? (
-                        ' and Make Review'
-                      ) : '')}
-                      selectItem={selectedProposal => (
-                        <Proposal
-                          proposal={selectedProposal}
-                          buttonText={selectedProposal.purchasedOffer.title}
-                          isInfo
-                        />
-                      )
-                      }
-                    />
-                  </div>
+                  ) : ''}
+
                 </div>
 
               </form>

@@ -61,11 +61,17 @@ class ConversationList extends React.Component {
   }
 
   displayChat(e) {
-    const { history } = this.props;
     this.setState({
       ...this.state,
       conversationId: e.conversationId,
       active: false,
+    });
+  }
+
+  displayChatList(e){
+    this.setState({
+      ...this.state,
+      active: true,
     });
   }
 
@@ -105,7 +111,7 @@ class ConversationList extends React.Component {
   </Col>
 
   <Col sm={6} className={active ? 'specificchat inactive' : 'specificchat active'}>
-  <Chat conversationid={conversationId}/>
+  <Chat conversationid={conversationId} onChatLeave={e => this.displayChatList(e)}/>
   </Col>
 </Row>
 

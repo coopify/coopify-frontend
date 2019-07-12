@@ -304,6 +304,11 @@ class Chat extends React.Component {
     dispatch(attemptMakeProposal(payload));
   }
 
+  handleClickBack(e){
+    const { onChatLeave } = this.props;
+    onChatLeave(e);
+  }
+
   getStepContent(index) {
     let componentToRender = '';
     switch (index) {
@@ -465,10 +470,8 @@ class Chat extends React.Component {
             />
 
           <div className="menu">
-            <div className="back">
-              <Link to ="/user/conversations" style={{color: 'white'}}>
-                <i class="fa fa-chevron-left"></i> 
-              </Link>
+            <div className="back" onClick={e => this.handleClickBack(e)}>
+              <i class="fa fa-chevron-left"></i> 
               <img src={userChat.pictureURL} height="50px" width="50px" draggable="false"/>
             </div>
             <div className="name">{userChat.name}</div>

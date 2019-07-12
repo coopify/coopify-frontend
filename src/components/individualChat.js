@@ -58,6 +58,7 @@ export default @connect(state => ({
   myOffers: state.service.myOffers,
   userOffers: state.service.userOffers,
   proposal: state.proposal.proposal,
+  conversations: state.conversation.conversations,
 }))
 
 class Chat extends React.Component {
@@ -72,6 +73,7 @@ class Chat extends React.Component {
     myOffers: PropTypes.array,
     userOffers: PropTypes.array,
     proposal: PropTypes.object,
+    conversations: PropTypes.array,
   };
 
   static defaultProps = {
@@ -86,6 +88,7 @@ class Chat extends React.Component {
     myOffers: [],
     userOffers: [],
     proposal: {},
+    conversations: [],
   };
 
   constructor(props) {
@@ -106,6 +109,7 @@ class Chat extends React.Component {
       messages: [],
       selectedServiceText: '',
       exchangeServiceText: '',
+      userChat: {},
     };
     this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
     this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);
@@ -213,9 +217,17 @@ class Chat extends React.Component {
   }
 
   async componentDidMount() {
-    const { dispatch, loggedUser } = this.props;
+    const { dispatch, loggedUser, conversations } = this.props;
     const token = localStorage.getItem('token');
     const conversationId = this.props.match.params.conversationId;
+
+    let c = conversations.find(c => c.id === conversationId);
+    const userChat =  c.from.id === loggedUser.id ? c.to : c.from;
+
+    this.setState({
+      ...this.state,
+      userChat
+    });
 
     const payload = {
       token,
@@ -405,7 +417,7 @@ class Chat extends React.Component {
     const {
       loading, error, loggedUser, messages, proposal,
     } = this.props;
-    const { offer, categories, activeStep } = this.state;
+    const { offer, categories, activeStep, userChat } = this.state;
     const steps = this.getSteps();
     const proposalMade = proposal && proposal.id;
 
@@ -445,6 +457,17 @@ class Chat extends React.Component {
                 }
               }}
             />
+
+          <div className="menu">
+            <div className="back">
+              <Link to="/user/conversations">
+                <i class="fa fa-chevron-left" style={{color: 'white'}}></i>
+              </Link>
+              <img src={userChat.pictureURL} height="50px" width="50px" draggable="false"/>
+            </div>
+            <div className="name">{userChat.name}</div>
+            <div className="last">Online</div>
+            </div>
 
             <div className={styles.containerChat}>
               <div className="message-list" style={{ height: '300px', overflowY: 'auto', flexDirection: 'column-reverse' }}>

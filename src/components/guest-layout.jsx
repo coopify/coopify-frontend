@@ -10,7 +10,7 @@ export default function (props) {
   return (
     <div>
       <Header/>
-      <div style={{ paddingBottom: '60px' }} />
+      <div style={{ paddingBottom: '100px' }} />
       {children}
       <br />
       <Footer />

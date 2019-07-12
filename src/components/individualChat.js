@@ -74,6 +74,7 @@ class Chat extends React.Component {
     userOffers: PropTypes.array,
     proposal: PropTypes.object,
     conversations: PropTypes.array,
+    conversationid: PropTypes.string,
   };
 
   static defaultProps = {
@@ -89,6 +90,7 @@ class Chat extends React.Component {
     userOffers: [],
     proposal: {},
     conversations: [],
+    conversationid: '',
   };
 
   constructor(props) {
@@ -216,35 +218,41 @@ class Chat extends React.Component {
     });
   }
 
-  async componentDidMount() {
-    const { dispatch, loggedUser, conversations } = this.props;
-    const token = localStorage.getItem('token');
-    const conversationId = this.props.match.params.conversationId;
+  async componentDidUpdate(prevProps) {
 
-    let c = conversations.find(c => c.id === conversationId);
-    const userChat =  c.from.id === loggedUser.id ? c.to : c.from;
+    const { dispatch, loggedUser, conversations,conversationid } = this.props;
 
-    this.setState({
-      ...this.state,
-      userChat
-    });
+    if(conversationid && conversationid.length > 0 && prevProps.conversationid != conversationid){
+      
 
-    const payload = {
-      token,
-      conversationId,
-    };
+      const token = localStorage.getItem('token');
+      const conversationId = this.props.conversationid;
 
-    const conversation = await getConversation(payload);
+      let c = conversations.find(c => c.id === conversationId);
+      const userChat =  c.from.id === loggedUser.id ? c.to : c.from;
 
-    const users = {
-      token,
-      myUserId: loggedUser.id,
-      serviceUserId: conversation.to.id == loggedUser.id ? conversation.from.id : conversation.to.id,
-    };
+      this.setState({
+        ...this.state,
+        userChat
+      });
 
-    dispatch(attemptGetUserChat(payload));
-    dispatch(attemptGetUsersOffers(users));
-    dispatch(attemptGetConversationProposals(payload));
+      const payload = {
+        token,
+        conversationId,
+      };
+
+      const conversation = await getConversation(payload);
+
+      const users = {
+        token,
+        myUserId: loggedUser.id,
+        serviceUserId: conversation.to.id == loggedUser.id ? conversation.from.id : conversation.to.id,
+      };
+
+      dispatch(attemptGetUserChat(payload));
+      dispatch(attemptGetUsersOffers(users));
+      dispatch(attemptGetConversationProposals(payload));
+    }
   }
 
   async handleSendMessage(e) {
@@ -257,7 +265,7 @@ class Chat extends React.Component {
       {
         text: this.state.chatMessage,
       },
-      conversationId: this.props.match.params.conversationId,
+      conversationId: this.props.conversationid,
     };
 
     dispatch(attemptSendMessage(payload));
@@ -290,7 +298,7 @@ class Chat extends React.Component {
         exchangeInstance: isCoopi ? exchangeInstanceSelected : undefined,
         proposedPrice: isCoopi ? coopiValue : undefined,
       },
-      conversationId: this.props.match.params.conversationId,
+      conversationId: this.props.conversationid,
     };
 
     dispatch(attemptMakeProposal(payload));
@@ -434,8 +442,6 @@ class Chat extends React.Component {
 
     return (
       <Protected>
-        <GuestLayout>
-
           <Loading>
 
             <ReactJoyride
@@ -460,8 +466,8 @@ class Chat extends React.Component {
 
           <div className="menu">
             <div className="back">
-              <Link to="/user/conversations">
-                <i class="fa fa-chevron-left" style={{color: 'white'}}></i>
+              <Link to ="/user/conversations" style={{color: 'white'}}>
+                <i class="fa fa-chevron-left"></i> 
               </Link>
               <img src={userChat.pictureURL} height="50px" width="50px" draggable="false"/>
             </div>
@@ -593,7 +599,6 @@ class Chat extends React.Component {
                 )}
             </div>
           </Loading>
-        </GuestLayout>
       </Protected>
     );
   }

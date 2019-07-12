@@ -11,6 +11,10 @@ import { Protected } from './protected';
 import { attemptGetUserConversations } from '../actions/user';
 import GuestLayout from './guest-layout';
 import styles from '../resources/css/profile.scss';
+import {
+  Button, Row, Col, ListGroup, Form,
+} from 'react-bootstrap';
+import { Chat } from './individualChat';
 
 export default @connect(state => ({
   loggedUser: state.user.loggedUser,
@@ -20,6 +24,7 @@ export default @connect(state => ({
 }))
 
 class ConversationList extends React.Component {
+
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.objectOf(PropTypes.object),
@@ -40,6 +45,7 @@ class ConversationList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      active: true,
     };
   }
 
@@ -56,20 +62,28 @@ class ConversationList extends React.Component {
 
   displayChat(e) {
     const { history } = this.props;
-    history.push(`/user/conversations/${e.conversationId}`);
+    this.setState({
+      ...this.state,
+      conversationId: e.conversationId,
+      active: false,
+    });
   }
 
   render() {
     const { loggedUser, conversations, loading } = this.props;
+    const { active, conversationId } = this.state;
+
     return (
       <Protected>
         <GuestLayout>
 
           <Loading>
 
-            <div className={styles.containerChat}>
+<Row>
+  <Col sm={6} className={active ? 'generalchat active' : 'generalchat inactive'}>
+  <div className={styles.containerChat}>
               <ChatList
-                className="chat-list"
+                className={"chat-list"}
                 dataSource={
 
                   conversations.map((c) => {
@@ -88,6 +102,13 @@ class ConversationList extends React.Component {
                 onClick={e => this.displayChat(e)}
               />
             </div>
+  </Col>
+
+  <Col sm={6} className={active ? 'specificchat inactive' : 'specificchat active'}>
+  <Chat conversationid={conversationId}/>
+  </Col>
+</Row>
+
           </Loading>
         </GuestLayout>
       </Protected>

@@ -294,7 +294,7 @@ class Profile extends React.Component {
 
                 </Col>
                 {!noEditable ? (
-                  <Col sm={4} style={{ paddingTop: '15px' }}>
+                  <Col sm={4}>
 
                     <div className="field">
                       <label className="label" htmlFor="name">

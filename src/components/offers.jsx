@@ -258,18 +258,20 @@ class Offers extends React.Component {
                 {}
               </Col>
               <Col sm="4">
-                <Pagination style={{ display: 'inline-flex' }}
-                  hideDisabled
-                  activePage={page}
-                  itemsCountPerPage={limit}
-                  totalItemsCount={countOffers - 1}
-                  pageRangeDisplayed={limit != 0 ? Math.ceil(countOffers - 1 / limit) : countOffers - 1}
-                  onChange={e => this.changePage(e)}
-                  innerClass="pagination"
-                  itemClass="page-item"
-                  linkClass="page-link"
-                  activeLinkClass="page-item active"
-                />
+                <div style={{ display: 'inline-flex' }}>
+                  <Pagination
+                    hideDisabled
+                    activePage={page}
+                    itemsCountPerPage={limit}
+                    totalItemsCount={countOffers - 1}
+                    pageRangeDisplayed={limit != 0 ? Math.ceil((countOffers - 1) / limit) : (countOffers - 1)}
+                    onChange={e => this.changePage(e)}
+                    innerClass="pagination"
+                    itemClass="page-item"
+                    linkClass="page-link"
+                    activeLinkClass="page-item active"
+                  />
+                </div>
               </Col>
               <Col sm="4">
                 {}

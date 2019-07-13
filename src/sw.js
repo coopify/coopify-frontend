@@ -1,18 +1,18 @@
 
-const bgSyncPlugin = new self.workbox.backgroundSync.Plugin('myQueueName', {
-  maxRetentionTime: 24 * 60 // Retry for max of 24 Hours
+var customNetworkFirst = self.workbox.strategies.networkFirst({
+  cacheName: 'cache-requests' 
 });
 
-// self.workbox.routing.registerRoute(
-//   /\/api\/v3\/run/,
-//   self.workbox.strategies.networkOnly({
-//     plugins: [bgSyncPlugin]
-//   }),
-//   'POST'
-// );
+const customHandler = async (args) => {
+  try {
+    const response = await customNetworkFirst.handle(args);
+    return response || await caches.match(args.route);
+  } catch (error) {
+    return new Response()
+  }
+};
 
 self.workbox.routing.registerRoute(
-  /\/api\/offers/,
-  new self.workbox.strategies.NetworkFirst(),
-  'GET',
-);
+  new RegExp('https://coopify-dev-backend.herokuapp.com/api/.*'),
+  customHandler,
+)

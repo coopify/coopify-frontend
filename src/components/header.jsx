@@ -76,7 +76,7 @@ class Header extends PureComponent {
   componentDidMount() {
     const { dispatch, loggedUser } = this.props;
     const token = localStorage.getItem('token');
-    if (token) {
+    if (token && loggedUser && loggedUser.id) {
       const reqAttributes = {
         userId: loggedUser.id,
         userToken: token,

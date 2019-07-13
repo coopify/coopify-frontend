@@ -17,7 +17,9 @@ import ReactJoyride from 'react-joyride';
 import { Link } from 'react-router-dom';
 import StarRatingComponent from 'react-star-rating-component';
 import noImage from '../assets/noImage.png'
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, } from 'react-bootstrap';
+import Pagination from "react-js-pagination";
+
 
 export default @connect(state => ({
   loading: state.service.loading,
@@ -33,6 +35,8 @@ class Offers extends React.Component {
     countOffers: PropTypes.number,
     filters: PropTypes.objectOf(PropTypes.object),
     loading: PropTypes.bool,
+    limit: PropTypes.number,
+    page: PropTypes.number,
   };
 
   static defaultProps = {
@@ -42,23 +46,24 @@ class Offers extends React.Component {
     loading: false,
     countOffers: 0,
     filters: {},
+    limit: 18,
+    page: 0,
   };
 
   constructor(props) {
     super(props);
     this.state = {
       offers: [],
-      limit: 10,
     };
   }
 
   componentDidMount() {
     const {
-      dispatch, limit, isHome, filters,
+      dispatch, isHome, filters, limit, page
     } = this.props;
     const reqAttributes = {
       limit,
-      page: 0,
+      page,
       filters: isHome ? {} : filters,
     };
 
@@ -89,11 +94,11 @@ class Offers extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { dispatch, filters, limit } = this.props;
+    const { dispatch, filters, limit, page } = this.props;
     if (this.didFiltersChange(prevProps.filters, filters)) {
       const reqAttributes = {
         limit,
-        page: 0,
+        page,
         filters,
       };
 
@@ -111,25 +116,25 @@ class Offers extends React.Component {
     }
   }
 
-  changePage(pageIndex) {
-    const { dispatch, limit, filters } = this.props;
+  changePage(pageNumber) {
+    const { dispatch, filters, limit, page } = this.props;
     const reqAttributes = {
       limit,
-      page: pageIndex,
+      page: pageNumber - 1,
       filters,
     };
 
     dispatch(attemptOffersAction(reqAttributes));
   }
 
-  changeSize(pageSize) {
-    this.setState(state => ({ ...state, limit: pageSize }));
-  }
+  // changeSize(pageSize) {
+  //   this.setState(state => ({ ...state, limit: pageSize }));
+  // }
 
   render() {
-    const { offers, loading } = this.props;
+    const { offers, loading, countOffers, limit, page } = this.props;
     const defaultImage = noImage;
-    
+
     const steps = [
       {
         target: '.coopifyOffers',
@@ -246,6 +251,32 @@ class Offers extends React.Component {
             </div>
 
           </form>
+
+          <div>
+            <Row>
+              <Col sm="4">
+                {}
+              </Col>
+              <Col sm="4">
+                <Pagination style={{ display: 'inline-flex' }}
+                  hideDisabled
+                  activePage={page}
+                  itemsCountPerPage={limit}
+                  totalItemsCount={countOffers - 1}
+                  pageRangeDisplayed={limit != 0 ? Math.ceil(countOffers - 1 / limit) : countOffers - 1}
+                  onChange={e => this.changePage(e)}
+                  innerClass="pagination"
+                  itemClass="page-item"
+                  linkClass="page-link"
+                  activeLinkClass="page-item active"
+                />
+              </Col>
+              <Col sm="4">
+                {}
+              </Col>
+            </Row>
+          </div>
+
           <ToastContainer autoClose={3000} />
         </div>
 
@@ -254,4 +285,4 @@ class Offers extends React.Component {
   }
 }
 
-export { Offers };
+export { Offers };      

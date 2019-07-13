@@ -262,7 +262,10 @@ class Profile extends React.Component {
 
               <Row style={{ marginTop: '2%' }}>
 
-                <Col sm={4} style={{ marginLeft: '0%', background: 'whitesmoke', borderRadius: '10%' }}>
+                <Col sm={4} style={{
+                  marginLeft: '0%', background: 'whitesmoke', borderRadius: '10%',
+                  paddingTop: '15px', paddingBottom: '15px'
+                }}>
                   <div style={{ borderColor: 'red', marginTop: '10%' }} onClick={() => this.changeImage()}>
                     <img className={styles.picture} alt="profile" name="picture" src={userPicture} />
                   </div>
@@ -291,7 +294,7 @@ class Profile extends React.Component {
 
                 </Col>
                 {!noEditable ? (
-                  <Col sm={4}>
+                  <Col sm={4} style={{ paddingTop: '15px' }}>
 
                     <div className="field">
                       <label className="label" htmlFor="name">
@@ -365,7 +368,7 @@ class Profile extends React.Component {
                   </Col>) : ''
                 }
                 {!noEditable ? (
-                  <Col sm={4}>
+                  <Col sm={4} style={{ paddingBottom: '15px' }}>
 
                     <div className="field">
                       <label className="label" htmlFor="dateBorn">
@@ -422,76 +425,76 @@ class Profile extends React.Component {
                     </div>
 
                   </Col>) : (
-                  <Col sm={8}>
-                    <Form style={{ background: 'whitesmoke', borderRadius: '5%' }}>
-                      <Form.Group as={Row}>
-                        <Form.Label column sm="4">
-                          {'Name'}
-                        </Form.Label>
-                        <Col sm="8">
-                          {(profileUser.lastName != undefined) ?
-                            (<Form.Control plaintext readOnly placeholder="-------" value={`${profileUser.name} ${profileUser.lastName}`} />)
-                            : (<Form.Control plaintext readOnly placeholder="-------" value={`${profileUser.name}`} />)
-                          }
-                        </Col>
-                      </Form.Group>
-                      <Form.Group as={Row}>
-                        <Form.Label column sm="4">
-                          {'Address'}
-                        </Form.Label>
-                        <Col sm="8">
-                          {(profileUser.address != undefined) ?
-                            (<Form.Control plaintext readOnly placeholder="-------" value={`${profileUser.address}`} />)
-                            : (<Form.Control plaintext readOnly placeholder="-------" />)
-                          }
-                        </Col>
-                      </Form.Group>
-                      <Form.Group as={Row}>
-                        <Form.Label column sm="4">
-                          {'Phone'}
-                        </Form.Label>
-                        <Col sm="8">
-                          {(profileUser.phone != undefined) ?
-                            <Form.Control plaintext readOnly placeholder="-------" value={`${profileUser.phone}`} />
-                            : (<Form.Control plaintext readOnly placeholder="-------" />)
-                          }
-                        </Col>
-                      </Form.Group>
-                      <Form.Group as={Row}>
-                        <Form.Label column sm="4">
-                          {'Birthdate'}
-                        </Form.Label>
-                        <Col sm="8">
-                          {(profileUser.birthdate != undefined) ?
-                            <Form.Control plaintext readOnly placeholder="-------" value={`${profileUser.birthdate}`} />
-                            : (<Form.Control plaintext readOnly placeholder="-------" />)
-                          }
-                        </Col>
-                      </Form.Group>
-                      <Form.Group as={Row}>
-                        <Form.Label column sm="4">
-                          {'Biography'}
-                        </Form.Label>
-                        <Col sm="8">
-                          {(profileUser.biography != undefined) ?
-                            <Form.Control style={{ wordWrap: 'break-word' }} plaintext readOnly placeholder="-------" value={`${profileUser.biography}`} />
-                            : (<Form.Control plaintext readOnly placeholder="-------" />)
-                          }
-                        </Col>
-                      </Form.Group>
-                      <Form.Group as={Row}>
-                        <Form.Label column sm="4">
-                          {'Interests'}
-                        </Form.Label>
-                        <Col sm="8">
-                          {(profileUser.interests != undefined) ?
-                            <Form.Control plaintext readOnly placeholder="-------" value={`${profileUser.interests}`} />
-                            : (<Form.Control plaintext readOnly placeholder="-------" />)
-                          }
-                        </Col>
-                      </Form.Group>
-                    </Form>
-                  </Col>)
+                    <Col sm={8} style={{ paddingTop: '15px', paddingBottom: '15px' }}>
+                      <Form style={{ background: 'whitesmoke', borderRadius: '5%' }}>
+                        <Form.Group as={Row}>
+                          <Form.Label column sm="4">
+                            {'Name'}
+                          </Form.Label>
+                          <Col sm="8">
+                            {(profileUser.lastName != undefined) ?
+                              (<Form.Control className="data" plaintext readOnly placeholder="-------" value={`${profileUser.name} ${profileUser.lastName}`} />)
+                              : (<Form.Control className="data" plaintext readOnly placeholder="-------" value={`${profileUser.name}`} />)
+                            }
+                          </Col>
+                        </Form.Group>
+                        <Form.Group as={Row}>
+                          <Form.Label column sm="4">
+                            {'Address'}
+                          </Form.Label>
+                          <Col sm="8">
+                            {(profileUser.address != undefined) ?
+                              (<Form.Control className="data" plaintext readOnly placeholder="-------" value={`${profileUser.address}`} />)
+                              : (<Form.Control className="data" plaintext readOnly placeholder="-------" />)
+                            }
+                          </Col>
+                        </Form.Group>
+                        <Form.Group as={Row}>
+                          <Form.Label column sm="4">
+                            {'Phone'}
+                          </Form.Label>
+                          <Col sm="8">
+                            {(profileUser.phone != undefined) ?
+                              <Form.Control className="data" plaintext readOnly placeholder="-------" value={`${profileUser.phone}`} />
+                              : (<Form.Control className="data" plaintext readOnly placeholder="-------" />)
+                            }
+                          </Col>
+                        </Form.Group>
+                        <Form.Group as={Row}>
+                          <Form.Label column sm="4">
+                            {'Birthdate'}
+                          </Form.Label>
+                          <Col sm="8">
+                            {(profileUser.birthdate != undefined) ?
+                              <Form.Control className="data" plaintext readOnly placeholder="-------" value={`${profileUser.birthdate}`} />
+                              : (<Form.Control className="data" plaintext readOnly placeholder="-------" />)
+                            }
+                          </Col>
+                        </Form.Group>
+                        <Form.Group as={Row}>
+                          <Form.Label column sm="4">
+                            {'Biography'}
+                          </Form.Label>
+                          <Col sm="8">
+                            {(profileUser.biography != undefined) ?
+                              <Form.Control className="data" style={{ wordWrap: 'break-word' }} plaintext readOnly placeholder="-------" value={`${profileUser.biography}`} />
+                              : (<Form.Control className="data" plaintext readOnly placeholder="-------" />)
+                            }
+                          </Col>
+                        </Form.Group>
+                        <Form.Group as={Row}>
+                          <Form.Label column sm="4">
+                            {'Interests'}
+                          </Form.Label>
+                          <Col sm="8">
+                            {(profileUser.interests != undefined) ?
+                              <Form.Control className="data" plaintext readOnly placeholder="-------" value={`${profileUser.interests}`} />
+                              : (<Form.Control className="data" plaintext readOnly placeholder="-------" />)
+                            }
+                          </Col>
+                        </Form.Group>
+                      </Form>
+                    </Col>)
                 }
               </Row>
               <Row style={{ marginTop: '2%' }}>

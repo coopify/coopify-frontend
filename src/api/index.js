@@ -3,7 +3,7 @@ import { stringify } from 'query-string';
 
 function handleError(e) {
   return {
-    status: e.response ? e.response.status : e.message,
+    status: e.response && e.response.status ? e.response.status : 500,
     errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
   };
 }

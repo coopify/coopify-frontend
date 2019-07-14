@@ -413,14 +413,14 @@ class Chat extends React.Component {
       case 2:
         componentToRender = (
           <Paper>
-            <Typography variant="h5" component="h3">
+            <Typography variant="h5" component="h3" style={{textAlign: 'center'}}>
               {this.state.selectedServiceText}
             </Typography>
 
             {
               this.state.exchangeMethodSelected == 'Coopy'
                 ? (
-                  <Typography component="p">
+                  <Typography component="p" style={{textAlign: 'center'}}>
                     {this.state.exchangeInstanceSelected}
                     {' '}
                     <br />

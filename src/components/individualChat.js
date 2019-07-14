@@ -112,6 +112,7 @@ class Chat extends React.Component {
       selectedServiceText: '',
       exchangeServiceText: '',
       userChat: {},
+      selectedServiceFull: {},
     };
     this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
     this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);
@@ -189,10 +190,15 @@ class Chat extends React.Component {
   }
 
   handleServiceChange(e, rc) {
+
+    const service = e.target.value;
+    const serviceSelectedComplete = this.props.userOffers.find(o => o.id == service);
+
     this.setState({
       ...this.state,
-      selectedService: e.target.value,
+      selectedService: service,
       selectedServiceText: rc.props.name,
+      selectedServiceFull: serviceSelectedComplete,
     });
   }
 
@@ -311,6 +317,9 @@ class Chat extends React.Component {
 
   getStepContent(index) {
     let componentToRender = '';
+    const exchangeAvailableColor= '#009933';
+    const exchangeNotAvailableColor= '#000000';
+
     switch (index) {
       case 0:
 
@@ -337,29 +346,41 @@ class Chat extends React.Component {
         componentToRender = (
           <div>
             <RadioGroup onChange={e => this.onChangeExchangeMethod(e)} vertical>
-              <RadioButton value="Coopy">
 
+              <RadioButton 
+               value="Coopy"
+               rootColor={this.state.selectedServiceFull.paymentMethod === 'Coopy' ? exchangeAvailableColor : exchangeNotAvailableColor} >
                 Coopi
-                  </RadioButton>
-              <RadioButton value="Exchange">
+              </RadioButton>
 
+              <RadioButton 
+                value="Exchange"
+                rootColor = {this.state.selectedServiceFull.paymentMethod === 'Barter' ? exchangeAvailableColor : exchangeNotAvailableColor}>
                 Barter
-                  </RadioButton>
+              </RadioButton>
+
             </RadioGroup>
 
             <RadioGroup onChange={e => this.onChangeExchangeInstance(e)} horizontal style={{ display: coopiSelected }}>
-              <RadioButton value="Hour">
+              
+                <RadioButton 
+                  value="Hour"
+                  rootColor = {this.state.selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.hourPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor}>
+                  Hour
+                </RadioButton>
 
-                Hour
-                  </RadioButton>
-              <RadioButton value="Session">
+                <RadioButton 
+                  value="Session"
+                  rootColor = {this.state.selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.sessionPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor}>
+                  Session
+                </RadioButton>
 
-                Session
-                  </RadioButton>
-              <RadioButton value="FinalProduct">
+                <RadioButton 
+                  value="FinalProduct"
+                  rootColor = {this.state.selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.finalProductPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor}>
+                  Final Product
+                </RadioButton>
 
-                Final Product
-                  </RadioButton>
             </RadioGroup>
 
             <TextField
@@ -575,7 +596,7 @@ class Chat extends React.Component {
                       color="white"
                       backgroundColor="transparent"
                       onClick={e => this.handleSendMessage(e)}
-                      text={<i className="fa fa-caret-right" style={{ fontSize: '48px', color: 'blue' }} />}
+                      text={<i className="fa fa-chevron-circle-right " style={{ fontSize: '48px', color: '#007bff' }} />}
                     />
                   )}
                 />

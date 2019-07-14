@@ -81,3 +81,11 @@
       display: none;
    }
  }
+
+ .negotiationChat input[type="text"] {
+   margin-bottom: 0px;
+ }
+
+ .negotiationChat > div {
+   background: transparent;
+ }

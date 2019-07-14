@@ -1,12 +1,32 @@
 import axios from 'axios';
 import { stringify } from 'query-string';
 
-function handleError(e) {
+function isHandledError(error) {
+  return error.response && error.response.status && error.response.data;
+}
+
+function handleControlledError(error) {
   return {
-    status: e.response && e.response.status ? e.response.status : 500,
-    errorMessage: e.response && e.response.data ? e.response.data.message : e.message,
+    status: error.response.status,
+    errorMessage: error.response.data.message,
   };
 }
+
+function handleUncontrolledError(error) {
+  // This is where we could detect low conectivity errors, timeout errors, etc.
+  return {
+    status: 500,
+    errorMessage: error.message,
+  };
+}
+
+function handleError(error) {
+  if (isHandledError(error)) {
+    return handleControlledError(error);
+  }
+  return handleUncontrolledError(error);
+}
+
 
 export function resetAuthHeader() {
   axios.defaults.headers.common.Authorization = undefined;

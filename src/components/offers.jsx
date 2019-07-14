@@ -65,9 +65,32 @@ class Offers extends React.Component {
     dispatch(attemptOffersAction(reqAttributes));
   }
 
+  didFiltersChange(oldFilter, newFilter) {
+    var oldFilterProps = Object.getOwnPropertyNames(oldFilter);
+    var newFilterProps = Object.getOwnPropertyNames(newFilter);
+
+    if (oldFilterProps.length != newFilterProps.length) {
+        return true;
+    }
+
+    for (var i = 0; i < oldFilterProps.length; i++) {
+        var propName = oldFilterProps[i];
+
+        // If values of same property are not equal,
+        // objects are not equivalent
+        if (oldFilter[propName] !== newFilter[propName]) {
+            return true;
+        }
+    }
+
+    // If we made it this far, objects
+    // are considered equivalent
+    return false;
+  }
+
   componentDidUpdate(prevProps) {
     const { dispatch, filters, limit } = this.props;
-    if (prevProps.filters !== filters) {
+    if (this.didFiltersChange(prevProps.filters, filters)) {
       const reqAttributes = {
         limit,
         page: 0,

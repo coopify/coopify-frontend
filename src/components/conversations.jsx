@@ -86,7 +86,7 @@ class ConversationList extends React.Component {
           <Loading>
 
 <Row>
-  <Col sm={6} className={active ? 'generalchat active' : 'generalchat inactive'}>
+  <Col sm={4} className={active ? 'generalchat active' : 'generalchat inactive'}>
   <div className={styles.containerChat}>
               <ChatList
                 className={"chat-list"}
@@ -110,7 +110,7 @@ class ConversationList extends React.Component {
             </div>
   </Col>
 
-  <Col sm={6} className={active ? 'specificchat inactive' : 'specificchat active'}>
+  <Col sm={8} className={active ? 'specificchat inactive' : 'specificchat active'}>
   <Chat conversationid={conversationId} onChatLeave={e => this.displayChatList(e)}/>
   </Col>
 </Row>

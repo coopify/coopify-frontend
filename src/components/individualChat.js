@@ -48,6 +48,9 @@ import {
 } from '../actions/user';
 import GuestLayout from './guest-layout';
 import ReactJoyride from 'react-joyride';
+import {
+   Row, Col,
+} from 'react-bootstrap';
 
 export default @connect(state => ({
   loggedUser: state.user.loggedUser,
@@ -641,23 +644,27 @@ class Chat extends React.Component {
                   </div>
                 )
                 : (
-                  <div style={{display: 'inline-flex'}}>
-                    <div className="makeProposal">
-                      <CommonButton class="btn" style={{ marginTop: '3%', width: '100%' }} onClick={e => this.handleClickOpen(e, false)}>
+                  <Row>
+                    <Col sm={6}>
+                      <div className="makeProposal">
+                        <CommonButton class="btn" style={{ marginTop: '3%', width: '100%' }} onClick={e => this.handleClickOpen(e, false)}>
 
-                        {'Make an offer '}
-                        <i className="fa fa-handshake-o" aria-hidden="true" />
-                      </CommonButton>
-                    </div>
+                          {'Make an offer '}
+                          <i className="fa fa-handshake-o" aria-hidden="true" />
+                        </CommonButton>
+                      </div>
+                    </Col>
+                   
+                    <Col sm={6}>
+                      <div className="makeProposal">
+                        <CommonButton class="btn" style={{ marginTop: '3%', width: '100%' }} onClick={e => this.handleClickOpen(e, true)}>
 
-                    <div className="makeProposal">
-                      <CommonButton class="btn" style={{ marginTop: '3%', width: '100%' }} onClick={e => this.handleClickOpen(e, true)}>
-
-                        {'Make an open offer '}
-                        <i className="fa fa-handshake-o" aria-hidden="true" />
-                      </CommonButton>
-                    </div>
-                  </div>
+                          {'Make an open offer '}
+                          <i className="fa fa-handshake-o" aria-hidden="true" />
+                        </CommonButton>
+                      </div>
+                    </Col>
+                  </Row>
                 )}
             </div>
           </Loading>

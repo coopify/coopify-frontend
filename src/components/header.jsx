@@ -26,6 +26,7 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import Avatar from '@material-ui/core/Avatar';
 import ReactJoyride from 'react-joyride';
 import logo from '../assets/logo.png';
+import avatarImg from '../assets/avatar.png';
 
 import {
   attemptLogoutAction, loadState, resetNotificationFlags, attemptCheckBalanceAction,
@@ -204,6 +205,7 @@ class Header extends PureComponent {
   render() {
     const { open } = this.state;
     const { loggedUser, status, balance } = this.props;
+    const userPicture = loggedUser.pictureURL == null ? avatarImg : loggedUser.pictureURL;
     if (status && status.length > 0) this.notify(`Your proposal was ${status}`, false);
     const classes = this.useStyles();
     let links = [
@@ -310,7 +312,7 @@ class Header extends PureComponent {
           {loggedUser && loggedUser.id ? (
             <div>
               <IconButton>
-                <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{ width: '60%', height: '60%' }} />
+                <Avatar src={userPicture} style={{ width: '90px', height: '90px' }} />
               </IconButton>
               <Link to={`/user/profile/${loggedUser.id}`}>
                 <h2>{loggedUser.name}</h2>

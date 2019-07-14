@@ -34,6 +34,7 @@ export default @connect(state => ({
   loading: state.user.loading,
   reviews: state.review.reviews,
   profileUser: state.user.profileUser,
+  profileIsModified: state.user.profileModified,
 }))
 
 class Profile extends React.Component {
@@ -44,6 +45,7 @@ class Profile extends React.Component {
     error: PropTypes.string,
     reviews: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.object)),
     profileUser: PropTypes.objectOf(PropTypes.object),
+    profileIsModified: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -54,12 +56,14 @@ class Profile extends React.Component {
     error: '',
     reviews: [],
     profileUser: {},
+    profileIsModified: false,
   };
 
   constructor(props) {
     super(props);
     this.state = {
       checked: false,
+      profileModified: false,
     };
     this.handleIntegrateFBBtnClick = this.handleIntegrateFBBtnClick.bind(this);
     this.routeChange = this.routeChange.bind(this);
@@ -77,13 +81,14 @@ class Profile extends React.Component {
     dispatch(attemptGetUserReviews(payload));
   }
 
-  notify = (message, isError) => {
+  notify(message, isError) {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
       dispatch(resetNotificationFlags());
     } else {
       toast.success(message);
+      dispatch(resetNotificationFlags());
     }
   }
 
@@ -180,14 +185,14 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { loading, error, loggedUser, reviews, profileUser } = this.props;
+    const { loading, error, loggedUser, reviews, profileUser, profileIsModified } = this.props;
     const { checked } = this.state;
     if (error.length > 0) this.notify(error, true);
+    if (profileIsModified) this.notify('Profile succesfully updated', false);
     const edition = !checked;
     const focusable = !checked ? 'disabled' : '';
-    /* const dateBirth = profileUser.birthdate ? profileUser.birthdate.substring(0, 10)
-      : new Date(Date.now()).toISOString().substring(0, 10); */
-    const dateBirth = profileUser.birthdate ? profileUser.birthdate.substring(0, 10) : '-------';
+    const dateBirth = profileUser.birthdate ? profileUser.birthdate.substring(0, 10)
+      : new Date(Date.now()).toISOString().substring(0, 10);
     const displayFBBtn = profileUser.FBSync ? 'none' : 'inline-block';
     const userRating = profileUser.rateCount > 0 ? profileUser.rateSum / profileUser.rateCount : 0;
     const marginBetween = '5%';

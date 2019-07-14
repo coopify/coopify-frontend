@@ -340,7 +340,7 @@ class Chat extends React.Component {
 
       case 1:
 
-        const coopiSelected = this.state.exchangeMethodSelected == 'Coopy' ? 'inline-flex' : 'none';
+        const coopiSelected = this.state.exchangeMethodSelected == 'Coopy' ? 'block' : 'none';
         const barterSelected = this.state.exchangeMethodSelected == 'Exchange' ? 'block' : 'none';
 
         componentToRender = (
@@ -361,7 +361,9 @@ class Chat extends React.Component {
 
             </RadioGroup>
 
-            <RadioGroup onChange={e => this.onChangeExchangeInstance(e)} horizontal style={{ display: coopiSelected }}>
+            <hr/>
+
+            <RadioGroup onChange={e => this.onChangeExchangeInstance(e)} vertical style={{ display: coopiSelected }}>
               
                 <RadioButton 
                   value="Hour"

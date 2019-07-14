@@ -205,7 +205,7 @@ class Header extends PureComponent {
   render() {
     const { open } = this.state;
     const { loggedUser, status, balance } = this.props;
-    const userPicture = loggedUser.pictureURL == null ? avatarImg : loggedUser.pictureURL;
+    const userPicture = loggedUser != null && loggedUser.pictureURL != null ? loggedUser.pictureURL : avatarImg;
     if (status && status.length > 0) this.notify(`Your proposal was ${status}`, false);
     const classes = this.useStyles();
     let links = [

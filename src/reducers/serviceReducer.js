@@ -66,7 +66,7 @@ export const service = (state = initialServiceState, action) => {
       return _.assignIn({}, state, {
         error: '',
         message: action.message,
-        offerIsCreated: true,
+        offerCreated: true,
         loading: false,
       });
 

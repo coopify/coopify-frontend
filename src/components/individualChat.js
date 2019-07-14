@@ -113,6 +113,7 @@ class Chat extends React.Component {
       exchangeServiceText: '',
       userChat: {},
       selectedServiceFull: {},
+      isOpenOffer: false,
     };
     this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
     this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);
@@ -142,10 +143,11 @@ class Chat extends React.Component {
   //   }
 
 
-  handleClickOpen = () => {
+  handleClickOpen = (e, isOpenOffer) => {
     this.setState({
       ...this.state,
       modalOpen: true,
+      isOpenOffer,
     });
   };
 
@@ -317,8 +319,22 @@ class Chat extends React.Component {
 
   getStepContent(index) {
     let componentToRender = '';
-    const exchangeAvailableColor= '#009933';
-    const exchangeNotAvailableColor= '#000000';
+    const exchangeAvailableColor= '#007bff';
+    const exchangeNotAvailableColor= '#e1e1e1';
+    const { isOpenOffer, selectedServiceFull } = this.state;
+    
+    const colorCoopy = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
+    const colorBarter = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Barter' ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
+    const colorHour = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.hourPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
+    const colorSession = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.sessionPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
+    const colorFinalProduct = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.finalProductPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
+        
+    const showCoopy = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' ? true : false) : true;
+    const showBarter = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Barter' ? true : false) : true;
+    const showHour = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.hourPrice != null ? true : false) : true;
+    const showSession = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.sessionPrice != null ? true : false) : true;
+    const showFinalProduct = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.finalProductPrice != null ? true : false) : true;
+
 
     switch (index) {
       case 0:
@@ -349,13 +365,17 @@ class Chat extends React.Component {
 
               <RadioButton 
                value="Coopy"
-               rootColor={this.state.selectedServiceFull.paymentMethod === 'Coopy' ? exchangeAvailableColor : exchangeNotAvailableColor} >
+               iconSize={20}
+               disabled={!showCoopy}
+               rootColor = {colorCoopy}>
                 Coopi
               </RadioButton>
 
               <RadioButton 
                 value="Exchange"
-                rootColor = {this.state.selectedServiceFull.paymentMethod === 'Barter' ? exchangeAvailableColor : exchangeNotAvailableColor}>
+                iconSize={20}
+                disabled={!showBarter}
+                rootColor = {colorBarter}>
                 Barter
               </RadioButton>
 
@@ -367,19 +387,25 @@ class Chat extends React.Component {
               
                 <RadioButton 
                   value="Hour"
-                  rootColor = {this.state.selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.hourPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor}>
+                  iconSize={20}
+                  disabled={!showHour}
+                  rootColor = {colorHour}>
                   Hour
                 </RadioButton>
 
                 <RadioButton 
                   value="Session"
-                  rootColor = {this.state.selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.sessionPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor}>
+                  iconSize={20}
+                  disabled={!showSession}
+                  rootColor = {colorSession}>
                   Session
                 </RadioButton>
 
                 <RadioButton 
                   value="FinalProduct"
-                  rootColor = {this.state.selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.finalProductPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor}>
+                  iconSize={20}
+                  disabled={!showFinalProduct}
+                  rootColor = {colorFinalProduct}>
                   Final Product
                 </RadioButton>
 
@@ -615,12 +641,22 @@ class Chat extends React.Component {
                   </div>
                 )
                 : (
-                  <div className="makeProposal">
-                    <CommonButton class="btn" style={{ marginTop: '3%' }} onClick={e => this.handleClickOpen(e)}>
+                  <div style={{display: 'inline-flex'}}>
+                    <div className="makeProposal">
+                      <CommonButton class="btn" style={{ marginTop: '3%', width: '100%' }} onClick={e => this.handleClickOpen(e, false)}>
 
-                      {'Make an offer '}
-                      <i className="fa fa-handshake-o" aria-hidden="true" />
-                    </CommonButton>
+                        {'Make an offer '}
+                        <i className="fa fa-handshake-o" aria-hidden="true" />
+                      </CommonButton>
+                    </div>
+
+                    <div className="makeProposal">
+                      <CommonButton class="btn" style={{ marginTop: '3%', width: '100%' }} onClick={e => this.handleClickOpen(e, true)}>
+
+                        {'Make an open offer '}
+                        <i className="fa fa-handshake-o" aria-hidden="true" />
+                      </CommonButton>
+                    </div>
                   </div>
                 )}
             </div>

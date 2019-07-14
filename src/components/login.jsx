@@ -1,26 +1,25 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import GoogleLogin from 'react-google-login';
-import { Loading } from './loading';
-import Protected from './protected';
-import SingletonPusher from './singletonPusher';
-import { attemptLoginAction, attemptSocialLoginAction } from '../actions/user';
-import GuestLayout from './guest-layout';
 import ReactJoyride from 'react-joyride';
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { Loading } from './loading';
+import SingletonPusher from './singletonPusher';
+import { attemptLoginAction, attemptSocialLoginAction } from '../actions/user';
+import GuestLayout from './guest-layout';
+
 
 export default @connect(state => ({
   userDidLog: state.user.userDidLog,
-  loggedUser: state.user.loggedUser, // el state.user es el nuevo state que devuelve el reducer, y loggedUser el definido aca, se uso para mapear ambos y actualziarlos
+  loggedUser: state.user.loggedUser,
   error: state.user.error,
   loading: state.user.loading,
 }))
@@ -28,7 +27,7 @@ export default @connect(state => ({
 class Login extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    loggedUser: PropTypes.object,
+    loggedUser: PropTypes.objectOf(PropTypes.object),
     loading: PropTypes.bool,
     error: PropTypes.string,
     userDidLog: PropTypes.bool,
@@ -45,24 +44,6 @@ class Login extends React.Component {
 
   onLoginRedirectUrl = '/home';
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      loggedUser: {},
-      loading: false,
-      error: '',
-      userDidLog: false,
-    };
-  }
-
-  notify(message, isError) {
-    if (isError) {
-      toast.error(message);
-    } else {
-      toast.success(message);
-    }
-  }
-
   responseFacebook = (response) => {
     const { dispatch } = this.props;
     dispatch(attemptSocialLoginAction({ provider: 'facebook', facebookId: response.id }));
@@ -75,6 +56,15 @@ class Login extends React.Component {
 
   errorGoogle = (response) => {
     console.log(response);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  notify(message, isError) {
+    if (isError) {
+      toast.error(message);
+    } else {
+      toast.success(message);
+    }
   }
 
   handleSubmit(e) {
@@ -126,12 +116,12 @@ class Login extends React.Component {
         target: '.btn-link-1-google-plus',
         content: 'Or you can use your Google account.',
       },
-    ]
+    ];
 
     return (
       <GuestLayout>
 
-<ReactJoyride
+        <ReactJoyride
           continuous
           steps={steps}
           run={true}
@@ -147,25 +137,25 @@ class Login extends React.Component {
               textColor: '#333',
               width: undefined,
               zIndex: 100,
-            }
+            },
           }}
         />
 
         <Loading>
 
           <div>
-            <div style={{width: 'max-content', margin: 'auto'}}>
+            <div style={{ width: 'max-content', margin: 'auto' }}>
               <div className="box">
 
-                <Avatar style={{margin: 'auto', backgroundColor: '#f50057'}}>
+                <Avatar style={{ margin: 'auto', backgroundColor: '#f50057' }}>
                   <LockOutlinedIcon />
-              </Avatar>
+                </Avatar>
 
-              <h2 className="title">Log in</h2>
+                <h2 className="title">Log in</h2>
 
                 <form onSubmit={e => this.handleSubmit(e)} className="traditional-login">
 
-                  <div className="control controlIcon">              
+                  <div className="control controlIcon">
                     <input
                       id="username"
                       name="username"
@@ -173,7 +163,7 @@ class Login extends React.Component {
                       type="text"
                       placeholder="Username"
                     />
-                    <i class="fa fa-user"/>
+                    <i className="fa fa-user" />
                   </div>
 
                   <div className="control controlIcon">
@@ -184,12 +174,12 @@ class Login extends React.Component {
                       type="password"
                       placeholder="Password"
                     />
-                    <i class="fa fa-lock"/>
+                    <i className="fa fa-lock" />
                   </div>
 
                   <div className="field is-grouped">
-                    <div className="control" style={{width: "100%"}}>
-                      <button type="submit" style={{width: "100%"}} className="button is-link">LOG IN</button>
+                    <div className="control" style={{ width: '100%' }}>
+                      <button type="submit" style={{ width: '100%' }} className="button is-link">LOG IN</button>
                     </div>
                   </div>
                 </form>
@@ -210,10 +200,10 @@ class Login extends React.Component {
                       ccsClass="btn btn-link-1 btn-link-1-facebook"
                       callback={this.responseFacebook}
                       render={renderProps => (
-                        <button className="btn btn-link-1 btn-link-1-facebook" value="facebook" onClick={renderProps.onClick} style={{width: '100%', marginBottom: '3%'}}>
+                        <button type="button" className="btn btn-link-1 btn-link-1-facebook" value="facebook" onClick={renderProps.onClick} style={{ width: '100%', marginBottom: '3%' }}>
                           <i className="fa fa-facebook" />
                           {' '}
-Facebook
+                          Facebook
                         </button>
                       )}
                     />
@@ -225,18 +215,19 @@ Facebook
                       onSuccess={this.responseGoogle}
                       onFailure={this.errorGoogle}
                       render={renderProps => (
-                        <button className="btn btn-link-1 btn-link-1-google-plus" value="google" onClick={renderProps.onClick} style={{width: '100%',  marginBottom: '3%'}}>
+                        <button type="button" className="btn btn-link-1 btn-link-1-google-plus" value="google" onClick={renderProps.onClick} style={{ width: '100%', marginBottom: '3%' }}>
                           <i className="fa fa-google-plus" />
                           {' '}
-Google
+                          Google
                         </button>
                       )}
                     />
 
                   </div>
                 </div>
-                <div style={{fontSize: '11px', textAlign: 'right'}}>
-                  <Link to="/signup">Don't have an account? Sign up</Link>
+                <div style={{ fontSize: '11px', textAlign: 'right' }}>
+                  {/* eslint-disable-next-line */ }
+                  <Link to="/signup">{"Don't have an account? Sign up"}</Link>
                 </div>
               </div>
               <ToastContainer autoClose={3000} />

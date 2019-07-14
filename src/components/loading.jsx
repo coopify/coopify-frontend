@@ -1,6 +1,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { connect } from 'react-redux';
 import LoadingScreen from 'react-loading-screen';
 
@@ -21,6 +22,7 @@ class Loading extends React.Component {
     loadingProposalReducer: PropTypes.bool,
     loadingConversationReducer: PropTypes.bool,
     loadingGoalReducer: PropTypes.bool,
+    children: PropTypes.objectOf(PropTypes.object),
   };
 
   static defaultProps = {
@@ -30,6 +32,7 @@ class Loading extends React.Component {
     loadingProposalReducer: false,
     loadingConversationReducer: false,
     loadingGoalReducer: false,
+    children: {},
   };
 
   constructor(props) {
@@ -39,21 +42,20 @@ class Loading extends React.Component {
   }
 
   render() {
-    const { loadingUserReducer,
+    const {
+      loadingUserReducer,
       loadingServiceReducer,
       loadingReviewReducer,
       loadingProposalReducer,
       loadingConversationReducer,
       loadingGoalReducer,
-       children,
-      } = this.props;
+      children,
+    } = this.props;
 
-    const loading = loadingUserReducer || 
-    loadingServiceReducer || 
-    loadingReviewReducer || 
-    loadingProposalReducer || 
-    loadingConversationReducer || 
-    loadingGoalReducer;
+    const loading = loadingUserReducer
+    || loadingServiceReducer || loadingReviewReducer
+    || loadingProposalReducer || loadingConversationReducer
+    || loadingGoalReducer;
 
     const bgColor = 'rgba(20,20,20,0.5)';
     const textColor = '#f9c733';

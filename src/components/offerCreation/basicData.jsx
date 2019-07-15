@@ -137,7 +137,7 @@ class BasicData extends React.Component {
           <h1 className="title">Basic Data</h1>
 
           <Form>
-            <Form.Group as={Row} controlId="formPlaintextEmail">
+            <Form.Group as={Row} controlId="formPlaintextEmail" style={{textAlign: 'left'}}>
               <Form.Label column sm="2">
                 {'Title'}
               </Form.Label>
@@ -146,7 +146,7 @@ class BasicData extends React.Component {
               </Col>
             </Form.Group>
 
-            <Form.Group as={Row} controlId="formPlaintextPassword">
+            <Form.Group as={Row} controlId="formPlaintextPassword" style={{textAlign: 'left'}}>
               <Form.Label column sm="2">
                 {'Description'}
               </Form.Label>
@@ -158,7 +158,7 @@ class BasicData extends React.Component {
             <Form.Group as={Row} controlId="formPlaintextEmail">
               <Form.Label column sm="2">
               </Form.Label>
-              <Col sm="10">
+              <Col sm="12">
 
                 {
                 pictureURL ? <img name="picture" src={pictureURL} /> : (
@@ -171,7 +171,7 @@ class BasicData extends React.Component {
               </Col>
             </Form.Group>
 
-            <h4 style={{ color: 'black' }}>Categories</h4>
+            <div style={{ textAlign: 'left' }}>Categories</div>
 
             <FormControl style={{ display: 'block' }}>
               <Select

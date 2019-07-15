@@ -15,21 +15,10 @@ ol.progtrckr li span {
 padding: 0 1.5rem;
 }
 
-@media (max-width: 650px) {
-.progtrckr li span {
-display: none;
-}
-}
 .progtrckr em {
 display: none;
 font-weight: 700;
 padding-left: 1rem;
-}
-
-@media (max-width: 650px) {
-.progtrckr em {
-display: inline;
-}
 }
 
 ol.progtrckr li.progtrckr-todo {

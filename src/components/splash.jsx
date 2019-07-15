@@ -13,10 +13,7 @@ export default () => {
   };
 
   return (
-    <Swiper  {...params}>
-
-    <div>
-      
+   
   <section className="hero is-info is-fullheight">
     <div className="hero-body">
       <div className="container">
@@ -28,22 +25,20 @@ export default () => {
 
         Service exchange platform
         </h2>
+
+        <Swiper  {...params}>
+          <div>Hola 1</div>
+          <div>Hola 2</div>
+          <div>Hola 3</div>
+          <div>Hola 4</div>
+        </Swiper>
+
         <Link to="/login" className="button">Login</Link>
         {' '}
         <Link to="/signup" className="button">Signup</Link>
         </div>
     </div>
   </section>
-
-    </div>
-    <div>Slide 2</div>
-    <div>Slide 3</div>
-    <div>Slide 4</div>
-    <div>Slide 5</div>
-
-
-
-
-  </Swiper>
+  
   );
 }

@@ -234,6 +234,7 @@ class GeneralQuestions extends React.Component {
                     multiline
                     margin="normal"
                     variant="outlined"
+                    onChange={e => this.handleQuestionChange(e)}
                     InputLabelProps={{
                       shrink: true,
                     }}

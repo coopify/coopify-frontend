@@ -501,26 +501,6 @@ class Chat extends React.Component {
       <Protected>
           <Loading>
 
-            <ReactJoyride
-              continuous
-              steps={stepsTutorial}
-              run={true}
-              showSkipButton
-              styles={{
-                options: {
-                  arrowColor: '#fff',
-                  backgroundColor: '#fff',
-                  beaconSize: 36,
-                  overlayColor: 'rgba(0, 0, 0, 0.5)',
-                  primaryColor: '#499be7',
-                  spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
-                  textColor: '#333',
-                  width: undefined,
-                  zIndex: 100,
-                }
-              }}
-            />
-
           <div className="menu">
             <div className="back" onClick={e => this.handleClickBack(e)}>
               <i class="fa fa-chevron-left"></i> 

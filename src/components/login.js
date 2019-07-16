@@ -151,8 +151,6 @@ class Login extends React.Component {
           }}
         />
 
-        <Loading>
-
           <div>
             <div style={{width: 'max-content', margin: 'auto'}}>
               <div className="box">
@@ -243,7 +241,6 @@ Google
             </div>
           </div>
 
-        </Loading>
       </GuestLayout>
     );
   }

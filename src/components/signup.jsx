@@ -165,8 +165,6 @@ class Signup extends React.Component {
           }}
         />
 
-        <Loading>
-
           <div>
             <div style={{width: 'max-content', margin: 'auto'}}>
               <div className="box">
@@ -277,7 +275,6 @@ class Signup extends React.Component {
               <ToastContainer autoClose={3000} />
             </div>
           </div>
-        </Loading>
       </GuestLayout>
 
     );

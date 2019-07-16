@@ -100,7 +100,6 @@ class FacebookSignUp extends React.Component {
 
     return (
       <GuestLayout>
-        <Loading/>
       </GuestLayout>
     );
   }

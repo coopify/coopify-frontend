@@ -75,7 +75,6 @@ class GoogleSignUp extends React.Component {
 
     return (
       <GuestLayout>
-        <Loading/>
       </GuestLayout>
     );
   }

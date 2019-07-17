@@ -148,7 +148,7 @@ class Offers extends React.Component {
     ]
 
     return (
-      <Loading>
+      <div>
 
         <ReactJoyride
           continuous
@@ -279,8 +279,7 @@ class Offers extends React.Component {
 
           <ToastContainer autoClose={3000} />
         </div>
-
-      </Loading>
+        </div>
     );
   }
 }

@@ -293,8 +293,6 @@ class IndividualOffer extends React.Component {
 
         <GuestLayout>
 
-          <Loading>
-
             <div>
               <Row>
 
@@ -660,7 +658,7 @@ class IndividualOffer extends React.Component {
 
             </div>
             <ToastContainer autoClose={3000} />
-          </Loading>
+
         </GuestLayout>
       </Protected>
     );

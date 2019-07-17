@@ -175,8 +175,6 @@ class OfferCreation extends React.Component {
       <Protected>
         <GuestLayout>
 
-          <Loading>
-
             <div className="step-progress">
               <StepZilla
                 steps={steps}
@@ -184,7 +182,6 @@ class OfferCreation extends React.Component {
                 nextTextOnFinalActionStep="Next"
               />
             </div>
-          </Loading>
           <ToastContainer autoClose={3000} />
         </GuestLayout>
       </Protected>

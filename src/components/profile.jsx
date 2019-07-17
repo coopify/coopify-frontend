@@ -198,8 +198,6 @@ class Profile extends React.Component {
     return (
       <GuestLayout>
 
-        <Loading>
-
           <div className={styles.container}>
             <form onSubmit={e => this.handleSubmit(e)}>
               <Row>
@@ -572,7 +570,6 @@ class Profile extends React.Component {
           </div>
           <ToastContainer autoClose={3000} />
 
-        </Loading>
       </GuestLayout>
     );
   }

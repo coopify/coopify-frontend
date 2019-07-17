@@ -83,8 +83,6 @@ class ConversationList extends React.Component {
       <Protected>
         <GuestLayout>
 
-          <Loading>
-
             <Row>
               <Col sm={4} className={active ? 'generalchat active' : 'generalchat inactive'}>
                 <div className={styles.containerChat}>
@@ -114,7 +112,6 @@ class ConversationList extends React.Component {
               </Col>
             </Row>
 
-          </Loading>
         </GuestLayout>
       </Protected>
     );

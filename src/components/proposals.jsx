@@ -99,8 +99,6 @@ class Proposals extends React.Component {
       <Protected>
         <GuestLayout>
 
-          <Loading>
-
             <div className={styles.container}>
               <form>
 
@@ -187,8 +185,7 @@ class Proposals extends React.Component {
               </form>
               <ToastContainer autoClose={3000} />
             </div>
-
-          </Loading>
+            
         </GuestLayout>
       </Protected>
     );

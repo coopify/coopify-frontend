@@ -2,7 +2,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LoadingScreen from 'react-loading-screen';
+import LoadingOverlay from 'react-loading-overlay';
+import MoonLoader from 'react-spinners/MoonLoader';
 
 export default @connect(state => ({
   loadingUserReducer: state.user.loading,
@@ -55,20 +56,22 @@ class Loading extends React.Component {
     loadingConversationReducer || 
     loadingGoalReducer;
 
-    const bgColor = 'rgba(20,20,20,0.5)';
-    const textColor = '#f9c733';
+    const bgColor = '#FFFF00';
 
     return (
-      <LoadingScreen
-        loading={loading}
-        bgColor={bgColor}
-        spinnerColor={textColor}
-        textColor={textColor}
-        text="Loading"
+      <LoadingOverlay
+        active={loading}
+        spinner={
+          <MoonLoader 
+            color={bgColor}
+            sizeUnit={"px"}
+            size={150}
+          />
+        }
       >
         {children}
 
-      </LoadingScreen>
+      </LoadingOverlay>
     );
   }
 }

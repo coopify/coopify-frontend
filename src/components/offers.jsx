@@ -173,8 +173,6 @@ class Offers extends React.Component {
         <div className={styles.container} styles={{ backgroundColor: '#fafafa' }}>
           <form style={{ width: '80%', display: 'inline-block' }}>
 
-            <h2 style={{ textAlign: 'center' }}> Services </h2>
-
             <Tooltip title="Add" aria-label="Add">
               <Link to="/offer/create">
                 <Fab

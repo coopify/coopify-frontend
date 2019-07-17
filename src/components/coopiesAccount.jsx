@@ -73,7 +73,8 @@ class CoopiesAccount extends React.Component {
     const data = transactions;
     const columns = [{
       Header: 'Date',
-      accessor: 'date',
+      id: 'date',
+      accessor: d => (new Date(d.date)).toLocaleDateString(),
     }, {
       Header: 'Description',
       accessor: 'description',

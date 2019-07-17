@@ -19,6 +19,9 @@ import {
   BARTER_PAYMENT, COOPI_PAYMENT, HOUR_EXCHANGE, SESSION_EXCHANGE, PRODUCT_EXCHANGE,
 } from './offerEnums';
 import { attemptSignUpAction, attemptCategoriesAction } from '../../actions/user';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import { RadioGroup, RadioButton } from 'react-radio-buttons';
 
 export default @connect(state => ({
   loggedUser: state.user.loggedUser,
@@ -141,13 +144,12 @@ class ExchangeMethod extends React.Component {
 
               <Form.Group as={Row}>
                 <Form.Label as="legend" column sm={6} style={{ textAlign: 'left' }}>
-
         Payment instance
                 </Form.Label>
               </Form.Group>
 
               <Form.Group as={Row}>
-                <Col sm={4}>
+                <Col sm={12} style={{display: 'flex', justifyContent: 'space-around'}}>
                   <Form.Check
                     type="radio"
                     label="Barter"
@@ -163,64 +165,65 @@ class ExchangeMethod extends React.Component {
                     onChange={e => this.handleInputChange(e)}
                   />
                 </Col>
-              </Form.Group>
+              </Form.Group> 
+
             </fieldset>
 
             <fieldset style={{ display: showEI }}>
               <Form.Group as={Row}>
-                <Form.Label as="legend" column sm={6} style={{ textAlign: 'left' }}>
+                <Form.Label as="legend" column sm={12} style={{ textAlign: 'left' }}>
 
-        Exchange instance
+                Exchange instance
                 </Form.Label>
+
+                <div style={{width: '100%'}}>
+
+                  <Form.Group style={{ textAlign: 'left', marginLeft: '20%' }}>
+                    <FormControlLabel
+                      control={<Checkbox  name={HOUR_EXCHANGE} onChange={e => this.handleInputChange(e)} color="primary"/>}
+                      label='Hour'
+                    />
+                    <Form.Control 
+                      style={{ display: showHours, width: '50%' }} 
+                      type="number" 
+                      value={offer.prices != undefined ? offer.prices[0].price : 0} 
+                      name="hoursCoopi" 
+                      onChange={e => this.handleInputChange(e)} />
+                    </Form.Group>
+
+                    <Form.Group style={{ textAlign: 'left', marginLeft: '20%' }}>
+                      <FormControlLabel
+                        control={<Checkbox  name={SESSION_EXCHANGE} onChange={e => this.handleInputChange(e)} color="primary"/>}
+                        label='Session'
+                      />
+                      <Form.Control 
+                      style={{ display: showSessions, width: '50%' }} 
+                      type="number" 
+                      value={offer.prices != undefined ? offer.prices[1].price : 0} 
+                      name="sessionsCoopi" 
+                      onChange={e => this.handleInputChange(e)} />
+                    </Form.Group>
+
+
+                  <Form.Group style={{ textAlign: 'left', marginLeft: '20%' }}>
+                    <FormControlLabel
+                      control={<Checkbox  name={PRODUCT_EXCHANGE} onChange={e => this.handleInputChange(e)} color="primary"/>}
+                      label='Final Product'
+                    />
+                    <Form.Control 
+                    style={{ display: showFinalProduct, width: '50%' }} 
+                    type="number" 
+                    value={offer.prices != undefined ? offer.prices[2].price : 0} 
+                    name="productCoopi" 
+                    onChange={e => this.handleInputChange(e)} />
+                  </Form.Group>
+                  </div>
+
               </Form.Group>
 
-              <Form.Group as={Row}>
-                <Col sm={4}>
-                  <Form.Check
-                    type="checkbox"
-                    name={HOUR_EXCHANGE}
-                    onChange={e => this.handleInputChange(e)}
-                  />
-                  {' '}
-Hour
-                </Col>
-                <Col sm={4} style={{ display: showHours }}>
-                  <Form.Control type="number" value={offer.prices != undefined ? offer.prices[0].price : 0} name="hoursCoopi" onChange={e => this.handleInputChange(e)} />
-                </Col>
-              </Form.Group>
-
-              <Form.Group as={Row}>
-                <Col sm={4}>
-                  <Form.Check
-                    type="checkbox"
-                    name={SESSION_EXCHANGE}
-                    onChange={e => this.handleInputChange(e)}
-                  />
-                  {' '}
-Session
-                </Col>
-                <Col sm={4} style={{ display: showSessions }}>
-                  <Form.Control type="number" value={offer.prices != undefined ? offer.prices[1].price : 0} name="sessionsCoopi" onChange={e => this.handleInputChange(e)} />
-                </Col>
-              </Form.Group>
-
-              <Form.Group as={Row}>
-                <Col sm={4}>
-                  <Form.Check
-                    type="checkbox"
-                    name={PRODUCT_EXCHANGE}
-                    onChange={e => this.handleInputChange(e)}
-                  />
-                  {' '}
-Final Product
-                </Col>
-                <Col sm={4} style={{ display: showFinalProduct }}>
-                  <Form.Control type="number" value={offer.prices != undefined ? offer.prices[2].price : 0} name="productCoopi" onChange={e => this.handleInputChange(e)} />
-                </Col>
-              </Form.Group>
             </fieldset>
 
-            <Form.Group as={Row} controlId="formHorizontalEmail">
+            <Form.Group as={Row} controlId="formHorizontalEmail" style={{textAlign: 'left'}}>
               <Form.Label column sm={2}>
 
       Start Date
@@ -230,7 +233,7 @@ Final Product
               </Col>
             </Form.Group>
 
-            <Form.Group as={Row} controlId="formHorizontalEmail">
+            <Form.Group as={Row} controlId="formHorizontalEmail" style={{textAlign: 'left'}}>
               <Form.Label column sm={2}>
 
       End Date
@@ -242,7 +245,7 @@ Final Product
 
             <Form.Group as={Row}>
               <Col sm={{ span: 10, offset: 2 }}>
-                <Button type="submit">Create</Button>
+                <Button type="submit" style={{width: '100%'}}>Create</Button>
               </Col>
             </Form.Group>
 

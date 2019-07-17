@@ -48,6 +48,9 @@ import {
 } from '../actions/user';
 import GuestLayout from './guest-layout';
 import ReactJoyride from 'react-joyride';
+import {
+   Row, Col,
+} from 'react-bootstrap';
 
 export default @connect(state => ({
   loggedUser: state.user.loggedUser,
@@ -58,6 +61,7 @@ export default @connect(state => ({
   myOffers: state.service.myOffers,
   userOffers: state.service.userOffers,
   proposal: state.proposal.proposal,
+  conversations: state.conversation.conversations,
 }))
 
 class Chat extends React.Component {
@@ -72,6 +76,8 @@ class Chat extends React.Component {
     myOffers: PropTypes.array,
     userOffers: PropTypes.array,
     proposal: PropTypes.object,
+    conversations: PropTypes.array,
+    conversationid: PropTypes.string,
   };
 
   static defaultProps = {
@@ -86,6 +92,8 @@ class Chat extends React.Component {
     myOffers: [],
     userOffers: [],
     proposal: {},
+    conversations: [],
+    conversationid: '',
   };
 
   constructor(props) {
@@ -97,8 +105,8 @@ class Chat extends React.Component {
       offer: {},
       modalOpen: false,
       activeStep: 0,
-      exchangeMethodSelected: 'Coopy',
-      exchangeInstanceSelected: 'Hour',
+      exchangeMethodSelected: '',
+      exchangeInstanceSelected: '',
       selectedService: '',
       myExchangeService: '',
       coopiValue: 0,
@@ -106,6 +114,9 @@ class Chat extends React.Component {
       messages: [],
       selectedServiceText: '',
       exchangeServiceText: '',
+      userChat: {},
+      selectedServiceFull: {},
+      isOpenOffer: false,
     };
     this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
     this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);
@@ -116,29 +127,11 @@ class Chat extends React.Component {
     return ['Select the offer you want to trade', 'Select the exchange method', 'Confirm the offer'];
   }
 
-  // getStepContent(step) {
-  //     switch (step) {
-  //       case 0:
-  //         return `For each ad campaign that you create, you can control how much
-  //                 you're willing to spend on clicks and conversions, which networks
-  //                 and geographical locations you want your ads to show on, and more.`;
-  //       case 1:
-  //         return 'An ad group contains one or more ads which target a shared set of keywords.';
-  //       case 2:
-  //         return `Try out different ad text to see what brings in the most customers,
-  //                 and learn how to enhance your ads using features like ad extensions.
-  //                 If you run into any problems with your ads, find out how to tell if
-  //                 they're running and how to resolve approval issues.`;
-  //       default:
-  //         return 'Unknown step';
-  //     }
-  //   }
-
-
-  handleClickOpen = () => {
+  handleClickOpen = (e, isOpenOffer) => {
     this.setState({
       ...this.state,
       modalOpen: true,
+      isOpenOffer,
     });
   };
 
@@ -183,10 +176,15 @@ class Chat extends React.Component {
   }
 
   handleServiceChange(e, rc) {
+
+    const service = e.target.value;
+    const serviceSelectedComplete = this.props.userOffers.find(o => o.id == service);
+
     this.setState({
       ...this.state,
-      selectedService: e.target.value,
+      selectedService: service,
       selectedServiceText: rc.props.name,
+      selectedServiceFull: serviceSelectedComplete,
     });
   }
 
@@ -212,27 +210,41 @@ class Chat extends React.Component {
     });
   }
 
-  async componentDidMount() {
-    const { dispatch, loggedUser } = this.props;
-    const token = localStorage.getItem('token');
-    const conversationId = this.props.match.params.conversationId;
+  async componentDidUpdate(prevProps) {
 
-    const payload = {
-      token,
-      conversationId,
-    };
+    const { dispatch, loggedUser, conversations,conversationid } = this.props;
 
-    const conversation = await getConversation(payload);
+    if(conversationid && conversationid.length > 0 && prevProps.conversationid != conversationid){
+      
 
-    const users = {
-      token,
-      myUserId: loggedUser.id,
-      serviceUserId: conversation.to.id == loggedUser.id ? conversation.from.id : conversation.to.id,
-    };
+      const token = localStorage.getItem('token');
+      const conversationId = this.props.conversationid;
 
-    dispatch(attemptGetUserChat(payload));
-    dispatch(attemptGetUsersOffers(users));
-    dispatch(attemptGetConversationProposals(payload));
+      let c = conversations.find(c => c.id === conversationId);
+      const userChat =  c.from.id === loggedUser.id ? c.to : c.from;
+
+      this.setState({
+        ...this.state,
+        userChat
+      });
+
+      const payload = {
+        token,
+        conversationId,
+      };
+
+      const conversation = await getConversation(payload);
+
+      const users = {
+        token,
+        myUserId: loggedUser.id,
+        serviceUserId: conversation.to.id == loggedUser.id ? conversation.from.id : conversation.to.id,
+      };
+
+      dispatch(attemptGetUserChat(payload));
+      dispatch(attemptGetUsersOffers(users));
+      dispatch(attemptGetConversationProposals(payload));
+    }
   }
 
   async handleSendMessage(e) {
@@ -245,7 +257,7 @@ class Chat extends React.Component {
       {
         text: this.state.chatMessage,
       },
-      conversationId: this.props.match.params.conversationId,
+      conversationId: this.props.conversationid,
     };
 
     dispatch(attemptSendMessage(payload));
@@ -278,14 +290,36 @@ class Chat extends React.Component {
         exchangeInstance: isCoopi ? exchangeInstanceSelected : undefined,
         proposedPrice: isCoopi ? coopiValue : undefined,
       },
-      conversationId: this.props.match.params.conversationId,
+      conversationId: this.props.conversationid,
     };
 
     dispatch(attemptMakeProposal(payload));
   }
 
+  handleClickBack(e){
+    const { onChatLeave } = this.props;
+    onChatLeave(e);
+  }
+
   getStepContent(index) {
     let componentToRender = '';
+    const exchangeAvailableColor= '#007bff';
+    const exchangeNotAvailableColor= '#e1e1e1';
+    const { isOpenOffer, selectedServiceFull } = this.state;
+    
+    const colorCoopy = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
+    const colorBarter = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Barter' ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
+    const colorHour = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.hourPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
+    const colorSession = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.sessionPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
+    const colorFinalProduct = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.finalProductPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
+        
+    const showCoopy = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' ? true : false) : true;
+    const showBarter = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Barter' ? true : false) : true;
+    const showHour = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.hourPrice != null ? true : false) : true;
+    const showSession = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.sessionPrice != null ? true : false) : true;
+    const showFinalProduct = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.finalProductPrice != null ? true : false) : true;
+
+
     switch (index) {
       case 0:
 
@@ -306,35 +340,59 @@ class Chat extends React.Component {
 
       case 1:
 
-        const coopiSelected = this.state.exchangeMethodSelected == 'Coopy' ? 'inline-flex' : 'none';
+        const coopiSelected = this.state.exchangeMethodSelected == 'Coopy' ? 'block' : 'none';
         const barterSelected = this.state.exchangeMethodSelected == 'Exchange' ? 'block' : 'none';
 
         componentToRender = (
           <div>
             <RadioGroup onChange={e => this.onChangeExchangeMethod(e)} vertical>
-              <RadioButton value="Coopy">
 
+              <RadioButton 
+               value="Coopy"
+               iconSize={20}
+               disabled={!showCoopy}
+               rootColor = {colorCoopy}>
                 Coopi
-                  </RadioButton>
-              <RadioButton value="Exchange">
+              </RadioButton>
 
+              <RadioButton 
+                value="Exchange"
+                iconSize={20}
+                disabled={!showBarter}
+                rootColor = {colorBarter}>
                 Barter
-                  </RadioButton>
+              </RadioButton>
+
             </RadioGroup>
 
-            <RadioGroup onChange={e => this.onChangeExchangeInstance(e)} horizontal style={{ display: coopiSelected }}>
-              <RadioButton value="Hour">
+            <hr/>
 
-                Hour
-                  </RadioButton>
-              <RadioButton value="Session">
+            <RadioGroup onChange={e => this.onChangeExchangeInstance(e)} vertical style={{ display: coopiSelected }}>
+              
+                <RadioButton 
+                  value="Hour"
+                  iconSize={20}
+                  disabled={!showHour}
+                  rootColor = {colorHour}>
+                  Hour
+                </RadioButton>
 
-                Session
-                  </RadioButton>
-              <RadioButton value="FinalProduct">
+                <RadioButton 
+                  value="Session"
+                  iconSize={20}
+                  disabled={!showSession}
+                  rootColor = {colorSession}>
+                  Session
+                </RadioButton>
 
-                Final Product
-                  </RadioButton>
+                <RadioButton 
+                  value="FinalProduct"
+                  iconSize={20}
+                  disabled={!showFinalProduct}
+                  rootColor = {colorFinalProduct}>
+                  Final Product
+                </RadioButton>
+
             </RadioGroup>
 
             <TextField
@@ -365,14 +423,14 @@ class Chat extends React.Component {
       case 2:
         componentToRender = (
           <Paper>
-            <Typography variant="h5" component="h3">
+            <Typography variant="h5" component="h3" style={{textAlign: 'center'}}>
               {this.state.selectedServiceText}
             </Typography>
 
             {
               this.state.exchangeMethodSelected == 'Coopy'
                 ? (
-                  <Typography component="p">
+                  <Typography component="p" style={{textAlign: 'center'}}>
                     {this.state.exchangeInstanceSelected}
                     {' '}
                     <br />
@@ -405,7 +463,7 @@ class Chat extends React.Component {
     const {
       loading, error, loggedUser, messages, proposal,
     } = this.props;
-    const { offer, categories, activeStep } = this.state;
+    const { offer, categories, activeStep, userChat } = this.state;
     const steps = this.getSteps();
     const proposalMade = proposal && proposal.id;
 
@@ -422,29 +480,16 @@ class Chat extends React.Component {
 
     return (
       <Protected>
-        <GuestLayout>
-
           <Loading>
 
-            <ReactJoyride
-              continuous
-              steps={stepsTutorial}
-              run={true}
-              showSkipButton
-              styles={{
-                options: {
-                  arrowColor: '#fff',
-                  backgroundColor: '#fff',
-                  beaconSize: 36,
-                  overlayColor: 'rgba(0, 0, 0, 0.5)',
-                  primaryColor: '#499be7',
-                  spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
-                  textColor: '#333',
-                  width: undefined,
-                  zIndex: 100,
-                }
-              }}
-            />
+          <div className="menu">
+            <div className="back" onClick={e => this.handleClickBack(e)}>
+              <i class="fa fa-chevron-left"></i> 
+              <img src={userChat.pictureURL} height="50px" width="50px" draggable="false"/>
+            </div>
+            <div className="name">{userChat.name}</div>
+            <div className="last">Online</div>
+            </div>
 
             <div className={styles.containerChat}>
               <div className="message-list" style={{ height: '300px', overflowY: 'auto', flexDirection: 'column-reverse' }}>
@@ -543,7 +588,7 @@ class Chat extends React.Component {
                       color="white"
                       backgroundColor="transparent"
                       onClick={e => this.handleSendMessage(e)}
-                      text={<i className="fa fa-caret-right" style={{ fontSize: '48px', color: 'blue' }} />}
+                      text={<i className="fa fa-chevron-circle-right " style={{ fontSize: '48px', color: '#007bff' }} />}
                     />
                   )}
                 />
@@ -560,17 +605,30 @@ class Chat extends React.Component {
                   </div>
                 )
                 : (
-                  <div className="makeProposal">
-                    <CommonButton class="btn" style={{ marginTop: '3%' }} onClick={e => this.handleClickOpen(e)}>
+                  <Row>
+                    <Col sm={6}>
+                      <div className="makeProposal">
+                        <CommonButton class="btn" style={{ marginTop: '3%', width: '100%' }} onClick={e => this.handleClickOpen(e, false)}>
 
-                      {'Make an offer '}
-                      <i className="fa fa-handshake-o" aria-hidden="true" />
-                    </CommonButton>
-                  </div>
+                          {'Make an offer '}
+                          <i className="fa fa-handshake-o" aria-hidden="true" />
+                        </CommonButton>
+                      </div>
+                    </Col>
+                   
+                    <Col sm={6}>
+                      <div className="makeProposal">
+                        <CommonButton class="btn" style={{ marginTop: '3%', width: '100%' }} onClick={e => this.handleClickOpen(e, true)}>
+
+                          {'Make an open offer '}
+                          <i className="fa fa-handshake-o" aria-hidden="true" />
+                        </CommonButton>
+                      </div>
+                    </Col>
+                  </Row>
                 )}
             </div>
           </Loading>
-        </GuestLayout>
       </Protected>
     );
   }

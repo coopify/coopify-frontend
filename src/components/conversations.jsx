@@ -11,6 +11,10 @@ import { Protected } from './protected';
 import { attemptGetUserConversations } from '../actions/user';
 import GuestLayout from './guest-layout';
 import styles from '../resources/css/profile.scss';
+import {
+  Button, Row, Col, ListGroup, Form,
+} from 'react-bootstrap';
+import { Chat } from './individualChat';
 
 export default @connect(state => ({
   loggedUser: state.user.loggedUser,
@@ -20,6 +24,7 @@ export default @connect(state => ({
 }))
 
 class ConversationList extends React.Component {
+
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.objectOf(PropTypes.object),
@@ -40,6 +45,7 @@ class ConversationList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      active: true,
     };
   }
 
@@ -55,39 +61,59 @@ class ConversationList extends React.Component {
   }
 
   displayChat(e) {
-    const { history } = this.props;
-    history.push(`/user/conversations/${e.conversationId}`);
+    this.setState({
+      ...this.state,
+      conversationId: e.conversationId,
+      active: false,
+    });
+  }
+
+  displayChatList(e) {
+    this.setState({
+      ...this.state,
+      active: true,
+    });
   }
 
   render() {
     const { loggedUser, conversations, loading } = this.props;
+    const { active, conversationId } = this.state;
+
     return (
       <Protected>
         <GuestLayout>
 
           <Loading>
 
-            <div className={styles.containerChat}>
-              <ChatList
-                className="chat-list"
-                dataSource={
+            <Row>
+              <Col sm={4} className={active ? 'generalchat active' : 'generalchat inactive'}>
+                <div className={styles.containerChat}>
+                  <ChatList
+                    className={"chat-list"}
+                    dataSource={
+                      conversations.map((c) => {
+                        const user = c.from.id === loggedUser.id ? c.to : c.from;
+                        const response = {
+                          avatar: user.pictureURL,
+                          title: user.name,
+                          date: new Date(c.createdAt),
+                          unread: 0,
+                          userId: user.id,
+                          conversationId: c.id,
+                        };
+                        return response;
+                      })
+                    }
+                    onClick={e => this.displayChat(e)}
+                  />
+                </div>
+              </Col>
 
-                  conversations.map((c) => {
-                    const user = c.from.id === loggedUser.id ? c.to : c.from;
-                    const response = {
-                      avatar: user.pictureURL,
-                      title: user.name,
-                      date: new Date(c.createdAt),
-                      unread: 0,
-                      userId: user.id,
-                      conversationId: c.id,
-                    };
-                    return response;
-                  })
-                }
-                onClick={e => this.displayChat(e)}
-              />
-            </div>
+              <Col sm={8} className={active ? 'specificchat inactive' : 'specificchat active'}>
+                <Chat conversationid={conversationId} onChatLeave={e => this.displayChatList(e)}/>
+              </Col>
+            </Row>
+
           </Loading>
         </GuestLayout>
       </Protected>

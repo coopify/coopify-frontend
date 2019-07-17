@@ -75,7 +75,7 @@ class GridView extends React.Component {
     const { width } = this.state;
 
     // TODO Revisar los 600
-    const colSize = width < 600 ? Math.min(elements.length, 2) : Math.min(elements.length, 3);
+    const colSize = width < 600 ? Math.min(elements.length, 1) : Math.min(elements.length, 3);
     const cellsize = width < 600 ? '170' : 'auto';
     return (
       <div className={styles.container} style={{ backgroundColor: '#fafafa' }}>

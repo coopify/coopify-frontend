@@ -146,7 +146,7 @@ class Proposal extends React.Component {
         >
           <DialogTitle id="form-dialog-title">Offer proposal</DialogTitle>
           <DialogContent>
-            <DialogContentText>
+            <DialogContentText style={{textAlign: 'center'}}>
               <div>You have the following offer proposal</div>
               <Paper>
                 <Typography variant="h5" component="h3">
@@ -159,7 +159,6 @@ class Proposal extends React.Component {
                       <Typography component="p">
 
                         <div>for</div>
-                        <br />
                         {proposal.proposedPrice}
                         {' '}
                         <div>COOPI /</div>
@@ -170,7 +169,6 @@ class Proposal extends React.Component {
                       <Typography component="p">
 
                         <div>for</div>
-                        <br />
                         {proposal.proposedService.title}
                       </Typography>
                     )}

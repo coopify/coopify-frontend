@@ -68,7 +68,7 @@ class ConversationList extends React.Component {
     });
   }
 
-  displayChatList(e){
+  displayChatList(e) {
     this.setState({
       ...this.state,
       active: true,
@@ -85,35 +85,34 @@ class ConversationList extends React.Component {
 
           <Loading>
 
-<Row>
-  <Col sm={4} className={active ? 'generalchat active' : 'generalchat inactive'}>
-  <div className={styles.containerChat}>
-              <ChatList
-                className={"chat-list"}
-                dataSource={
+            <Row>
+              <Col sm={4} className={active ? 'generalchat active' : 'generalchat inactive'}>
+                <div className={styles.containerChat}>
+                  <ChatList
+                    className={"chat-list"}
+                    dataSource={
+                      conversations.map((c) => {
+                        const user = c.from.id === loggedUser.id ? c.to : c.from;
+                        const response = {
+                          avatar: user.pictureURL,
+                          title: user.name,
+                          date: new Date(c.createdAt),
+                          unread: 0,
+                          userId: user.id,
+                          conversationId: c.id,
+                        };
+                        return response;
+                      })
+                    }
+                    onClick={e => this.displayChat(e)}
+                  />
+                </div>
+              </Col>
 
-                  conversations.map((c) => {
-                    const user = c.from.id === loggedUser.id ? c.to : c.from;
-                    const response = {
-                      avatar: user.pictureURL,
-                      title: user.name,
-                      date: new Date(c.createdAt),
-                      unread: 0,
-                      userId: user.id,
-                      conversationId: c.id,
-                    };
-                    return response;
-                  })
-                }
-                onClick={e => this.displayChat(e)}
-              />
-            </div>
-  </Col>
-
-  <Col sm={8} className={active ? 'specificchat inactive' : 'specificchat active'}>
-  <Chat conversationid={conversationId} onChatLeave={e => this.displayChatList(e)}/>
-  </Col>
-</Row>
+              <Col sm={8} className={active ? 'specificchat inactive' : 'specificchat active'}>
+                <Chat conversationid={conversationId} onChatLeave={e => this.displayChatList(e)}/>
+              </Col>
+            </Row>
 
           </Loading>
         </GuestLayout>

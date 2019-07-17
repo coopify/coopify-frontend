@@ -21,6 +21,7 @@ export const GET_QUESTION_ANSWER_SUCCESS = 'GET_QUESTION_ANSWER_SUCCESS';
 export const GET_QUESTION_ANSWER_FAILURE = 'GET_QUESTION_ANSWER_FAILURE';
 export const SEND_QUESTION_REPLY_ATTEMPT = 'SEND_QUESTION_REPLY_ATTEMPT';
 export const SEND_QUESTION_REPLY_SUCCESS = 'SEND_QUESTION_REPLY_SUCCESS';
+export const SEND_QUESTION_REPLY_FAILURE = 'SEND_QUESTION_REPLY_FAILURE';
 export const GET_USERS_OFFERS_ATTEMPT = 'GET_USERS_OFFERS_ATTEMPT';
 export const GET_USERS_OFFERS_SUCCESS = 'GET_USERS_OFFERS_SUCCESS';
 
@@ -147,6 +148,12 @@ export const service = (state = initialServiceState, action) => {
       return _.assignIn({}, state, {
         error: '',
         reply: action.reply,
+      });
+
+    case SEND_QUESTION_REPLY_FAILURE:
+      return _.assignIn({}, state, {
+        loading: false,
+        error: action.errorMessage,
       });
 
     case GET_USERS_OFFERS_SUCCESS:

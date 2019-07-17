@@ -13,6 +13,7 @@ import {
   GET_QUESTION_ANSWER_SUCCESS,
   GET_QUESTION_ANSWER_FAILURE,
   SEND_QUESTION_REPLY_SUCCESS,
+  SEND_QUESTION_REPLY_FAILURE,
   GET_USERS_OFFERS_SUCCESS,
 } from '../reducers';
 
@@ -86,7 +87,11 @@ export function* sendReplyAsync(payload) {
   const result = yield sendReplyAPICall(payload.payload);
   if (result.status === 200) {
     yield put({ type: SEND_QUESTION_REPLY_SUCCESS, reply: result.reply });
+  } else {
+    yield put({ type: SEND_QUESTION_REPLY_FAILURE, errorMessage: result.errorMessage });
   }
+  
+  
 }
 
 export function* geteUsersOffers(payload) {

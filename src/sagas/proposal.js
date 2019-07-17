@@ -7,6 +7,7 @@ import {
   ACCEPT_PROPOSAL_SUCCESS,
   REJECT_PROPOSAL_SUCCESS,
   CANCEL_PROPOSAL_SUCCESS,
+  STATUS_PROPOSAL_FAILURE,
   GET_CONVERSATION_PROPOSAL_SUCCESS,
 } from '../reducers';
 
@@ -41,6 +42,8 @@ export function* acceptProposalAsync(payload) {
   const result = yield acceptProposalAPICall(payload.payload);
   if (result.status === 200) {
     yield put({ type: ACCEPT_PROPOSAL_SUCCESS, proposal: result.proposal });
+  }  else {
+    yield put({ type: STATUS_PROPOSAL_FAILURE, errorMessage: result.errorMessage });
   }
 }
 
@@ -48,6 +51,8 @@ export function* rejectProposalAsync(payload) {
   const result = yield rejectProposalAPICall(payload.payload);
   if (result.status === 200) {
     yield put({ type: REJECT_PROPOSAL_SUCCESS, proposal: result.proposal });
+  } else {
+    yield put({ type: STATUS_PROPOSAL_FAILURE, errorMessage: result.errorMessage });
   }
 }
 
@@ -55,6 +60,8 @@ export function* cancelProposalAsync(payload) {
   const result = yield cancelProposalAPICall(payload.payload);
   if (result.status === 200) {
     yield put({ type: CANCEL_PROPOSAL_SUCCESS, proposal: result.proposal });
+  } else {
+    yield put({ type: STATUS_PROPOSAL_FAILURE, errorMessage: result.errorMessage });
   }
 }
 

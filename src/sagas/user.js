@@ -42,7 +42,7 @@ export function* loginAsync(payload) {
 
     yield put({ type: LOGIN_SUCCESS, data: result.data });
   } else {
-    yield put({ type: LOGIN_FAILURE, data: result.data });
+    yield put({ type: LOGIN_FAILURE, errorMessage: result.errorMessage });
   }
 }
 
@@ -54,7 +54,7 @@ export function* signUpAsync(payload) {
 
     yield put({ type: SIGNUP_SUCCESS, user: result.body.user });
   } else {
-    yield put({ type: SIGNUP_FAILURE, data: result.body });
+    yield put({ type: SIGNUP_FAILURE, errorMessage: result.errorMessage });
   }
 }
 
@@ -65,7 +65,7 @@ export function* socialSignUpAsync(payload) {
     localStorage.setItem('token', result.body.accessToken);
     yield put({ type: SOCIAL_SIGNUP_SUCCESS, user: result.body.user });
   } else {
-    yield put({ type: SOCIAL_SIGNUP_FAILURE, data: result.body });
+    yield put({ type: SOCIAL_SIGNUP_FAILURE, errorMessage: result.errorMessage });
   }
 }
 
@@ -104,7 +104,7 @@ export function* socialLoginAsync(payload) {
 
     yield put({ type: LOGIN_SUCCESS, data: result.data });
   } else {
-    yield put({ type: LOGIN_FAILURE, data: result.data });
+    yield put({ type: LOGIN_FAILURE, errorMessage: result.errorMessage });
   }
 }
 export function* checkBalanceAsync(payload) {

@@ -60,7 +60,7 @@ export const user = (state = initialUserState, action) => {
     case LOGIN_FAILURE:
       return _.assignIn({}, state, {
         loading: false,
-        error: action.data.data.message,
+        error: action.errorMessage,
         userDidLog: false,
       });
 
@@ -87,13 +87,13 @@ export const user = (state = initialUserState, action) => {
     case SIGNUP_FAILURE:
       return _.assignIn({}, state, {
         loading: false,
-        error: action.data.data.message,
+        error: action.errorMessage,
         userDidSignUp: false,
       });
     case SOCIAL_SIGNUP_FAILURE:
       return _.assignIn({}, state, {
         loading: false,
-        error: action.data.message,
+        error: action.errorMessage,
         userDidSignUp: false,
       });
     case SOCIAL_SIGNUP_SUCCESS:

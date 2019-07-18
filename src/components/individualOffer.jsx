@@ -15,7 +15,7 @@ import Divider from '@material-ui/core/Divider';
 import { FacebookShareButton, FacebookIcon } from 'react-share';
 import MetaTags from 'react-meta-tags';
 import StarRatingComponent from 'react-star-rating-component';
-import { getUrlConversation, getShareCount } from '../api';
+import { createUrlConversation, getShareCount } from '../api';
 import { GeneralQuestions } from './generalQuestions';
 import { Protected } from './protected';
 import {
@@ -41,6 +41,7 @@ import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { Chat } from './individualChat';
 
 export default @connect(state => ({
   loggedUser: state.user.loggedUser,
@@ -89,8 +90,11 @@ class IndividualOffer extends React.Component {
       myUserRating: 0,
       myDescription: '',
       modalOpen: false,
+      conversationId: '',
+      active: false,
     };
     this.setShareCount = this.setShareCount.bind(this);
+    this.displayChatList = this.displayChat.bind(this);
     this.verifyRefCode();
   }
 
@@ -168,11 +172,17 @@ class IndividualOffer extends React.Component {
       toUser: offer.userId,
     };
 
-    const response = await getUrlConversation(payload);
+    const response = await createUrlConversation(payload);
     this.setState({ ...this.state, loading: false });
 
     const conversationId = response.conversation.id;
-    history.push(`/user/conversations/${conversationId}`);
+
+    this.setState({
+      ...this.state,
+      conversationId,
+      active: true
+    });
+
   }
 
   verifyRefCode() {
@@ -233,6 +243,11 @@ class IndividualOffer extends React.Component {
     }
   }
 
+  displayChat(e) {
+    const { history } = this.props;
+    history.push(`/user/conversations`);
+  }
+
   handleSendReview(e) {
     const { dispatch, offer } = this.props;
     const { myServiceRating, myUserRating } = this.state;
@@ -255,7 +270,7 @@ class IndividualOffer extends React.Component {
     const {
       loggedUser, offer, loading, reviews, canRate, error, reviewCreated
     } = this.props;
-    const { myServiceRating, myUserRating, modalOpen } = this.state;
+    const { myServiceRating, myUserRating, modalOpen, conversationId, active } = this.state;
     const pictureUrl = offer && offer.images && offer.images.length > 0 ? offer.images[0].url : noImage;
     const displayOwnerOnly = loggedUser.id === offer.userId ? 'none' : 'block';
     const marginBetween = '5%';
@@ -293,7 +308,7 @@ class IndividualOffer extends React.Component {
 
         <GuestLayout>
 
-            <div>
+            <div className={active ? 'chatInactive' : ' chatActive'}>
               <Row>
 
                 <Col sm="2">
@@ -657,6 +672,11 @@ class IndividualOffer extends React.Component {
               <Divider />
 
             </div>
+
+            <div className={active ? 'chatActive' : ' chatInactive'}>
+                <Chat conversationid={conversationId} onChatLeave={e => this.displayChatList(e)}/>
+            </div>
+
             <ToastContainer autoClose={3000} />
 
         </GuestLayout>

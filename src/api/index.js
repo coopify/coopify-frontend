@@ -238,7 +238,7 @@ export function sendReplyAPICall(payload) {
     })).catch(e => handleError(e));
 }
 
-export function getUrlConversation(payload) {
+export function createUrlConversation(payload) {
   const { token, toUser } = payload;
   const toId = { toId: toUser };
 

@@ -89,3 +89,11 @@
  .negotiationChat > div {
    background: transparent;
  }
+
+ .chatActive {
+   display: block;
+ }
+
+ .chatInactive {
+   display: none;
+ }

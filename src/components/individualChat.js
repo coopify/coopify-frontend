@@ -212,7 +212,7 @@ class Chat extends React.Component {
 
   async componentDidUpdate(prevProps) {
 
-    const { dispatch, loggedUser, conversations,conversationid } = this.props;
+    const { dispatch, loggedUser, conversations, conversationid } = this.props;
 
     if(conversationid && conversationid.length > 0 && prevProps.conversationid != conversationid){
       
@@ -220,20 +220,18 @@ class Chat extends React.Component {
       const token = localStorage.getItem('token');
       const conversationId = this.props.conversationid;
 
-      let c = conversations.find(c => c.id === conversationId);
-      const userChat =  c.from.id === loggedUser.id ? c.to : c.from;
-
-      this.setState({
-        ...this.state,
-        userChat
-      });
-
       const payload = {
         token,
         conversationId,
       };
 
       const conversation = await getConversation(payload);
+      const userChat =  conversation.from.id === loggedUser.id ? conversation.to : conversation.from;
+      
+      this.setState({
+        ...this.state,
+        userChat
+      });
 
       const users = {
         token,

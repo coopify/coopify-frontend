@@ -58,6 +58,7 @@ export const conversation = (state = initialConversationState, action) => {
 
     case GET_MESSAGES_ATTEMPT:
       return _.assignIn({}, state, {
+        loading: true,
         error: '',
       });
 
@@ -66,6 +67,7 @@ export const conversation = (state = initialConversationState, action) => {
         error: '',
         messages: action.messages,
         newMessages: [],
+        loading: false,
       });
 
     case GET_MESSAGES_FAILURE:

@@ -230,6 +230,7 @@ export const user = (state = initialUserState, action) => {
         status: '',
         reviewCreated: false,
         profileModified: false,
+        offerCreated: false,
       });
 
     case DISPLAY_TOAST_ATTEMPT:

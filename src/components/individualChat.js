@@ -480,8 +480,6 @@ class Chat extends React.Component {
 
     return (
       <Protected>
-        
-        <GuestLayout>
 
           <div className="menu">
             <div className="back" onClick={e => this.handleClickBack(e)}>
@@ -630,7 +628,6 @@ class Chat extends React.Component {
                 )}
             </div>
 
-        </GuestLayout>
       </Protected>
     );
   }

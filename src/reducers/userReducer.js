@@ -60,7 +60,7 @@ export const user = (state = initialUserState, action) => {
     case LOGIN_FAILURE:
       return _.assignIn({}, state, {
         loading: false,
-        error: action.errorMessage,
+        error: action.data.data.message,
         userDidLog: false,
       });
 
@@ -87,13 +87,13 @@ export const user = (state = initialUserState, action) => {
     case SIGNUP_FAILURE:
       return _.assignIn({}, state, {
         loading: false,
-        error: action.errorMessage,
+        error: action.data.data.message,
         userDidSignUp: false,
       });
     case SOCIAL_SIGNUP_FAILURE:
       return _.assignIn({}, state, {
         loading: false,
-        error: action.errorMessage,
+        error: action.data.message,
         userDidSignUp: false,
       });
     case SOCIAL_SIGNUP_SUCCESS:
@@ -126,6 +126,7 @@ export const user = (state = initialUserState, action) => {
         loading: false,
         error: '',
         loggedUser: action.user.user,
+        profileModified: true,
       });
     case PROFILE_FAILURE:
       return _.assignIn({}, state, {
@@ -183,8 +184,18 @@ export const user = (state = initialUserState, action) => {
       return _.assignIn({}, state, {
         loading: false,
         userDidSignUp: false,
-        loggedUser: {
+        /*loggedUser: {
           ...state.loggedUser,
+          name: action.payload.name,
+          lastName: action.payload.lastName,
+          address: action.payload.address,
+          phone: action.payload.phone,
+          birthdate: action.payload.birthdate,
+          bio: action.payload.bio,
+          interests: action.payload.interests,
+        },*/
+        profileUser: {
+          ...state.profileUser,
           name: action.payload.name,
           lastName: action.payload.lastName,
           address: action.payload.address,
@@ -205,6 +216,10 @@ export const user = (state = initialUserState, action) => {
           ...state.loggedUser,
           pictureURL: action.payload.url,
         },
+        profileUser: {
+          ...state.profileUser,
+          pictureURL: action.payload.url,
+        },
 
         userDidLog: true,
       });
@@ -214,7 +229,7 @@ export const user = (state = initialUserState, action) => {
         error: '',
         status: '',
         reviewCreated: false,
-        offerCreated: false,
+        profileModified: false,
       });
 
     case DISPLAY_TOAST_ATTEMPT:

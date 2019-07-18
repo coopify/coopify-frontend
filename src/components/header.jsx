@@ -26,6 +26,7 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import Avatar from '@material-ui/core/Avatar';
 import ReactJoyride from 'react-joyride';
 import logo from '../assets/logo.png';
+import avatarImg from '../assets/avatar.png';
 
 import {
   attemptLogoutAction, loadState, resetNotificationFlags, attemptCheckBalanceAction,
@@ -204,6 +205,7 @@ class Header extends PureComponent {
   render() {
     const { open } = this.state;
     const { loggedUser, status, balance } = this.props;
+    const userPicture = loggedUser != null && loggedUser.pictureURL != null ? loggedUser.pictureURL : avatarImg;
     if (status && status.length > 0) this.notify(`Your proposal was ${status}`, false);
     const classes = this.useStyles();
     let links = [
@@ -264,8 +266,8 @@ class Header extends PureComponent {
             [classes.appBarShift]: open,
           })}
         >
-          <Toolbar style={{justifyContent: 'space-between'}}>
-            <IconButton style={{marginTop: '-15px'}}
+          <Toolbar style={{ justifyContent: 'space-between' }}>
+            <IconButton style={{ marginTop: '-15px' }}
               color="inherit"
               aria-label="Open drawer"
               onClick={this.handleDrawerOpen}
@@ -274,14 +276,14 @@ class Header extends PureComponent {
             >
               <MenuIcon />
             </IconButton>
-            <div className="navbar-brand" style={{marginTop: '-15px'}}>
+            <div className="navbar-brand" style={{ marginTop: '-15px' }}>
               <Link className="navbar-item" to="/">
                 <img src={logo} alt="logo coopify" width="112" height="28" />
               </Link>
             </div>
             {loggedUser ? (
               <div>
-                <p style={{marginBottom: '0px'}}>
+                <p style={{ marginBottom: '0px' }}>
                   <i className="material-icons"> attach_money </i>
                   {' '}
                   {balance}
@@ -309,7 +311,7 @@ class Header extends PureComponent {
           {loggedUser && loggedUser.id ? (
             <div>
               <IconButton>
-                <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{ width: '60%', height: '60%' }} />
+                <Avatar src={userPicture} style={{ width: '90px', height: '90px' }} />
               </IconButton>
               <Link to={`/user/profile/${loggedUser.id}`}>
                 <h2>{loggedUser.name}</h2>

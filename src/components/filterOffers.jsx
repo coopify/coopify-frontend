@@ -293,7 +293,7 @@ class FilterOffers extends React.Component {
                   max={100} 
                   defaultValue={prices} 
                   tipFormatter={value => `${value} Coopi`} 
-                  tipProps={{visible:true, placement: 'bottom'}} 
+                  tipProps={{visible: showEIDisplay, placement: 'bottom'}} 
                   allowCross={false} 
                   style={{ marginBottom: '10%', display: showEIDisplay }} 
                   trackStyle={{ height: 10 }}

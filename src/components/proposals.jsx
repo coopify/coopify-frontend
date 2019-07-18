@@ -111,7 +111,7 @@ class Proposals extends React.Component {
                   {proposalsRecived.length > 0 ? (
                     <div className="card">
                       <div className="card-header">
-                        <h4 style={{ textAlign: 'center' }}> Recived proposals </h4>
+                        <h4 style={{ textAlign: 'center' }}> Received proposals </h4>
                       </div>
                       <GridView
                         elements={proposalsRecived}

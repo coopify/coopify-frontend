@@ -194,7 +194,7 @@ class Proposal extends React.Component {
                       </CommonButton>
                     </div>
                   )
-                  : `Stauts: ${proposal.status}`
+                  : `Status: ${proposal.status}`
               }
 
               {

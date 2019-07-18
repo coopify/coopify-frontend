@@ -607,7 +607,7 @@ class Chat extends React.Component {
                       <div className="makeProposal">
                         <CommonButton class="btn" style={{ marginTop: '3%', width: '100%' }} onClick={e => this.handleClickOpen(e, false)}>
 
-                          {'Make an offer '}
+                          {'Make an open offer '}
                           <i className="fa fa-handshake-o" aria-hidden="true" />
                         </CommonButton>
                       </div>
@@ -617,7 +617,7 @@ class Chat extends React.Component {
                       <div className="makeProposal">
                         <CommonButton class="btn" style={{ marginTop: '3%', width: '100%' }} onClick={e => this.handleClickOpen(e, true)}>
 
-                          {'Make an open offer '}
+                          {'Make an offer '}
                           <i className="fa fa-handshake-o" aria-hidden="true" />
                         </CommonButton>
                       </div>

@@ -287,19 +287,22 @@ class FilterOffers extends React.Component {
 
                   <h4 style={{ color: 'black', display: showEIDisplay }}>Price range</h4>
 
-
                   <Range 
                   min={0}
                   max={100} 
+                  marks={{ 0: 0, 100: 100 }}
                   defaultValue={prices} 
                   tipFormatter={value => `${value} Coopi`} 
-                  tipProps={{visible: showEIDisplay, placement: 'bottom'}} 
                   allowCross={false} 
                   style={{ marginBottom: '10%', display: showEIDisplay }} 
                   trackStyle={{ height: 10 }}
                   railStyle={{ height: 10 }}
                   handleStyle={{ height: 28, width: 28, marginLeft: -14, marginTop: -9 }}
                   onAfterChange={e => this.handlePricesChange(e)} />
+
+                  <div style={{ color: 'black', display: showEIDisplay, fontSize: 'x-small', textAlign: 'right' }}>
+                   Price: {prices[0]} CPI - {prices[1]} CPI 
+                  </div>
 
                   <div className="categoriesSearch"> 
                     <h4 style={{ color: 'black' }}>Categories</h4>
@@ -345,7 +348,7 @@ class FilterOffers extends React.Component {
                       </Select>
                     </FormControl>
                   </div>
-                  <Button style={{ marginTop: '10%' }} onClick={e => this.handleApplyFilter(e)}>Apply Filters</Button>
+                  <Button style={{ marginTop: '10%', width: '100%' }} onClick={e => this.handleApplyFilter(e)}>Apply Filters</Button>
 
                 </Col>
                 <Col sm={9}>

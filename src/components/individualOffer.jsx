@@ -42,6 +42,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Chat } from './individualChat';
+import avatarImg from '../assets/avatar.png';
 
 export default @connect(state => ({
   loggedUser: state.user.loggedUser,
@@ -277,6 +278,7 @@ class IndividualOffer extends React.Component {
     const shareUrl = `${global.URL}/offers/${offer.id}?referalCode=${loggedUser.referalCode}`;
     const showBtnShareFB = 'inline-block';
     const canReview = canRate ? 'block' : 'none';
+    const loggedUserPicture = loggedUser != null && loggedUser.pictureURL != null ? loggedUser.pictureURL : avatarImg;
 
     // Settings Slides Reviews
     let countSlides = 0;
@@ -347,11 +349,12 @@ class IndividualOffer extends React.Component {
               <Col sm="2">
                 <Divider />
                 <div style={{ margin: '8px' }}>
-                  <p>Categories: </p>
+                  <p style={{ fontWeight: 'bold', color: '#111010' }}>Categories: </p>
 
                   {offer.categories !== undefined ? (
                     offer.categories.map(c => (
                       <Chip
+                        style={{ margin: '3px' }}
                         key={c.name}
                         label={c.name}
                       />
@@ -360,7 +363,7 @@ class IndividualOffer extends React.Component {
                 </div>
                 <Divider />
                 <div style={{ margin: '8px' }}>
-                  <b>{'Payment Method: '}</b>
+                  <b style={{ fontWeight: 'bold', color: '#111010' }}>{'Payment Method: '}</b>
                   {offer.paymentMethod}
                 </div>
 
@@ -395,25 +398,33 @@ class IndividualOffer extends React.Component {
                 </div>
 
                 <Divider />
-
-                <TextField
-                  label="Start Date"
-                  type="date"
-                  disabled
-                  defaultValue={moment(offer.startDate).format('YYYY-MM-DD')}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-                <TextField
-                  label="Finish Date"
-                  type="date"
-                  disabled
-                  defaultValue={moment(offer.endDate).format('YYYY-MM-DD')}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
+                <div style={{ margin: '8px' }}>
+                  <TextField
+                    style={{ margin: '5px' }}
+                    label="Start Date"
+                    type="date"
+                    disabled
+                    defaultValue={moment(offer.startDate).format('YYYY-MM-DD')}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    variant="outlined"
+                    margin="normal"
+                  />
+                  <TextField
+                    style={{ margin: '5px' }}
+                    label="Finish Date"
+                    type="date"
+                    disabled
+                    defaultValue={moment(offer.endDate).format('YYYY-MM-DD')}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    variant="outlined"
+                    margin="normal"
+                  />
+                </div>
+                <Divider />
               </Col>
               <Col sm="2">
                 {' '}
@@ -450,9 +461,14 @@ class IndividualOffer extends React.Component {
               </Col>
               <Col sm="4" style={{ margin: '8px' }}>
                 <Link to={`/user/profile/${offer.userId}`}>
-                  <h3>
-                    {`See profile of ${offer.by}`}
-                  </h3>
+                  <Button
+                    style={{ background: '#C3E9FF', borderRadius: '25px' }}
+                  >
+                    <h3 style={{ color: 'black', margin: '0px' }}>
+                      {`See profile of ${offer.by} `}
+                      <i className="fa fa-user fa-20x" style={{ color: '#000000' }} />
+                    </h3>
+                  </Button>
                 </Link>
               </Col>
               <Col sm="2">
@@ -630,7 +646,7 @@ class IndividualOffer extends React.Component {
                   <Divider />
 
                   <div className="form-group" style={{ display: 'flex', alignItems: 'center', paddingTop: '3%' }}>
-                    <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{ width: '20%', height: '25%', display: 'inline-block' }} />
+                    <Avatar src={loggedUserPicture} style={{ width: '20%', height: '25%', display: 'inline-block' }} />
                     <textarea
                       style={{ marginLeft: '5%', fontSize: '12px', lineHeight: '1' }}
                       rows={4}

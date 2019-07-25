@@ -99,10 +99,6 @@ class Profile extends React.Component {
     window.location = url;
   }
 
-  routeChange = async () => {
-    window.location = '/home';
-  }
-
   changeImage() {
     const { dispatch } = this.props;
     const { checked } = this.state;
@@ -516,14 +512,15 @@ class Profile extends React.Component {
                   ) : ''
                   }
                   {!edition ? (
-                    <Button
-                      onClick={this.routeChange}
-                      style={{ margin: '10px' }}
-                      variant="light"
-                    >
-                      {' '}
-                      {'Cancel'}
-                    </Button>
+                    <Link to={`/home`}>
+                      <Button
+                        style={{ margin: '10px' }}
+                        variant="light"
+                      >
+                        {' '}
+                        {'Cancel'}
+                      </Button>
+                    </Link>
                   ) : ''
                   }
 

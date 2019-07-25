@@ -66,7 +66,6 @@ class Profile extends React.Component {
       profileModified: false,
     };
     this.handleIntegrateFBBtnClick = this.handleIntegrateFBBtnClick.bind(this);
-    this.routeChange = this.routeChange.bind(this);
   }
 
   componentDidMount() {

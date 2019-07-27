@@ -158,6 +158,7 @@ class GeneralQuestions extends React.Component {
     const { question, limit } = this.state;
     const displayReplyButton = loggedUser.id === readOnlyOffer.userId ? true : false;
     const data = questions;
+    const displayMakeAQuestion = loggedUser.id === readOnlyOffer.userId ? 'none' : 'block';
 
     if (questionCreated) this.notify('Your question was posted successfully!', false);
     if (replyMade) this.notify('Your reply was posted successfully!', false);
@@ -236,7 +237,7 @@ class GeneralQuestions extends React.Component {
               showPagination={false}
             />
           </div>
-          <div className="container">
+          <div className="container" style={{display: displayMakeAQuestion}}>
             <div>
               <Row>
                 <Col sm="10">

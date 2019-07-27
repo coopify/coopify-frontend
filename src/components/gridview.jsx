@@ -116,7 +116,6 @@ class GridView extends React.Component {
             </GridListTile>
           ))}
         </GridList>
-        <ToastContainer autoClose={3000} />
       </div>
     );
   }

@@ -183,7 +183,6 @@ class Proposals extends React.Component {
                 </div>
 
               </form>
-              <ToastContainer autoClose={3000} />
             </div>
             
         </GuestLayout>

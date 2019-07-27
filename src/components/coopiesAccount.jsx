@@ -115,7 +115,6 @@ class CoopiesAccount extends React.Component {
               />
 
             </form>
-            <ToastContainer autoClose={3000} />
           </div>
         </GuestLayout>
       </Protected>

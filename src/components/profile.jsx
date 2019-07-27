@@ -572,7 +572,6 @@ class Profile extends React.Component {
 
 
           </div>
-          <ToastContainer autoClose={3000} />
 
         </Loading>
       </GuestLayout>

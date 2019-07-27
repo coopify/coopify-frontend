@@ -159,7 +159,6 @@ class Goals extends React.Component {
               minRows={0}
             />
           </form>
-          <ToastContainer autoClose={3000} />
         </div>
       </GuestLayout>
     );

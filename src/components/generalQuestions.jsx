@@ -268,7 +268,6 @@ class GeneralQuestions extends React.Component {
             </div>
           </div>
         </form>
-        <ToastContainer autoClose={3000} />
       </div>
     );
   }

@@ -271,8 +271,7 @@ class Signup extends React.Component {
                   <Link to="/login">Login here</Link>
                 </div>
 
-              </div>
-              <ToastContainer autoClose={3000} />
+              </div>      
             </div>
           </div>
       </GuestLayout>

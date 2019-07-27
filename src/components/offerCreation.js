@@ -186,7 +186,7 @@ class OfferCreation extends React.Component {
                 nextTextOnFinalActionStep="Next"
               />
             </div>
-          <ToastContainer autoClose={3000} />
+            
         </GuestLayout>
       </Protected>
     );

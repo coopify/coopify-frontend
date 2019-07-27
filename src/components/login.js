@@ -237,7 +237,6 @@ Google
                   <Link to="/signup">Don't have an account? Sign up</Link>
                 </div>
               </div>
-              <ToastContainer autoClose={3000} />
             </div>
           </div>
 

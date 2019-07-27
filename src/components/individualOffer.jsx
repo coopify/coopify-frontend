@@ -693,8 +693,6 @@ class IndividualOffer extends React.Component {
             <Chat conversationid={conversationId} onChatLeave={e => this.displayChatList(e)} />
           </div>
 
-          <ToastContainer autoClose={3000} />
-
         </GuestLayout>
       </Protected>
     );

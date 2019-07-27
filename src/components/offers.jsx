@@ -276,8 +276,6 @@ class Offers extends React.Component {
               </Col>
             </Row>
           </div>
-
-          <ToastContainer autoClose={3000} />
         </div>
         </div>
     );

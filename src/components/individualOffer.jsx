@@ -42,6 +42,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Chat } from './individualChat';
+import ShowMoreText from 'react-show-more-text';
 import avatarImg from '../assets/avatar.png';
 
 export default @connect(state => ({
@@ -93,14 +94,18 @@ class IndividualOffer extends React.Component {
       modalOpen: false,
       conversationId: '',
       active: false,
+      width: window.innerWidth,
     };
     this.setShareCount = this.setShareCount.bind(this);
     this.displayChatList = this.displayChat.bind(this);
+    this.updateDimensions = this.updateDimensions.bind(this);
     this.verifyRefCode();
   }
 
   componentDidMount() {
     const { dispatch, offer } = this.props;
+
+    window.addEventListener('resize', this.updateDimensions);
 
     const token = localStorage.getItem('token');
 
@@ -112,6 +117,14 @@ class IndividualOffer extends React.Component {
     dispatch(attemptShowOffer(payload));
     dispatch(attemptGetReviews(payload));
     dispatch(attemptCanReview(payload));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
+
+  updateDimensions() {
+    this.setState(state => ({ ...state, width: window.innerWidth }));
   }
 
   onServiceStarClick(e) {
@@ -271,7 +284,7 @@ class IndividualOffer extends React.Component {
     const {
       loggedUser, offer, loading, reviews, canRate, error, reviewCreated
     } = this.props;
-    const { myServiceRating, myUserRating, modalOpen, conversationId, active } = this.state;
+    const { myServiceRating, myUserRating, modalOpen, conversationId, active, width } = this.state;
     const pictureUrl = offer && offer.images && offer.images.length > 0 ? offer.images[0].url : noImage;
     const displayOwnerOnly = loggedUser.id === offer.userId ? 'none' : 'block';
     const marginBetween = '5%';
@@ -279,20 +292,15 @@ class IndividualOffer extends React.Component {
     const showBtnShareFB = 'inline-block';
     const canReview = canRate ? 'block' : 'none';
     const loggedUserPicture = loggedUser != null && loggedUser.pictureURL != null ? loggedUser.pictureURL : avatarImg;
+    const countSlides = width < 600 ? Math.min(reviews.length, 1) : Math.min(reviews.length, 3);
 
     // Settings Slides Reviews
-    let countSlides = 0;
-    if (reviews.length < 3) {
-      countSlides = reviews.length;
-    } else {
-      countSlides = 3;
-    }
     const settings = {
       dots: true,
       infinite: true,
       speed: 300,
       slidesToShow: countSlides,
-      slidesToScroll: 3,
+      slidesToScroll: countSlides,
     };
     // End Settings Slides Reviews
 
@@ -547,31 +555,48 @@ class IndividualOffer extends React.Component {
                 </Col>
               </Row> */}
 
-            {/* Prueba con react-slick */}
-            <Row>
-              <Col sm="2">
-                {' '}
-              </Col>
-              <Col sm="8">
-                <Slider {...settings}>
-                  {reviews.map(item => (
-                    <div className="card cardCoopify">
-                      <div className="card-body">
-                        <p>{item.reviewer.pictureURL != null ? <img name="pictureReviewer" alt={item.reviewer.name} src={item.reviewer.pictureURL} width="120" display="initial" /> : ''}</p>
-                        <p className="card-title">{item.reviewer != null ? item.reviewer.name : ''}</p>
-                        <p className="text-muted">{item.description}</p>
-                        <p className="card-text">
-                          <h3 className="text-muted">
-                            <StarRatingComponent
-                              name="RatingReview"
-                              editing={false}
-                              renderStarIcon={() => <span>&#9733;</span>}
-                              starCount={5}
-                              value={item.offerRate}
-                            />
-                          </h3>
-                        </p>
-                        <small className="card-text">{item.createdAt.substring(0, 10)}</small>
+              {/* Prueba con react-slick */}
+              <Row>
+                <Col sm="2">
+                  {' '}
+                </Col>
+                <Col sm="8">
+                  <Slider {...settings}>
+                    {reviews.map(item => (
+                      <div className="card cardCoopify">
+                        <div className="card-body">
+
+                          <div style={{display: 'inline-flex', alignItems: 'center'}}>
+                            <p>{item.reviewer.pictureURL != null ? <img name="pictureReviewer" alt={item.reviewer.name} src={item.reviewer.pictureURL} width="50" display="initial" /> : <img name="pictureReviewer" alt={item.reviewer.name} src={avatarImg} width="50" display="initial" />}</p>
+                            <p className="card-title" style={{paddingLeft: '15px'}}>{item.reviewer != null ? item.reviewer.name : ''}</p>
+                          </div>    
+
+                          <div style={{fontSize: '14px', fontStyle: 'italic'}}>
+                            <ShowMoreText
+                              lines={1}
+                              more='Show more'
+                              less='Show less'
+                              anchorClass=''
+                              expanded={false}
+                            >
+                              <p className="text-muted" style={{fontSize: '14px', fontStyle: 'italic'}}>{item.description}</p>
+                            </ShowMoreText>
+                          </div>
+                          
+                          <div className="cardFooterReview">
+                            <p className="card-text" style={{marginBottom: '-8%'}}>
+                              <h3 className="text-muted">
+                                <StarRatingComponent                             
+                                  name="RatingReview"
+                                  editing={false}
+                                  renderStarIcon={() => <span>&#9733;</span>}
+                                  starCount={5}
+                                  value={item.offerRate}
+                                />
+                              </h3>
+                            </p>
+                            <small className="card-text">{item.createdAt.substring(0, 10)}</small>
+                          </div>
                       </div>
                     </div>
                   ))}

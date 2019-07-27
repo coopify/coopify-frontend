@@ -55,7 +55,7 @@ class FilterOffers extends React.Component {
         searchName: '',
         paymentMethods: [],
         exchangeMethods: [],
-        prices: [1, 100],
+        prices: [0, 100],
         categories: [],
         sortBy: 'Date',
         showEI: false,

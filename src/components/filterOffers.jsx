@@ -205,26 +205,6 @@ class FilterOffers extends React.Component {
         <Protected>
           <GuestLayout>
 
-          <ReactJoyride
-          continuous
-          steps={steps}
-          run={true}
-          showSkipButton
-          styles={{
-            options: {
-              arrowColor: '#fff',
-              backgroundColor: '#fff',
-              beaconSize: 36,
-              overlayColor: 'rgba(0, 0, 0, 0.5)',
-              primaryColor: '#499be7',
-              spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
-              textColor: '#333',
-              width: undefined,
-              zIndex: 100,
-            }
-          }}
-        />
-
             <div className={styles.container}>
 
               <Form.Group as={Row}>

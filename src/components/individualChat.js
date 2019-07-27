@@ -486,7 +486,7 @@ class Chat extends React.Component {
             </div>
 
             <div className={styles.containerChat}>
-              <div className="message-list" style={{ height: '300px', overflowY: 'auto', flexDirection: 'column-reverse' }}>
+              <div id="msgList" className="message-list" style={{ height: '300px', overflowY: 'auto', flexDirection: 'column-reverse' }}>
 
                 {
                   messages.map(m => ({

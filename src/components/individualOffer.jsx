@@ -42,6 +42,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Chat } from './individualChat';
+import avatarImg from '../assets/avatar.png';
 
 export default @connect(state => ({
   loggedUser: state.user.loggedUser,
@@ -277,6 +278,7 @@ class IndividualOffer extends React.Component {
     const shareUrl = `${global.URL}/offers/${offer.id}?referalCode=${loggedUser.referalCode}`;
     const showBtnShareFB = 'inline-block';
     const canReview = canRate ? 'block' : 'none';
+    const loggedUserPicture = loggedUser != null && loggedUser.pictureURL != null ? loggedUser.pictureURL : avatarImg;
 
     // Settings Slides Reviews
     let countSlides = 0;
@@ -308,95 +310,97 @@ class IndividualOffer extends React.Component {
 
         <GuestLayout>
 
-            <div className={active ? 'chatInactive' : ' chatActive'}>
-              <Row>
+          <div className={active ? 'chatInactive' : ' chatActive'}>
+            <Row>
 
-                <Col sm="2">
-                  {' '}
-                </Col>
-                <Col sm="6">
-                  <h1 className="title">{offer.title}</h1>
-                </Col>
-                <Col sm="2">
-                  {offer.ratingCount !== 0 ? (
-                    <div style={{ margin: 5 }}>
-                      {'Service Rating: '}
-                      {Number.parseFloat(offer.rating).toFixed(2)}
-                      <StarRatingComponent
-                        name="RatingService"
-                        editing={false}
-                        renderStarIcon={() => <h5>&#9733;</h5>}
-                        starCount={5}
-                        value={Number.parseFloat(offer.rating).toFixed(2)}
+              <Col sm="2">
+                {' '}
+              </Col>
+              <Col sm="6">
+                <h1 className="title">{offer.title}</h1>
+              </Col>
+              <Col sm="2">
+                {offer.ratingCount !== 0 ? (
+                  <div style={{ margin: 5 }}>
+                    {'Service Rating: '}
+                    {Number.parseFloat(offer.rating).toFixed(2)}
+                    <StarRatingComponent
+                      name="RatingService"
+                      editing={false}
+                      renderStarIcon={() => <h5>&#9733;</h5>}
+                      starCount={5}
+                      value={Number.parseFloat(offer.rating).toFixed(2)}
+                    />
+                  </div>) : ('')}
+              </Col>
+
+            </Row>
+            <Row>
+              <Col sm="2">
+                {' '}
+              </Col>
+              <Col sm="4">
+                <img name="picture" alt={offer.title} src={pictureUrl} width="400" margin="8" style={{ position: 'relative', top: '5%', transform: 'translateY(-5%)' }} />
+              </Col>
+
+              <Col sm="2">
+                <p style={{ wordWrap: 'break-word' }}>{offer.description}</p>
+              </Col>
+              <Col sm="2">
+                <Divider />
+                <div style={{ margin: '8px' }}>
+                  <p style={{ fontWeight: 'bold', color: '#111010' }}>Categories: </p>
+
+                  {offer.categories !== undefined ? (
+                    offer.categories.map(c => (
+                      <Chip
+                        style={{ margin: '3px' }}
+                        key={c.name}
+                        label={c.name}
                       />
-                    </div>) : ('')}
-                </Col>
+                    ))) : ''}
 
-              </Row>
-              <Row>
-                <Col sm="2">
-                  {' '}
-                </Col>
-                <Col sm="4">
-                  <img name="picture" alt={offer.title} src={pictureUrl} width="400" margin="8" style={{ position: 'relative', top: '5%', transform: 'translateY(-5%)' }} />
-                </Col>
+                </div>
+                <Divider />
+                <div style={{ margin: '8px' }}>
+                  <b style={{ fontWeight: 'bold', color: '#111010' }}>{'Payment Method: '}</b>
+                  {offer.paymentMethod}
+                </div>
 
-                <Col sm="2">
-                  <p style={{ wordWrap: 'break-word' }}>{offer.description}</p>
-                </Col>
-                <Col sm="2">
-                  <Divider />
-                  <div>
-                    <p>Categories: </p>
+                <div>
+                  {offer.hourPrice && offer.hourPrice !== '0' ? (
+                    <div className="col-sm-12">
+                      <span>
+                        {offer.hourPrice}
+                        {' '}
+                        {'Coopies x hour'}
+                      </span>
+                    </div>
+                  ) : ''}
+                  {offer.sessionPrice && offer.sessionPrice !== '0' ? (
+                    <div className="col-sm-12">
+                      <span>
+                        {offer.sessionPrice}
+                        {' '}
+                        {'Coopies x session'}
+                      </span>
+                    </div>
+                  ) : ''}
+                  {offer.finalProductPrice && offer.finalProductPrice !== '0' ? (
+                    <div className="col-sm-12">
+                      <span>
+                        {offer.finalProductPrice}
+                        {' '}
+                        {'Coopies x final product'}
+                      </span>
+                    </div>
+                  ) : ''}
+                </div>
 
-                    {offer.categories !== undefined ? (
-                      offer.categories.map(c => (
-                        <Chip
-                          key={c.name}
-                          label={c.name}
-                        />
-                      ))) : ''}
-
-                  </div>
-                  <Divider />
-                  <div>
-                    {'Payment Method: '}
-                    {offer.paymentMethod}
-                  </div>
-
-                  <div>
-                    {offer.hourPrice && offer.hourPrice !== '0' ? (
-                      <div className="col-sm-12">
-                        <span>
-                          {offer.hourPrice}
-                          {' '}
-                          {'Coopies x hour'}
-                        </span>
-                      </div>
-                    ) : ''}
-                    {offer.sessionPrice && offer.sessionPrice !== '0' ? (
-                      <div className="col-sm-12">
-                        <span>
-                          {offer.sessionPrice}
-                          {' '}
-                          {'Coopies x session'}
-                        </span>
-                      </div>
-                    ) : ''}
-                    {offer.finalProductPrice && offer.finalProductPrice !== '0' ? (
-                      <div className="col-sm-12">
-                        <span>
-                          {offer.finalProductPrice}
-                          {' '}
-                          {'Coopies x final product'}
-                        </span>
-                      </div>
-                    ) : ''}
-                  </div>
-
-                  <Divider />
-
+                <Divider />
+                <div style={{ margin: '8px' }}>
                   <TextField
+                    style={{ margin: '5px' }}
                     label="Start Date"
                     type="date"
                     disabled
@@ -404,8 +408,11 @@ class IndividualOffer extends React.Component {
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    variant="outlined"
+                    margin="normal"
                   />
                   <TextField
+                    style={{ margin: '5px' }}
                     label="Finish Date"
                     type="date"
                     disabled
@@ -413,82 +420,91 @@ class IndividualOffer extends React.Component {
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    variant="outlined"
+                    margin="normal"
                   />
-                </Col>
-                <Col sm="2">
-                  {' '}
-                </Col>
-              </Row>
+                </div>
+                <Divider />
+              </Col>
+              <Col sm="2">
+                {' '}
+              </Col>
+            </Row>
 
-              <Row>
+            <Row>
 
-                <Col sm="2">
-                  {' '}
-                </Col>
-                <Col sm="4">
-                  {'Share with Facebook'}
-                  <FacebookShareButton
-                    style={{ display: showBtnShareFB, marginLeft: '4%' }}
-                    url={shareUrl}
-                    quote={offer.title}
-                    beforeOnClick={e => this.setShareCount(e)}
-                    onShareWindowClose={e => this.handleShareComplete(e)}
+              <Col sm="2">
+                {' '}
+              </Col>
+              <Col sm="4" style={{ margin: '8px' }}>
+                {'Share with Facebook'}
+                <FacebookShareButton
+                  style={{ display: showBtnShareFB, marginLeft: '4%' }}
+                  url={shareUrl}
+                  quote={offer.title}
+                  beforeOnClick={e => this.setShareCount(e)}
+                  onShareWindowClose={e => this.handleShareComplete(e)}
+                >
+                  <FacebookIcon size={32}> Share with Facebook </FacebookIcon>
+                </FacebookShareButton>
+              </Col>
+              <Col sm="2">
+                {' '}
+              </Col>
+
+            </Row>
+
+            <Row>
+
+              <Col sm="2">
+                {' '}
+              </Col>
+              <Col sm="4" style={{ margin: '8px' }}>
+                <Link to={`/user/profile/${offer.userId}`}>
+                  <Button
+                    style={{ background: '#C3E9FF', borderRadius: '25px' }}
                   >
-                    <FacebookIcon size={32}> Share with Facebook </FacebookIcon>
-                  </FacebookShareButton>
-                </Col>
-                <Col sm="2">
-                  {' '}
-                </Col>
-
-              </Row>
-
-              <Row>
-
-                <Col sm="2">
-                  {' '}
-                </Col>
-                <Col sm="4">
-                  <Link to={`/user/profile/${offer.userId}`}>
-                    <h3>
-                      {`See profile of ${offer.by}`}
+                    <h3 style={{ color: 'black', margin: '0px' }}>
+                      {`See profile of ${offer.by} `}
+                      <i className="fa fa-user fa-20x" style={{ color: '#000000' }} />
                     </h3>
-                  </Link>
-                </Col>
-                <Col sm="2">
-                  {' '}
-                </Col>
+                  </Button>
+                </Link>
+              </Col>
+              <Col sm="2">
+                {' '}
+              </Col>
 
-              </Row>
+            </Row>
 
-              <Divider />
+            {/* <Divider /> */}
 
-              <Row>
-                <Col sm="2">
-                  {' '}
-                </Col>
-                <Col sm="8">
-                  <div style={{ textAlign: '-webkit-center', margin: 8 }}>
-                    <Button
-                      onClick={e => this.handleContactClick(e)}
-                      style={{ display: displayOwnerOnly }}
-                    >
-                      {'Negotiate with: '}
-                      {offer.by}
-                      {' '}
-                      <i className="fa fa-comment" />
-                    </Button>
-                  </div>
-                </Col>
-              </Row>
+            <Row>
+              <Col sm="2">
+                {' '}
+              </Col>
+              <Col sm="8">
+                <div style={{ textAlign: '-webkit-center', margin: '8px' }}>
+                  <Button
+                    onClick={e => this.handleContactClick(e)}
+                    style={{ display: displayOwnerOnly }}
+                  >
+                    {'Negotiate with: '}
+                    {offer.by}
+                    {' '}
+                    <i className="fa fa-comment" />
+                  </Button>
+                </div>
+              </Col>
+            </Row>
 
-              <div style={{ textAlign: 'center', margin: 8 }}>
-                <Button style={{ display: canReview, margin: 'auto' }} onClick={e => this.handleClickOpen(e)}>
-                  {'Write your review for this service'}
-                </Button>
-              </div>
+            <div style={{ textAlign: 'center', margin: 8 }}>
+              <Button style={{ display: canReview, margin: 'auto' }} onClick={e => this.handleClickOpen(e)}>
+                {'Write your review for this service'}
+              </Button>
+            </div>
 
-              {/* <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
+            {/* <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
                 <Col sm="2">
                   {' '}
                 </Col>
@@ -531,153 +547,153 @@ class IndividualOffer extends React.Component {
                 </Col>
               </Row> */}
 
-              {/* Prueba con react-slick */}
-              <Row>
-                <Col sm="2">
-                  {' '}
-                </Col>
-                <Col sm="8">
-                  <Slider {...settings}>
-                    {reviews.map(item => (
-                      <div className="card cardCoopify">
-                        <div className="card-body">
-                          <p>{item.reviewer.pictureURL != null ? <img name="pictureReviewer" alt={item.reviewer.name} src={item.reviewer.pictureURL} width="120" display="initial" /> : ''}</p>
-                          <p className="card-title">{item.reviewer != null ? item.reviewer.name : ''}</p>
-                          <p className="text-muted">{item.description}</p>
-                          <p className="card-text">
-                            <h3 className="text-muted">
-                              <StarRatingComponent
-                                name="RatingReview"
-                                editing={false}
-                                renderStarIcon={() => <span>&#9733;</span>}
-                                starCount={5}
-                                value={item.offerRate}
-                              />
-                            </h3>
-                          </p>
-                          <small className="card-text">{item.createdAt.substring(0, 10)}</small>
-                        </div>
-                      </div>
-                    ))}
-                  </Slider>
-                </Col>
-                <Col sm="2">
-                  {' '}
-                </Col>
-              </Row>
-
-              {/* Fin Prueba con react-slick */}
-
-              <Dialog
-                open={modalOpen}
-                onClose={this.handleClose}
-                aria-labelledby="form-dialog-title"
-                fullWidth={true}
-              >
-                <DialogTitle id="form-dialog-title">
-                  <h1>{offer.title}</h1>
-                </DialogTitle>
-                <Divider />
-                <DialogContent>
-
-                  <form style={{ color: 'black', paddingTop: '7%' }}>
-                    <div className="form-group row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <label htmlFor="staticEmail" style={{ width: '40%', textAlign: 'left', fontSize: '200%' }}><h3>Service</h3></label>
-                      <div style={{ fontSize: '200%' }}>
-
-                        <StarRatingComponent
-                          name="RatingService"
-                          starColor="#ffb400"
-                          emptyStarColor="#ffb400"
-                          renderStarIcon={(index, value) => {
-                            return (
-                              <span>
-                                <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
-                              </span>
-                            );
-                          }}
-                          value={myServiceRating}
-                          onStarClick={e => this.onServiceStarClick(e)}
-                          starCount={5}
-
-                        />
-
+            {/* Prueba con react-slick */}
+            <Row>
+              <Col sm="2">
+                {' '}
+              </Col>
+              <Col sm="8">
+                <Slider {...settings}>
+                  {reviews.map(item => (
+                    <div className="card cardCoopify">
+                      <div className="card-body">
+                        <p>{item.reviewer.pictureURL != null ? <img name="pictureReviewer" alt={item.reviewer.name} src={item.reviewer.pictureURL} width="120" display="initial" /> : ''}</p>
+                        <p className="card-title">{item.reviewer != null ? item.reviewer.name : ''}</p>
+                        <p className="text-muted">{item.description}</p>
+                        <p className="card-text">
+                          <h3 className="text-muted">
+                            <StarRatingComponent
+                              name="RatingReview"
+                              editing={false}
+                              renderStarIcon={() => <span>&#9733;</span>}
+                              starCount={5}
+                              value={item.offerRate}
+                            />
+                          </h3>
+                        </p>
+                        <small className="card-text">{item.createdAt.substring(0, 10)}</small>
                       </div>
                     </div>
-                    <div className="form-group row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <label htmlFor="inputPassword" style={{ width: '40%', textAlign: 'left', fontSize: '200%' }}><h3>User</h3></label>
-                      <div style={{ fontSize: '200%' }}>
-                        <StarRatingComponent
-                          name="RatingService"
-                          starColor="#ffb400"
-                          emptyStarColor="#ffb400"
-                          renderStarIcon={(index, value) => (
+                  ))}
+                </Slider>
+              </Col>
+              <Col sm="2">
+                {' '}
+              </Col>
+            </Row>
+
+            {/* Fin Prueba con react-slick */}
+
+            <Dialog
+              open={modalOpen}
+              onClose={this.handleClose}
+              aria-labelledby="form-dialog-title"
+              fullWidth={true}
+            >
+              <DialogTitle id="form-dialog-title">
+                <h1>{offer.title}</h1>
+              </DialogTitle>
+              <Divider />
+              <DialogContent>
+
+                <form style={{ color: 'black', paddingTop: '7%' }}>
+                  <div className="form-group row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <label htmlFor="staticEmail" style={{ width: '40%', textAlign: 'left', fontSize: '200%' }}><h3>Service</h3></label>
+                    <div style={{ fontSize: '200%' }}>
+
+                      <StarRatingComponent
+                        name="RatingService"
+                        starColor="#ffb400"
+                        emptyStarColor="#ffb400"
+                        renderStarIcon={(index, value) => {
+                          return (
                             <span>
                               <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
                             </span>
-                          )}
-                          value={myUserRating}
-                          onStarClick={e => this.onUserStarClick(e)}
-                          starCount={5}
-                          style={{ fontSize: 'xx-large' }}
-                        />
-                      </div>
+                          );
+                        }}
+                        value={myServiceRating}
+                        onStarClick={e => this.onServiceStarClick(e)}
+                        starCount={5}
+
+                      />
+
                     </div>
-                  </form>
-
-
-                  <div>
-                    <Divider />
-
-                    <div className="form-group" style={{ display: 'flex', alignItems: 'center', paddingTop: '3%' }}>
-                      <Avatar src="https://material-ui.com/static/images/avatar/1.jpg" style={{ width: '20%', height: '25%', display: 'inline-block' }} />
-                      <textarea
-                        style={{ marginLeft: '5%', fontSize: '12px', lineHeight: '1' }}
-                        rows={4}
-                        className="form-control"
-                        placeholder="Would you like to add a comment?"
-                        onChange={e => this.handleReviewChange(e)}
+                  </div>
+                  <div className="form-group row" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <label htmlFor="inputPassword" style={{ width: '40%', textAlign: 'left', fontSize: '200%' }}><h3>User</h3></label>
+                    <div style={{ fontSize: '200%' }}>
+                      <StarRatingComponent
+                        name="RatingService"
+                        starColor="#ffb400"
+                        emptyStarColor="#ffb400"
+                        renderStarIcon={(index, value) => (
+                          <span>
+                            <i className={index <= value ? 'fa fa-star' : 'fa fa-star-o'} />
+                          </span>
+                        )}
+                        value={myUserRating}
+                        onStarClick={e => this.onUserStarClick(e)}
+                        starCount={5}
+                        style={{ fontSize: 'xx-large' }}
                       />
                     </div>
+                  </div>
+                </form>
 
+
+                <div>
+                  <Divider />
+
+                  <div className="form-group" style={{ display: 'flex', alignItems: 'center', paddingTop: '3%' }}>
+                    <Avatar src={loggedUserPicture} style={{ width: '20%', height: '25%', display: 'inline-block' }} />
+                    <textarea
+                      style={{ marginLeft: '5%', fontSize: '12px', lineHeight: '1' }}
+                      rows={4}
+                      className="form-control"
+                      placeholder="Would you like to add a comment?"
+                      onChange={e => this.handleReviewChange(e)}
+                    />
                   </div>
 
-                  <CommonButton
-                    style={{ width: '100%', color: 'white', fontSize: 'bold', backgroundColor: '#19b9e7' }}
-                    onClick={e => this.handleSendReview(e)}
-                  >
-                    {'Send review'}
-                  </CommonButton>
+                </div>
 
-                </DialogContent>
-              </Dialog>
+                <CommonButton
+                  style={{ width: '100%', color: 'white', fontSize: 'bold', backgroundColor: '#19b9e7' }}
+                  onClick={e => this.handleSendReview(e)}
+                >
+                  {'Send review'}
+                </CommonButton>
+
+              </DialogContent>
+            </Dialog>
 
 
-              <Divider />
+            <Divider />
 
-              <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
-                <Col sm="2">
-                  {' '}
-                </Col>
-                <Col sm="8">
-                  <div>
-                    <GeneralQuestions offerId={this.props.match.params.id} />
-                  </div>
-                </Col>
-                <Col sm="2">
-                  {' '}
-                </Col>
-              </Row>
+            <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
+              <Col sm="2">
+                {' '}
+              </Col>
+              <Col sm="8">
+                <div>
+                  <GeneralQuestions offerId={this.props.match.params.id} />
+                </div>
+              </Col>
+              <Col sm="2">
+                {' '}
+              </Col>
+            </Row>
 
-              <Divider />
+            <Divider />
 
-            </div>
+          </div>
 
-            <div className={active ? 'chatActive' : ' chatInactive'}>
-                <Chat conversationid={conversationId} onChatLeave={e => this.displayChatList(e)}/>
-            </div>
+          <div className={active ? 'chatActive' : ' chatInactive'}>
+            <Chat conversationid={conversationId} onChatLeave={e => this.displayChatList(e)} />
+          </div>
 
-            <ToastContainer autoClose={3000} />
+          <ToastContainer autoClose={3000} />
 
         </GuestLayout>
       </Protected>

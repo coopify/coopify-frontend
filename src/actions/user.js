@@ -58,8 +58,28 @@ export const changeProfileImage = payload => ({
   payload,
 });
 
-export const resetNotificationFlags = () => ({
-  type: Actions.RESET_ERROR,
+export const resetNotificationFlagsUser = () => ({
+  type: Actions.RESET_ERROR_USER,
+});
+
+export const resetNotificationFlagsService = () => ({
+  type: Actions.RESET_ERROR_SERVICES,
+});
+
+export const resetNotificationFlagsProposals = () => ({
+  type: Actions.RESET_ERROR_PROPOSALS,
+});
+
+export const resetNotificationFlagsReviews = () => ({
+  type: Actions.RESET_ERROR_REVIEWS,
+});
+
+export const resetNotificationFlagsConversations = () => ({
+  type: Actions.RESET_ERROR_CONVERSATIONS,
+});
+
+export const resetNotificationFlagsGoals = () => ({
+  type: Actions.RESET_ERROR_GOALS,
 });
 
 export const attemptPublishOffer = payload => ({

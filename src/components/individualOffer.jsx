@@ -19,7 +19,7 @@ import { createUrlConversation, getShareCount } from '../api';
 import { GeneralQuestions } from './generalQuestions';
 import { Protected } from './protected';
 import {
-  resetNotificationFlags, attemptShowOffer, attemptSendReward, saveRefCode, attemptGetReviews, attemptSendReview, attemptCanReview
+  resetNotificationFlagsService, attemptShowOffer, attemptSendReward, saveRefCode, attemptGetReviews, attemptSendReview, attemptCanReview
 } from '../actions/user';
 import GuestLayout from './guest-layout';
 import Avatar from '@material-ui/core/Avatar';
@@ -201,10 +201,10 @@ class IndividualOffer extends React.Component {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
-      dispatch(resetNotificationFlags());
+      dispatch(resetNotificationFlagsService());
     } else {
       toast.success(message);
-      dispatch(resetNotificationFlags());
+      dispatch(resetNotificationFlagsService());
     }
   }
 

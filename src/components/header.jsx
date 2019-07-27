@@ -29,7 +29,7 @@ import logo from '../assets/logo.png';
 import avatarImg from '../assets/avatar.png';
 
 import {
-  attemptLogoutAction, loadState, resetNotificationFlags, attemptCheckBalanceAction,
+  attemptLogoutAction, loadState, resetNotificationFlagsUser, attemptCheckBalanceAction,
 } from '../actions/user';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -84,7 +84,7 @@ class Header extends PureComponent {
       };
       dispatch(attemptCheckBalanceAction(reqAttributes));
     }
-    dispatch(resetNotificationFlags());
+    dispatch(resetNotificationFlagsUser());
   }
 
   closeMenuBar() {

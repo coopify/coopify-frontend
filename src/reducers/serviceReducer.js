@@ -24,6 +24,7 @@ export const SEND_QUESTION_REPLY_SUCCESS = 'SEND_QUESTION_REPLY_SUCCESS';
 export const SEND_QUESTION_REPLY_FAILURE = 'SEND_QUESTION_REPLY_FAILURE';
 export const GET_USERS_OFFERS_ATTEMPT = 'GET_USERS_OFFERS_ATTEMPT';
 export const GET_USERS_OFFERS_SUCCESS = 'GET_USERS_OFFERS_SUCCESS';
+export const RESET_ERROR_SERVICES = 'RESET_ERROR_SERVICES';
 
 export const service = (state = initialServiceState, action) => {
   switch (action.type) {
@@ -120,6 +121,9 @@ export const service = (state = initialServiceState, action) => {
     case POST_QUESTION_SUCCESS:
       return _.assignIn({}, state, {
         error: '',
+        questionCreated: true,
+        questions: [action.responseQuestion].concat(state.questions),
+        countQuestions: state.countQuestions + 1,
       });
 
     case POST_QUESTION_FAILURE:
@@ -148,6 +152,8 @@ export const service = (state = initialServiceState, action) => {
       return _.assignIn({}, state, {
         error: '',
         reply: action.reply,
+        replyMade: true,
+        questions: [action.responseQuestion].concat(state.questions.slice(1)),
       });
 
     case SEND_QUESTION_REPLY_FAILURE:
@@ -161,6 +167,15 @@ export const service = (state = initialServiceState, action) => {
         error: '',
         myOffers: action.usersOffers.myOffers,
         userOffers: action.usersOffers.userOffers,
+      });
+
+    case RESET_ERROR_SERVICES:
+      return _.assignIn({}, state, {
+        error: '',
+        status: '',
+        offerCreated: false,
+        questionCreated: false,
+        replyMade: false,
       });
 
     default:

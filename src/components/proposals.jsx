@@ -9,7 +9,7 @@ import { Loading } from './loading';
 import { Proposal } from './proposal';
 import { Protected } from './protected';
 import styles from '../resources/css/profile.scss';
-import { resetNotificationFlags, attemptProposalsAction } from '../actions/user';
+import { resetNotificationFlagsProposals, attemptProposalsAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 import { GridView } from './gridview';
 import noImage from '../assets/noImage.png';
@@ -62,7 +62,7 @@ class Proposals extends React.Component {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
-      dispatch(resetNotificationFlags());
+      dispatch(resetNotificationFlagsProposals());
     } else {
       toast.success(message);
     }

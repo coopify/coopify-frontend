@@ -197,7 +197,7 @@ export function postQuestionAPICall(payload) {
   )
     .then(response => ({
       status: response.status,
-      message: response.status,
+      responseQuestion: response.data.question,
     })).catch(e => handleError(e));
 }
 
@@ -234,7 +234,7 @@ export function sendReplyAPICall(payload) {
   )
     .then(response => ({
       status: response.status,
-      reply: response.data.response,
+      responseQuestion: response.data.question,
     })).catch(e => handleError(e));
 }
 

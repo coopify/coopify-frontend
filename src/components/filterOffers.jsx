@@ -18,7 +18,7 @@ import {
 import { Offers } from './offers';
 import { Protected } from './protected';
 import styles from '../resources/css/profile.scss';
-import { resetNotificationFlags, attemptChangeFilters, attemptCategoriesAction } from '../actions/user';
+import { resetNotificationFlagsService, attemptChangeFilters, attemptCategoriesAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 import ReactJoyride from 'react-joyride';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -55,7 +55,7 @@ class FilterOffers extends React.Component {
         searchName: '',
         paymentMethods: [],
         exchangeMethods: [],
-        prices: [1, 100],
+        prices: [0, 100],
         categories: [],
         sortBy: 'Date',
         showEI: false,
@@ -71,7 +71,7 @@ class FilterOffers extends React.Component {
       const { dispatch } = this.props;
       if (isError) {
         toast.error(message);
-        dispatch(resetNotificationFlags());
+        dispatch(resetNotificationFlagsService());
       } else {
         toast.success(message);
       }

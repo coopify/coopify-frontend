@@ -15,7 +15,7 @@ import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import styles from '../resources/css/profile.scss';
 import {
-  attemptGetQuestionsAndAnswer, attemptSendReply, attemptQuestion, resetNotificationFlags,
+  attemptGetQuestionsAndAnswer, attemptSendReply, attemptQuestion, resetNotificationFlagsService,
 } from '../actions/user';
 
 export default @connect(state => ({
@@ -25,6 +25,8 @@ export default @connect(state => ({
   question: state.service.question,
   readOnlyOffer: state.service.offer,
   loggedUser: state.user.loggedUser,
+  questionCreated: state.service.questionCreated,
+  replyMade: state.service.replyMade,
 }))
 
 class GeneralQuestions extends React.Component {
@@ -37,6 +39,8 @@ class GeneralQuestions extends React.Component {
     loggedUser: PropTypes.objectOf(PropTypes.object),
     readOnlyOffer: PropTypes.objectOf(PropTypes.object),
     offerId: PropTypes.string,
+    questionCreated: PropTypes.bool,
+    replyMade: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -49,6 +53,8 @@ class GeneralQuestions extends React.Component {
     loggedUser: {},
     readOnlyOffer: {},
     offerId: '',
+    questionCreated: false,
+    replyMade: false,
   };
 
   constructor(props) {
@@ -81,9 +87,10 @@ class GeneralQuestions extends React.Component {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
-      dispatch(resetNotificationFlags());
+      dispatch(resetNotificationFlagsService());
     } else {
       toast.success(message);
+      dispatch(resetNotificationFlagsService());
     }
   }
 
@@ -147,10 +154,14 @@ class GeneralQuestions extends React.Component {
 
   render() {
     const TheadComponent = props => null;
-    const { questions, loggedUser, readOnlyOffer, countQuestions } = this.props;
+    const { questions, loggedUser, readOnlyOffer, countQuestions, questionCreated, replyMade } = this.props;
     const { question, limit } = this.state;
-    const displayReplyButton = loggedUser.id === readOnlyOffer.userId ? 'block' : 'none';
+    const displayReplyButton = loggedUser.id === readOnlyOffer.userId ? true : false;
     const data = questions;
+
+    if (questionCreated) this.notify('Your question was posted successfully!', false);
+    if (replyMade) this.notify('Your reply was posted successfully!', false);
+
     const columns = [{
       accessor: 'question',
       Cell: props => (
@@ -173,7 +184,11 @@ class GeneralQuestions extends React.Component {
             <Button
               onClick={e => this.handleReplyClick(e)}
               style={{
-                backgroundColor: 'transparent', color: 'black', borderColor: 'transparent', float: 'right', display: displayReplyButton,
+                backgroundColor: 'transparent',
+                color: 'black',
+                borderColor: 'transparent',
+                float: 'right',
+                display: displayReplyButton && (props.original.response == null || props.original.response == '') ? 'block' : 'none',
               }}
             >
               { 'Reply' }

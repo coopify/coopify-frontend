@@ -10,6 +10,7 @@ export const GET_CONVERSATIONS_FAILURE = 'GET_CONVERSATIONS_FAILURE';
 export const GET_MESSAGES_ATTEMPT = 'GET_MESSAGES_ATTEMPT';
 export const GET_MESSAGES_SUCCESS = 'GET_MESSAGES_SUCCESS';
 export const GET_MESSAGES_FAILURE = 'GET_MESSAGES_FAILURE';
+export const RESET_ERROR_CONVERSATIONS = 'RESET_ERROR_CONVERSATIONS';
 
 export const conversation = (state = initialConversationState, action) => {
   switch (action.type) {
@@ -74,6 +75,12 @@ export const conversation = (state = initialConversationState, action) => {
       return _.assignIn({}, state, {
         error: action.errorMessage,
         loading: false,
+      });
+
+    case RESET_ERROR_CONVERSATIONS:
+      return _.assignIn({}, state, {
+        error: '',
+        status: '',
       });
 
     default:

@@ -67,7 +67,7 @@ export function* getCategoriesAsync() {
 export function* postQuestionAsync(payload) {
   const result = yield postQuestionAPICall(payload.payload);
   if (result.status === 200) {
-    yield put({ type: POST_QUESTION_SUCCESS, message: result.message });
+    yield put({ type: POST_QUESTION_SUCCESS, responseQuestion: result.responseQuestion });
   } else {
     yield put({ type: POST_QUESTION_FAILURE, errorMessage: result.errorMessage });
   }
@@ -86,7 +86,7 @@ export function* getQuestionAnswerAsync(payload) {
 export function* sendReplyAsync(payload) {
   const result = yield sendReplyAPICall(payload.payload);
   if (result.status === 200) {
-    yield put({ type: SEND_QUESTION_REPLY_SUCCESS, reply: result.reply });
+    yield put({ type: SEND_QUESTION_REPLY_SUCCESS, responseQuestion: result.responseQuestion });
   } else {
     yield put({ type: SEND_QUESTION_REPLY_FAILURE, errorMessage: result.errorMessage });
   }

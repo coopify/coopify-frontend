@@ -22,7 +22,7 @@ import BasicData from './offerCreation/basicData.jsx';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import Protected from './protected';
 import styles from '../resources/css/profile.scss';
-import { resetNotificationFlags, attemptPublishOffer } from '../actions/user';
+import { resetNotificationFlagsService, attemptPublishOffer } from '../actions/user';
 import GuestLayout from './guest-layout';
 
 
@@ -75,10 +75,10 @@ class OfferCreation extends React.Component {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
-      dispatch(resetNotificationFlags());
+      dispatch(resetNotificationFlagsService());
     } else {
       toast.success(message);
-      dispatch(resetNotificationFlags());
+      dispatch(resetNotificationFlagsService());
     }
   }
 
@@ -139,13 +139,17 @@ class OfferCreation extends React.Component {
     dispatch(attemptPublishOffer(payload));
   }
 
-
   render() {
     const {
       loading, error, loggedUser, balance, offerIsCreated,
     } = this.props;
     if (error.length > 0) this.notify(error, true);
-    if (offerIsCreated) this.notify('Service succesfully created', false);
+
+    if (offerIsCreated){
+      this.notify('Service succesfully created', false);
+      return <Redirect push={false} to="/home" />;
+    }
+
     const { offer, categories } = this.state;
     const steps = [
       {

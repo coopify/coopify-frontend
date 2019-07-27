@@ -158,11 +158,11 @@ class GeneralQuestions extends React.Component {
           <form>
             <i className="fa fa-comments-o" />
             <TextField
-              disabled={(props.original.response !== undefined && props.original.response !== '') || (loggedUser.id !== readOnlyOffer.userId)}
+              disabled
               fullWidth
               multiline
               type="text"
-              name="replyComment"
+              name="replyQuestion"
               tag={props.original.id}
               value={props.original.text}
               style={{ color: 'black', textAlign: 'left' }}
@@ -182,7 +182,7 @@ class GeneralQuestions extends React.Component {
             <br />
             <i className="fa fa-comments" />
             <TextField
-              disabled={(props.original.response !== undefined && props.original.response !== '') || (loggedUser.id !== readOnlyOffer.userId)}
+              disabled={(props.original.response !== null && props.original.response !== '') || (loggedUser.id !== readOnlyOffer.userId)}
               fullWidth
               multiline
               type="text"

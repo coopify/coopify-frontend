@@ -210,15 +210,12 @@ class Chat extends React.Component {
     });
   }
 
-  async componentDidUpdate(prevProps) {
-
+  async componentWillReceiveProps(nextProps) {
     const { dispatch, loggedUser, conversations, conversationid } = this.props;
 
-    if(conversationid && conversationid.length > 0 && prevProps.conversationid != conversationid){
-      
-
+    if(conversationid && nextProps.conversationid != conversationid){
       const token = localStorage.getItem('token');
-      const conversationId = this.props.conversationid;
+      const conversationId = nextProps.conversationid;
 
       const payload = {
         token,

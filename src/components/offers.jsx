@@ -93,13 +93,13 @@ class Offers extends React.Component {
     return false;
   }
 
-  componentDidUpdate(prevProps) {
-    const { dispatch, filters, limit, page } = this.props;
-    if (this.didFiltersChange(prevProps.filters, filters)) {
+  componentWillReceiveProps(nextProps) {
+    const { dispatch, filters } = this.props;
+    if (this.didFiltersChange(filters, nextProps.filters)) {
       const reqAttributes = {
-        limit,
-        page,
-        filters,
+        limit: nextProps.limit,
+        page: nextProps.page,
+        filters: nextProps.filters,
       };
 
       dispatch(attemptOffersAction(reqAttributes));

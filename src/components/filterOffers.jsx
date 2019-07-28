@@ -55,7 +55,7 @@ class FilterOffers extends React.Component {
         searchName: '',
         paymentMethods: [],
         exchangeMethods: [],
-        prices: [0, 100],
+        prices: [1, 100],
         categories: [],
         sortBy: 'Date',
         showEI: false,
@@ -268,9 +268,9 @@ class FilterOffers extends React.Component {
                   <h4 style={{ color: 'black', display: showEIDisplay }}>Price range</h4>
 
                   <Range 
-                  min={0}
+                  min={1}
                   max={100} 
-                  marks={{ 0: 0, 100: 100 }}
+                  marks={{ 1: 1, 100: 100 }}
                   defaultValue={prices} 
                   tipFormatter={value => `${value} Coopi`} 
                   allowCross={false} 

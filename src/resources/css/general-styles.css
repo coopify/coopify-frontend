@@ -192,3 +192,8 @@ footer a:hover, footer a:focus { border-bottom: 1px dotted #19b9e7; }
 div._loading_overlay_wrapper {
 	position: unset;
   }
+
+.coopyBalance {
+	font-size: 20px;
+	font-weight: bold;
+}

@@ -1,7 +1,6 @@
 #myFooter {
-    background-color: #3c3d41;
+    background-color: #333333;
     color: white;
-    padding-top: 30px;
 }
 
 #myFooter .footer-copyright {
@@ -12,7 +11,7 @@
 }
 
 #myFooter .row {
-    margin-bottom: 60px;
+    margin-bottom: 0px;
 }
 
 #myFooter .navbar-brand {
@@ -131,4 +130,9 @@ body{
 
 footer{
     padding-bottom: 0;
+}
+
+.footer-logo{
+    max-width: 60%;
+    margin: auto;
 }

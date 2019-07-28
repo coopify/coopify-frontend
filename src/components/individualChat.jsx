@@ -57,7 +57,7 @@ class Chat extends React.Component {
     myOffers: PropTypes.arrayOf(PropTypes.object),
     userOffers: PropTypes.arrayOf(PropTypes.object),
     proposal: PropTypes.objectOf(PropTypes.object),
-    conversations: PropTypes.arrayOf(PropTypes.object),
+    // conversations: PropTypes.arrayOf(PropTypes.object),
     conversationid: PropTypes.string,
   };
 
@@ -71,7 +71,7 @@ class Chat extends React.Component {
     myOffers: [],
     userOffers: [],
     proposal: {},
-    conversations: [],
+    // conversations: [],
     conversationid: '',
   };
 
@@ -96,6 +96,7 @@ class Chat extends React.Component {
       userChat: {},
       selectedServiceFull: {},
       isOpenOffer: false,
+      userOffers: [],
     };
     this.onChangeExchangeMethod = this.onChangeExchangeMethod.bind(this);
     this.onChangeExchangeInstance = this.onChangeExchangeInstance.bind(this);
@@ -173,6 +174,7 @@ class Chat extends React.Component {
     const {
       isOpenOffer, selectedServiceFull, exchangeMethodSelected, selectedServiceText,
       exchangeInstanceSelected, coopiValue, exchangeServiceText, myExchangeService,
+      selectedService, userOffers,
     } = this.state;
 
     const {
@@ -199,11 +201,11 @@ class Chat extends React.Component {
         componentToRender = (
           <Select
             style={{ width: '100%' }}
-            value={this.state.selectedService}
+            value={selectedService}
             onChange={(e, f) => this.handleServiceChange(e, f)}
           >
             {
-              this.props.userOffers.map(o => (
+              userOffers.map(o => (
                 <MenuItem value={o.id} name={o.title}>{o.title}</MenuItem>
               ))
             }
@@ -469,7 +471,7 @@ class Chat extends React.Component {
           <div className="back" onClick={e => this.handleClickBack(e)}>
           { /* eslint-enable */ }
             <i className="fa fa-chevron-left" />
-            <img alt="user-profile-pic" src={userChat.pictureURL} height="50px" width="50px" draggable="false" />
+            <img alt="" src={userChat.pictureURL} height="50px" width="50px" draggable="false" />
           </div>
           <div className="name">{userChat.name}</div>
         </div>

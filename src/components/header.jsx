@@ -257,18 +257,10 @@ class Header extends PureComponent {
             >
               <MenuIcon />
             </IconButton>
-            <div className="navbar-brand" style={{ marginTop: '-15px' }}>
-              <Link className="navbar-item" to="/">
-                <img src={logo} alt="logo coopify" width="112" height="28" />
-              </Link>
-            </div>
             {loggedUser ? (
-              <div>
-                <p style={{ marginBottom: '0px' }}>
-                  <i className="material-icons"> attach_money </i>
-                  {' '}
-                  {balance}
-                </p>
+              <div style={{ display: 'inline-flex' }}>
+                <i className="material-icons"> attach_money </i>
+                <p className='coopyBalance' > {balance} </p>
               </div>)
               : ''}
           </Toolbar>

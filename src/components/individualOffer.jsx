@@ -452,7 +452,7 @@ class IndividualOffer extends React.Component {
                 <p style={{ color: 'black', marginBottom: '0px' }}>
                   {'Share with Facebook'}
                   <FacebookShareButton
-                    style={{ display: showBtnShareFB, marginLeft: '4%' }}
+                    style={{ display: showBtnShareFB, marginLeft: '2%' }}
                     url={shareUrl}
                     quote={offer.title}
                     beforeOnClick={e => this.setShareCount(e)}

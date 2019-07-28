@@ -213,7 +213,7 @@ class Chat extends React.Component {
   async componentWillReceiveProps(nextProps) {
     const { dispatch, loggedUser, conversations, conversationid } = this.props;
 
-    if(conversationid && nextProps.conversationid != conversationid){
+    if(nextProps.conversationid && nextProps.conversationid.length > 0 && nextProps.conversationid != conversationid){
       const token = localStorage.getItem('token');
       const conversationId = nextProps.conversationid;
 

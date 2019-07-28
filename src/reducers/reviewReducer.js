@@ -13,6 +13,7 @@ export const CAN_REVIEW_FAILURE = 'CAN_REVIEW_FAILURE';
 export const GET_USER_REVIEWS_ATTEMPT = 'GET_USER_REVIEWS_ATTEMPT';
 export const GET_USER_REVIEWS_FAILURE = 'GET_USER_REVIEWS_FAILURE';
 export const GET_USER_REVIEWS_SUCCESS = 'GET_USER_REVIEWS_SUCCESS';
+export const RESET_ERROR_REVIEWS = 'RESET_ERROR_REVIEWS';
 
 export const review = (state = initialReviewState, action) => {
   switch (action.type) {
@@ -72,6 +73,13 @@ export const review = (state = initialReviewState, action) => {
     case GET_USER_REVIEWS_FAILURE:
       return _.assignIn({}, state, {
         error: action.errorMessage,
+      });
+
+    case RESET_ERROR_REVIEWS:
+      return _.assignIn({}, state, {
+        error: '',
+        status: '',
+        reviewCreated: false,
       });
 
     default:

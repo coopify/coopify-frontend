@@ -9,7 +9,7 @@ import 'react-table/react-table.css';
 import { Loading } from './loading';
 import { GridView } from './gridview';
 import styles from '../resources/css/profile.scss';
-import { resetNotificationFlags, attemptOffersAction } from '../actions/user';
+import { resetNotificationFlagsService, attemptOffersAction } from '../actions/user';
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -110,7 +110,7 @@ class Offers extends React.Component {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
-      dispatch(resetNotificationFlags());
+      dispatch(resetNotificationFlagsService());
     } else {
       toast.success(message);
     }
@@ -149,26 +149,6 @@ class Offers extends React.Component {
 
     return (
       <div>
-
-        <ReactJoyride
-          continuous
-          steps={steps}
-          run={true}
-          showSkipButton
-          styles={{
-            options: {
-              arrowColor: '#fff',
-              backgroundColor: '#fff',
-              beaconSize: 36,
-              overlayColor: 'rgba(0, 0, 0, 0.5)',
-              primaryColor: '#499be7',
-              spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
-              textColor: '#333',
-              width: undefined,
-              zIndex: 100,
-            },
-          }}
-        />
 
         <div className={styles.container} styles={{ backgroundColor: '#fafafa' }}>
           <form style={{ width: '80%', display: 'inline-block' }}>
@@ -276,8 +256,6 @@ class Offers extends React.Component {
               </Col>
             </Row>
           </div>
-
-          <ToastContainer autoClose={3000} />
         </div>
         </div>
     );

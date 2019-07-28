@@ -84,10 +84,10 @@ class Profile extends React.Component {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
-      dispatch(resetNotificationFlags());
+      dispatch(resetNotificationFlagsUser());
     } else {
       toast.success(message);
-      dispatch(resetNotificationFlags());
+      dispatch(resetNotificationFlagsUser());
     }
   }
 
@@ -572,7 +572,6 @@ class Profile extends React.Component {
 
 
           </div>
-          <ToastContainer autoClose={3000} />
 
         </Loading>
       </GuestLayout>

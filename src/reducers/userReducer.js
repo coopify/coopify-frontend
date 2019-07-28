@@ -19,7 +19,7 @@ export const LOAD_STATE_ATTEMPT = 'LOAD_STATE_ATTEMPT';
 export const LOAD_SUCCESS = 'LOAD_SUCCESS';
 export const CHANGE_ATTEMPT = 'CHANGE_ATTEMPT';
 export const CHANGE_IMAGE_ATTEMPT = 'CHANGE_IMAGE_ATTEMPT';
-export const RESET_ERROR = 'RESET_ERROR';
+export const RESET_ERROR_USER = 'RESET_ERROR_USER';
 export const CHECKBALANCE_ATTEMPT = 'CHECKBALANCE_ATTEMPT';
 export const CHECKBALANCE_SUCCESS = 'CHECKBALANCE_SUCCESS';
 export const CHECKBALANCE_FAILURE = 'CHECKBALANCE_FAILURE';
@@ -224,13 +224,11 @@ export const user = (state = initialUserState, action) => {
         userDidLog: true,
       });
 
-    case RESET_ERROR:
+    case RESET_ERROR_USER:
       return _.assignIn({}, state, {
         error: '',
         status: '',
-        reviewCreated: false,
         profileModified: false,
-        offerCreated: false,
       });
 
     case DISPLAY_TOAST_ATTEMPT:

@@ -6,6 +6,7 @@ export const GET_GOALS_FAILURE = 'GET_GOALS_FAILURE';
 export const GET_GOALSUSER_ATTEMPT = 'GET_GOALSUSER_ATTEMPT';
 export const GET_GOALSUSER_SUCCESS = 'GET_GOALSUSER_SUCCESS';
 export const GET_GOALSUSER_FAILURE = 'GET_GOALSUSER_FAILURE';
+export const RESET_ERROR_GOALS = 'RESET_ERROR_GOALS';
 
 export const goal = (state = initialGoalState, action) => {
   switch (action.type) {
@@ -46,6 +47,12 @@ export const goal = (state = initialGoalState, action) => {
         error: '',
         goalsUser: action.responseGoals.goalsUser,
         loading: false,
+      });
+
+    case RESET_ERROR_GOALS:
+      return _.assignIn({}, state, {
+        error: '',
+        status: '',
       });
 
     default:

@@ -239,7 +239,7 @@ class ExchangeMethod extends React.Component {
       End Date
               </Form.Label>
               <Col sm={10}>
-                <Form.Control type="date" name="endDate" value="" onChange={e => this.handleInputChange(e)} />
+                <Form.Control type="date" name="endDate" value={placeHolderEndDate} onChange={e => this.handleInputChange(e)} />
               </Col>
             </Form.Group>
 

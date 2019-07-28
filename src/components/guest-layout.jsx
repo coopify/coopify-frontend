@@ -1,4 +1,5 @@
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
 import Header from './header';
 import Footer from './footer';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,7 +12,8 @@ export default function (props) {
   return (
     <div>
       <Loading>
-        <Header />
+        <ToastContainer autoClose={3000} />
+        <Header />   
         <div style={{ paddingBottom: '60px' }} />
         {children}
         <br />

@@ -82,6 +82,7 @@
     "react-router-dom": "^4.3.1",
     "react-select": "^2.4.2",
     "react-share": "^3.0.0",
+    "react-show-more-text": "^1.2.3",
     "react-slick": "^0.24.0",
     "react-social-login": "^3.4.4",
     "react-spinners": "^0.5.12",

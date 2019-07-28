@@ -7,7 +7,7 @@ import 'react-bootstrap';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import styles from '../resources/css/profile.scss';
-import { resetNotificationFlags, attemptGoalsAction, attemptGoalsUserAction } from '../actions/user';
+import { resetNotificationFlagsGoals, attemptGoalsAction, attemptGoalsUserAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 
 export default @connect(state => ({
@@ -63,7 +63,7 @@ class Goals extends React.Component {
     const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
-      dispatch(resetNotificationFlags());
+      dispatch(resetNotificationFlagsGoals());
     } else {
       toast.success(message);
     }
@@ -159,7 +159,6 @@ class Goals extends React.Component {
               minRows={0}
             />
           </form>
-          <ToastContainer autoClose={3000} />
         </div>
       </GuestLayout>
     );

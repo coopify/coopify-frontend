@@ -18,7 +18,7 @@ import {
 import { Offers } from './offers';
 import { Protected } from './protected';
 import styles from '../resources/css/profile.scss';
-import { resetNotificationFlags, attemptChangeFilters, attemptCategoriesAction } from '../actions/user';
+import { resetNotificationFlagsService, attemptChangeFilters, attemptCategoriesAction } from '../actions/user';
 import GuestLayout from './guest-layout';
 import ReactJoyride from 'react-joyride';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -71,7 +71,7 @@ class FilterOffers extends React.Component {
       const { dispatch } = this.props;
       if (isError) {
         toast.error(message);
-        dispatch(resetNotificationFlags());
+        dispatch(resetNotificationFlagsService());
       } else {
         toast.success(message);
       }
@@ -205,26 +205,6 @@ class FilterOffers extends React.Component {
         <Protected>
           <GuestLayout>
 
-          <ReactJoyride
-          continuous
-          steps={steps}
-          run={true}
-          showSkipButton
-          styles={{
-            options: {
-              arrowColor: '#fff',
-              backgroundColor: '#fff',
-              beaconSize: 36,
-              overlayColor: 'rgba(0, 0, 0, 0.5)',
-              primaryColor: '#499be7',
-              spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
-              textColor: '#333',
-              width: undefined,
-              zIndex: 100,
-            }
-          }}
-        />
-
             <div className={styles.container}>
 
               <Form.Group as={Row}>
@@ -288,9 +268,9 @@ class FilterOffers extends React.Component {
                   <h4 style={{ color: 'black', display: showEIDisplay }}>Price range</h4>
 
                   <Range 
-                  min={0}
+                  min={1}
                   max={100} 
-                  marks={{ 0: 0, 100: 100 }}
+                  marks={{ 1: 1, 100: 100 }}
                   defaultValue={prices} 
                   tipFormatter={value => `${value} Coopi`} 
                   allowCross={false} 

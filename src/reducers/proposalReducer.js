@@ -16,6 +16,7 @@ export const CANCEL_PROPOSAL_SUCCESS = 'CANCEL_PROPOSAL_SUCCESS';
 export const STATUS_PROPOSAL_FAILURE = 'STATUS_PROPOSAL_FAILURE';
 export const GET_CONVERSATION_PROPOSAL_ATTEMPT = 'GET_CONVERSATION_PROPOSAL_ATTEMPT';
 export const GET_CONVERSATION_PROPOSAL_SUCCESS = 'GET_CONVERSATION_PROPOSAL_SUCCESS';
+export const RESET_ERROR_PROPOSALS = 'RESET_ERROR_PROPOSALS';
 
 export const proposal = (state = initialProposalState, action) => {
   switch (action.type) {
@@ -79,6 +80,12 @@ export const proposal = (state = initialProposalState, action) => {
       return _.assignIn({}, state, {
         error: '',
         proposal: action.proposal,
+      });
+
+    case RESET_ERROR_PROPOSALS:
+      return _.assignIn({}, state, {
+        error: '',
+        status: '',
       });
 
     default:

@@ -270,7 +270,7 @@ class FilterOffers extends React.Component {
                   <Range 
                   min={1}
                   max={100} 
-                  marks={{ 1: 1, 100: 100 }}
+                  marks={{ 1: 'MIN', 100: 'MAX' }}
                   defaultValue={prices} 
                   tipFormatter={value => `${value} Coopi`} 
                   allowCross={false} 

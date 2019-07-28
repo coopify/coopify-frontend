@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import _ from 'lodash';
 
 export const OFFERS_ATTEMPT = 'OFFERS_ATTEMPT';
@@ -25,6 +26,18 @@ export const SEND_QUESTION_REPLY_FAILURE = 'SEND_QUESTION_REPLY_FAILURE';
 export const GET_USERS_OFFERS_ATTEMPT = 'GET_USERS_OFFERS_ATTEMPT';
 export const GET_USERS_OFFERS_SUCCESS = 'GET_USERS_OFFERS_SUCCESS';
 export const RESET_ERROR_SERVICES = 'RESET_ERROR_SERVICES';
+
+function getQuestionListUpdated(action, state) {
+  const arr = state.questions;
+
+  const question = arr.find(element => element.id === action.responseQuestion.id);
+  question.response = action.responseQuestion.response;
+  return arr;
+}
+
+export const initialServiceState = {
+  service: {},
+};
 
 export const service = (state = initialServiceState, action) => {
   switch (action.type) {
@@ -153,7 +166,7 @@ export const service = (state = initialServiceState, action) => {
         error: '',
         reply: action.reply,
         replyMade: true,
-        questions: [action.responseQuestion].concat(state.questions.slice(1)),
+        questions: getQuestionListUpdated(action, state),
       });
 
     case SEND_QUESTION_REPLY_FAILURE:
@@ -181,8 +194,4 @@ export const service = (state = initialServiceState, action) => {
     default:
       return state;
   }
-};
-
-export const initialServiceState = {
-  service: {},
 };

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { connect } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import * as reactBootstrap from 'react-bootstrap';
 import {
-  Button, Row, Col, Card,
+  Button, Row, Col,
 } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
@@ -13,6 +14,7 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
+import Pagination from 'react-js-pagination';
 import styles from '../resources/css/profile.scss';
 import {
   attemptGetQuestionsAndAnswer, attemptSendReply, attemptQuestion, resetNotificationFlagsService,
@@ -32,10 +34,8 @@ export default @connect(state => ({
 class GeneralQuestions extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    error: PropTypes.string,
     questions: PropTypes.arrayOf(PropTypes.object),
     countQuestions: PropTypes.number,
-    question: PropTypes.string,
     loggedUser: PropTypes.objectOf(PropTypes.object),
     readOnlyOffer: PropTypes.objectOf(PropTypes.object),
     offerId: PropTypes.string,
@@ -48,8 +48,6 @@ class GeneralQuestions extends React.Component {
     },
     questions: [],
     countQuestions: 0,
-    question: '',
-    error: '',
     loggedUser: {},
     readOnlyOffer: {},
     offerId: '',
@@ -65,19 +63,20 @@ class GeneralQuestions extends React.Component {
       question: '',
       error: '',
       limit: 5,
+      page: 0,
     };
   }
 
   componentDidMount() {
     const { dispatch, offerId } = this.props;
-    const { limit } = this.state;
+    const { limit, page } = this.state;
     const userToken = localStorage.getItem('token');
 
     const reqAttributes = {
       token: userToken,
       offerId,
       limit,
-      page: 0,
+      page,
     };
 
     dispatch(attemptGetQuestionsAndAnswer(reqAttributes));
@@ -129,7 +128,7 @@ class GeneralQuestions extends React.Component {
       token: userToken,
       offerId,
       limit,
-      page: pageIndex,
+      page: pageIndex - 1,
     };
 
     dispatch(attemptGetQuestionsAndAnswer(reqAttributes));
@@ -153,10 +152,11 @@ class GeneralQuestions extends React.Component {
   }
 
   render() {
-    const TheadComponent = props => null;
-    const { questions, loggedUser, readOnlyOffer, countQuestions, questionCreated, replyMade } = this.props;
-    const { question, limit } = this.state;
-    const displayReplyButton = loggedUser.id === readOnlyOffer.userId ? true : false;
+    const {
+      questions, loggedUser, readOnlyOffer, countQuestions, questionCreated, replyMade,
+    } = this.props;
+    const { limit, page } = this.state;
+    const displayReplyButton = loggedUser.id === readOnlyOffer.userId;
     const data = questions;
     const displayMakeAQuestion = loggedUser.id === readOnlyOffer.userId ? 'none' : 'block';
 
@@ -189,7 +189,7 @@ class GeneralQuestions extends React.Component {
                 color: 'black',
                 borderColor: 'transparent',
                 float: 'right',
-                display: displayReplyButton && (props.original.response == null || props.original.response == '') ? 'block' : 'none',
+                display: displayReplyButton && (props.original.response == null || props.original.response === '') ? 'block' : 'none',
               }}
             >
               { 'Reply' }
@@ -227,7 +227,6 @@ class GeneralQuestions extends React.Component {
               defaultPageSize={limit}
               data={data}
               columns={columns}
-              TheadComponent={TheadComponent}
               pages={limit !== 0 ? Math.ceil(countQuestions / limit) : countQuestions}
               noDataText="There are no questions for this service. "
               onPageChange={e => this.changePage(e)}
@@ -237,7 +236,7 @@ class GeneralQuestions extends React.Component {
               showPagination={false}
             />
           </div>
-          <div className="container" style={{display: displayMakeAQuestion}}>
+          <div className="container" style={{ display: displayMakeAQuestion }}>
             <div>
               <Row>
                 <Col sm="10">
@@ -269,6 +268,21 @@ class GeneralQuestions extends React.Component {
             </div>
           </div>
         </form>
+        <div style={{ display: 'inline-flex', marginTop: '2%' }}>
+          <Pagination
+            hideDisabled
+            activePage={page}
+            itemsCountPerPage={limit}
+            totalItemsCount={countQuestions - 1}
+            pageRangeDisplayed={
+              limit !== 0 ? Math.ceil((countQuestions - 1) / limit) : (countQuestions - 1)}
+            onChange={e => this.changePage(e)}
+            innerClass="pagination"
+            itemClass="page-item"
+            linkClass="page-link"
+            activeLinkClass="page-item active"
+          />
+        </div>
       </div>
     );
   }

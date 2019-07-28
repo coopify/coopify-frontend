@@ -330,8 +330,6 @@ class IndividualOffer extends React.Component {
               <Col sm="2">
                 {offer.ratingCount !== 0 ? (
                   <div style={{ margin: 5 }}>
-                    {'Service Rating: '}
-                    {Number.parseFloat(offer.rating).toFixed(2)}
                     <StarRatingComponent
                       name="RatingService"
                       editing={false}
@@ -339,6 +337,12 @@ class IndividualOffer extends React.Component {
                       starCount={5}
                       value={Number.parseFloat(offer.rating).toFixed(2)}
                     />
+                    <div style={{ marginTop: '-25px' }}>
+                      <b style={{ fontWeight: 'bold', color: '#111010' }}>
+                        {'Service Rating: '}
+                      </b>
+                      {Number.parseFloat(offer.rating).toFixed(2)}
+                    </div>
                   </div>) : ('')}
               </Col>
 
@@ -444,17 +448,19 @@ class IndividualOffer extends React.Component {
               <Col sm="2">
                 {' '}
               </Col>
-              <Col sm="4" style={{ margin: '8px' }}>
-                {'Share with Facebook'}
-                <FacebookShareButton
-                  style={{ display: showBtnShareFB, marginLeft: '4%' }}
-                  url={shareUrl}
-                  quote={offer.title}
-                  beforeOnClick={e => this.setShareCount(e)}
-                  onShareWindowClose={e => this.handleShareComplete(e)}
-                >
-                  <FacebookIcon size={32}> Share with Facebook </FacebookIcon>
-                </FacebookShareButton>
+              <Col sm="8" style={{ margin: '8px' }}>
+                <p style={{ color: 'black', marginBottom: '0px' }}>
+                  {'Share with Facebook'}
+                  <FacebookShareButton
+                    style={{ display: showBtnShareFB, marginLeft: '4%' }}
+                    url={shareUrl}
+                    quote={offer.title}
+                    beforeOnClick={e => this.setShareCount(e)}
+                    onShareWindowClose={e => this.handleShareComplete(e)}
+                  >
+                    <FacebookIcon size={32}> Share with Facebook </FacebookIcon>
+                  </FacebookShareButton>
+                </p>
               </Col>
               <Col sm="2">
                 {' '}
@@ -463,26 +469,21 @@ class IndividualOffer extends React.Component {
             </Row>
 
             <Row>
-
               <Col sm="2">
                 {' '}
               </Col>
-              <Col sm="4" style={{ margin: '8px' }}>
+              <Col sm="8" style={{ marginTop: '8px', marginBottom: '8px' }}>
                 <Link to={`/user/profile/${offer.userId}`}>
                   <Button
                     style={{ background: '#C3E9FF', borderRadius: '25px' }}
                   >
-                    <h3 style={{ color: 'black', margin: '0px' }}>
+                    <p style={{ color: 'black', margin: '0px' }}>
                       {`See profile of ${offer.by} `}
                       <i className="fa fa-user fa-20x" style={{ color: '#000000' }} />
-                    </h3>
+                    </p>
                   </Button>
                 </Link>
               </Col>
-              <Col sm="2">
-                {' '}
-              </Col>
-
             </Row>
 
             {/* <Divider /> */}

@@ -117,9 +117,9 @@ class Header extends PureComponent {
 
   notify(message, isError) {
     if (isError) {
-      this.toast.error(message);
+      toast.error(message);
     } else {
-      this.toast.success(message);
+      toast.success(message);
     }
   }
 

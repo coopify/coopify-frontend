@@ -129,6 +129,7 @@ class Proposal extends React.Component {
 
     const stylesInfo = isInfo ? { color: 'rgba(255, 255, 255, 0.54)' } : { width: '100%' };
     const styleProposalIcon = isInfo ? '' : <i className="fa fa-handshake-o" aria-hidden="true" />;
+    const proposalMade = proposal.proposer.name === loggedUser.name;
     return (
 
       <div>
@@ -147,31 +148,62 @@ class Proposal extends React.Component {
           <DialogTitle id="form-dialog-title">Offer proposal</DialogTitle>
           <DialogContent>
             <DialogContentText style={{textAlign: 'center'}}>
-              <div>You have the following offer proposal</div>
-              <Paper>
-                <Typography variant="h5" component="h3">
-                  {proposal.purchasedOffer.title}
+              <div>
+                {
+                  proposalMade ? 
+                  (
+                    <Typography component="p">
+                     You sent a proposal to: <b> ???</b>
+                    </Typography>
+                  ) :
+                  (
+                    <Typography component="p">
+                      <b>{proposal.proposer.name} </b> sent you the following proposal:
+                    </Typography>
+                  )}
+              </div>
+              <Paper style={{marginTop: '5%', marginBottom: '5%'}}>
+
+                <Typography component="p" style={{paddingTop: '8%'}}>
+                  <b>Service: </b> {proposal.purchasedOffer.title}
+                </Typography>
+
+                <Typography component="p" style={{marginTop: '5%', marginBottom: '5%'}}>
+                  <b>Payment Method: </b> 
+                  {proposal.exchangeMethod}
                 </Typography>
 
                 {
                   proposal.exchangeMethod === 'Coopy'
                     ? (
-                      <Typography component="p">
-
-                        <div>for</div>
+                      <Typography component="p" style={{paddingBottom: '8%'}}>
+                        <b>Amount: </b>
                         {proposal.proposedPrice}
-                        {' '}
-                        <div>COOPI /</div>
+                        {' x '}
                         {proposal.exchangeInstance}
                       </Typography>
                     )
                     : (
-                      <Typography component="p">
-
-                        <div>for</div>
+                      <Typography component="p" style={{paddingBottom: '8%'}}>
+                        <b>Service offered: </b>
                         {proposal.proposedService.title}
                       </Typography>
                     )}
+
+                    {
+                    (proposal.proposerId === loggedUser.id) || (proposal.status !== 'Waiting') ?
+                    (
+                      <div>
+                        <hr/>
+                        <div style={{color: 'black'}}>
+                          <b>Status </b>
+                          {proposal.status}
+                        </div>
+                    </div>
+                    )
+                       :
+                       ''
+                    }
 
               </Paper>
             </DialogContentText>
@@ -194,8 +226,9 @@ class Proposal extends React.Component {
                       </CommonButton>
                     </div>
                   )
-                  : `Status: ${proposal.status}`
-              }
+                  : (
+                    ''
+                  ) }
 
               {
                 (proposal.proposerId === loggedUser.id) && (proposal.status === 'Waiting')

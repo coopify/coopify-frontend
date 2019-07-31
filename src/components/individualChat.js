@@ -303,13 +303,13 @@ class Chat extends React.Component {
     const { isOpenOffer, selectedServiceFull } = this.state;
     
     const colorCoopy = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
-    const colorBarter = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Barter' ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
+    const colorBarter = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Exchange' ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
     const colorHour = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.hourPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
     const colorSession = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.sessionPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
     const colorFinalProduct = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.finalProductPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
         
     const showCoopy = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' ? true : false) : true;
-    const showBarter = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Barter' ? true : false) : true;
+    const showBarter = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Exchange' ? true : false) : true;
     const showHour = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.hourPrice != null ? true : false) : true;
     const showSession = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.sessionPrice != null ? true : false) : true;
     const showFinalProduct = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.finalProductPrice != null ? true : false) : true;

@@ -153,7 +153,7 @@ class Proposal extends React.Component {
                   proposalMade ? 
                   (
                     <Typography component="p">
-                     You sent a proposal to: <b> ???</b>
+                     You made the following proposal:
                     </Typography>
                   ) :
                   (

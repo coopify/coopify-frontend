@@ -9,9 +9,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import StepZilla from 'react-stepzilla';
 import { Redirect } from 'react-router-dom';
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-named-as-default */
 import BasicData from './offerCreation/basicData.jsx';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import Protected from './protected';
+/* eslint-enable import/no-named-as-default */
+/* eslint-disable import/extensions */
 import { resetNotificationFlagsService, attemptPublishOffer } from '../actions/user';
 import GuestLayout from './guest-layout';
 

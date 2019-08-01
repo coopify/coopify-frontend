@@ -1,29 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Swiper from 'react-id-swiper/lib/ReactIdSwiper.full';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 import publishImg from '../assets/publish.png';
 import negotiateImg from '../assets/negotiate.png';
 import rateImg from '../assets/rate.png';
 import noMoneyImg from '../assets/no-money.png';
 
-export default @connect(state => ({
 
-}))
-
+// eslint-disable-next-line react/prefer-stateless-function
 class Splash extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-
     const userIsLogged = localStorage.getItem('loggedUser') != null;
 
     if (userIsLogged) {
-      return <Redirect push={false} to={'/home'} />;
+      return <Redirect push={false} to="/home" />;
     }
 
     return (
@@ -47,7 +36,7 @@ class Splash extends React.Component {
           <div className="container">
             <div className="row justify-content-center">
               <div className="col-lg-8 text-center">
-                <h2 className="text-white mt-0">We've got what you need!</h2>
+                <h2 className="text-white mt-0">We have got what you need!</h2>
                 <hr className="divider light my-4" />
                 <p className="text-white-50 mb-4">Coopify is a service exchange platform where users can publish and consume services without barriers.</p>
               </div>
@@ -62,28 +51,28 @@ class Splash extends React.Component {
             <div className="row">
               <div className="col-lg-3 col-md-6 text-center">
                 <div className="mt-5">
-                  <img src={publishImg} />
+                  <img alt="publish" src={publishImg} />
                   <h3 className="h4 mb-2">Publish your service</h3>
                   <p className="text-muted mb-0">Publish your service and get to know yourself in the community</p>
                 </div>
               </div>
               <div className="col-lg-3 col-md-6 text-center">
                 <div className="mt-5">
-                  <img src={negotiateImg} />
+                  <img alt="negotiate" src={negotiateImg} />
                   <h3 className="h4 mb-2">Negotiate with others</h3>
                   <p className="text-muted mb-0">Negotiate with different providers within an embedded chat</p>
                 </div>
               </div>
               <div className="col-lg-3 col-md-6 text-center">
                 <div className="mt-5">
-                  <img src={rateImg} />
+                  <img alt="rate" src={rateImg} />
                   <h3 className="h4 mb-2">Review a service</h3>
                   <p className="text-muted mb-0">Review both a service received and the provider</p>
                 </div>
               </div>
               <div className="col-lg-3 col-md-6 text-center">
                 <div className="mt-5">
-                  <img src={noMoneyImg} />
+                  <img alt="free" src={noMoneyImg} />
                   <h3 className="h4 mb-2">No real money</h3>
                   <p className="text-muted mb-0">All transactions are done via virtual coins -Coopi- regulated with blockchain technologies</p>
                 </div>
@@ -103,7 +92,7 @@ class Splash extends React.Component {
             </div>
             <div className="row">
               <div className="col-lg-12 mr-auto text-center contact-mail">
-                <i className="fa fa-envelope fa-3x mb-3 text-muted"></i>
+                <i className="fa fa-envelope fa-3x mb-3 text-muted" />
                 <a className="d-block" href="mailto:hello@createthrive.com">hello@createthrive.com</a>
               </div>
             </div>
@@ -115,4 +104,5 @@ class Splash extends React.Component {
   }
 }
 
-export { Splash }
+// eslint-disable-next-line import/prefer-default-export
+export { Splash };

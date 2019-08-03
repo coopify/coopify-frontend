@@ -303,13 +303,13 @@ class Chat extends React.Component {
     const { isOpenOffer, selectedServiceFull } = this.state;
     
     const colorCoopy = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
-    const colorBarter = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Barter' ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
+    const colorBarter = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Exchange' ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
     const colorHour = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.hourPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
     const colorSession = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.sessionPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
     const colorFinalProduct = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.finalProductPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor) : exchangeNotAvailableColor;
         
     const showCoopy = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' ? true : false) : true;
-    const showBarter = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Barter' ? true : false) : true;
+    const showBarter = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Exchange' ? true : false) : true;
     const showHour = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.hourPrice != null ? true : false) : true;
     const showSession = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.sessionPrice != null ? true : false) : true;
     const showFinalProduct = isOpenOffer ? (selectedServiceFull.paymentMethod === 'Coopy' && this.state.selectedServiceFull.finalProductPrice != null ? true : false) : true;
@@ -417,37 +417,35 @@ class Chat extends React.Component {
 
       case 2:
         componentToRender = (
-          <Paper>
-            <Typography variant="h5" component="h3" style={{textAlign: 'center'}}>
-              {this.state.selectedServiceText}
-            </Typography>
 
-            {
-              this.state.exchangeMethodSelected == 'Coopy'
-                ? (
-                  <Typography component="p" style={{textAlign: 'center'}}>
-                    {this.state.exchangeInstanceSelected}
-                    {' '}
-                    <br />
+          <Paper style={{marginTop: '5%', marginBottom: '5%'}}>
 
-                    for
-                    {' '}
-                    <br />
-                    {this.state.coopiValue}
-                    {' '}
-                    COOPI
-                  </Typography>
-                )
-                : (
-                  <Typography component="p">
+          <Typography component="p" style={{paddingTop: '8%'}}>
+            <b>Service: </b> {this.state.selectedServiceText}
+          </Typography>
 
-                    for
-                    <br />
-                    {this.state.exchangeServiceText}
-                  </Typography>
-                )}
+          <Typography component="p" style={{marginTop: '5%', marginBottom: '5%'}}>
+            <b>Payment Method: </b> 
+            {this.state.exchangeMethodSelected}
+          </Typography>
 
-          </Paper>
+          {
+            this.state.exchangeMethodSelected === 'Coopy'
+              ? (
+                <Typography component="p" style={{paddingBottom: '8%'}}>
+                  <b>Amount: </b>
+                  {this.state.coopiValue}
+                  {' x '}
+                  {this.state.exchangeInstanceSelected}
+                </Typography>
+              )
+              : (
+                <Typography component="p" style={{paddingBottom: '8%'}}>
+                  <b>Service offered: </b>
+                  {this.state.exchangeServiceText}
+                </Typography>
+              )}
+        </Paper>
         );
         break;
     }

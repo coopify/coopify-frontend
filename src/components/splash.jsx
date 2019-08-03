@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import publishImg from '../assets/publish.png';
 import negotiateImg from '../assets/negotiate.png';
 import rateImg from '../assets/rate.png';
@@ -9,12 +9,6 @@ import noMoneyImg from '../assets/no-money.png';
 // eslint-disable-next-line react/prefer-stateless-function
 class Splash extends React.Component {
   render() {
-    const userIsLogged = localStorage.getItem('loggedUser') != null;
-
-    if (userIsLogged) {
-      return <Redirect push={false} to="/home" />;
-    }
-
     return (
       <div>
         <header className="masthead">

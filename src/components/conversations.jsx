@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import { ChatList } from 'react-chat-elements';
-import { Loading } from './loading';
+import {
+  Row, Col,
+} from 'react-bootstrap';
 import { Protected } from './protected';
 import { attemptGetUserConversations } from '../actions/user';
 import GuestLayout from './guest-layout';
 import styles from '../resources/css/profile.scss';
-import {
-  Button, Row, Col, ListGroup, Form,
-} from 'react-bootstrap';
 import { Chat } from './individualChat';
 
 export default @connect(state => ({
@@ -24,22 +23,17 @@ export default @connect(state => ({
 }))
 
 class ConversationList extends React.Component {
-
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.objectOf(PropTypes.object),
-    loading: PropTypes.bool,
     conversations: PropTypes.arrayOf(PropTypes.object),
-    history: PropTypes.objectOf(PropTypes.object),
   };
 
   static defaultProps = {
     dispatch: () => {
     },
     loggedUser: {},
-    loading: false,
     conversations: [],
-    history: {},
   };
 
   constructor(props) {
@@ -68,7 +62,7 @@ class ConversationList extends React.Component {
     });
   }
 
-  displayChatList(e) {
+  displayChatList() {
     this.setState({
       ...this.state,
       active: true,
@@ -76,41 +70,39 @@ class ConversationList extends React.Component {
   }
 
   render() {
-    const { loggedUser, conversations, loading } = this.props;
+    const { loggedUser, conversations } = this.props;
     const { active, conversationId } = this.state;
 
     return (
       <Protected>
         <GuestLayout>
-
-            <Row>
-              <Col sm={4} className={active ? 'generalchat active' : 'generalchat inactive'}>
-                <div className={styles.containerChat}>
-                  <ChatList
-                    className={"chat-list"}
-                    dataSource={
-                      conversations.map((c) => {
-                        const user = c.from.id === loggedUser.id ? c.to : c.from;
-                        const response = {
-                          avatar: user.pictureURL,
-                          title: user.name,
-                          date: new Date(c.createdAt),
-                          unread: 0,
-                          userId: user.id,
-                          conversationId: c.id,
-                        };
-                        return response;
-                      })
-                    }
-                    onClick={e => this.displayChat(e)}
-                  />
-                </div>
-              </Col>
-
-              <Col sm={8} className={active ? 'specificchat inactive' : 'specificchat active'}>
-                <Chat conversationid={conversationId} onChatLeave={e => this.displayChatList(e)}/>
-              </Col>
-            </Row>
+          <Row>
+            <Col sm={4} className={active ? 'generalchat active' : 'generalchat inactive'}>
+              <div className={styles.containerChat}>
+                <ChatList
+                  className="chat-list"
+                  dataSource={
+                    conversations.map((c) => {
+                      const user = c.from.id === loggedUser.id ? c.to : c.from;
+                      const response = {
+                        avatar: user.pictureURL,
+                        title: user.name,
+                        date: new Date(c.createdAt),
+                        unread: 0,
+                        userId: user.id,
+                        conversationId: c.id,
+                      };
+                      return response;
+                    })
+                  }
+                  onClick={e => this.displayChat(e)}
+                />
+              </div>
+            </Col>
+            <Col sm={8} className={active ? 'specificchat inactive' : 'specificchat active'}>
+              <Chat conversationid={conversationId} onChatLeave={e => this.displayChatList(e)} />
+            </Col>
+          </Row>
 
         </GuestLayout>
       </Protected>

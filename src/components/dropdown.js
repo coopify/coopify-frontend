@@ -1,10 +1,10 @@
 
 /* @flow */
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { Input } from 'react-bootstrap';
 
-class DropDown extends React.Component {
-  static propTypes = {
+const dropDown = () => {
+  propTypes = {
     label: PropTypes.string.isRequired,
     field: PropTypes.object.isRequired,
     values: PropTypes.array.isRequired,
@@ -18,7 +18,7 @@ class DropDown extends React.Component {
         {values.map(value => <option key={value} value={value}>{value}</option>)}
       </Input>
     );
-  }
+  };
 }
 
 export default DropDown;

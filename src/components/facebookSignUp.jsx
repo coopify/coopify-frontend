@@ -2,10 +2,10 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import { Loading } from './loading';
 import { attemptSocialSignUpAction, attemptSyncFB } from '../actions/user';
 import GuestLayout from './guest-layout';
 import SingletonPusher from './singletonPusher';
@@ -18,11 +18,9 @@ export default @connect(state => ({
 }))
 
 class FacebookSignUp extends React.Component {
-
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.objectOf(PropTypes.object),
-    loading: PropTypes.bool,
     error: PropTypes.string,
     gotCode: PropTypes.bool,
   };
@@ -31,7 +29,6 @@ class FacebookSignUp extends React.Component {
     dispatch: () => {
     },
     loggedUser: {},
-    loading: true,
     gotCode: false,
     error: '',
   };
@@ -87,7 +84,7 @@ class FacebookSignUp extends React.Component {
 
   render() {
     const {
-      error, loading, loggedUser, dispatch,
+      error, loggedUser, dispatch,
     } = this.props;
     const { socialUserDidSignUp } = this.state;
     if (socialUserDidSignUp && error.length > 0) {
@@ -98,9 +95,9 @@ class FacebookSignUp extends React.Component {
       return <Redirect to="/home" />;
     }
 
+    // This screen has one responsability, to redirect the user after completing the OAuth flow.
     return (
-      <GuestLayout>
-      </GuestLayout>
+      <GuestLayout />
     );
   }
 }

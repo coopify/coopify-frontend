@@ -1,27 +1,21 @@
 
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
-import {
-  Button, Input, Row, Col,
-} from 'react-bootstrap';
-import Switch from 'react-switch';
-import { Link } from 'react-router-dom';
-import { loadScript } from '@pawjs/pawjs/src/utils/utils';
 import StepZilla from 'react-stepzilla';
-import { loadStyle } from '@pawjs/pawjs/src/utils/utils';
-import { Loading } from './loading';
+import { Redirect } from 'react-router-dom';
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-named-as-default */
 import BasicData from './offerCreation/basicData.jsx';
 import ExchangeMethod from './offerCreation/exchangeMethod.js';
 import Protected from './protected';
-import styles from '../resources/css/profile.scss';
+/* eslint-enable import/no-named-as-default */
+/* eslint-disable import/extensions */
 import { resetNotificationFlagsService, attemptPublishOffer } from '../actions/user';
 import GuestLayout from './guest-layout';
 
@@ -37,10 +31,8 @@ export default @connect(state => ({
 class OfferCreation extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    loggedUser: PropTypes.object,
-    loading: PropTypes.bool,
+    loggedUser: PropTypes.objectOf(PropTypes.object),
     error: PropTypes.string,
-    offer: PropTypes.object,
     offerIsCreated: PropTypes.bool,
   };
 
@@ -48,9 +40,7 @@ class OfferCreation extends React.Component {
     dispatch: () => {
     },
     loggedUser: {},
-    loading: false,
     error: '',
-    offer: {},
     offerIsCreated: false,
   };
 
@@ -58,10 +48,9 @@ class OfferCreation extends React.Component {
     super(props);
     this.state = {
       loggedUser: {},
-      loading: false,
       error: '',
       offer: {},
-      categories: ['algo'],
+      categories: [''],
       offerCreated: false,
     };
     this.handleChangeStep1 = this.handleChangeStep1.bind(this);
@@ -83,21 +72,21 @@ class OfferCreation extends React.Component {
   }
 
   handleChangeStep1(e) {
-    const offer = { ...this.state.offer };
+    const { offer } = this.state;
     offer.title = e.title;
     offer.description = e.description;
     this.setState({ offer });
   }
 
   handleCategoriesChange(e) {
-    const offer = { ...this.state.offer };
+    const { offer } = this.state;
     const newCategories = e;
     offer.categories = newCategories;
     this.setState({ offer });
   }
 
   handleImageChange(e) {
-    const offer = { ...this.state.offer };
+    const { offer } = this.state;
     const imgs = [
       {
         url: e,
@@ -109,7 +98,7 @@ class OfferCreation extends React.Component {
   }
 
   handleChangeStep2(e) {
-    const offer = { ...this.state.offer };
+    const { offer } = this.state;
     offer.paymentMethod = e.paymentMethod;
     offer.prices = e.exchangeMethod;
     offer.startDate = e.startDate;
@@ -123,8 +112,8 @@ class OfferCreation extends React.Component {
     this.setState({ ...this.state, offer });
   }
 
-  handleFinalSubmit(e) {
-    const offer = this.state.offer;
+  handleFinalSubmit() {
+    const { offer } = this.state;
     const { dispatch, loggedUser } = this.props;
 
     const token = localStorage.getItem('token');
@@ -141,52 +130,48 @@ class OfferCreation extends React.Component {
 
   render() {
     const {
-      loading, error, loggedUser, balance, offerIsCreated,
+      error, offerIsCreated,
     } = this.props;
     if (error.length > 0) this.notify(error, true);
 
-    if (offerIsCreated){
+    if (offerIsCreated) {
       this.notify('Service succesfully created', false);
       return <Redirect push={false} to="/home" />;
     }
 
-    const { offer, categories } = this.state;
+    const { offer } = this.state;
     const steps = [
       {
         name: 'Basic data',
-        component:
-          <BasicData
-            offer={offer}
-            onOfferInputChangeStep1={this.handleChangeStep1}
-            onOfferImageChange={this.handleImageChange}
-            onCategoriesChange={this.handleCategoriesChange}
-            isReadOnly={false}
-          />,
+        component: <BasicData
+          offer={offer}
+          onOfferInputChangeStep1={this.handleChangeStep1}
+          onOfferImageChange={this.handleImageChange}
+          onCategoriesChange={this.handleCategoriesChange}
+          isReadOnly={false}
+        />,
       },
       {
         name: 'Exchange method',
-        component:
-          <ExchangeMethod
-            offer={offer}
-            onOfferInputChangeStep2={this.handleChangeStep2}
-            onFinalStepSubmit={this.handleFinalSubmit}
-            isReadOnly={false}
-          />,
+        component: <ExchangeMethod
+          offer={offer}
+          onOfferInputChangeStep2={this.handleChangeStep2}
+          onFinalStepSubmit={this.handleFinalSubmit}
+          isReadOnly={false}
+        />,
       },
     ];
 
     return (
       <Protected>
         <GuestLayout>
-
-            <div className="step-progress">
-              <StepZilla
-                steps={steps}
-                preventEnterSubmission
-                nextTextOnFinalActionStep="Next"
-              />
-            </div>
-            
+          <div className="step-progress">
+            <StepZilla
+              steps={steps}
+              preventEnterSubmission
+              nextTextOnFinalActionStep="Next"
+            />
+          </div>
         </GuestLayout>
       </Protected>
     );

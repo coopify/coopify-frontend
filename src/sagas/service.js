@@ -90,8 +90,6 @@ export function* sendReplyAsync(payload) {
   } else {
     yield put({ type: SEND_QUESTION_REPLY_FAILURE, errorMessage: result.errorMessage });
   }
-  
-  
 }
 
 export function* geteUsersOffers(payload) {

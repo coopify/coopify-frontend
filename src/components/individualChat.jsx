@@ -174,11 +174,11 @@ class Chat extends React.Component {
     const {
       isOpenOffer, selectedServiceFull, exchangeMethodSelected, selectedServiceText,
       exchangeInstanceSelected, coopiValue, exchangeServiceText, myExchangeService,
-      selectedService, userOffers,
+      selectedService,
     } = this.state;
 
     const {
-      myOffers,
+      myOffers, userOffers,
     } = this.props;
 
     const colorCoopy = isOpenOffer && selectedServiceFull.paymentMethod === 'Coopy' ? exchangeAvailableColor : exchangeNotAvailableColor;

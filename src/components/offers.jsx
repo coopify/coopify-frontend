@@ -13,7 +13,6 @@ import { resetNotificationFlagsService, attemptOffersAction } from '../actions/u
 import AddIcon from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
-import ReactJoyride from 'react-joyride';
 import { Link } from 'react-router-dom';
 import StarRatingComponent from 'react-star-rating-component';
 import noImage from '../assets/noImage.png'

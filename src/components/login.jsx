@@ -8,7 +8,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import GoogleLogin from 'react-google-login';
-import ReactJoyride from 'react-joyride';
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import SingletonPusher from './singletonPusher';
@@ -118,27 +117,6 @@ class Login extends React.Component {
 
     return (
       <GuestLayout>
-
-        <ReactJoyride
-          continuous
-          steps={steps}
-          // eslint-disable-next-line react/jsx-boolean-value
-          run={true}
-          showSkipButton
-          styles={{
-            options: {
-              arrowColor: '#fff',
-              backgroundColor: '#fff',
-              beaconSize: 36,
-              overlayColor: 'rgba(0, 0, 0, 0.5)',
-              primaryColor: '#499be7',
-              spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
-              textColor: '#333',
-              width: undefined,
-              zIndex: 100,
-            },
-          }}
-        />
 
         <div>
           <div style={{ width: 'max-content', margin: 'auto' }}>

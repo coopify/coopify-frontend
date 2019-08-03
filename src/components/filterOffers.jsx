@@ -20,7 +20,6 @@ import { Protected } from './protected';
 import styles from '../resources/css/profile.scss';
 import { resetNotificationFlagsService, attemptChangeFilters, attemptCategoriesAction } from '../actions/user';
 import GuestLayout from './guest-layout';
-import ReactJoyride from 'react-joyride';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 

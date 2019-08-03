@@ -11,7 +11,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import { getUrlSocialAPICall } from '../api';
 import SingletonPusher from './singletonPusher';
-import ReactJoyride from 'react-joyride';
 import Avatar from '@material-ui/core/Avatar';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import FormControlLabel from '@material-ui/core/FormControlLabel';

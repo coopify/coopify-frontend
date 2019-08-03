@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -24,8 +24,6 @@ import RedeemIcon from '@material-ui/icons/Redeem';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import Avatar from '@material-ui/core/Avatar';
-import ReactJoyride from 'react-joyride';
-import logo from '../assets/logo.png';
 import avatarImg from '../assets/avatar.png';
 
 import {

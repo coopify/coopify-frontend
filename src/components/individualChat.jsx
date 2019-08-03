@@ -130,7 +130,7 @@ class Chat extends React.Component {
       const users = {
         token,
         myUserId: loggedUser.id,
-        serviceUserId: toLogged ? conversation.from.id : conversation.to.id,
+        serviceUserId: toLogged ? conversation.to.id : conversation.from.id,
       };
 
       dispatch(attemptGetUserChat(payload));

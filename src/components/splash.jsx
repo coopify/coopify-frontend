@@ -20,13 +20,13 @@ class Splash extends React.Component {
               </div>
               <div className="col-lg-8 align-self-baseline">
                 <p className="text-white-75 font-weight-light mb-5">Welcome to Coopify! The service exchange platform for you</p>
-                <Link to="/login" className="btn btn-light btn-landing-xl js-scroll-trigger">Get Started!</Link>
+                <Link to="/login" className="btn-light btn-landing-xl js-scroll-trigger">Get Started!</Link>
               </div>
             </div>
           </div>
         </header>
 
-        <section className="page-section bg-primary" id="about">
+        <section className="page-section bg-section-dark" id="about">
           <div className="container">
             <div className="row justify-content-center">
               <div className="col-lg-8 text-center">
@@ -75,7 +75,7 @@ class Splash extends React.Component {
           </div>
         </section>
 
-        <section className="page-section bg-primary" id="contact">
+        <section className="page-section bg-section-dark" id="contact">
           <div className="container">
             <div className="row justify-content-center">
               <div className="col-lg-8 text-center">
@@ -87,7 +87,7 @@ class Splash extends React.Component {
             <div className="row">
               <div className="col-lg-12 mr-auto text-center contact-mail">
                 <i className="fa fa-envelope fa-3x mb-3 text-muted" />
-                <a className="d-block" href="mailto:hello@createthrive.com">hello@createthrive.com</a>
+                <a className="d-block link-landing" href="mailto:hello@createthrive.com">hello@createthrive.com</a>
               </div>
             </div>
           </div>

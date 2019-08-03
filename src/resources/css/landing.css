@@ -77,3 +77,11 @@
   .contact-mail {
     color: white;
   }
+
+  .bg-section-dark {
+    background-color: #0c1c3e !important;
+  }
+
+  .link-landing {
+    color: rgba(255,255,255,.5) !important;
+  }

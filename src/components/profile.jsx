@@ -18,7 +18,7 @@ import {
   attemptProfileAction,
   onChangeProfileInputAction,
   changeProfileImage,
-  resetNotificationFlags,
+  resetNotificationFlagsUser,
   attemptGetUserReviews,
   attemptGetUser,
 } from '../actions/user';

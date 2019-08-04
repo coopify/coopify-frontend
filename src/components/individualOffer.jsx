@@ -17,7 +17,6 @@ import MetaTags from 'react-meta-tags';
 import StarRatingComponent from 'react-star-rating-component';
 import { createUrlConversation, getShareCount } from '../api';
 import { GeneralQuestions } from './generalQuestions';
-import { Protected } from './protected';
 import {
   resetNotificationFlagsService, attemptShowOffer, attemptSendReward, saveRefCode, attemptGetReviews, attemptSendReview, attemptCanReview
 } from '../actions/user';
@@ -116,7 +115,11 @@ class IndividualOffer extends React.Component {
 
     dispatch(attemptShowOffer(payload));
     dispatch(attemptGetReviews(payload));
-    dispatch(attemptCanReview(payload));
+
+    if(token != null) {
+      dispatch(attemptCanReview(payload));
+    }
+
   }
 
   componentWillUnmount() {
@@ -286,9 +289,10 @@ class IndividualOffer extends React.Component {
     } = this.props;
     const { myServiceRating, myUserRating, modalOpen, conversationId, active, width } = this.state;
     const pictureUrl = offer && offer.images && offer.images.length > 0 ? offer.images[0].url : noImage;
-    const displayOwnerOnly = loggedUser.id === offer.userId ? 'none' : 'block';
+    const displayOwnerOnly = loggedUser && loggedUser != null && loggedUser.id === offer.userId ? 'none' 
+      : (loggedUser == null ? 'none' : 'block');
     const marginBetween = '5%';
-    const shareUrl = `${global.URL}/offers/${offer.id}?referalCode=${loggedUser.referalCode}`;
+    const shareUrl = loggedUser && loggedUser != null ? `${global.URL}/offers/${offer.id}?referalCode=${loggedUser.referalCode}` : '';
     const showBtnShareFB = 'inline-block';
     const canReview = canRate ? 'block' : 'none';
     const loggedUserPicture = loggedUser != null && loggedUser.pictureURL != null ? loggedUser.pictureURL : avatarImg;
@@ -308,7 +312,7 @@ class IndividualOffer extends React.Component {
     if (reviewCreated) this.notify('The service was reviewed successfully!', false);
 
     return (
-      <Protected>
+      <div>
 
         <MetaTags>
           <meta name="description" content={offer.description} />
@@ -486,8 +490,6 @@ class IndividualOffer extends React.Component {
               </Col>
             </Row>
 
-            {/* <Divider /> */}
-
             <Row>
               <Col sm="2">
                 {' '}
@@ -513,50 +515,6 @@ class IndividualOffer extends React.Component {
               </Button>
             </div>
 
-            {/* <Row style={{ marginTop: marginBetween, marginBottom: marginBetween }}>
-                <Col sm="2">
-                  {' '}
-                </Col>
-                <Col sm="8">
-                  <div className="card text-right">
-                    <ul>
-                      <div className="card-header">
-                        <h4>Reviews: </h4>
-                      </div>
-                      {reviews.map(item => (
-                        <div>
-                          <Col>
-                            {item.reviewer == null ? '' : item.reviewer.name}
-                            {' '}
-                            {item.date}
-                            <StarRatingComponent
-                              name="RatingReview"
-                              editing={false}
-                              renderStarIcon={() => <span>&#9733;</span>}
-                              starCount={5}
-                              value={item.offerRate}
-                            />
-                            <TextField
-                              value={item.description}
-                              disabled
-                              multiline
-                              fullWidth
-                              InputLabelProps={{
-                                shrink: true,
-                              }}
-                            />
-                          </Col>
-                        </div>
-                      ))}
-                    </ul>
-                  </div>
-                </Col>
-                <Col sm="2">
-                  {' '}
-                </Col>
-              </Row> */}
-
-              {/* Prueba con react-slick */}
               <Row>
                 <Col sm="2">
                   {' '}
@@ -607,8 +565,6 @@ class IndividualOffer extends React.Component {
                 {' '}
               </Col>
             </Row>
-
-            {/* Fin Prueba con react-slick */}
 
             <Dialog
               open={modalOpen}
@@ -720,7 +676,8 @@ class IndividualOffer extends React.Component {
           </div>
 
         </GuestLayout>
-      </Protected>
+      </div>
+
     );
   }
 }

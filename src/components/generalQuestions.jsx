@@ -156,9 +156,10 @@ class GeneralQuestions extends React.Component {
       questions, loggedUser, readOnlyOffer, countQuestions, questionCreated, replyMade,
     } = this.props;
     const { limit, page } = this.state;
-    const displayReplyButton = loggedUser.id === readOnlyOffer.userId;
+    const displayReplyButton = loggedUser && loggedUser != null && loggedUser.id === readOnlyOffer.userId;
     const data = questions;
-    const displayMakeAQuestion = loggedUser.id === readOnlyOffer.userId ? 'none' : 'block';
+    const displayMakeAQuestion = loggedUser && loggedUser != null && loggedUser.id === readOnlyOffer.userId ? 'none' 
+      : (loggedUser == null ? 'none' : 'block');
 
     if (questionCreated) this.notify('Your question was posted successfully!', false);
     if (replyMade) this.notify('Your reply was posted successfully!', false);

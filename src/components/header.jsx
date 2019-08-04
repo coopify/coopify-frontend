@@ -114,10 +114,13 @@ class Header extends PureComponent {
   }
 
   notify(message, isError) {
+    const { dispatch } = this.props;
     if (isError) {
       toast.error(message);
+      dispatch(resetNotificationFlagsUser());
     } else {
       toast.success(message);
+      dispatch(resetNotificationFlagsUser());
     }
   }
 

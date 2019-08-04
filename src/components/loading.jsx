@@ -46,7 +46,7 @@ class Loading extends React.Component {
       loadingProposalReducer,
       loadingConversationReducer,
       loadingGoalReducer,
-       children,
+      children,
       } = this.props;
 
     const loading = loadingUserReducer || 

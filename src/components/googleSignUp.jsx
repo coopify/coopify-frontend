@@ -1,12 +1,11 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
-import { Loading } from './loading';
 import { attemptSocialSignUpAction } from '../actions/user';
-import GuestLayout from './guest-layout';
 import SingletonPusher from './singletonPusher';
 
 export default @connect(state => ({
@@ -20,18 +19,19 @@ class GoogleSignUp extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func,
     loggedUser: PropTypes.objectOf(PropTypes.object),
-    loading: PropTypes.bool,
     error: PropTypes.string,
     gotCode: PropTypes.bool,
+    socialUserDidSignUp: PropTypes.bool,
+    
   };
 
   static defaultProps = {
     dispatch: () => {
     },
     loggedUser: {},
-    loading: true,
     error: '',
     gotCode: false,
+    socialUserDidSignUp: false,
   };
 
   constructor(props) {
@@ -62,20 +62,16 @@ class GoogleSignUp extends React.Component {
 
   render() {
     const {
-      error, loading, loggedUser, dispatch,
+      error, loggedUser, dispatch, socialUserDidSignUp,
     } = this.props;
-    const { socialUserDidSignUp } = this.state;
-    if (socialUserDidSignUp && error.length > 0) {
-      return <Redirect to="/signup" />;
-    }
+
     if (socialUserDidSignUp && error.length === 0) {
       SingletonPusher.getInstance().createPusherChannel(loggedUser, dispatch);
-      return <Redirect to="/home" />;
     }
 
+    // This screen has one responsability, to redirect the user after completing the OAuth flow.
     return (
-      <GuestLayout>
-      </GuestLayout>
+      socialUserDidSignUp && error.length === 0 ? <Redirect to="/home" /> : <Redirect to="/signup" />
     );
   }
 }

@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import { attemptSocialSignUpAction, attemptSyncFB } from '../actions/user';
-import GuestLayout from './guest-layout';
 import SingletonPusher from './singletonPusher';
 
 export default @connect(state => ({
@@ -23,6 +22,7 @@ class FacebookSignUp extends React.Component {
     loggedUser: PropTypes.objectOf(PropTypes.object),
     error: PropTypes.string,
     gotCode: PropTypes.bool,
+    socialUserDidSignUp: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -31,6 +31,7 @@ class FacebookSignUp extends React.Component {
     loggedUser: {},
     gotCode: false,
     error: '',
+    socialUserDidSignUp: false,
   };
 
   onLoginRedirectUrl = '/dashboard';
@@ -84,20 +85,16 @@ class FacebookSignUp extends React.Component {
 
   render() {
     const {
-      error, loggedUser, dispatch,
+      error, loggedUser, dispatch, socialUserDidSignUp,
     } = this.props;
-    const { socialUserDidSignUp } = this.state;
-    if (socialUserDidSignUp && error.length > 0) {
-      return <Redirect to="/signup" />;
-    }
+
     if (socialUserDidSignUp && error.length === 0) {
       SingletonPusher.getInstance().createPusherChannel(loggedUser, dispatch);
-      return <Redirect to="/home" />;
     }
 
     // This screen has one responsability, to redirect the user after completing the OAuth flow.
     return (
-      <GuestLayout />
+      socialUserDidSignUp && error.length === 0 ? <Redirect to="/home" /> : <Redirect to="/signup" />
     );
   }
 }

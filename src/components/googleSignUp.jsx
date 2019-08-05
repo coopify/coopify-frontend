@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-bootstrap';
 import { attemptSocialSignUpAction } from '../actions/user';
 import SingletonPusher from './singletonPusher';
+import GuestLayout from './guest-layout';
 
 export default @connect(state => ({
   loggedUser: state.user.loggedUser,
@@ -65,13 +66,18 @@ class GoogleSignUp extends React.Component {
       error, loggedUser, dispatch, socialUserDidSignUp,
     } = this.props;
 
+    if (socialUserDidSignUp && error.length > 0) {
+      return <Redirect to="/signup" />;
+    }
+
     if (socialUserDidSignUp && error.length === 0) {
       SingletonPusher.getInstance().createPusherChannel(loggedUser, dispatch);
+      return <Redirect to="/home" />;
     }
 
     // This screen has one responsability, to redirect the user after completing the OAuth flow.
     return (
-      socialUserDidSignUp && error.length === 0 ? <Redirect to="/home" /> : <Redirect to="/signup" />
+      <GuestLayout />
     );
   }
 }

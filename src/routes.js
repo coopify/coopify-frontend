@@ -15,8 +15,8 @@ export default class Routes {
       start_url: '/',
       display: 'standalone',
       orientation: 'portrait',
-      theme_color: '#007bff',
-      background_color: '#007bff',
+      theme_color: '#4a4a4a',
+      background_color: '#fafafa',
       icons: [
         {
           src: PwaIcon192,

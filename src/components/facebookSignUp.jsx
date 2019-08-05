@@ -90,7 +90,10 @@ class FacebookSignUp extends React.Component {
 
     if (socialUserDidSignUp && error.length === 0) {
       SingletonPusher.getInstance().createPusherChannel(loggedUser, dispatch);
+      console.log('Entro al if del channel');
     }
+
+    console.log('SocialDidSignUp: ' + socialUserDidSignUp + " Error: " + error);
 
     // This screen has one responsability, to redirect the user after completing the OAuth flow.
     return (

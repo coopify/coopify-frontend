@@ -164,7 +164,6 @@ export function createOfferAPICall(payload) {
 
 export function getOfferAPICall(payload) {
   const { userToken, offerId } = payload;
-  axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
 
   return axios.get(
     `${global.API_URL}/api/offers/${offerId}`,
@@ -211,8 +210,6 @@ export function getQuestionAnswerAPICall(payload) {
   const skip = page;
 
   const queryParams = stringify({ limit, skip });
-
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
   return axios.get(
     `${global.API_URL}/api/offers/questions/${offerId}?${queryParams}`,
@@ -487,8 +484,6 @@ export function sendRewardApiCall(payload) {
 
 export function getReviewsAPICall(payload) {
   const { userToken, offerId } = payload;
-
-  axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
 
   return axios.get(
     `${global.API_URL}/api/rates/?offerId=${offerId}`,

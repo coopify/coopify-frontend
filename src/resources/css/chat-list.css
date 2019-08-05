@@ -97,3 +97,15 @@
  .chatInactive {
    display: none;
  }
+
+ .specificchat {
+   background-size: 100%;
+   background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url("../../assets/chatbg.png");
+ }
+
+ .emptyChat {
+   position: relative;
+   top: 50%;
+   transform: translateY(-50%);
+   font-size: 24px;
+ }

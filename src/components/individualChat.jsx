@@ -455,13 +455,21 @@ class Chat extends React.Component {
 
   render() {
     const {
-      loggedUser, messages, proposal,
+      loggedUser, messages, proposal, conversationid,
     } = this.props;
     const {
       chatMessage, modalOpen, activeStep, userChat,
     } = this.state;
     const steps = ['Select the offer you want to trade', 'Select the exchange method', 'Confirm the offer'];
     const proposalMade = proposal && proposal.id;
+
+    if(conversationid == "") {
+      return (
+        <div className="emptyChat">
+          Select a conversation to start chatting!
+        </div>
+      );
+    }
 
     return (
       <div>

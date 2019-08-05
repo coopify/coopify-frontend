@@ -199,7 +199,9 @@ class GeneralQuestions extends React.Component {
             <br />
             <i className="fa fa-comments" />
             <TextField
-              disabled={(props.original.response !== null && props.original.response !== '') || (loggedUser.id !== readOnlyOffer.userId)}
+              disabled={(props.original.response !== null && props.original.response !== '')
+              || (loggedUser != null && loggedUser.id !== readOnlyOffer.userId)
+              || (loggedUser == null)}
               fullWidth
               multiline
               type="text"

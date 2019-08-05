@@ -58,9 +58,9 @@ class Footer extends PureComponent {
               </div>
               <div className="col-sm-3">
                 <div className="social-networks">
-                  <a href="https://twitter.com" className="twitter"><i className="fa fa-twitter" /></a>
-                  <a href="https://facebook.com" className="facebook"><i className="fa fa-facebook" /></a>
-                  <a href="https://instagram.com" className="instagram"><i className="fa fa-instagram" /></a>
+                  <a href="#" className="twitter"><i className="fa fa-twitter" /></a>
+                  <a href="#" className="facebook"><i className="fa fa-facebook" /></a>
+                  <a href="#" className="instagram"><i className="fa fa-instagram" /></a>
                 </div>
                 <button type="button" className="btn btn-default">Contact us</button>
               </div>

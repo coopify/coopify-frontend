@@ -213,11 +213,11 @@ class Chat extends React.Component {
       myOffers, userOffers,
     } = this.props;
 
-    const colorCoopy = isOpenOffer && selectedServiceFull.paymentMethod === 'Coopy' ? exchangeAvailableColor : exchangeNotAvailableColor;
-    const colorBarter = isOpenOffer && selectedServiceFull.paymentMethod === 'Exchange' ? exchangeAvailableColor : exchangeNotAvailableColor;
-    const colorHour = isOpenOffer && selectedServiceFull.paymentMethod === 'Coopy' && selectedServiceFull.hourPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor;
-    const colorSession = isOpenOffer && selectedServiceFull.paymentMethod === 'Coopy' && selectedServiceFull.sessionPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor;
-    const colorFinalProduct = isOpenOffer && selectedServiceFull.paymentMethod === 'Coopy' && selectedServiceFull.finalProductPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor;
+    const colorCoopy = !isOpenOffer && selectedServiceFull.paymentMethod === 'Coopy' ? exchangeAvailableColor : exchangeNotAvailableColor;
+    const colorBarter = !isOpenOffer && selectedServiceFull.paymentMethod === 'Exchange' ? exchangeAvailableColor : exchangeNotAvailableColor;
+    const colorHour = !isOpenOffer && selectedServiceFull.paymentMethod === 'Coopy' && selectedServiceFull.hourPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor;
+    const colorSession = !isOpenOffer && selectedServiceFull.paymentMethod === 'Coopy' && selectedServiceFull.sessionPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor;
+    const colorFinalProduct = !isOpenOffer && selectedServiceFull.paymentMethod === 'Coopy' && selectedServiceFull.finalProductPrice != null ? exchangeAvailableColor : exchangeNotAvailableColor;
 
     const showCoopy = isOpenOffer || selectedServiceFull.paymentMethod === 'Coopy';
     const showBarter = isOpenOffer || selectedServiceFull.paymentMethod === 'Exchange';

@@ -55,7 +55,7 @@ class FilterOffers extends React.Component {
         paymentMethods: [],
         exchangeMethods: [],
         prices: [1, 100],
-        categories: [],
+        categories: props.categories,
         sortBy: 'Date',
         showEI: false,
       };
@@ -204,7 +204,7 @@ class FilterOffers extends React.Component {
         <Protected>
           <GuestLayout>
 
-            <div className={styles.container}>
+            <div className={styles.container} style={{maxWidth: '80%'}}>
 
               <Form.Group as={Row}>
               <div className="control controlIcon" style={{margin: 'auto', width: '90%'}}>              
@@ -220,7 +220,7 @@ class FilterOffers extends React.Component {
                     <i class="fa fa-search" style={{fontSize: '30px'}}/>
                   </div>
 
-                <Col sm={3} style={{ marginTop: '2%' }}>
+                <Col sm={3}>
 
                 <div className="paymentSearch">
                   <h4 style={{ color: 'black', marginTop: '10%' }}>Payment instance</h4>
@@ -237,8 +237,10 @@ class FilterOffers extends React.Component {
                         control={<Checkbox  name={COOPI_PAYMENT} onChange={e => this.handlePaymentChange(e)} color="primary"/>}
                         label= {COOPI_PAYMENT}
                       />
-                  </Form.Group>
+                  </Form.Group>              
                   </div>
+
+                  <hr/>
 
                   <h4 style={{ color: 'black', display: showEIDisplay }}>Exchange instance</h4>
 
@@ -262,7 +264,7 @@ class FilterOffers extends React.Component {
                         label= {PRODUCT_EXCHANGE}
                       />
                   </Form.Group>
-
+                  <hr style={{display: showEIDisplay}}/>
 
                   <h4 style={{ color: 'black', display: showEIDisplay }}>Price range</h4>
 
@@ -282,6 +284,8 @@ class FilterOffers extends React.Component {
                   <div style={{ color: 'black', display: showEIDisplay, fontSize: 'x-small', textAlign: 'right' }}>
                    Price: {prices[0]} CPI - {prices[1]} CPI 
                   </div>
+
+                  <hr style={{display: showEIDisplay}}/>
 
                   <div className="categoriesSearch"> 
                     <h4 style={{ color: 'black' }}>Categories</h4>
@@ -310,11 +314,14 @@ class FilterOffers extends React.Component {
                     </FormControl>
                   </div>
 
+                  <hr />
+
                   <div className="sortByFilter"> 
                     <h4 style={{ color: 'black', marginTop: '10%' }}>Sort By</h4>
 
                     <FormControl style={{ display: 'block' }}>
                       <Select
+                       style={{width: '100%'}}
                         value={sortBy}
                         onChange={e => this.handleSortByChange(e)}
                       >

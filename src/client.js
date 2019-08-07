@@ -22,6 +22,7 @@ import './resources/css/components-styles.css';
 import './resources/css/chat-list.css';
 import './resources/css/cardCoopify.css';
 import './resources/css/landing.css';
+import './resources/css/goals.css';
 
 const appInitialState = {};
 

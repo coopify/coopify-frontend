@@ -9,6 +9,7 @@ import 'react-table/react-table.css';
 import styles from '../resources/css/profile.scss';
 import { resetNotificationFlagsGoals, attemptGoalsAction, attemptGoalsUserAction } from '../actions/user';
 import GuestLayout from './guest-layout';
+import clsx from 'clsx';
 
 export default @connect(state => ({
   error: state.goal.error,
@@ -85,10 +86,10 @@ class Goals extends React.Component {
       accessor: 'description',
       Cell: props => (
         <div>
-          <div className="container" style={{ textAlign: 'left', whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
+          <div className="container goalRow" style={{ textAlign: 'left', whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
             <div className="row">
               <div className="col-sm-12" style={{ fontSize: 'x-large' }}>
-                <p>
+                <p style={{fontWeight: 'bold'}}>
                   {' '}
                   {props.original.name}
                 </p>
@@ -104,7 +105,7 @@ class Goals extends React.Component {
                     </p>
                   </div>
                   <div className="col-sm-2" style={{ fontSize: 'x-large' }}>
-                    <p>
+                    <p style={{fontWeight: 'bold'}}>
                       {props.original.amount}
                       {'C'}
                     </p>
@@ -113,7 +114,7 @@ class Goals extends React.Component {
                     <p>
                       {'x'}
                       {this.goal.quantity}
-                      {'('}
+                      {' ('}
                       {props.original.amount * this.goal.quantity}
                       {'C)'}
                     </p>
@@ -157,6 +158,7 @@ class Goals extends React.Component {
               manual
               showPagination={false}
               minRows={0}
+              className="-striped"
             />
           </form>
         </div>

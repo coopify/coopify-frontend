@@ -167,6 +167,38 @@ class Chat extends React.Component {
     });
   }
 
+  getComponentPaymentMethod(showCoopy) {
+
+    if(showCoopy) {
+      return (
+        <RadioButton
+        value="Coopy"
+        iconSize={20}
+        disabled={!showCoopy}
+        rootColor={colorCoopy}
+      >
+        Coopi
+      </RadioButton>
+      );
+    }
+    else {
+      return (
+        <RadioButton
+        value="Exchange"
+        iconSize={20}
+        disabled={!showBarter}
+        rootColor={colorBarter}
+        >
+        Barter
+        </RadioButton>);
+    }
+  }
+
+  getComponentPaymentMethod(showHour, showSession, showFinalProduct) {
+
+  }
+
+
   getStepContent(index) {
     let componentToRender = '';
     const exchangeAvailableColor = '#007bff';
@@ -196,6 +228,7 @@ class Chat extends React.Component {
     const coopiSelected = exchangeMethodSelected === 'Coopy' ? 'block' : 'none';
     const barterSelected = exchangeMethodSelected === 'Exchange' ? 'block' : 'none';
 
+
     switch (index) {
       case 0:
         componentToRender = (
@@ -217,23 +250,31 @@ class Chat extends React.Component {
         componentToRender = (
           <div>
             <RadioGroup onChange={e => this.onChangeExchangeMethod(e)} vertical>
+
+            {
+            showCoopy ? (
               <RadioButton
                 value="Coopy"
                 iconSize={20}
                 disabled={!showCoopy}
                 rootColor={colorCoopy}
               >
-                Coopi
+              Coopi
               </RadioButton>
-
+            ) : <div/>
+            }
+            {
+            showBarter ?  (
               <RadioButton
                 value="Exchange"
                 iconSize={20}
                 disabled={!showBarter}
                 rootColor={colorBarter}
               >
-                Barter
-              </RadioButton>
+              Barter
+              </RadioButton>) : <div/>
+            }
+
             </RadioGroup>
             <hr />
 
@@ -243,33 +284,42 @@ class Chat extends React.Component {
               style={{ display: coopiSelected }}
             >
 
+            {showHour ? (
               <RadioButton
                 value="Hour"
                 iconSize={20}
                 disabled={!showHour}
                 rootColor={colorHour}
               >
-                Hour
-              </RadioButton>
+              Hour
+            </RadioButton>
+            ) :  <div/>
+            }    
 
+            {showSession ? (
               <RadioButton
                 value="Session"
                 iconSize={20}
                 disabled={!showSession}
                 rootColor={colorSession}
               >
-                Session
-              </RadioButton>
-
+              Session
+            </RadioButton>
+            ) :  <div/>
+            }
+  
+            {showFinalProduct ? (
               <RadioButton
                 value="FinalProduct"
                 iconSize={20}
                 disabled={!showFinalProduct}
                 rootColor={colorFinalProduct}
               >
-                Final Product
-              </RadioButton>
-
+              Final Product
+            </RadioButton>
+            ) :  <div/>
+            }
+          
             </RadioGroup>
 
             <TextField
@@ -561,7 +611,7 @@ class Chat extends React.Component {
               <CommonButton onClick={this.handleClose} color="primary">
                 Cancel
               </CommonButton>
-              <CommonButton onClick={this.handleMakeOfferProposal} color="primary">
+              <CommonButton onClick={this.handleMakeOfferProposal} color="primary" disabled={activeStep != steps.length - 1}>
                 Make the offer
               </CommonButton>
             </DialogActions>

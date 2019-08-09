@@ -126,6 +126,10 @@ body{
 #myFooter{
    flex: 0 0 auto;
    -webkit-flex: 0 0 auto;
+   position:fixed;
+   bottom:0;
+   left:0;
+   right:0;
 }
 
 footer{

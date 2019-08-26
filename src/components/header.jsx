@@ -242,7 +242,7 @@ class Header extends PureComponent {
         <CssBaseline />
 
         <AppBar
-          style={{ backgroundColor: '#4a4a4a', height: '48px', boxShadow: 'none', borderBottom: '1px solid #c7c6cc' }}
+          style={{ backgroundColor: '#4a4a4a', height: '48px', boxShadow: 'none', borderBottom: '1px solid #c7c6cc', position: 'fixed' }}
           position="absolute"
           className={clsx(classes.appBar, {
             [classes.appBarShift]: open,

@@ -426,7 +426,7 @@ class Chat extends React.Component {
   };
 
   async handleSendMessage() {
-    const { dispatch, conversationId } = this.props;
+    const { dispatch, conversationid } = this.props;
     const { chatMessage } = this.state;
     const token = localStorage.getItem('token');
 
@@ -436,7 +436,7 @@ class Chat extends React.Component {
       {
         text: chatMessage,
       },
-      conversationId,
+      conversationId: conversationid,
     };
 
     dispatch(attemptSendMessage(payload));

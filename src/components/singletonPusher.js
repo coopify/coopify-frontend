@@ -58,5 +58,6 @@ export default class SingletonPusher {
 
   pusherDisconnect = () => {
     pusher.disconnect();
+    initialized = false;
   }
 }

@@ -438,9 +438,9 @@ class Chat extends React.Component {
       },
       conversationId: conversationid,
     };
-
-    dispatch(attemptSendMessage(payload));
     this.setState({ ...this.state, chatMessage: '' });
+    dispatch(attemptSendMessage(payload));
+    this.refs.msgTextBox.clear();
   }
 
   handleMakeOfferProposal(e) {
@@ -621,6 +621,7 @@ class Chat extends React.Component {
             <Input
               placeholder="Type here..."
               multiline={false}
+              ref='msgTextBox'
               onChange={e => this.onChangeChatInput(e)}
               value={chatMessage}
               rightButtons={(

@@ -109,3 +109,15 @@
    transform: translateY(-50%);
    font-size: 24px;
  }
+
+.rce-mbox-text {
+   color: black !important;
+}
+
+.rce-mbox.rce-mbox-right {
+   background-color: #7df7ab !important;
+}
+
+.rce-mbox-right-notch {
+   fill: #7df7ab !important;
+}

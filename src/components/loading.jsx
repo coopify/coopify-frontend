@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoadingOverlay from 'react-loading-overlay';
-import MoonLoader from 'react-spinners/MoonLoader';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 export default @connect(state => ({
   loadingUserReducer: state.user.loading,
@@ -62,10 +62,10 @@ class Loading extends React.Component {
       <LoadingOverlay
         active={loading}
         spinner={
-          <MoonLoader 
+          <PulseLoader 
             color={bgColor}
             sizeUnit={"px"}
-            size={150}
+            size={30}
           />
         }
       >

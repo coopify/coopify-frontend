@@ -115,9 +115,9 @@
 }
 
 .rce-mbox.rce-mbox-right {
-   background-color: #7df7ab !important;
+   background-color: rgba(125,247,171,.5) !important;
 }
 
 .rce-mbox-right-notch {
-   fill: #7df7ab !important;
+   fill: rgba(125,247,171,.5) !important;
 }

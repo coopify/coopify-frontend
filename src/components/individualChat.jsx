@@ -399,6 +399,12 @@ class Chat extends React.Component {
     });
   };
 
+  componentDidUpdate() {
+    if( document.getElementsByClassName('message-list') && document.getElementsByClassName('message-list')[0] ){
+      (document.getElementsByClassName('message-list')[0]).scrollTop = (document.getElementsByClassName('message-list')[0]).scrollHeight;
+    }
+  }
+
   handleClose = () => {
     this.setState({
       ...this.state,
@@ -519,6 +525,8 @@ class Chat extends React.Component {
           Select a conversation to start chatting!
         </div>
       );
+
+     // (document.getElementsByClassName('message-list')[0]).scrollTop = (document.getElementsByClassName('message-list')[0]).scrollHeight;
     }
 
     return (

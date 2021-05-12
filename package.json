@@ -94,7 +94,7 @@
     "redux-saga": "^1.0.1",
     "slick-carousel": "^1.8.1",
     "snyk": "^1.124.1",
-    "swiper": "^4.5.0",
+    "swiper": "^6.5.1",
     "universal-fetch": "^1.0.0"
   },
   "snyk": true,

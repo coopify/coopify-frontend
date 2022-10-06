@@ -93,7 +93,7 @@
     "react-transition-group": "^2.6.0",
     "redux-saga": "^1.0.1",
     "slick-carousel": "^1.8.1",
-    "snyk": "^1.124.1",
+    "snyk": "^1.1024.0",
     "swiper": "^4.5.0",
     "universal-fetch": "^1.0.0"
   },
